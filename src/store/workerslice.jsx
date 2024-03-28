@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const workerArr = {
+const workersInitial = {
     workers: []
 }
 
 const workerSlice = createSlice({
     name: "workers",
-    initialState: workerArr,
+    initialState: workersInitial,
     reducers: {
         add: (state, actions) => {
             state.workers.push(actions.payload)
