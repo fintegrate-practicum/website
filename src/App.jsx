@@ -4,13 +4,24 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { store } from './Redux/Store'
 import { Provider } from 'react-redux';
+import LoginButton from './components/LoginButton';
+import LogoutButton from './components/LogoutButton';
+import Profile from './components/profile';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function App() {
   const [count, setCount] = useState(0)
 
+  const {isLoading}= useAuth0();
+  if (isLoading) return <div>Loading...</div>
+
   return (
     <>
       <Provider store={store}>
+
+      <LoginButton/>
+      <LogoutButton/>
+      <Profile/>
       
       <div>
         <a href="https://vitejs.dev" target="_blank">
