@@ -1,5 +1,5 @@
 import React from "react"
-import Button from '@mui/material/Button';
+
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
@@ -8,10 +8,32 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 
+// 
+
+
+import Stack from '@mui/material/Stack';
+import Badge from '@mui/material/Badge';
+import MailIcon from '@mui/icons-material/Mail';
+
+
+
+
+//
 const WorkerPage = () => {
     return (
         <>
+            
+                <Stack spacing={4} direction="row-reverse" sx={{ color: 'action.active', display: 'flex', justifyContent: 'flex-end', width: '90%',    flexDirection: 'row'}}>
+                 
+                        <Badge color="secondary" badgeContent={0} showZero>
+                            <MailIcon />
+                        </Badge>
+                   
+                    <p >You have update</p>
+                </Stack>
+            
             <div style={{ display: 'flex', flexWrap: 'wrap', width: '20%', margin: 'auto', flexDirection: 'column' }}>
+
 
                 <div>
                     <p>name:</p>
@@ -35,13 +57,10 @@ const WorkerPage = () => {
                                             variant="body2"
                                             color="text.primary"
                                         >
-
                                         </Typography>
                                         {"salary:   ,hsdohcsdhdfhwfwfdsfhsdfjksdbfksd "}
 
-
                                     </React.Fragment>
-
                                 }
                             />
 
@@ -57,32 +76,18 @@ const WorkerPage = () => {
                                         >
                                         </Typography>
                                         {"salary:   ,hsdohcsdhdfhwfwfdsfhsdfjksdbfksd "}
-
-
                                     </React.Fragment>
-
                                 }
                             />
                         </div>
                     </ListItem>
-
-                    <Divider variant="inset" component="li" />
-
+                    {/* <Divider variant="inset" component="li" /> */}
                 </List >
 
-                <div>
-                    <Button variant="outlined" size="small">
-                    Sending a task
-                    </Button>
-                   
-                    <Button variant="outlined" size="small">sending feedback</Button>
-                </div>
+
+
+
             </div >
-
-
-
-
-
         </>
     )
 }
