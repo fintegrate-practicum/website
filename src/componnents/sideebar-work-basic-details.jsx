@@ -1,28 +1,21 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+import { Box, Button, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
 import CallIcon from '@mui/icons-material/Call';
 import AddIcon from '@mui/icons-material/Add';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
-export default function AnchorTemporaryDrawer() {
-    const [state, setState] = React.useState(false
+export default function SideebarWorkerDetails() {
+    const [state, setState] = React.useState(false);
+    const ANCHOR = 'right';
+    const [details_arr, setDetails_arr]=React.useState(['name', 'phon', 'email','details'])
+    const [icons_arr, setIcons_arr] = React.useState([<AccountBoxIcon />, <CallIcon />, <AddIcon />, <MailIcon />]);
 
-    );
 
     const toggleDrawer = (open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }
-
         setState(open);
     };
 
@@ -34,13 +27,14 @@ export default function AnchorTemporaryDrawer() {
             onKeyDown={toggleDrawer(false)}
         >
             <List>
-                {['name', 'phon', 'email','details'].map((text, index) => (
+                {details_arr.map((text, index) => (
                     <>
                
-                        <ListItem key={text} disablePadding>
+                        <ListItem key={index} disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>
-                                {index==0?<AccountBoxIcon/>: index == 1 ? <CallIcon />: index == 3 ? <AddIcon/> :<MailIcon />}
+                                    {icons_arr[index]}
+                                {/* {index===0?<AccountBoxIcon/>: index === 1 ? <CallIcon />: index === 3 ? <AddIcon/> :<MailIcon />} */}
                                 </ListItemIcon>
                                 <ListItemText primary={text} />
                             </ListItemButton>
@@ -55,18 +49,16 @@ export default function AnchorTemporaryDrawer() {
 
     return (
         <div>
-            {['right'].map((anchor) => (
                 <React.Fragment key='right'>
                     <Button onClick={toggleDrawer(true)}>details</Button>
                     <Drawer
-                        anchor={anchor}
+                        anchor={ANCHOR}
                         open={state}
                         onClose={toggleDrawer(false)}
                     >
                         {list()}
                     </Drawer>
                 </React.Fragment>
-            ))}
 
         </div>
 
