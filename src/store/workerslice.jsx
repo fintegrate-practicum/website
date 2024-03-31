@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const workersInitial = {
-    workers: []
-}
+const {workersInitial = {}} = ("קריאת שרת להבאת הנתונים");
 
 const workerSlice = createSlice({
     name: "workers",
     initialState: workersInitial,
     reducers: {
         add: (state, actions) => {
+            actions.payload.id  = state.id;
+            state.id++;
             state.workers.push(actions.payload)
         },
         remove: (state, actions) => {
