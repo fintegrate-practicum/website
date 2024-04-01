@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const {workersInitial = {}} = ("קריאת שרת להבאת הנתונים");
+const res = await axios.get('');
+const {data = {}} = res;
 
 const workerSlice = createSlice({
     name: "workers",
-    initialState: workersInitial,
+    initialState: data,
     reducers: {
         add: (state, actions) => {
-            actions.payload.id  = state.id;
-            state.id++;
             state.workers.push(actions.payload)
         },
         remove: (state, actions) => {
