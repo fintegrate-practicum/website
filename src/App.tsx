@@ -1,14 +1,14 @@
-
-import Buttons from '../Button'
-
+import Button from '../Button'
 import './App.css'
 
 function App() {
+  const click =() =>{
+    alert("שנה לפונקציה הרצויה לך!!!");
+  }
   
-
   return (
     <>
-      <Buttons value="dfghjk"/>
+      <Button  value="button" onClickFunction={click}/>
     </>
   )
 }
