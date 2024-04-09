@@ -1,9 +1,8 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { store } from './Redux/Store'
+import { ThemeProvider } from '@mui/material/styles';
 import { Provider } from 'react-redux';
+import './App.css';
+import { store } from './Redux/Store';
+import theme from './Theme';
 import LoginButton from './components/LoginButton';
 import LogoutButton from './components/LogoutButton';
 import Profile from './components/profile';
@@ -17,6 +16,7 @@ function App() {
 
   return (
     <>
+    <ThemeProvider theme={theme}>
       <Provider store={store}>
 
       <LoginButton/>
@@ -42,6 +42,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
       </Provider>
+      </ThemeProvider>
     </>
   )
 }
