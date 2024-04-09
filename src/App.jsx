@@ -7,6 +7,7 @@ import LoginButton from './components/LoginButton';
 import LogoutButton from './components/LogoutButton';
 import Profile from './components/profile';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useState } from 'react';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -25,10 +26,10 @@ function App() {
       
       <div>
         <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
+          {/* <img src={viteLogo} className="logo" alt="Vite logo" /> */}
         </a>
         <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
+          {/* <img src={reactLogo} className="logo react" alt="React logo" /> */}
         </a>
       </div>
       <h1>Vite + React</h1>
