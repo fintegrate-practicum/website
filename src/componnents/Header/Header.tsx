@@ -1,6 +1,5 @@
-import { FC } from 'react';
-import { Link } from 'react-router-dom';
-import { ReactElement } from 'react';
+
+import { FC,ReactElement} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,12 +7,10 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 import SettingsIcon from '@mui/icons-material/Settings';
-import Avatar from '@mui/material/Avatar';
-
-
-import { useSelector } from 'react-redux';
-
-// import { RootState } from '../types'; // Assuming you have a RootState type defined
+// will be constructed during use
+// import Avatar from '@mui/material/Avatar';
+// import { useSelector } from 'react-redux';
+// import { RootState } from '../types'; 
 
 interface HeaderProps {
   serviceName: string;
