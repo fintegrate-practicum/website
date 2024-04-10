@@ -11,6 +11,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 // import Avatar from '@mui/material/Avatar';
 // import { useSelector } from 'react-redux';
 // import { RootState } from '../types'; 
+// import { Link } from 'react-router-dom';
 
 interface HeaderProps {
   serviceName: string;
