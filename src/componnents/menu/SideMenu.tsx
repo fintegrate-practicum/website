@@ -50,13 +50,6 @@ export default function ResponsiveDrawer() {
           </ListItem>
         ))}
       </List>
-      <Routes>
-        <Route path="/Home" element={<Suspense fallback={<h1>loading..</h1>}><Home /></Suspense>} />
-        <Route path="/Calendar" element={<Suspense fallback={<h1>loading..</h1>}><Calendar /></Suspense>} />
-        <Route path="/Orders" element={<Suspense fallback={<h1>loading..</h1>}><Orders /></Suspense>} />
-        <Route path="/Employees" element={<Suspense fallback={<h1>loading..</h1>}><Employees /></Suspense>} />
-        <Route path="/Inventory" element={<Suspense fallback={<h1>loading..</h1>}><Inventory /></Suspense>} />
-      </Routes>
     </div>
   );
   return (
@@ -78,6 +71,13 @@ export default function ResponsiveDrawer() {
           {drawer}
         </Drawer>
       </Box>
+      <Routes>
+        <Route path="/Home" element={<Suspense fallback={<h1>loading..</h1>}><Home /></Suspense>} />
+        <Route path="/Calendar" element={<Suspense fallback={<h1>loading..</h1>}><Calendar /></Suspense>} />
+        <Route path="/Orders" element={<Suspense fallback={<h1>loading..</h1>}><Orders /></Suspense>} />
+        <Route path="/Employees" element={<Suspense fallback={<h1>loading..</h1>}><Employees /></Suspense>} />
+        <Route path="/Inventory" element={<Suspense fallback={<h1>loading..</h1>}><Inventory /></Suspense>} />
+      </Routes>
     </Box>
   );
 }
