@@ -6,7 +6,7 @@ import theme from './Theme';
 
 function App() {
   return (
-    <><>gjghjgh</>
+    <>
       <ThemeProvider theme={theme}>
         <Provider store={store}>
         </Provider>
