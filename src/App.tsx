@@ -4,7 +4,6 @@ import './App.css';
 import { store } from './Redux/Store';
 import theme from './Theme';
 
-
 function App() {
 
   return (
