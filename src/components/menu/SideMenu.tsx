@@ -1,10 +1,8 @@
-import { Suspense, lazy, useState } from 'react';
-import { Route, Link, Routes } from 'react-router-dom';
+import { FC, useState } from 'react';
+import { Link } from 'react-router-dom';
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import MuiDrawer from '@mui/material/Drawer';
-import SettingsIcon from '@mui/icons-material/Settings';
-import HomeIcon from '@mui/icons-material/Home';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -12,10 +10,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
-
-// add correct nitov
-const Home = lazy(() => import('./Try'))
-const Settings = lazy(() => import('./Try'))
+import menuItem from './types';
 
 const drawerWidth = 240;
 
@@ -56,8 +51,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
   }),
 );
-
-export default function ResponsiveDrawer() {
+interface Props {
+  items: menuItem[];
+}
+const ResponsiveDrawer: FC<Props> = ({ items }) => {
 
   const [open, setOpen] = useState(true);
 
@@ -68,16 +65,12 @@ export default function ResponsiveDrawer() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const [menuItem, setMenuItem] = useState([
-    { text: 'בית', icon: HomeIcon },
-    { text: 'הגדרות', icon: SettingsIcon }
-  ]);
 
   const drawer = (
     <div>
       <Toolbar />
       <List>
-        {menuItem.map((listItem) => (
+        {items.map((listItem) => (
           <ListItem key={listItem.text} disablePadding sx={{ display: 'block' }}>
             <Link to={listItem.text}>
               <ListItemButton sx={{ px: 4 }} onClick={listItem.text === 'הגדרות' ? handleDrawerClose : handleDrawerOpen}>
@@ -108,10 +101,7 @@ export default function ResponsiveDrawer() {
           {drawer}
         </Drawer>
       </Box>
-      <Routes>
-        <Route path="/בית" element={<Suspense fallback={<h1>loading..</h1>}><Home /></Suspense>} />
-        <Route path="/הגדרות" element={<Suspense fallback={<h1>loading..</h1>}><Settings /></Suspense>} />
-      </Routes>
     </Box>
   );
 }
+export default ResponsiveDrawer;
