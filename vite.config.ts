@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react'
 import eslintPlugin from 'vite-plugin-eslint'
 
@@ -12,4 +12,9 @@ export default defineConfig({
       exclude: [],
     }),
   ],
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: './src/tests/setup.ts',
+  }
 })
