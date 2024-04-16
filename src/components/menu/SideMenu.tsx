@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import { Route, Link, Routes } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,11 +17,11 @@ import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 
 // add correct nitov
-const Home = React.lazy(() => import('./Try'))
-const Calendar = React.lazy(() => import('./Try'))
-const Orders = React.lazy(() => import('./Try'))
-const Employees = React.lazy(() => import('./Try'))
-const Inventory = React.lazy(() => import('./Try'))
+const Home = lazy(() => import('./Try'))
+const Calendar = lazy(() => import('./Try'))
+const Orders = lazy(() => import('./Try'))
+const Employees = lazy(() => import('./Try'))
+const Inventory = lazy(() => import('./Try'))
 
 const drawerWidth = 240;
 
