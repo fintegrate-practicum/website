@@ -54,7 +54,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 interface Props {
   items: menuItem[];
 }
-const ResponsiveDrawer: FC<Props> = ({ items }) => {
+const SideMenu: FC<Props> = ({ items }) => {
 
   const [open, setOpen] = useState(true);
 
@@ -72,7 +72,7 @@ const ResponsiveDrawer: FC<Props> = ({ items }) => {
       <List>
         {items.map((listItem) => (
           <ListItem key={listItem.text} disablePadding sx={{ display: 'block' }}>
-            <Link to={listItem.text}>
+            <Link to={listItem.path}>
               <ListItemButton sx={{ px: 4 }} onClick={listItem.text === 'הגדרות' ? handleDrawerClose : handleDrawerOpen}>
                 <ListItemIcon>
                   <listItem.icon />
@@ -104,4 +104,4 @@ const ResponsiveDrawer: FC<Props> = ({ items }) => {
     </Box>
   );
 }
-export default ResponsiveDrawer;
+export default SideMenu;
