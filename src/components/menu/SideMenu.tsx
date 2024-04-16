@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import { Route, Link, Routes } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,11 +17,11 @@ import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 
 // add correct nitov
-const Home = React.lazy(() => import('./Try'))
-const Calendar = React.lazy(() => import('./Try'))
-const Orders = React.lazy(() => import('./Try'))
-const Employees = React.lazy(() => import('./Try'))
-const Inventory = React.lazy(() => import('./Try'))
+const Home = lazy(() => import('./Try'))
+const Calendar = lazy(() => import('./Try'))
+const Orders = lazy(() => import('./Try'))
+const Employees = lazy(() => import('./Try'))
+const Inventory = lazy(() => import('./Try'))
 
 const drawerWidth = 240;
 
@@ -50,13 +49,6 @@ export default function ResponsiveDrawer() {
           </ListItem>
         ))}
       </List>
-      <Routes>
-        <Route path="/Home" element={<Suspense fallback={<h1>loading..</h1>}><Home /></Suspense>} />
-        <Route path="/Calendar" element={<Suspense fallback={<h1>loading..</h1>}><Calendar /></Suspense>} />
-        <Route path="/Orders" element={<Suspense fallback={<h1>loading..</h1>}><Orders /></Suspense>} />
-        <Route path="/Employees" element={<Suspense fallback={<h1>loading..</h1>}><Employees /></Suspense>} />
-        <Route path="/Inventory" element={<Suspense fallback={<h1>loading..</h1>}><Inventory /></Suspense>} />
-      </Routes>
     </div>
   );
   return (
@@ -78,6 +70,13 @@ export default function ResponsiveDrawer() {
           {drawer}
         </Drawer>
       </Box>
+      <Routes>
+        <Route path="/Home" element={<Suspense fallback={<h1>loading..</h1>}><Home /></Suspense>} />
+        <Route path="/Calendar" element={<Suspense fallback={<h1>loading..</h1>}><Calendar /></Suspense>} />
+        <Route path="/Orders" element={<Suspense fallback={<h1>loading..</h1>}><Orders /></Suspense>} />
+        <Route path="/Employees" element={<Suspense fallback={<h1>loading..</h1>}><Employees /></Suspense>} />
+        <Route path="/Inventory" element={<Suspense fallback={<h1>loading..</h1>}><Inventory /></Suspense>} />
+      </Routes>
     </Box>
   );
 }
