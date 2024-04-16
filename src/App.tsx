@@ -1,20 +1,19 @@
-import { ThemeProvider } from '@mui/material/styles';
-import { Provider } from 'react-redux';
-import './App.css';
-import { store } from './Redux/Store';
-import theme from './Theme';
+import { ThemeProvider } from "@mui/material/styles";
+// import { Provider } from 'react-redux';
+import "./App.css";
+// import { store } from './Redux/Store';
+import theme from "./Theme";
 
 function App() {
-
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Provider store={store}>
+        {/* <Provider store={store}>
 
-        </Provider>
+        </Provider> */}
       </ThemeProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
