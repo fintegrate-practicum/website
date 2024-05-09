@@ -4,13 +4,15 @@ import './App.css';
 import { Store } from './Redux/Store';
 import theme from './Theme';
 
+
 function App() {
 
   return (
     <>
       <ThemeProvider theme={theme}>
         <Provider store={Store}>
-          <div></div>
+          <div>
+          </div>
         </Provider>
       </ThemeProvider>
     </>
