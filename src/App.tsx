@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@mui/material/styles';
-import { Provider } from 'react-redux';
+// import { Provider } from 'react-redux';
 import './App.css';
-import { store } from './Redux/Store';
+// import { store } from './Redux/Store';
 import theme from './Theme';
 
 function App() {
@@ -9,9 +9,9 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Provider store={store}>
-
-        </Provider>
+        {/* <Provider store={store}> */}
+        {/* </Provider> */}
+        <p>fffffffffffff</p>
       </ThemeProvider>
     </>
   )

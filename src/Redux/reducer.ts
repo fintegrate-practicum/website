@@ -5,8 +5,9 @@ const initalState = {
     email:"",
     phone:""
 }
-const reducer = (state=initalState,action)=>{
+const reducer = (state=initalState)=>{
 return state
 }
     
 export default reducer
+
