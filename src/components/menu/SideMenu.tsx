@@ -11,6 +11,9 @@ import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import menuItem from './types';
+import { IconButton } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import Divider from '@mui/material/Divider';
 
 const drawerWidth = 240;
 
@@ -52,11 +55,14 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 interface Props {
-  items: menuItem[];
+  props:{  
+    items: menuItem[];
+    setCurrentMenu: (currentMenu:menuItem) => void;
+  }
 }
-const SideMenu: FC<Props> = ({ items }) => {
+const SideMenu: FC<Props> = ({ props }) => {
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -66,14 +72,25 @@ const SideMenu: FC<Props> = ({ items }) => {
     setOpen(false);
   };
 
+  const clickMenuItem=(listItem:menuItem)=>{
+    setOpen(false);
+    props.setCurrentMenu(listItem);
+  }
+
   const drawer = (
     <div>
       <Toolbar />
+      <IconButton
+        sx={{ px: 4, display: 'block' }}
+        onClick={open ? handleDrawerClose : handleDrawerOpen}>
+        <MenuIcon />
+      </IconButton>
+      <Divider />
       <List>
-        {items.map((listItem) => (
+        {props.items.map((listItem) => (
           <ListItem key={listItem.text} disablePadding sx={{ display: 'block' }}>
             <Link to={listItem.path}>
-              <ListItemButton sx={{ px: 4 }} onClick={listItem.text === 'הגדרות' ? handleDrawerClose : handleDrawerOpen}>
+              <ListItemButton sx={{ px: 4 }} onClick={() => clickMenuItem(listItem)}>
                 <ListItemIcon>
                   <listItem.icon />
                 </ListItemIcon>
