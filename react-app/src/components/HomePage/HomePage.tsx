@@ -1,21 +1,4 @@
-// import React from "react";
-// import { Button } from "react-bootstrap";
 import './HomePage.css';
-
-// const HomePage: React.FC = () => {
-//   return (
-//     <div className="home-page">
-//       <img src="/example-image.png"/>
-//       <br/>
-//       <Button variant="primary" href="/login">
-//         כניסה / הרשמה
-//       </Button>
-//     </div>
-//   );
-// };
-
-// export default HomePage;
-
 
 const HomePage = () => {
     const handleLoginClick = () => {
