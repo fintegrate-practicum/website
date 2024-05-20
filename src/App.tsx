@@ -9,7 +9,6 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <Provider store={store}>
-          
         </Provider>
       </ThemeProvider>
     </>
