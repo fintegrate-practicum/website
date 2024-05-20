@@ -10,7 +10,7 @@ import Slider from '@mui/material/Slider';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 
-export enum ButtonType {
+export enum ComponentType {
   Button = 'Button',
   ButtonGroup = 'ButtonGroup',
   Checkbox = 'Checkbox',
@@ -21,32 +21,35 @@ export enum ButtonType {
   Slider = 'Slider',
   Switch = 'Switch',
   TextField = 'TextField',
+  Input = 'Input', // הוספת סוג רכיב חדש
+
 
 }
 
 interface MyComponentProps {
   setting: {
     settingDesc : string
-    type: ButtonType;
+    type: ComponentType;
     props?: Record<string, any>;
     children?: any;
   };
 }
 
 const componentMap: {
-  [key in ButtonType]: React.ComponentType<any>;
+  [key in ComponentType]: React.ComponentType<any> | string;
 } = {
-  [ButtonType.Button]: Button,
-  [ButtonType.ButtonGroup]: ButtonGroup,
-  [ButtonType.Checkbox]: Checkbox,
-  [ButtonType.FloatingActionButton]: Fab,
-  [ButtonType.RadioGroup]: RadioGroup,
-  [ButtonType.Rating]: Rating,
-  [ButtonType.Select]: Select,
-  [ButtonType.Slider]: Slider,
-  [ButtonType.Switch]: Switch,
-  [ButtonType.TextField]: TextField,
-};
+  [ComponentType.Button]: Button,
+  [ComponentType.ButtonGroup]: ButtonGroup,
+  [ComponentType.Checkbox]: Checkbox,
+  [ComponentType.FloatingActionButton]: Fab,
+  [ComponentType.RadioGroup]: RadioGroup,
+  [ComponentType.Rating]: Rating,
+  [ComponentType.Select]: Select,
+  [ComponentType.Slider]: Slider,
+  [ComponentType.Switch]: Switch,
+  [ComponentType.TextField]: TextField,
+  [ComponentType.Input]: 'input', // כל  הinput  של ריאקט
+}
 
 const MyComponent: FC<MyComponentProps> = (props) => {
   const { setting } = props;
