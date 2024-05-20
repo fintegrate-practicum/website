@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import './App.css';
 import { Store } from './Redux/Store';
 import theme from './Theme';
+import HomePage from './components/HomePage/HomePage';
 
 function App() {
 
@@ -10,7 +11,9 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <Provider store={Store}>
-          <div></div>
+          <div>
+            <HomePage/>
+          </div>
         </Provider>
       </ThemeProvider>
     </>
