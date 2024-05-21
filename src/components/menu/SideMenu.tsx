@@ -88,13 +88,13 @@ const SideMenu: FC<Props> = ({ props }) => {
       <Divider />
       <List>
         {props.items.map((listItem) => (
-          <ListItem key={listItem.text} disablePadding sx={{ display: 'block' }}>
+          <ListItem key={listItem.nameToView} disablePadding sx={{ display: 'block' }}>
             <Link to={listItem.path}>
               <ListItemButton sx={{ px: 4 }} onClick={() => clickMenuItem(listItem)}>
                 <ListItemIcon>
                   <listItem.icon />
                 </ListItemIcon>
-                <ListItemText primary={listItem.text} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary={listItem.nameToView} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </Link>
           </ListItem>
