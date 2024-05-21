@@ -1,6 +1,7 @@
 import * as iconsMaterial from '@mui/icons-material';
 interface menuItem {
-     text: string;
+     name: string;
+     nameToView:string,
      icon:iconsMaterial.SvgIconComponent;
      path:string;
 }
