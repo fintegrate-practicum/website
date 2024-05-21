@@ -26,7 +26,7 @@ export enum ComponentType {
 
 }
 
-interface MyComponentProps {
+interface MySettingProps {
   setting: {
     settingDesc : string
     type: ComponentType;
@@ -51,7 +51,7 @@ const componentMap: {
   [ComponentType.Input]: 'input', // כל  הinput  של ריאקט
 }
 
-const MyComponent: FC<MyComponentProps> = (props) => {
+const MySetting: FC<MySettingProps> = (props) => {
   const { setting } = props;
   const Component = componentMap[setting.type];
 
@@ -62,5 +62,5 @@ const MyComponent: FC<MyComponentProps> = (props) => {
   return createElement(Component, setting.props, setting.children);
 };
 
-export default MyComponent;
+export default MySetting;
 
