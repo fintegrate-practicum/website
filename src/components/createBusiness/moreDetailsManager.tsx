@@ -61,10 +61,10 @@ export default function MoreDetailsManager(): JSX.Element {
             noValidate
             autoComplete="off"
         >
-            {/* <div><TextField id="outlined-basic" label="business Id" variant="outlined" value={id} onChange={handleBusinessIdChange} /></div>
+            <div><TextField id="outlined-basic" label="business Id" variant="outlined" value={id} onChange={handleBusinessIdChange} /></div>
             <div><TextField id="outlined-basic" label="business name" variant="outlined" value={name} onChange={handleBusinessNameChange} /></div>
             <div><TextField id="outlined-basic" label="business manager name" variant="outlined" value={owner} onChange={handleBusinessManagerNameChange} /></div>
-            <div> <TextField id="outlined-basic" label="business email" variant="outlined" value={email} onChange={handleBusinessEmailChange} /></div> */}
+            <div> <TextField id="outlined-basic" label="business email" variant="outlined" value={email} onChange={handleBusinessEmailChange} /></div>
 
             <Stack direction="row" spacing={2}>            
 
