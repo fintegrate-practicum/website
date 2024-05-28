@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import Business from "../business";
+import Business from "../classes/business";
 
 const http = "http://localhost:4000";
 

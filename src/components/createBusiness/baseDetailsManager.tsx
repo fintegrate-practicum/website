@@ -42,7 +42,7 @@ export default function BaseDetailsManager(): JSX.Element {
 
             <Stack direction="row" spacing={2}>
                 <Button variant="contained" color="success" onClick={() => {
-                    dispatch(createBusiness({ companyNumber, name, email }));
+                    dispatch(createBusiness({companyNumber, name, email}));
                 }}> Submit</Button>
 
             </Stack>
