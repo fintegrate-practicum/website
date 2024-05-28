@@ -6,7 +6,7 @@ const http = "http://localhost:4000";
 
 const initialState = {
     business: {
-        id: 0,
+        companyNumber: 0,
         description: " ",
         name: " ",
         email: " ",
@@ -21,11 +21,6 @@ const initialState = {
         businessSize: " ",
         industryType: " ",
         establishmentDate: " "
-    },
-    newBusiness: {
-        id: 0,
-        name: " ",
-        email: ""
     }
 }
 
@@ -39,7 +34,7 @@ export const businessSlice = createSlice({
 
 export const createBusiness = createAsyncThunk('', async (_business: Business) => {
     try {
-        const response = await axios.post(`${http}/business?id=${_business.id}&name=${_business.name}&email=${_business.email}`)
+        const response = await axios.post(`${http}/business?id=${_business.companyNumber}&name=${_business.name}&email=${_business.email}`)
         return response.data
     } catch (error) {
         return error

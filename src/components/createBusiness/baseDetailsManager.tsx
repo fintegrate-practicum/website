@@ -10,11 +10,11 @@ import { useAppDispatch } from "../../Redux/hooks";
 export default function BaseDetailsManager(): JSX.Element {
     const dispatch = useAppDispatch()
 
-    const [id, setId] = useState<string>('');
+    const [companyNumber, setId] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
 
-    const handleBusinessIdChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const handleCompanyNumberChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         setId(event.target.value);
     };
 
@@ -36,13 +36,13 @@ export default function BaseDetailsManager(): JSX.Element {
             noValidate
             autoComplete="off"
         >
-            <div><TextField id="outlined-basic" label="business Id" variant="outlined" value={id} onChange={handleBusinessIdChange} /></div>
+            <div><TextField id="outlined-basic" label="company Number" variant="outlined" value={companyNumber} onChange={handleCompanyNumberChange} /></div>
             <div><TextField id="outlined-basic" label="business name" variant="outlined" value={name} onChange={handleBusinessNameChange} /></div>
             <div> <TextField id="outlined-basic" label="business email" variant="outlined" value={email} onChange={handleBusinessEmailChange} /></div>
 
             <Stack direction="row" spacing={2}>
                 <Button variant="contained" color="success" onClick={() => {
-                    dispatch(createBusiness({ id, name, email }));
+                    dispatch(createBusiness({ companyNumber, name, email }));
                 }}> Submit</Button>
 
             </Stack>

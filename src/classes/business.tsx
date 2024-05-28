@@ -6,7 +6,7 @@
 }
 
 class Business {
-    id!:string
+    companyNumber!:string
     description!: string;
     name!: string;
     email!: string;
