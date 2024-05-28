@@ -12,7 +12,6 @@ export default function BaseDetailsManager(): JSX.Element {
 
     const [id, setId] = useState<string>('');
     const [name, setName] = useState<string>('');
-    const [owner, setManagerName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
 
     const handleBusinessIdChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -22,10 +21,7 @@ export default function BaseDetailsManager(): JSX.Element {
     const handleBusinessNameChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         setName(event.target.value);
     };
-
-    const handleBusinessManagerNameChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        setManagerName(event.target.value);
-    };
+  
 
     const handleBusinessEmailChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         setEmail(event.target.value);
@@ -42,12 +38,11 @@ export default function BaseDetailsManager(): JSX.Element {
         >
             <div><TextField id="outlined-basic" label="business Id" variant="outlined" value={id} onChange={handleBusinessIdChange} /></div>
             <div><TextField id="outlined-basic" label="business name" variant="outlined" value={name} onChange={handleBusinessNameChange} /></div>
-            <div><TextField id="outlined-basic" label="business manager name" variant="outlined" value={owner} onChange={handleBusinessManagerNameChange} /></div>
             <div> <TextField id="outlined-basic" label="business email" variant="outlined" value={email} onChange={handleBusinessEmailChange} /></div>
 
             <Stack direction="row" spacing={2}>
                 <Button variant="contained" color="success" onClick={() => {
-                    dispatch(createBusiness({ id, name, owner, email }));
+                    dispatch(createBusiness({ id, name, email }));
                 }}> Submit</Button>
 
             </Stack>

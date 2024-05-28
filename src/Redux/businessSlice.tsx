@@ -1,6 +1,8 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import NewBusiness from "../classes/newBusiness";
 import axios from "axios";
+import Business from "../business";
+
+const http = "http://localhost:4000";
 
 const initialState = {
     business: {
@@ -23,7 +25,6 @@ const initialState = {
     newBusiness: {
         id: 0,
         name: " ",
-        owner: "",
         email: ""
     }
 }
@@ -35,10 +36,10 @@ export const businessSlice = createSlice({
     }
 });
 
-export const createBusiness = createAsyncThunk('', async (_business: NewBusiness) => {
 
+export const createBusiness = createAsyncThunk('', async (_business: Business) => {
     try {
-        const response = await axios.post(`http://localhost:4000/business?id=${_business.id}&name=${_business.name}&owner=${_business.owner}&email=${_business.email}`)        
+        const response = await axios.post(`${http}/business?id=${_business.id}&name=${_business.name}&email=${_business.email}`)
         return response.data
     } catch (error) {
         return error
