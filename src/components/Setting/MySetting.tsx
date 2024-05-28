@@ -53,14 +53,22 @@ const componentMap: {
 
 const MySetting: FC<MySettingProps> = (props) => {
   const { setting } = props;
+
+  // הוספת תנאי לבדיקה אם 'setting' מוגדר
+  if (!setting) {
+    return null;
+  }
+
   const Component = componentMap[setting.type];
 
-  if (!Component) {
-    return null; // או הציגו הודעת שגיאה
+  // הוספת תנאי נוסף לבדיקה שהמאפיין 'type' מוגדר
+  if (!setting.type || !componentMap[setting.type]) {
+    return null;
   }
 
   return createElement(Component, setting.props, setting.children);
 };
+
 
 export default MySetting;
 
