@@ -10,13 +10,13 @@ import { useAppDispatch } from "../../Redux/hooks";
 export default function BaseDetailsManager(): JSX.Element {
     const dispatch = useAppDispatch()
 
-    const [id, setId] = useState<number>(0);
+    const [id, setId] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [owner, setManagerName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
 
     const handleBusinessIdChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        setId(parseInt(event.target.value));
+        setId(event.target.value);
     };
 
     const handleBusinessNameChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -45,8 +45,7 @@ export default function BaseDetailsManager(): JSX.Element {
             <div><TextField id="outlined-basic" label="business manager name" variant="outlined" value={owner} onChange={handleBusinessManagerNameChange} /></div>
             <div> <TextField id="outlined-basic" label="business email" variant="outlined" value={email} onChange={handleBusinessEmailChange} /></div>
 
-            <Stack direction="row" spacing={2}>                
-
+            <Stack direction="row" spacing={2}>
                 <Button variant="contained" color="success" onClick={() => {
                     dispatch(createBusiness({ id, name, owner, email }));
                 }}> Submit</Button>

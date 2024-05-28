@@ -1,5 +1,6 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import Business from '../business'
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import NewBusiness from "../classes/newBusiness";
+import axios from "axios";
 
 const initialState = {
     business: {
@@ -31,18 +32,18 @@ export const businessSlice = createSlice({
     name: 'business',
     initialState,
     reducers: {
-        createBusiness: (state, actions: PayloadAction<{ id: number, name: string, owner: string, email: string }>) => {
-
-            state.newBusiness = {
-                ...state.newBusiness,
-                id: actions.payload.id,
-                name: actions.payload.name,
-                owner: actions.payload.owner,
-                email: actions.payload.email
-            };
-        },
     }
 });
 
-export const { createBusiness } = businessSlice.actions;
+export const createBusiness = createAsyncThunk('', async (_business: NewBusiness) => {
+
+    try {
+        const response = await axios.post(`http://localhost:4000/business?id=${_business.id}&name=${_business.name}&owner=${_business.owner}&email=${_business.email}`)        
+        return response.data
+    } catch (error) {
+        return error
+    }
+});
+
+export const { } = businessSlice.actions;
 export default businessSlice.reducer;
