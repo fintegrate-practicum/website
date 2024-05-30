@@ -1,49 +1,98 @@
-import { Suspense, lazy } from 'react';
-import { Route, Link, Routes } from 'react-router-dom';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Drawer from '@mui/material/Drawer';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import GroupIcon from '@mui/icons-material/Group';
-import InventoryIcon from '@mui/icons-material/Inventory';
-import HomeIcon from '@mui/icons-material/Home';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { FC, useState } from 'react';
+import { Link } from 'react-router-dom';
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
-
-// add correct nitov
-const Home = lazy(() => import('./Try'))
-const Calendar = lazy(() => import('./Try'))
-const Orders = lazy(() => import('./Try'))
-const Employees = lazy(() => import('./Try'))
-const Inventory = lazy(() => import('./Try'))
+import { styled, Theme, CSSObject } from '@mui/material/styles';
+import menuItem from './types';
+import { IconButton } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import Divider from '@mui/material/Divider';
 
 const drawerWidth = 240;
 
-export default function ResponsiveDrawer() {
+const openedMixin = (theme: Theme): CSSObject => ({
+  width: drawerWidth,
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: 'hidden',
+});
+
+const closedMixin = (theme: Theme): CSSObject => ({
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: 'hidden',
+  width: `calc(${theme.spacing(7)} + 1px)`,
+  [theme.breakpoints.up('sm')]: {
+    width: `calc(${theme.spacing(8)} + 1px)`,
+  },
+});
+
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+    boxSizing: 'border-box',
+    ...(open && {
+      ...openedMixin(theme),
+      '& .MuiDrawer-paper': openedMixin(theme),
+    }),
+    ...(!open && {
+      ...closedMixin(theme),
+      '& .MuiDrawer-paper': closedMixin(theme),
+    }),
+  }),
+);
+interface Props {
+    items: menuItem[];
+    setCurrentMenu: (currentMenu:menuItem) => void;
+}
+const SideMenu: FC<Props> = ({ items, setCurrentMenu }) => {
+
+  const [open, setOpen] = useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  const clickMenuItem=(listItem:menuItem)=>{
+    setOpen(false);
+    setCurrentMenu(listItem);
+  }
 
   const drawer = (
     <div>
       <Toolbar />
+      <IconButton
+        sx={{ px: 4, display: 'block' }}
+        onClick={open ? handleDrawerClose : handleDrawerOpen}>
+        <MenuIcon />
+      </IconButton>
+      <Divider />
       <List>
-        {[{ text: 'Home', icon: HomeIcon },
-        { text: 'Calendar', icon: CalendarMonthIcon },
-        { text: 'Orders', icon: ShoppingCartIcon },
-        { text: 'Employees', icon: GroupIcon },
-        { text: 'Inventory', icon: InventoryIcon },
-        { text: 'Other', icon: MoreHorizIcon }].map((listItem) => (
-          <ListItem key={listItem.text} disablePadding>
-            <Link to={listItem.text} >
-              <ListItemButton>
+        {items.map((listItem) => (
+          <ListItem key={listItem.text} disablePadding sx={{ display: 'block' }}>
+            <Link to={listItem.path}>
+              <ListItemButton sx={{ px: 4 }} onClick={() => clickMenuItem(listItem)}>
                 <ListItemIcon>
-                  <listItem.icon/>
+                  <listItem.icon />
                 </ListItemIcon>
-                <ListItemText primary={listItem.text} />
+                <ListItemText primary={listItem.text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </Link>
           </ListItem>
@@ -51,8 +100,9 @@ export default function ResponsiveDrawer() {
       </List>
     </div>
   );
+
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex' }} dir="rtl">
       <CssBaseline />
       <Box
         component="nav"
@@ -60,23 +110,13 @@ export default function ResponsiveDrawer() {
       >
         <Drawer
           variant="permanent"
-
-          sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
-          open
+          anchor="right"
+          open={open}
         >
           {drawer}
         </Drawer>
       </Box>
-      <Routes>
-        <Route path="/Home" element={<Suspense fallback={<h1>loading..</h1>}><Home /></Suspense>} />
-        <Route path="/Calendar" element={<Suspense fallback={<h1>loading..</h1>}><Calendar /></Suspense>} />
-        <Route path="/Orders" element={<Suspense fallback={<h1>loading..</h1>}><Orders /></Suspense>} />
-        <Route path="/Employees" element={<Suspense fallback={<h1>loading..</h1>}><Employees /></Suspense>} />
-        <Route path="/Inventory" element={<Suspense fallback={<h1>loading..</h1>}><Inventory /></Suspense>} />
-      </Routes>
     </Box>
   );
 }
+export default SideMenu;
