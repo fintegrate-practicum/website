@@ -70,7 +70,7 @@ const SideMenu: FC<Props> = ({ items, setCurrentMenu }) => {
     setOpen(false);
   };
 
-  const clickMenuItem=(listItem:menuItem)=>{
+  const clickMenuItem = (listItem: menuItem) => {
     setOpen(false);
     setCurrentMenu(listItem);
   }
@@ -80,19 +80,20 @@ const SideMenu: FC<Props> = ({ items, setCurrentMenu }) => {
       <Toolbar />
       <IconButton
         sx={{ px: 4, display: 'block' }}
-        onClick={open ? handleDrawerClose : handleDrawerOpen}>
+        onClick={open ? handleDrawerClose : handleDrawerOpen}
+        data-testid="menu-button">
         <MenuIcon />
       </IconButton>
       <Divider />
       <List>
         {items.map((listItem) => (
-          <ListItem key={listItem.text} disablePadding sx={{ display: 'block' }}>
-            <Link to={listItem.path}>
+          <ListItem key={listItem.nameToView} disablePadding sx={{ display: 'block' }}>
+            <Link to={listItem.route}>
               <ListItemButton sx={{ px: 4 }} onClick={() => clickMenuItem(listItem)}>
                 <ListItemIcon>
                   <listItem.icon />
                 </ListItemIcon>
-                <ListItemText primary={listItem.text} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary={listItem.nameToView} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </Link>
           </ListItem>
