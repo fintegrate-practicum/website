@@ -55,12 +55,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 interface Props {
-  props: {
     items: menuItem[];
-    setCurrentMenu: (currentMenu: menuItem) => void;
-  }
+    setCurrentMenu: (currentMenu:menuItem) => void;
 }
-const SideMenu: FC<Props> = ({ props }) => {
+const SideMenu: FC<Props> = ({ items, setCurrentMenu }) => {
 
   const [open, setOpen] = useState(false);
 
@@ -74,7 +72,7 @@ const SideMenu: FC<Props> = ({ props }) => {
 
   const clickMenuItem = (listItem: menuItem) => {
     setOpen(false);
-    props.setCurrentMenu(listItem);
+    setCurrentMenu(listItem);
   }
 
   const drawer = (
@@ -88,7 +86,7 @@ const SideMenu: FC<Props> = ({ props }) => {
       </IconButton>
       <Divider />
       <List>
-        {props.items.map((listItem) => (
+        {items.map((listItem) => (
           <ListItem key={listItem.nameToView} disablePadding sx={{ display: 'block' }}>
             <Link to={listItem.route}>
               <ListItemButton sx={{ px: 4 }} onClick={() => clickMenuItem(listItem)}>
