@@ -5,6 +5,7 @@ import { createBusiness } from '../../Redux/businessSlice';
 import { useAppDispatch } from "../../Redux/hooks";
 import { useForm } from 'react-hook-form';
 import { Typography } from '@mui/material';
+import { BusinessSize } from '../../classes/business';
 
 export default function BaseDetailsManager(): JSX.Element {
     const dispatch = useAppDispatch()
@@ -16,13 +17,26 @@ export default function BaseDetailsManager(): JSX.Element {
       } = useForm();
 
     const onSubmit = (values: any) => {
-        dispatch(createBusiness({ companyNumber: values.companyNumber, name: values.name, email: values.email }));
+        dispatch(createBusiness({
+            companyNumber: values.companyNumber, name: values.name, email: values.email,
+            description: '',
+            logo: '',
+            phone: '',
+            address: {
+                city: '',
+                street: '',
+                num: 0
+            },
+            businessSize: BusinessSize.Private,
+            industryType: '',
+            establishmentDate: ''
+        }));
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div>
-                <TextField id="outlined-basic" label="company Number" variant="outlined"// value={companyNumber}// onChange={handleCompanyNumberChange}
+                <TextField id="outlined-basic" label="company Number" variant="outlined"
                 {...register("companyNumber", { required: true, pattern: /^516[0-9]{6}$/i })} />
                 <br/>
                 {errors.companyNumber && <Typography
@@ -33,7 +47,7 @@ export default function BaseDetailsManager(): JSX.Element {
                 }}>מספר חברה מתחיל ב-516 ומכיל 9 ספרות</Typography>}
             </div>
             <div>
-                <TextField id="outlined-basic" label="business name" variant="outlined" //value={name}// onChange={handleBusinessNameChange}
+                <TextField id="outlined-basic" label="business name" variant="outlined"
                 {...register("name", { required: true, pattern: /^[A-Z]{2,30}$/i })} />
                 <br/>
                 {errors.name && <Typography
@@ -44,7 +58,7 @@ export default function BaseDetailsManager(): JSX.Element {
                 }}>שם החברה מכיל יותר מ-2 אותיות ופחות מ-30</Typography>}
             </div>
             <div> 
-                <TextField id="outlined-basic" label="business email" variant="outlined"// value={email} //onChange={handleBusinessEmailChange} 
+                <TextField id="outlined-basic" label="business email" variant="outlined"
                 {...register("email", { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i })}/>
                 <br/>
                 {errors.email && <Typography
