@@ -12,8 +12,10 @@ const initialState = {
 export const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {}
+    reducers: {
+        getAll: () => { }
+    }
 });
 
-export const { } = userSlice.actions;
+export const { getAll } = userSlice.actions;
 export default userSlice.reducer;
