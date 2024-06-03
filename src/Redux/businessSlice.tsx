@@ -6,7 +6,7 @@ const http = "http://localhost:4000";
 
 const initialState = {
     business: {
-        companyNumber: 0,
+        companyNumber: " ",
         description: " ",
         name: " ",
         email: " ",
@@ -52,8 +52,7 @@ export const updateBusiness = createAsyncThunk(
             console.log('updateBusiness'+'react');
             console.log(newData);
             console.log(companyNumber);
-
-            
+                        
             const response = await axios.put(`${http}/business/${companyNumber}`, newData);
             return response.data;
         } catch (error) {

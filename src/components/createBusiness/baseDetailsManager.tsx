@@ -10,12 +10,12 @@ import { useAppDispatch } from "../../Redux/hooks";
 export default function BaseDetailsManager(): JSX.Element {
     const dispatch = useAppDispatch()
 
-    const [companyNumber, setId] = useState<string>('');
+    const [companyNumber, setCompanyNumber] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
 
     const handleCompanyNumberChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        setId(event.target.value);
+        setCompanyNumber(event.target.value);
     };
 
     const handleBusinessNameChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
