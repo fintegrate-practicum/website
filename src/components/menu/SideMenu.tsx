@@ -89,7 +89,7 @@ const SideMenu: FC<Props> = ({ props }) => {
       <List>
         {props.items.map((listItem) => (
           <ListItem key={listItem.nameToView} disablePadding sx={{ display: 'block' }}>
-            <Link to={listItem.path}>
+            <Link to={listItem.route}>
               <ListItemButton sx={{ px: 4 }} onClick={() => clickMenuItem(listItem)}>
                 <ListItemIcon>
                   <listItem.icon />
