@@ -19,7 +19,7 @@ export default function MoreDetailsManager(props: any): JSX.Element {
     const [address, setAdress] = useState<string>('');
     const companyNumber = props.companyNumber;
 
-    // const [image, setImage] = useState<string>();
+    const [logo, setLogo] = useState<string>();
 
     const [businessSize, setBusinessSize] = useState<BusinessSize| ''>(BusinessSize.Public);
     const [industryType, setIndustryType] = useState<string>('');    
@@ -46,19 +46,20 @@ export default function MoreDetailsManager(props: any): JSX.Element {
         display: 'none',
     });
 
-    // const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     const file = event.target.files?.[0];
-    //     if (file) {
-    //         const reader = new FileReader();            
-    //         reader.onloadend = () => {
-    //             if (typeof reader.result === 'string') {
-    //                 setImage(reader.result);
-    //             }
-    //         };
-    //         reader.readAsDataURL(file);
-    //     }
-    // }; 
-    const newData = { description, phone, address, businessSize ,industryType};
+    const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();            
+            reader.onloadend = () => {
+                if (typeof reader.result === 'string') {
+                    setLogo(reader.result);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    }; 
+    
+    const newData = { description, phone, address, businessSize ,industryType,logo: logo?.replace(/^data:image\/png;base64,/, '')};
 
     return (
         <Box
@@ -105,11 +106,11 @@ export default function MoreDetailsManager(props: any): JSX.Element {
             <Stack direction="row" spacing={2}>
 
             </Stack>
-            {/* {image && (
+            {logo && (
                 <Box mt={2}>
-                    <img src={image} alt="Uploaded" style={{ maxWidth: '100%', maxHeight: '300px' }} />
+                    <img src={logo} alt="Uploaded" style={{ maxWidth: '100%', maxHeight: '300px' }} />
                 </Box>
-            )} */}
+            )}
 
             <div>
                 <label htmlFor="image-input">
@@ -117,7 +118,7 @@ export default function MoreDetailsManager(props: any): JSX.Element {
                         Upload Logo
                     </Button>
                 </label>
-                {/* <StyledInput id="image-input" type="file" accept="image/*" onChange={handleImageChange}/>               */}
+                <StyledInput id="logo-input" type="file" accept="logo/*" onChange={handleLogoChange}/>              
             </div>
 
             <Button variant="contained" color="success" onClick={() => {
