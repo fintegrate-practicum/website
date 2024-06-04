@@ -55,12 +55,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 interface Props {
-  props:{  
     items: menuItem[];
     setCurrentMenu: (currentMenu:menuItem) => void;
-  }
 }
-const SideMenu: FC<Props> = ({ props }) => {
+const SideMenu: FC<Props> = ({ items, setCurrentMenu }) => {
 
   const [open, setOpen] = useState(false);
 
@@ -72,9 +70,9 @@ const SideMenu: FC<Props> = ({ props }) => {
     setOpen(false);
   };
 
-  const clickMenuItem=(listItem:menuItem)=>{
+  const clickMenuItem = (listItem: menuItem) => {
     setOpen(false);
-    props.setCurrentMenu(listItem);
+    setCurrentMenu(listItem);
   }
 
   const drawer = (
@@ -82,14 +80,15 @@ const SideMenu: FC<Props> = ({ props }) => {
       <Toolbar />
       <IconButton
         sx={{ px: 4, display: 'block' }}
-        onClick={open ? handleDrawerClose : handleDrawerOpen}>
+        onClick={open ? handleDrawerClose : handleDrawerOpen}
+        data-testid="menu-button">
         <MenuIcon />
       </IconButton>
       <Divider />
       <List>
-        {props.items.map((listItem) => (
+        {items.map((listItem) => (
           <ListItem key={listItem.nameToView} disablePadding sx={{ display: 'block' }}>
-            <Link to={listItem.path}>
+            <Link to={listItem.route}>
               <ListItemButton sx={{ px: 4 }} onClick={() => clickMenuItem(listItem)}>
                 <ListItemIcon>
                   <listItem.icon />

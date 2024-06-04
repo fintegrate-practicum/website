@@ -13,11 +13,12 @@ import SettingsIcon from '@mui/icons-material/Settings';
 // import { RootState } from '../types'; 
 // import { Link } from 'react-router-dom';
 
-interface HeaderProps {
-  serviceName: string;
+
+export interface HeaderProps {
+  serviceName: string; 
 }
 
-const Header: FC<HeaderProps> = ({ serviceName }: HeaderProps): ReactElement => {
+ const Header: FC<HeaderProps> = ({ serviceName }: HeaderProps): ReactElement => {
   // To retrieve a user after creating the state
   // const user = useSelector((state: RootState) => state.user.currentUser);
 
@@ -25,7 +26,7 @@ const Header: FC<HeaderProps> = ({ serviceName }: HeaderProps): ReactElement => 
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed" sx={{ width: '100%' }}>
         <Toolbar>
-          <img src="/logo.png" style={{ width: "15%" }} />
+        <img src="/logo.png" alt="Logo" style={{ width: "15%" }} />
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {serviceName || "Send service name in props"}
@@ -38,10 +39,10 @@ const Header: FC<HeaderProps> = ({ serviceName }: HeaderProps): ReactElement => 
               according to the routes that will exist
           */}
           
-          <IconButton color="inherit">
+          <IconButton color="inherit" aria-label="Contact Mail">
             <ContactMailIcon />
           </IconButton>
-          <IconButton color="inherit">
+          <IconButton color="inherit" aria-label="Settings">
             <SettingsIcon />
           </IconButton>
 
