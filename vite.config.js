@@ -1,5 +1,6 @@
-// import { defineConfig } from 'vite'
-// import react from '@vitejs/plugin-react'
+// import { defineConfig } from 'vite';
+// import react from '@vitejs/plugin-react';
+import eslintPlugin from 'vite-plugin-eslint';
 
 // // https://vitejs.dev/config/
 // export default defineConfig({
@@ -8,9 +9,5 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  resolve: {
-    alias: {
-      '/src/main.jsx': '/src/main.tsx',
-    },
-  },
-});
+  plugins: [react()],
+})

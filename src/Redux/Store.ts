@@ -1,7 +1,17 @@
-import { createStore } from "redux";
-import reducers from "./index";
+import { configureStore } from '@reduxjs/toolkit'
+import userSlice from './reducer.js'
+import businessSlice from './businessSlice.js'
 
-export const store =createStore(
-    reducers,
-    {}
-)
+export const Store = configureStore({
+    reducer: {
+        user: userSlice,
+        business:businessSlice
+    },
+})
+
+
+export type RootState = ReturnType<typeof Store.getState>
+export type AppDispatch = typeof Store.dispatch
+
+
+
