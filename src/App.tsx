@@ -39,6 +39,7 @@ function App() {
           <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} />
           <LazyRouter currentRoute={currentMenu?.route || ' '} />
           <div>Hello</div>
+          <div>Hello</div>
         </Provider>
       </ThemeProvider>
     </>
