@@ -1,4 +1,4 @@
-import { FC, createElement } from 'react';
+import { FC, createElement, ReactElement } from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Checkbox from '@mui/material/Checkbox';
@@ -9,6 +9,9 @@ import Select from '@mui/material/Select';
 import Slider from '@mui/material/Slider';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
 
 export enum ComponentType {
   Button = 'Button',
@@ -21,14 +24,13 @@ export enum ComponentType {
   Slider = 'Slider',
   Switch = 'Switch',
   TextField = 'TextField',
+  MenuItem = 'MenuItem',
   Input = 'Input', // הוספת סוג רכיב חדש
-
-
 }
 
 interface MySettingProps {
   setting: {
-    settingDesc : string
+    settingDesc: string;
     type: ComponentType;
     props?: Record<string, any>;
     children?: any;
@@ -48,8 +50,9 @@ const componentMap: {
   [ComponentType.Slider]: Slider,
   [ComponentType.Switch]: Switch,
   [ComponentType.TextField]: TextField,
-  [ComponentType.Input]: 'input', // כל  הinput  של ריאקט
-}
+  [ComponentType.MenuItem]: MenuItem,
+  [ComponentType.Input]: 'input', // כל ה-input של React
+};
 
 const MySetting: FC<MySettingProps> = (props) => {
   const { setting } = props;
@@ -62,13 +65,33 @@ const MySetting: FC<MySettingProps> = (props) => {
   const Component = componentMap[setting.type];
 
   // הוספת תנאי נוסף לבדיקה שהמאפיין 'type' מוגדר
-  if (!setting.type || !componentMap[setting.type]) {
+  if (!setting.type || !Component) {
     return null;
   }
 
-  return createElement(Component, setting.props, setting.children);
+  let children: ReactElement | ReactElement[] | undefined;
+  if (setting.type === ComponentType.Select && Array.isArray(setting.children)) {
+    children = setting.children.map((child: { key: string; value: string; string: string }) => (
+      <MenuItem key={child.key} value={child.value}>
+        {child.string}
+      </MenuItem>
+    ));
+  } else if (setting.type === ComponentType.RadioGroup && Array.isArray(setting.children)) {
+    children = setting.children.map((child: { value: string; label: string }) => (
+      <FormControlLabel
+        key={child.value}
+        value={child.value}
+        control={<Radio />}
+        label={child.label}
+      />
+    ));
+  } else if (setting.type === ComponentType.FloatingActionButton && typeof setting.children === 'string') {
+    children = createElement('span', null, setting.children);
+  } else {
+    children = setting.children;
+  }
+
+  return createElement(Component, setting.props, children);
 };
 
-
 export default MySetting;
-
