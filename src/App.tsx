@@ -20,7 +20,7 @@ const menuItems = [
   },
   {
     name: 'Header',
-    nameToView: 'Headerofile',
+    nameToView: 'Header',
     icon: iconsMaterial.Person,
     route: '../Header/Header',
   },
@@ -38,8 +38,6 @@ function App() {
           <div></div>
           <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} />
           <LazyRouter currentRoute={currentMenu?.route || ' '} />
-          <div>Hello</div>
-          <div>Hello</div>
         </Provider>
       </ThemeProvider>
     </>
