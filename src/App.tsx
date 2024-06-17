@@ -1,19 +1,3 @@
-import Button from '../Button'
-import './App.css'
-
-function App() {
-  const click =() =>{
-    alert("שנה לפונקציה הרצויה לך!!!");
-  }
-  
-  return (
-    <>
-      <Button  value="button" onClickFunction={click}/>
-    </>
-  )
-}
-
-export default App
 import { ThemeProvider } from '@mui/material/styles';
 import { Provider } from 'react-redux';
 import './App.css';
@@ -23,22 +7,22 @@ import { useState } from 'react';
 import menuItem from '../src/components/menu/types';
 import LazyRouter from './components/router/lazyRouter';
 import AuthMenu from './auth0/AuthMenu';
+import Navbar from './components/moduls/order/MuiNavbar/MuiNavbar';
+import * as React from 'react';
 
 function App() {
 
   const [currentMenu, setCurrentMenu] = useState<menuItem>();
-
   return (
-    <>
-    <AuthMenu />
       <ThemeProvider theme={theme}>
         <Provider store={Store}>
-          <div></div>
+          <AuthMenu />
+          <Navbar />
           <LazyRouter currentRoute={currentMenu?.route || ' '} />
-          <div>Hello</div>
         </Provider>
       </ThemeProvider>
-    </>
   )
 }
+
+
 export default App

@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { Suspense, lazy } from 'react';
 
 const PageLoader = (currentRoute: string) => lazy(() => import(`${currentRoute}`));
