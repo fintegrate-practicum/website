@@ -34,7 +34,7 @@ export const businessSlice = createSlice({
 
 export const createBusiness = createAsyncThunk('', async (_business: Business) => {
     try {
-        const response = await axios.post(`${http}/business?name=${_business.name}&email=${_business.email}`)
+        const response = await axios.post(`${http}/business`, _business)
         return response.data
     } catch (error: any) {
         if(error.response.data.statusCode == 400)
