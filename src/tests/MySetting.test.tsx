@@ -109,7 +109,12 @@ describe('<MySetting>', () => {
 
   test('does not render without required props', () => {
     const { container } = render(
-      <MySetting />
+      <MySetting setting={{
+        settingDesc: '',
+        type: ComponentType.Button,
+        props: undefined,
+        children: undefined
+      }} />
     );
     expect(container.firstChild).toBeNull();
   });

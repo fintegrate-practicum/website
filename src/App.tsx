@@ -1,19 +1,3 @@
-import Button from '../Button'
-import './App.css'
-
-function App() {
-  const click =() =>{
-    alert("שנה לפונקציה הרצויה לך!!!");
-  }
-  
-  return (
-    <>
-      <Button  value="button" onClickFunction={click}/>
-    </>
-  )
-}
-
-export default App
 import { ThemeProvider } from '@mui/material/styles';
 import { Provider } from 'react-redux';
 import './App.css';
@@ -23,8 +7,13 @@ import { useState } from 'react';
 import menuItem from '../src/components/menu/types';
 import LazyRouter from './components/router/lazyRouter';
 import AuthMenu from './auth0/AuthMenu';
+import Button from '../Button'
+import BaseDetailsManager from './components/createBusiness/baseDetailsManager';
 
 function App() {
+  const click =() =>{
+    alert("שנה לפונקציה הרצויה לך!!!");
+  }
 
   const [currentMenu, setCurrentMenu] = useState<menuItem>();
 
@@ -33,9 +22,10 @@ function App() {
     <AuthMenu />
       <ThemeProvider theme={theme}>
         <Provider store={Store}>
-          <div></div>
-          <LazyRouter currentRoute={currentMenu?.route || ' '} />
+          <div><BaseDetailsManager/></div>
+          {/* <LazyRouter currentRoute={currentMenu?.route || ' '} /> */}
           <div>Hello</div>
+          <Button  value="button" onClickFunction={click}/>
         </Provider>
       </ThemeProvider>
     </>
