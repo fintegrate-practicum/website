@@ -20,6 +20,12 @@ const Profile = () => {
           },
         });
   
+        
+        const _accessToken = await getAccessTokenSilently();
+        console.log(_accessToken, '=======================', accessToken);
+
+        // const accessToken = await auth0Client.getTokenSilently();
+  
         const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
   
         const metadataResponse = await fetch(userDetailsByIdUrl, {
