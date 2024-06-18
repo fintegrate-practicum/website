@@ -28,7 +28,7 @@ export enum ComponentType {
   Input = 'Input', // הוספת סוג רכיב חדש
 }
 
-interface MySettingProps {
+export interface MySettingProps {
   setting: {
     settingDesc: string;
     type: ComponentType;
