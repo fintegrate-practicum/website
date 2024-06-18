@@ -41,5 +41,16 @@ export const createBusiness = createAsyncThunk('', async (_business: Business) =
     }
 });
 
+export const checkEmailVerificationCode = createAsyncThunk('', async (payload: any) => {
+    try {
+        const response = await axios.get(`${http}/verification/validate`, payload)
+        return response.data
+    } catch (error: any) {
+        if(error.response.data.message == false)
+            alert("הסיסמא אינה תקינה");
+        return error
+    }
+});
+
 // export const { } = businessSlice.actions;
 export default businessSlice.reducer;
