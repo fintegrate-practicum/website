@@ -10,6 +10,8 @@ import AuthMenu from './auth0/AuthMenu';
 import * as iconsMaterial from '@mui/icons-material';
 import SideMenu from './components/menu/SideMenu';
 import { Header } from './stories/Header';
+import Button from '../Button'
+import BaseDetailsManager from './components/createBusiness/baseDetailsManager';
 
 const menuItems = [
   {
@@ -28,6 +30,9 @@ const menuItems = [
 ];
 
 function App() {
+  const click =() =>{
+    alert("שנה לפונקציה הרצויה לך!!!");
+  }
 
   const [currentMenu, setCurrentMenu] = useState<menuItem>(menuItems[0]);
 
@@ -40,6 +45,8 @@ function App() {
           <div></div>
           <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} />
           <LazyRouter currentRoute={currentMenu?.route } />
+          <div><BaseDetailsManager/></div>
+          <Button  value="button" onClickFunction={click}/>
         </Provider>
       </ThemeProvider>
     </>
