@@ -1,7 +1,6 @@
 import React, { Suspense } from 'react';
 import { AppBar, CircularProgress, Tab, Toolbar } from '@mui/material';
 import { Route, Link, Routes } from 'react-router-dom';
-// import { lime, teal } from '@mui/material/colors';
 // const LazyHome = React.lazy(() => import('./componets/home/home'))
 const LazyShoopingBag = React.lazy(() => import('../shoopingBag/ShoopingBag'));
 const LazyConnection = React.lazy(() => import('../login/Connection'));
