@@ -16,9 +16,10 @@ import SettingsIcon from '@mui/icons-material/Settings';
 
 export interface HeaderProps {
   serviceName: string; 
+  children?: ReactElement;
 }
 
- const Header: FC<HeaderProps> = ({ serviceName }: HeaderProps): ReactElement => {
+ const Header: FC<HeaderProps> = ({ serviceName, children }: HeaderProps): ReactElement => {
   // To retrieve a user after creating the state
   // const user = useSelector((state: RootState) => state.user.currentUser);
 
@@ -38,7 +39,7 @@ export interface HeaderProps {
               component={Link} to="/yourRoute"
               according to the routes that will exist
           */}
-          
+          {children}
           <IconButton color="inherit" aria-label="Contact Mail">
             <ContactMailIcon />
           </IconButton>

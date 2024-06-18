@@ -1,6 +1,7 @@
 
 import MaterialButton from '@mui/material/Button';
 import theme from './src/Theme';
+import React from 'react';
 interface ButtonProps {
     onClickFunction: () => void;
     value: string | number;
