@@ -26,7 +26,7 @@ export enum ComponentType {
 
 }
 
-interface MySettingProps {
+export interface MySettingProps {
   setting: {
     settingDesc : string
     type: ComponentType;
