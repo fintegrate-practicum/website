@@ -40,7 +40,7 @@ function App() {
           <Header serviceName={currentMenu?.nameToView}><div></div></Header>
           <div></div>
           <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} />
-          <LazyRouter currentRoute={currentMenu?.route} />
+          <LazyRouter currentRoute={currentMenu?.route || ' '} />
         </Provider>
       </ThemeProvider>
     </>
