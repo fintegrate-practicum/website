@@ -5,12 +5,28 @@ import { createBusiness } from '../../Redux/businessSlice';
 import { useAppDispatch } from "../../Redux/hooks";
 import { useForm } from 'react-hook-form';
 import { Typography } from '@mui/material';
-import Business from '../../classes/business';
+import Business, { BusinessSize } from '../../classes/business';
 
 export default function BaseDetailsManager(): JSX.Element {
     const dispatch = useAppDispatch()
 
-    let business: Business;
+    const business: Business = {
+        companyNumber: '',
+        description: '',
+        name: '',
+        email: '',
+        logo: '',
+        phone: '',
+        address: {
+            city: '',
+            street: '',
+            num: 0
+        },
+        businessSize: BusinessSize.Private,
+        industryType: '',
+        establishmentDate: '',
+        code: ''
+    }
 
     const {
         register,

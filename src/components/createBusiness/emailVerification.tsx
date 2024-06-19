@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { TextField, Typography, Container, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../Redux/hooks';
 import { checkEmailVerificationCode } from '../../Redux/businessSlice';
 import Business from '../../classes/business';
@@ -29,9 +28,6 @@ const EmailVerification = (props: {business : Business}) => {
                 style={{ marginBottom: '1rem' }}
             />
             <Button type='submit'>submit</Button>
-            <Link type="submit" to={`/CreateBusiness/MoreDetailsManager`}>
-                submit
-            </Link>
             </form>
         </Container>
     );
