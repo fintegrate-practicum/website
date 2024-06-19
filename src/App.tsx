@@ -5,22 +5,42 @@ import { Store } from './Redux/Store';
 import theme from './Theme';
 import { useState } from 'react';
 import menuItem from '../src/components/menu/types';
-import MoreDetailsManager from '../src/components/createBusiness/moreDetailsManager'
-import BaseDetailsManager from './components/createBusiness/baseDetailsManager';
+import LazyRouter from './components/router/lazyRouter';
+import AuthMenu from './auth0/AuthMenu';
+import { Home, Settings } from '@mui/icons-material';
+import SideMenu from './components/menu/SideMenu';
+import Header from './components/Header/Header';
 
 function App() {
-  const [currentMenu, setCurrentMenu] = useState<menuItem>();
-  const companyNumber = "1234";
+  const menuItems = [
+    {
+      name: 'homePage',
+      nameToView: 'HomePage',
+      icon: Home,
+      route: '../HomePage/homePage',
+    },
+    {
+      name: 'settings',
+      nameToView: 'Settings',
+      icon: Settings,
+      route: '../Setting/Category',
+    },
+
+  ];
+
+
+  const [currentMenu, setCurrentMenu] = useState<menuItem>(menuItems[0]);
 
   return (
     <>
+      <AuthMenu />
       <ThemeProvider theme={theme}>
         <Provider store={Store}>
-          <div>
-            {/* <BaseDetailsManager/> */}
-            <MoreDetailsManager companyNumber={companyNumber} />
-          </div>
 
+          <Header serviceName={currentMenu?.nameToView}><div></div></Header>
+          <div></div>
+          <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} />
+          <LazyRouter currentRoute={currentMenu?.route} />
         </Provider>
       </ThemeProvider>
     </>

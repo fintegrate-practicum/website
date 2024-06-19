@@ -1,8 +1,8 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Business from "../classes/business";
 
-const http = "http://localhost:4000";
+const http = import.meta.env.VITE_SERVER_URL;
 
 const initialState = {
     business: {
@@ -34,9 +34,12 @@ export const businessSlice = createSlice({
 
 export const createBusiness = createAsyncThunk('', async (_business: Business) => {    
     try {
-        const response = await axios.post(`${http}/business?companyNumber=${_business.companyNumber}&name=${_business.name}&email=${_business.email}`)
+
+        const response = await axios.post(`${http}/business`, _business)
         return response.data
-    } catch (error) {
+    } catch (error: any) {
+        if(error.response.data.statusCode == 400)
+            alert(error.response.data.message);
         return error
     }
 });
