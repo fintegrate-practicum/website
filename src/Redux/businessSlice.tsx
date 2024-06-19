@@ -6,7 +6,7 @@ const http = import.meta.env.VITE_SERVER_URL;
 
 const initialState = {
     business: {
-        companyNumber: 0,
+        companyNumber: " ",
         description: " ",
         name: " ",
         email: " ",
@@ -32,8 +32,9 @@ export const businessSlice = createSlice({
 });
 
 
-export const createBusiness = createAsyncThunk('', async (_business: Business) => {
+export const createBusiness = createAsyncThunk('', async (_business: Business) => {    
     try {
+
         const response = await axios.post(`${http}/business`, _business)
         return response.data
     } catch (error: any) {
@@ -43,5 +44,24 @@ export const createBusiness = createAsyncThunk('', async (_business: Business) =
     }
 });
 
-// export const { } = businessSlice.actions;
+
+export const updateBusiness = createAsyncThunk(
+    '',
+    async (payload: any) => {
+        
+        
+        const { companyNumber, newData } = payload;
+        try {
+            console.log('updateBusiness'+'react');
+            console.log(newData);
+            console.log(companyNumber);
+                        
+            const response = await axios.put(`${http}/business/${companyNumber}`, newData);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+)
+export const { } = businessSlice.actions;
 export default businessSlice.reducer;
