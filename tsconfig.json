@@ -20,7 +20,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    /* Linting */
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -36,7 +37,5 @@
     {
       "path": "./tsconfig.node.json"
     }
-  ],
-  "esModuleInterop": true,
-  "forceConsistentCasingInFileNames": true,
+  ]
 }
