@@ -10,6 +10,7 @@ import AuthMenu from './auth0/AuthMenu';
 import { Home, Settings } from '@mui/icons-material';
 import SideMenu from './components/menu/SideMenu';
 import Header from './components/Header/Header';
+import Navbar from './components/moduls/order/navBar/MuiNavbar';
 
 const menuItems = [
   {
@@ -38,7 +39,8 @@ function App() {
       <ThemeProvider theme={theme}>
         <Provider store={Store}>
           <Header serviceName={currentMenu?.nameToView}><div></div></Header>
-          <div></div>
+          {/* <div></div> */}
+          <Navbar/>
           <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} />
           <LazyRouter currentRoute={currentMenu?.route || ' '} />
         </Provider>

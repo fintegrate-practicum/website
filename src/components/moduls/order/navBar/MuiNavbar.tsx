@@ -8,9 +8,9 @@ const LazyPayment = React.lazy(() => import('../payment/Payment'))
 const LazyAllMyOrders = React.lazy(() => import('../payment/Payment'))
 const Navbar = ()=> {
     return (
-        <div>
-            <AppBar position="static" sx={{ backgroundColor:['inherit'] }} >
-                <Toolbar >
+        <div >
+            <AppBar position="static" sx={{ backgroundColor:['inherit'] }}  >
+            <Toolbar sx={{ display: 'flex', flexWrap: 'wrap' }}>
                     <Link to="/" style={{ textDecoration: 'none' }}>
                         <Tab label="לוגו החברה" sx={{ color: ['inherit'], fontSize: '20px'}} />
                     </Link>
@@ -37,5 +37,5 @@ const Navbar = ()=> {
             </Routes>
         </div>
     )
-}
+};
 export default Navbar
