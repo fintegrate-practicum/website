@@ -10,6 +10,7 @@ import { BusinessSize } from '../../classes/business';
 export default function BaseDetailsManager(): JSX.Element {
     const dispatch = useAppDispatch()
 
+
     const {
         register,
         handleSubmit,
