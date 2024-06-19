@@ -32,24 +32,22 @@ export const businessSlice = createSlice({
 });
 
 
-export const createBusiness = createAsyncThunk('', async (_business: Business) => {
+export const createBusiness = createAsyncThunk('', async (email: string) => {
+    try {
+        const response = await axios.post(`${http}/verification/create`, email)
+        return response.data
+    } catch (error: any) {
+        return error
+    }
+});
+
+export const checkEmailVerificationCode = createAsyncThunk('', async (_business: Business) => {
     try {
         const response = await axios.post(`${http}/business`, _business)
         return response.data
     } catch (error: any) {
         if(error.response.data.statusCode == 400)
             alert(error.response.data.message);
-        return error
-    }
-});
-
-export const checkEmailVerificationCode = createAsyncThunk('', async (payload: any) => {
-    try {
-        const response = await axios.get(`${http}/verification/validate`, payload)
-        return response.data
-    } catch (error: any) {
-        if(error.response.data.message == false)
-            alert("הסיסמא אינה תקינה");
         return error
     }
 });

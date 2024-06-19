@@ -20,6 +20,7 @@ class Business {
     businessSize!: BusinessSize;
     industryType!: string;
     establishmentDate!: string;
+    code!: string;
 }
 
 export default Business 

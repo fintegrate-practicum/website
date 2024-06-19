@@ -1,17 +1,17 @@
 import { useState } from 'react';
-import { TextField, Typography, Container } from '@mui/material';
-import { Link, useParams } from 'react-router-dom';
+import { TextField, Typography, Container, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../Redux/hooks';
 import { checkEmailVerificationCode } from '../../Redux/businessSlice';
+import Business from '../../classes/business';
 
-const EmailVerification = () => {
+const EmailVerification = (props: {business : Business}) => {
     const dispatch = useAppDispatch()
     const [code, setCode] = useState<string>('');
-
-    const { companyNumber, email } = useParams();
+    const {business} = props
 
     const handleSubmit = () => {
-        dispatch(checkEmailVerificationCode({email, code}));
+        dispatch(checkEmailVerificationCode(business));
     };
 
     return (
@@ -28,7 +28,8 @@ const EmailVerification = () => {
                 onChange={(event) => setCode(event.target.value)}
                 style={{ marginBottom: '1rem' }}
             />
-            <Link type="submit" to={`/CreateBusiness/MoreDetailsManager/${companyNumber}`}>
+            <Button type='submit'>submit</Button>
+            <Link type="submit" to={`/CreateBusiness/MoreDetailsManager`}>
                 submit
             </Link>
             </form>

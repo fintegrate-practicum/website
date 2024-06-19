@@ -5,10 +5,12 @@ import { createBusiness } from '../../Redux/businessSlice';
 import { useAppDispatch } from "../../Redux/hooks";
 import { useForm } from 'react-hook-form';
 import { Typography } from '@mui/material';
-import { BusinessSize } from '../../classes/business';
+import Business from '../../classes/business';
 
 export default function BaseDetailsManager(): JSX.Element {
     const dispatch = useAppDispatch()
+
+    let business: Business;
 
     const {
         register,
@@ -17,20 +19,10 @@ export default function BaseDetailsManager(): JSX.Element {
       } = useForm();
 
     const onSubmit = (values: any) => {
-        dispatch(createBusiness({
-            companyNumber: values.companyNumber, name: values.name, email: values.email,
-            description: '',
-            logo: '',
-            phone: '',
-            address: {
-                city: '',
-                street: '',
-                num: 0
-            },
-            businessSize: BusinessSize.Private,
-            industryType: '',
-            establishmentDate: ''
-        }));
+        business.companyNumber = values.companyNumber
+        business.name = values.name
+        business.email = values.email;
+        dispatch(createBusiness(values.email));
     }
 
     return (
