@@ -19,7 +19,7 @@ const Profile = () => {
             scope: "read:current_user",
           },
         });
-
+  
         
         const _accessToken = await getAccessTokenSilently();
         console.log(_accessToken, '=======================', accessToken);

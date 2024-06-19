@@ -36,5 +36,7 @@
     {
       "path": "./tsconfig.node.json"
     }
-  ] 
+  ],
+  "esModuleInterop": true,
+  "forceConsistentCasingInFileNames": true,
 }
