@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TextField, Typography, Container, Button } from '@mui/material';
+import { TextField, Typography, Container, Button, Stack } from '@mui/material';
 import { useAppDispatch } from '../../Redux/hooks';
 import { checkEmailVerificationCode } from '../../Redux/businessSlice';
 import Business from '../../classes/business';
@@ -10,7 +10,7 @@ const EmailVerification = (props: {business : Business}) => {
     const {business} = props
 
     const handleSubmit = () => {
-        dispatch(checkEmailVerificationCode(business));
+        dispatch(checkEmailVerificationCode({email: business.email, code}));
     };
 
     return (
@@ -27,7 +27,9 @@ const EmailVerification = (props: {business : Business}) => {
                 onChange={(event) => setCode(event.target.value)}
                 style={{ marginBottom: '1rem' }}
             />
-            <Button type='submit'>submit</Button>
+            <Stack direction="row" spacing={2}>
+                <Button variant="contained" color="success" type='submit'>submit</Button>
+            </Stack>
             </form>
         </Container>
     );
