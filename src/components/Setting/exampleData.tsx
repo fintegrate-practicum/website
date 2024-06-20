@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { MenuItem } from '@mui/material';
 import { ComponentType, MySettingProps } from './MySetting';
+import { useState } from 'react';
 export interface CategoryProps {
     CategoryItem: {
       CategoryName: string,
@@ -10,6 +11,31 @@ export interface CategoryProps {
     };
   }
 // אובייקט דוגמא להגדרות
+
+//הפונקציות והמשתני עזר באמת לא צריכות להיות בתוך דף האוביקט הגדרות 
+// אלא צריכות להיות קיימות אצל מי ששולח את האוביקט
+// const [checked, setChecked] = useState(true);
+// const [ratingValue, setRatingValue] = useState<number | null>(2);
+// const [sliderValue, setSliderValue] = useState<number>(30);
+// const [selectedValue, setSelectedValue] = useState('');
+
+
+// const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+//   setChecked(event.target.checked);
+// };
+
+// const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+//   setChecked(event.target.checked);
+// };
+
+// const handleSliderChange = (event: Event, newValue: number | number[]) => {
+//   setSliderValue(newValue as number);
+// };
+
+// const handleSelectChange = (event: React.ChangeEvent<{ value: string }>) => {
+//   setSelectedValue(event.target.value);
+// };
+
 export const ctgr: CategoryProps[] = [
   {
     CategoryItem: {
@@ -24,11 +50,12 @@ export const ctgr: CategoryProps[] = [
                 setting: {
                   settingDesc: "גופן",
                   children: [
-                    <MenuItem key="none" value="30">san serif</MenuItem>,
-                    <MenuItem key="option1" value="20">אריאל</MenuItem>,
-                    <MenuItem key="option2" value="10">דוד</MenuItem>,
+                    {key:"none", value:"30",string:"san serif"},
+                    {key:"none", value:"20",string:"ariel"},
+                    {key:"none", value:"10",string:"david"}
+            
                   ],
-                  props: [],
+                  // props: { value: selectedValue, onChange: handleSelectChange },
                   type: ComponentType.Select,
                 }
               },
@@ -36,12 +63,12 @@ export const ctgr: CategoryProps[] = [
                 setting: {
                   settingDesc: "גודל",
                   children: [
-                    <MenuItem key="none" value="0.5">0.5</MenuItem>,
-                    <MenuItem key="option1" value="1">1</MenuItem>,
-                    <MenuItem key="option2" value="1.5">1.5</MenuItem>,
-                    <MenuItem key="none" value="2">2</MenuItem>,
-                    <MenuItem key="option1" value="2.5">2.5</MenuItem>,
-                    <MenuItem key="option2" value="3">3</MenuItem>,
+                    {key:"none", value:"0.5",string:"0.5"},
+                    {key:"option1", value:"1",string:"1"},
+                    {key:"option2", value:"1.5",string:"1.5"},
+                    {key:"option3", value:"2",string:"2"},
+                    {key:"option4", value:"2.5",string:"2.5"},
+                    {key:"option5", value:"3",string:"3"},
                   ],
                   props: [],
                   type: ComponentType.Select
@@ -51,11 +78,11 @@ export const ctgr: CategoryProps[] = [
                 setting: {
                   settingDesc: "עובי",
                   children: [
-                    <MenuItem key="none" value="30">צר</MenuItem>,
-                    <MenuItem key="option1" value="20">בינוני</MenuItem>,
-                    <MenuItem key="option2" value="10">עבה</MenuItem>,
+                    {key:"none", value:"10",string:"דק"},
+                    {key:"option1", value:"20",string:"בינוני"},
+                    {key:"option2", value:"30",string:"עבה"}
                   ],
-                  props: [],
+                  // props: { value: selectedValue, onChange: handleSelectChange },
                   type: ComponentType.Select
                 }
               }
@@ -78,17 +105,15 @@ export const ctgr: CategoryProps[] = [
               {
                 setting: {
                   settingDesc: "תמונת רקע",
-                  children: [],
-                  props: [1, 2, 4, 5],
                   type: ComponentType.Switch,
+                  // props: { checked: checked, onChange: handleSwitchChange },
                 }
               },
               {
                 setting: {
                   settingDesc: "צבע",
-                  type: ComponentType.Button,
-                  props: { variant: 'contained' },
-                  children: 'Contained Button',
+                  type: ComponentType.Input,
+                  props: { type: 'color' },
                 }
               },
               {
@@ -117,26 +142,31 @@ export const ctgr: CategoryProps[] = [
             Settings: [
               {
                 setting: {
-                  settingDesc: "גודל",
-                  children: ["sans-serif", "ariel"],
-                  props: [],
-                  type: ComponentType.Checkbox,
+                  settingDesc: "תוכן הכותרת",
+                  type: ComponentType.RadioGroup,
+                  props: { name: 'radio-group' },
+                  children: [
+                  { value: 'option1', label: 'הזמנות' },
+                  { value: 'option2', label: 'משלוחים' }
+                  ],
                 }
               },
               {
                 setting: {
-                  settingDesc: "כותרת משנית",
-                  type: ComponentType.Button,
+                  settingDesc : "כותרת משנית",
+                  type: ComponentType.ButtonGroup,
                   props: { variant: 'contained' },
-                  children: 'Contained Button',
+                  children: [
+                  {key:"1",value:"1"},
+                  {key:"2",value:"2"}
+                  ],
                 }
               },
               {
                 setting: {
-                  settingDesc: "כותרת משנה",
-                  children: [],
-                  props: [],
-                  type: ComponentType.TextField
+                  settingDesc :  "כותרת משנה",
+                  type: ComponentType.Checkbox,
+                  // props: { checked: checked, onChange: handleCheckboxChange },
                 }
               }
             ],
@@ -149,26 +179,31 @@ export const ctgr: CategoryProps[] = [
             Settings: [
               {
                 setting: {
-                  settingDesc: "שקיפות",
-                  children: [],
-                  props: [],
-                  type: ComponentType.Slider,
+                  settingDesc : "שקיפות",
+                  type: ComponentType.Rating,
+                  props: {
+                    // value: ratingValue,
+                    // onChange: (_: any, newValue: number | null) => setRatingValue(newValue)
+                  },
                 }
               },
               {
                 setting: {
                   settingDesc: "גופן",
-                  type: ComponentType.Button,
-                  props: { variant: 'contained' },
-                  children: 'Contained Button',
+                  children: [
+                    {key:"none", value:"30",string:"san serif"},
+                    {key:"none", value:"20",string:"ariel"},
+                    {key:"none", value:"10",string:"david"}
+            
+                  ],
+                  // props: { value: selectedValue, onChange: handleSelectChange },
+                  type: ComponentType.Select,
                 }
               },
               {
                 setting: {
                   settingDesc: "בהירות",
-                  children: [],
-                  props: [],
-                  type: ComponentType.TextField
+                  type: ComponentType.Slider,
                 }
               }
             ],
