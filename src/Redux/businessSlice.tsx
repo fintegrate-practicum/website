@@ -32,9 +32,8 @@ export const businessSlice = createSlice({
 });
 
 
-export const createBusiness = createAsyncThunk('', async (_business: Business) => {    
+export const createBusiness = createAsyncThunk('', async (_business: Business) => {
     try {
-
         const response = await axios.post(`${http}/business`, _business)
         return response.data
     } catch (error: any) {
@@ -44,18 +43,20 @@ export const createBusiness = createAsyncThunk('', async (_business: Business) =
     }
 });
 
+export const checkEmailVerificationCode = createAsyncThunk('', async (payload: {email: string, code: string}) => {
+    try {
+        const response = await axios.get(`${http}/verification/validate`, {params: {email: payload.email, code: payload.code}})
+        return response.data
+    } catch (error: any) {
+        if(error.response.data.statusCode == 400)
+            alert(error.response.data.message);
+        return error
+    }
+});
 
-export const updateBusiness = createAsyncThunk(
-    '',
-    async (payload: any) => {
-        
-        
+export const updateBusiness = createAsyncThunk('', async (payload: any) => { 
         const { companyNumber, newData } = payload;
-        try {
-            console.log('updateBusiness'+'react');
-            console.log(newData);
-            console.log(companyNumber);
-                        
+        try {           
             const response = await axios.put(`${http}/business/${companyNumber}`, newData);
             return response.data;
         } catch (error) {
@@ -63,5 +64,6 @@ export const updateBusiness = createAsyncThunk(
         }
     }
 )
+
 export const { } = businessSlice.actions;
 export default businessSlice.reducer;
