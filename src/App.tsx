@@ -28,18 +28,22 @@ const menuItems = [
 
 ];
 
-const getUserType = (): boolean => {
-  // כאן תקבלו את סוג המשתמש מה-auth0 או ממקור אחר
-  return true; // true ללקוח, false למנהל
+enum UserType {
+  Client,
+  Admin
+}
+
+const isClient = (): UserType => {
+  // כאן נקבל את סוג המשתמש מה-auth0 או ממקור אחר
+  return UserType.Client; // UserType.Client ללקוח, UserType.Admin למנהל
 };
 
 function App() {
-
-  const [typeUser, setTypeUser] = useState<boolean | null>(null);
+  const [typeUser, setTypeUser] = useState<UserType | null>(null);
   const [currentMenu, setCurrentMenu] = useState<menuItem>(menuItems[0]);
 
   useEffect(() => {
-    const type = getUserType();
+    const type = isClient();
     setTypeUser(type);
   }, []);
 
@@ -52,7 +56,7 @@ function App() {
       <AuthMenu />
       <ThemeProvider theme={theme}>
         <Provider store={Store}>
-          {typeUser ? (
+          {typeUser === UserType.Client ? (
             <Client />
           ) : (
             <>
