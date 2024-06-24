@@ -7,17 +7,17 @@ import { useForm } from 'react-hook-form';
 import { Typography } from '@mui/material';
 import { BusinessSize } from '../../classes/business';
 
+
 export default function BaseDetailsManager(): JSX.Element {
     const dispatch = useAppDispatch()
-
     const {
         register,
         handleSubmit,
         formState: { errors }
       } = useForm();
 
-      const onSubmit = (values: any) => {
-        dispatch(createBusiness({
+      const onSubmit = async (values: any) => {
+       await dispatch(createBusiness({
             companyNumber: values.companyNumber, name: values.name, email: values.email,
             description: '',
             logo: '',
@@ -32,6 +32,8 @@ export default function BaseDetailsManager(): JSX.Element {
             establishmentDate: '',
             code: ''
         }));
+        window.location.href =`/CreateBusiness/EmailVerification/${values.companyNumber}/${values.email}`;
+
     }
 
     return (

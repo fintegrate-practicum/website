@@ -2,15 +2,18 @@ import { useState } from 'react';
 import { TextField, Typography, Container, Button, Stack } from '@mui/material';
 import { useAppDispatch } from '../../Redux/hooks';
 import { checkEmailVerificationCode } from '../../Redux/businessSlice';
-import Business from '../../classes/business';
+import { useParams } from 'react-router-dom';
 
-const EmailVerification = (props: {business : Business}) => {
+const EmailVerification = () => {
+    const {companyNumber,email}=useParams()
+
     const dispatch = useAppDispatch()
     const [code, setCode] = useState<string>('');
-    const {business} = props
 
-    const handleSubmit = () => {
-        dispatch(checkEmailVerificationCode({email: business.email, code}));
+    const handleSubmit = async () => {
+       await dispatch(checkEmailVerificationCode({email, code}));
+       console.log('your email is correct');       
+        window.location.href =`/CreateBusiness/MoreDetailsManager/${companyNumber}`;
     };
 
     return (
