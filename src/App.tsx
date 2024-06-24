@@ -25,6 +25,7 @@ function App() {
           <div><BaseDetailsManager/></div>
           {/* <LazyRouter currentRoute={currentMenu?.route || ' '} /> */}
           <div>Hello</div>
+          
           <Button  value="button" onClickFunction={click}/>
         </Provider>
       </ThemeProvider>

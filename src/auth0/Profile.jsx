@@ -7,7 +7,15 @@ const auth0_domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const Profile = () => {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [userMetadata, setUserMetadata] = useState(null);
-
+  function setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
   useEffect(() => {
     const getUserMetadata = async () => {
       const domain = auth0_domain;
@@ -19,11 +27,11 @@ const Profile = () => {
             scope: "read:current_user",
           },
         });
-
-        
+  
+       
         const _accessToken = await getAccessTokenSilently();
         console.log(_accessToken, '=======================', accessToken);
-
+        setCookie("accessToken",_accessToken,7)
         // const accessToken = await auth0Client.getTokenSilently();
   
         const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
