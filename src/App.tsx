@@ -33,7 +33,7 @@ enum UserType {
   Admin
 }
 
-const isClient = (): UserType => {
+const getUserType = (): UserType => {
   // כאן נקבל את סוג המשתמש מה-auth0 או ממקור אחר
   return UserType.Client; // UserType.Client ללקוח, UserType.Admin למנהל
 };
@@ -43,7 +43,7 @@ function App() {
   const [currentMenu, setCurrentMenu] = useState<menuItem>(menuItems[0]);
 
   useEffect(() => {
-    const type = isClient();
+    const type = getUserType();
     setTypeUser(type);
   }, []);
 

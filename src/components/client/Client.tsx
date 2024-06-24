@@ -9,7 +9,7 @@ export default function BasicButtons() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '20vh', // גובה מלא של החלון
+        height: '20vh',
       }}
     >
       <Stack spacing={2} direction="row">
