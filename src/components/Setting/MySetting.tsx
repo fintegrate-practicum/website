@@ -77,49 +77,45 @@ const componentMap: {
 function validateChildrenType(type: ComponentType, children: any): boolean {
   switch (type) {
     case ComponentType.Button:
+    case ComponentType.FloatingActionButton:
       return typeof children === 'string';
     case ComponentType.ButtonGroup:
       return (
-        !children ||
-        (Array.isArray(children) &&
-          children.every(
-            (child) =>
-              typeof child === 'object' &&
-              'key' in child &&
-              'value' in child
-          ))
+        Array.isArray(children) &&
+        children.every(
+          (child) =>
+            typeof child === 'object' &&
+            'key' in child &&
+            'value' in child
+        )
       );
-    case ComponentType.FloatingActionButton:
-      return typeof children === 'string';
     case ComponentType.RadioGroup:
       return (
-        !children ||
-        (Array.isArray(children) &&
-          children.every(
-            (child) =>
-              typeof child === 'object' &&
-              'value' in child &&
-              'label' in child
-          ))
+        Array.isArray(children) &&
+        children.every(
+          (child) =>
+            typeof child === 'object' &&
+            'value' in child &&
+            'label' in child
+        )
       );
     case ComponentType.Select:
       return (
-        !children ||
-        (Array.isArray(children) &&
-          children.every(
-            (child) =>
-              typeof child === 'object' &&
-              'key' in child &&
-              'value' in child &&
-              'text' in child
-          ))
+        Array.isArray(children) &&
+        children.every(
+          (child) =>
+            typeof child === 'object' &&
+            'key' in child &&
+            'value' in child &&
+            'text' in child
+        )
       );
-    case ComponentType.Input:
-      return !children || typeof children === 'string';
+
     default:
       return !children;
   }
 }
+
 
 const MySetting: FC<MySettingProps> = (props) => {
   const { setting } = props;

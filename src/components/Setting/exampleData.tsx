@@ -50,9 +50,9 @@ export const ctgr: CategoryProps[] = [
                 setting: {
                   settingDesc: "גופן",
                   children: [
-                    {key:"none", value:"30",string:"san serif"},
-                    {key:"none", value:"20",string:"ariel"},
-                    {key:"none", value:"10",string:"david"}
+                    {key:"none", value:"30",text:"san serif"},
+                    {key:"none", value:"20",text:"ariel"},
+                    {key:"none", value:"10",text:"david"}
             
                   ],
                   // props: { value: selectedValue, onChange: handleSelectChange },
@@ -78,9 +78,9 @@ export const ctgr: CategoryProps[] = [
                 setting: {
                   settingDesc: "עובי",
                   children: [
-                    {key:"none", value:"10",string:"דק"},
-                    {key:"option1", value:"20",string:"בינוני"},
-                    {key:"option2", value:"30",string:"עבה"}
+                    {key:"none", value:"10",text:"דק"},
+                    {key:"option1", value:"20",text:"בינוני"},
+                    {key:"option2", value:"30",text:"עבה"}
                   ],
                   // props: { value: selectedValue, onChange: handleSelectChange },
                   type: ComponentType.Select
@@ -191,9 +191,9 @@ export const ctgr: CategoryProps[] = [
                 setting: {
                   settingDesc: "גופן",
                   children: [
-                    {key:"none", value:"30",string:"san serif"},
-                    {key:"none", value:"20",string:"ariel"},
-                    {key:"none", value:"10",string:"david"}
+                    {key:"none", value:"30",text:"san serif"},
+                    {key:"none", value:"20",text:"ariel"},
+                    {key:"none", value:"10",text:"david"}
             
                   ],
                   // props: { value: selectedValue, onChange: handleSelectChange },
