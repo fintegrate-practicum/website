@@ -66,6 +66,7 @@ function App() {
               <LazyRouter currentRoute={currentMenu?.route || ' '} />
             </>
           )}
+          
         </Provider>
       </ThemeProvider>
     </>

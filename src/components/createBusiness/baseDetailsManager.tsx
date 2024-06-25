@@ -33,7 +33,6 @@ export default function BaseDetailsManager(): JSX.Element {
             code: ''
         }));
     }
-
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div>
