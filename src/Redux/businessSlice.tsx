@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Business from "../classes/business";;
-const http='http://localhost:4000'
+const http = import.meta.env.VITE_SERVER_URL;
+
 
 const initialState = {
     business: {

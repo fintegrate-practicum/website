@@ -6,6 +6,7 @@ import { useAppDispatch } from "../../Redux/hooks";
 import { useForm } from 'react-hook-form';
 import { Typography } from '@mui/material';
 import { BusinessSize } from '../../classes/business';
+import EmailVerification from './emailVerification';
 
 
 export default function BaseDetailsManager(): JSX.Element {
@@ -33,6 +34,7 @@ export default function BaseDetailsManager(): JSX.Element {
             code: ''
         }));
         window.location.href =`/CreateBusiness/EmailVerification/${values.companyNumber}/${values.email}`;
+        // <EmailVerification />
 
     }
 
