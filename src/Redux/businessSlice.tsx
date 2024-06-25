@@ -3,6 +3,7 @@ import axios from "axios";
 import Business from "../classes/business";;
 const http = import.meta.env.VITE_SERVER_URL;
 
+import instance from '../auth0/interceptors'
 
 const initialState = {
     business: {
@@ -24,6 +25,7 @@ const initialState = {
     }
 }
 
+
 export const businessSlice = createSlice({
     name: 'business',
     initialState,
@@ -31,27 +33,33 @@ export const businessSlice = createSlice({
         saveBusiness: (state,actions) => { 
             state.business.companyNumber=actions.payload.companyNumber
             state.business.email=actions.payload.email
-        }
+            
+        },
+    
+    
     }
 });
 
 
-export const createBusiness = createAsyncThunk('', async (_business: Business) => {
     
-    try {
-        const response = await axios.post(`${http}/business`, _business)
-        return response.data
+
+export const createBusiness = createAsyncThunk('', async (_business:Business) => {    
+    try {        
+        const response = await instance.post('/business', _business);              
+        return response
     } catch (error: any) {
-        if(error.response.data.statusCode == 400)
+        if (error.response.data.statusCode == 400)
             alert(error.response.data.message);
         return error
     }
 });
 
 export const checkEmailVerificationCode = createAsyncThunk('', async (payload: {email: string|undefined, code: string}) => {
+    console.log(payload.email);
+    
     try {
-        const response = await axios.get(`${http}/verification/validate`, {params: {email: payload.email, code: payload.code}})
-        return response.data
+        const response = await instance.get(`/verification/validate`, {params: {email: payload.email, code: payload.code}})
+        return response
     } catch (error: any) {
         if(error.response.data.statusCode == 400)
             alert(error.response.data.message);
@@ -60,9 +68,12 @@ export const checkEmailVerificationCode = createAsyncThunk('', async (payload: {
 });
 
 export const updateBusiness = createAsyncThunk('', async (payload: any) => { 
+    
+    
         const { companyNumber, newData } = payload;
+        console.log(companyNumber);
         try {           
-            const response = await axios.put(`${http}/business/${companyNumber}`, newData);
+            const response = await instance.put(`/business/${companyNumber}`, newData);
             return response.data;
         } catch (error) {
             throw error;
