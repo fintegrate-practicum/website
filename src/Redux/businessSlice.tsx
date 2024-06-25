@@ -32,16 +32,10 @@ export const businessSlice = createSlice({
     reducers: {
         saveBusiness: (state,actions) => { 
             state.business.companyNumber=actions.payload.companyNumber
-            state.business.email=actions.payload.email
-            
-        },
-    
-    
+            state.business.email=actions.payload.email            
+        },     
     }
-});
-
-
-    
+});    
 
 export const createBusiness = createAsyncThunk('', async (_business:Business) => {    
     try {        
@@ -67,11 +61,9 @@ export const checkEmailVerificationCode = createAsyncThunk('', async (payload: {
     }
 });
 
-export const updateBusiness = createAsyncThunk('', async (payload: any) => { 
-    
+export const updateBusiness = createAsyncThunk('', async (payload: any) => {     
     
         const { companyNumber, newData } = payload;
-        console.log(companyNumber);
         try {           
             const response = await instance.put(`/business/${companyNumber}`, newData);
             return response.data;

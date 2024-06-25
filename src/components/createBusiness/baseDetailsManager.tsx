@@ -2,13 +2,11 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { createBusiness, saveBusiness } from '../../Redux/businessSlice';
-import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
+import { useAppDispatch } from "../../Redux/hooks";
 import { useForm } from 'react-hook-form';
 import { Typography } from '@mui/material';
 import { BusinessSize } from '../../classes/business';
-import EmailVerification from './emailVerification';
 import { useNavigate } from 'react-router-dom';
-
 export default function BaseDetailsManager(): JSX.Element {
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
@@ -39,9 +37,7 @@ export default function BaseDetailsManager(): JSX.Element {
         if(answer.payload.status==201){
             dispatch(saveBusiness({ companyNumber: values.companyNumber, email: values.email }))
             navigate('/CreateBusiness/EmailVerification');
-        }        
-
-
+        }    
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
