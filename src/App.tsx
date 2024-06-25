@@ -7,10 +7,15 @@ import { useEffect, useState } from 'react';
 import menuItem from '../src/components/menu/types';
 import LazyRouter from './components/router/lazyRouter';
 import AuthMenu from './auth0/AuthMenu';
-import { Home, Settings } from '@mui/icons-material';
+import { Business, Home, Link, Settings } from '@mui/icons-material';
 import SideMenu from './components/menu/SideMenu';
 import Header from './components/Header/Header';
 import Client from './components/client/Client';
+import ChooseEmail from './components/workers/chooseEmail';
+import { Route, Routes } from 'react-router-dom';
+import BaseDetailsManager from './components/createBusiness/baseDetailsManager';
+import EmailVerification from './components/createBusiness/emailVerification';
+import MoreDetailsManager from './components/createBusiness/moreDetailsManager';
 
 const menuItems = [
   {
@@ -56,17 +61,22 @@ function App() {
       <AuthMenu />
       <ThemeProvider theme={theme}>
         <Provider store={Store}>
-          {typeUser === UserType.Client ? (
+
+          {/* {typeUser === UserType.Client ? (
             <Client />
-          ) : (
+          ) : ( */}
             <>
-              <Header serviceName={currentMenu?.nameToView}><div></div></Header>
+              {/* <Header serviceName={currentMenu?.nameToView}><div></div></Header> */}
               <div></div>
-              <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} />
-              <LazyRouter currentRoute={currentMenu?.route || ' '} />
+              {/* <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} /> */}
+              {/* <LazyRouter currentRoute={currentMenu?.route || ' '} /> */}
+
+              <Routes>
+                <Route path="/chooseEmail/" element={<ChooseEmail />} />
+              </Routes>
             </>
-          )}
-          
+          {/* )} */}
+
         </Provider>
       </ThemeProvider>
     </>
