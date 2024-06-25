@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import { TextField, Typography, Container, Button, Stack } from '@mui/material';
-import { useAppDispatch } from '../../Redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 import { checkEmailVerificationCode } from '../../Redux/businessSlice';
-import { useParams } from 'react-router-dom';
 
 const EmailVerification = () => {
-    const {companyNumber,email}=useParams()
 
+    const email=useAppSelector((state)=>state.businessSlice)
     const dispatch = useAppDispatch()
     const [code, setCode] = useState<string>('');
+
 
     const handleSubmit = async () => {
        await dispatch(checkEmailVerificationCode({email, code}));
        console.log('your email is correct');       
-        window.location.href =`/CreateBusiness/MoreDetailsManager/${companyNumber}`;
+        window.location.href ='/CreateBusiness/MoreDetailsManager';
     };
 
     return (

@@ -28,6 +28,10 @@ export const businessSlice = createSlice({
     name: 'business',
     initialState,
     reducers: {
+        saveBusiness: (state,actions) => { 
+            state.business.companyNumber=actions.payload.companyNumber
+            state.business.email=actions.payload.email
+        }
     }
 });
 
@@ -66,5 +70,5 @@ export const updateBusiness = createAsyncThunk('', async (payload: any) => {
     }
 )
 
-export const { } = businessSlice.actions;
+export const { saveBusiness} = businessSlice.actions;
 export default businessSlice.reducer;

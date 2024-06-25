@@ -1,7 +1,7 @@
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import { createBusiness } from '../../Redux/businessSlice';
+import { createBusiness, saveBusiness } from '../../Redux/businessSlice';
 import { useAppDispatch } from "../../Redux/hooks";
 import { useForm } from 'react-hook-form';
 import { Typography } from '@mui/material';
@@ -33,8 +33,9 @@ export default function BaseDetailsManager(): JSX.Element {
             establishmentDate: '',
             code: ''
         }));
-        window.location.href =`/CreateBusiness/EmailVerification/${values.companyNumber}/${values.email}`;
-        // <EmailVerification />
+        dispatch(saveBusiness({companyNumber:values.companyNumber,email:values.email}))
+        window.location.href ='/CreateBusiness/EmailVerification';
+       
 
     }
 
