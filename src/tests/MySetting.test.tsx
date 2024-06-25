@@ -5,24 +5,13 @@ import MySetting, { ComponentType } from '../components/Setting/MySetting';
 import Button from '@mui/material/Button';
 
 describe('<MySetting>', () => {
-  const componentsToTestWithoutChildren = Object.values(ComponentType).filter(
-    (type) =>
-      ![
-        ComponentType.Button,
-        ComponentType.ButtonGroup,
-        ComponentType.FloatingActionButton,
-        ComponentType.RadioGroup,
-        ComponentType.Select,
-      ].includes(type)
-  );
-
-  test.each(componentsToTestWithoutChildren)(
-    'renders the component for type %s without children',
+  test.each(Object.values(ComponentType))(
+    'renders the component for type %s',
     (type) => {
       const { container } = render(
         <MySetting
           setting={{
-            settingDesc: 'Test description',
+            settingDesc: "Test description",
             type: type,
             props: {},
           }}
@@ -39,7 +28,6 @@ describe('<MySetting>', () => {
           settingDesc: "Test description",
           type: ComponentType.Button,
           props: { 'data-testid': 'test-button', disabled: true },
-          children:"clickme"
         }}
       />
     );
@@ -48,6 +36,20 @@ describe('<MySetting>', () => {
     expect(button).toHaveProperty('disabled', true);
   });
 
+  test('renders component with children', () => {
+    render(
+      <MySetting
+        setting={{
+          settingDesc: "Test description",
+          type: ComponentType.Button,
+          props: {},
+          children: "Click me",
+        }}
+      />
+    );
+    const childElement = screen.getByText('Click me');
+    expect(childElement).not.toBeNull();
+  });
 
   test('renders null for invalid component type', () => {
     const { container } = render(
@@ -69,22 +71,6 @@ describe('<MySetting>', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  test('renders component button with children', () => {
-    render(
-      <MySetting
-        setting={{
-          settingDesc: "Test description",
-          type: ComponentType.Button,
-          props: {},
-          children: "Click me",
-        }}
-      />
-    );
-    const childElement = screen.getByText('Click me');
-    expect(childElement).not.toBeNull();
-  });
-
-  
   test('renders ButtonGroup component with children', async () => {
     const { container } = render(
       <MySetting
@@ -114,8 +100,8 @@ describe('<MySetting>', () => {
           type: ComponentType.Select,
           props: { value: 'option1', onChange: () => { } },
           children: [
-            { key: 'option1', value: 'option1', text: 'option1' },
-            { key: 'option2', value: 'option2', text: 'option2' }
+            { key: 'option1', value: 'option1', string: 'option1' },
+            { key: 'option2', value: 'option2', string: 'option2' }
           ],
         }}
       />
@@ -203,7 +189,6 @@ describe('<MySetting>', () => {
           settingDesc: "Test description",
           type: ComponentType.Button,
           props: { 'data-testid': 'test-button', disabled: true },
-          children:"clickme"
         }}
       />
     );
@@ -217,7 +202,6 @@ describe('<MySetting>', () => {
           settingDesc: "Test description",
           type: ComponentType.Button,
           props: { 'data-testid': 'test-button', disabled: false },
-          children:"clickme"
         }}
       />
     );
