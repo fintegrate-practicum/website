@@ -16,7 +16,7 @@ export default function BaseDetailsManager(): JSX.Element {
         formState: { errors }
       } = useForm();
 
-    const onSubmit = (values: any) => {
+      const onSubmit = (values: any) => {
         dispatch(createBusiness({
             companyNumber: values.companyNumber, name: values.name, email: values.email,
             description: '',
@@ -29,12 +29,10 @@ export default function BaseDetailsManager(): JSX.Element {
             },
             businessSize: BusinessSize.Private,
             industryType: '',
-            establishmentDate: ''
+            establishmentDate: '',
+            code: ''
         }));
-        //בתוך ה disptch
-        
     }
-
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div>

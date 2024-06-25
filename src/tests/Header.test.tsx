@@ -14,13 +14,13 @@ describe('<Header>', () => {
   };
 
   test('renders header with provided service name', () => {
-    const { container } = render(<Header {...defaultProps} />);
+    render(<Header {...defaultProps} />);
     const serviceNameElement = screen.getByText(defaultProps.serviceName);
     expect(serviceNameElement).toBeDefined();
   });
 
   test('renders header with default service name when no prop is provided', () => {
-    const { container } = render(<Header />);
+    render(<Header />);
     const defaultServiceNameElement = screen.getByText(/Send service name in props/i);
     expect(defaultServiceNameElement).toBeDefined();
   });

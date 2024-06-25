@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import axios from "axios";
 import Business from "../classes/business";
 
 
@@ -10,7 +9,7 @@ import instance from '../auth0/interceptors'
 
 const initialState = {
     business: {
-        companyNumber: 0,
+        companyNumber: " ",
         description: " ",
         name: " ",
         email: " ",
@@ -51,5 +50,28 @@ export const createBusiness = createAsyncThunk('', async (_business:Business) =>
     }
 });
 
+export const checkEmailVerificationCode = createAsyncThunk('', async (payload: {email: string, code: string}) => {
+    try {
+        const response = await instance.get(`/verification/validate`, {params: {email: payload.email, code: payload.code}})
+        return response.data
+    } catch (error: any) {
+        if(error.response.data.statusCode == 400)
+            alert(error.response.data.message);
+        return error
+    }
+});
+
+export const updateBusiness = createAsyncThunk('', async (payload: any) => { 
+        const { companyNumber, newData } = payload;
+        try {           
+            const response = await instance.put(`/business/${companyNumber}`, newData);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+)
+
+export const { } = businessSlice.actions;
 
 export default businessSlice.reducer;

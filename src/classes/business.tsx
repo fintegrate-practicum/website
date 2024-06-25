@@ -5,6 +5,7 @@
     Global = 'global'
 }
 
+
 class Business {
     companyNumber!:string
     description!: string;
@@ -20,6 +21,7 @@ class Business {
     businessSize!: BusinessSize;
     industryType!: string;
     establishmentDate!: string;
+    code!: string;
 }
 
 export default Business 

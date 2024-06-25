@@ -1,4 +1,4 @@
-import { FC, createElement } from 'react';
+import { FC, createElement, ReactElement } from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Checkbox from '@mui/material/Checkbox';
@@ -9,6 +9,9 @@ import Select from '@mui/material/Select';
 import Slider from '@mui/material/Slider';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
 
 export enum ComponentType {
   Button = 'Button',
@@ -21,17 +24,36 @@ export enum ComponentType {
   Slider = 'Slider',
   Switch = 'Switch',
   TextField = 'TextField',
-  Input = 'Input', // הוספת סוג רכיב חדש
-
-
+  MenuItem = 'MenuItem',
+  Input = 'Input',
 }
 
-interface MySettingProps {
+export interface ButtonChildren {
+  children: string;
+}
+
+export interface ButtonGroupChildren {
+  children: { key: string; value: string }[];
+}
+
+export interface SelectChildren {
+  children: { key: string; value: string; text: string }[];
+}
+
+export interface RadioGroupChildren {
+  children: { value: string; label: string }[];
+}
+
+export interface FloatingActionButtonChildren {
+  children: string;
+}
+
+export interface MySettingProps {
   setting: {
-    settingDesc : string
+    settingDesc: string;
     type: ComponentType;
     props?: Record<string, any>;
-    children?: any;
+    children?: RadioGroupChildren | SelectChildren | ButtonGroupChildren | ButtonChildren | FloatingActionButtonChildren | string;
   };
 }
 
@@ -48,27 +70,108 @@ const componentMap: {
   [ComponentType.Slider]: Slider,
   [ComponentType.Switch]: Switch,
   [ComponentType.TextField]: TextField,
-  [ComponentType.Input]: 'input', // כל  הinput  של ריאקט
+  [ComponentType.MenuItem]: MenuItem,
+  [ComponentType.Input]: 'input',
+};
+
+function validateChildrenType(type: ComponentType, children: any): boolean {
+  switch (type) {
+    case ComponentType.Button:
+      return typeof children === 'string';
+    case ComponentType.ButtonGroup:
+      return (
+        !children ||
+        (Array.isArray(children) &&
+          children.every(
+            (child) =>
+              typeof child === 'object' &&
+              'key' in child &&
+              'value' in child
+          ))
+      );
+    case ComponentType.FloatingActionButton:
+      return typeof children === 'string';
+    case ComponentType.RadioGroup:
+      return (
+        !children ||
+        (Array.isArray(children) &&
+          children.every(
+            (child) =>
+              typeof child === 'object' &&
+              'value' in child &&
+              'label' in child
+          ))
+      );
+    case ComponentType.Select:
+      return (
+        !children ||
+        (Array.isArray(children) &&
+          children.every(
+            (child) =>
+              typeof child === 'object' &&
+              'key' in child &&
+              'value' in child &&
+              'text' in child
+          ))
+      );
+    case ComponentType.Input:
+      return !children || typeof children === 'string';
+    default:
+      return !children;
+  }
 }
 
 const MySetting: FC<MySettingProps> = (props) => {
   const { setting } = props;
 
-  // הוספת תנאי לבדיקה אם 'setting' מוגדר
   if (!setting) {
     return null;
   }
 
   const Component = componentMap[setting.type];
 
-  // הוספת תנאי נוסף לבדיקה שהמאפיין 'type' מוגדר
-  if (!setting.type || !componentMap[setting.type]) {
+  if (!setting.type || !Component) {
     return null;
   }
 
-  return createElement(Component, setting.props, setting.children);
+  if (!validateChildrenType(setting.type, setting.children)) {
+    throw new Error(`Invalid children for component type: ${setting.type}`);
+  }
+
+  let children: ReactElement | ReactElement[] | undefined;
+  if (setting.type === ComponentType.Select && Array.isArray(setting.children)) {
+    children = setting.children.map((child: { key: string; value: string; text: string }) => (
+      <MenuItem key={child.key} value={child.value}>
+        {child.text}
+      </MenuItem>
+    ));
+  } else if (setting.type === ComponentType.RadioGroup && Array.isArray(setting.children)) {
+    children = setting.children.map((child: { value: string; label: string }) => (
+      <FormControlLabel
+        key={child.value}
+        value={child.value}
+        control={<Radio />}
+        label={child.label}
+      />
+    ));
+  } else if (setting.type === ComponentType.ButtonGroup && Array.isArray(setting.children)) {
+    children = setting.children.map((child: { key: string; value: string }) => (
+      <Button key={child.key} variant={setting.props?.variant}>
+        {child.value}
+      </Button>
+    ));
+  } else if (
+    (setting.type === ComponentType.FloatingActionButton || setting.type === ComponentType.Button) &&
+    typeof setting.children === 'string'
+  ) {
+    children = createElement('span', null, setting.children);
+  } else if (setting.type === ComponentType.Input && typeof setting.children === 'string') {
+    children = createElement('span', null, setting.children);
+  } else {
+    children = setting.children;
+  }
+
+  return createElement(Component, setting.props, children);
 };
 
-
 export default MySetting;
-
