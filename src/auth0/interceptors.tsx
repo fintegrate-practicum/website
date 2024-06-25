@@ -5,7 +5,7 @@ import { useJwtFromCookie } from '../Redux/hooks';
  
 
 const instance = axios.create({
-    baseURL: process.env.VITE_SERVER_URL,
+    baseURL: import.meta.env.VITE_SERVER_URL,
   paramsSerializer: params => qs.stringify(params, { indices: false }),
 });
 

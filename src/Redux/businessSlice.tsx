@@ -42,9 +42,6 @@ export const createBusiness = createAsyncThunk('', async (_business:Business) =>
         
         const response = await instance.post('/business', _business);
         
-        console.log(response.data);
-         
-        console.log(response.data);
         
         return response.data
     } catch (error: any) {

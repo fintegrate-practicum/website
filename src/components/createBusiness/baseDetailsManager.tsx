@@ -6,7 +6,6 @@ import { useAppDispatch } from "../../Redux/hooks";
 import { useForm } from 'react-hook-form';
 import { Typography } from '@mui/material';
 import { BusinessSize } from '../../classes/business';
-import { c } from 'vite/dist/node/types.d-aGj9QkWt';
 
 export default function BaseDetailsManager(): JSX.Element {
     const dispatch = useAppDispatch()
@@ -18,7 +17,6 @@ export default function BaseDetailsManager(): JSX.Element {
       } = useForm();
 
     const onSubmit = (values: any) => {
-        debugger
         dispatch(createBusiness({
             companyNumber: values.companyNumber, name: values.name, email: values.email,
             description: '',
