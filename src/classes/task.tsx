@@ -10,7 +10,7 @@ export default class Task {
     urgency!: number;
     status!: TaskStatus;
     completionDate!: Date;
-
+    directLink!:string;
     constructor() { }
 }
 

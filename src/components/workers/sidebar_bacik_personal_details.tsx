@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Drawer, List, Divider, Icon, Button, MenuItem, Typography } from '@mui/material';
+import { Box, Drawer, List, Divider, Icon, Button, MenuItem } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
 import CallIcon from '@mui/icons-material/Call';
 import AddIcon from '@mui/icons-material/Add';
