@@ -7,15 +7,17 @@ class employee {
     createdBy!: string;
     updatedBy!: string;
     role!: EmployeeRole;
-    nameEmployee!: string;   
+    nameEmployee!: string;
+    position!:string   
 
    
-    constructor( businessId: Types.ObjectId, code: string, createdBy: string, updatedBy: string, role: EmployeeRole,workerCode:string,) {
+    constructor( businessId: Types.ObjectId, code: string, createdBy: string, updatedBy: string, role: EmployeeRole,workerCode:string,position:string) {
         this.businessId = businessId
         this.code = code
         this.createdBy = createdBy
         this.updatedBy = updatedBy
         this.role = role
+        this.position=position
     }
 }
 export default employee;
