@@ -38,8 +38,10 @@ export const businessSlice = createSlice({
 });    
 
 export const createBusiness = createAsyncThunk('', async (_business:Business) => {    
-    try {        
-        const response = await instance.post('/business', _business);              
+   
+    try {    
+           
+        const response = await instance.post('/business', _business);                      
         return response
     } catch (error: any) {
         if (error.response.data.statusCode == 400)

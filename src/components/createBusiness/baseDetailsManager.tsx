@@ -17,7 +17,8 @@ export default function BaseDetailsManager(): JSX.Element {
         formState: { errors }
     } = useForm();
 
-    const onSubmit = async (values: any) => {
+    const onSubmit = async (values: any) => {     
+        
         const answer = await dispatch(createBusiness({
             companyNumber: values.companyNumber, name: values.name, email: values.email,
             description: '',
@@ -35,6 +36,7 @@ export default function BaseDetailsManager(): JSX.Element {
         }));
     
         if(answer.payload.status==201){
+             
             dispatch(saveBusiness({ companyNumber: values.companyNumber, email: values.email }))
             navigate('/CreateBusiness/EmailVerification');
         }    
