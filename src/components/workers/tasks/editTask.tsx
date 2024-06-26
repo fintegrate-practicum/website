@@ -10,14 +10,11 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { useAppDispatch } from "../../../Redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import { UpdateTaskEmployeeDTO } from "../../../dto/updateTaskEmployeeDto";
 import { editTask } from "../../../Redux/taskSlice";
-import employee from "../../../classes/employee";
 import { UpdateTaskManagerDTO } from "../../../dto/updateTaskManagerDto";
-import { Types } from "mongoose";
 import { TaskStatus } from "../../../classes/enum/taskStatus.enum";
-import { EmployeeRole } from "../../../classes/enum/employeeRole.enum";
 
 const EditTask = (props: {
   status: TaskStatus;
@@ -27,7 +24,10 @@ const EditTask = (props: {
   targetDate: Date;
   employee: string[];
 }) => {
-  
+  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails);  
+  React.useEffect(() => {
+
+  }, [currentUser]);
   const dispatch = useAppDispatch();
   const [open, setOpen] = React.useState(false);
   const [taskId, setTaskId] = React.useState(props.taskId);
@@ -57,15 +57,6 @@ const EditTask = (props: {
     setEmployee(employeeArray);
   };
 
-  //auth0דימוי אוביקט מתוך ה 
-  const newEmployee: employee = {
-    businessId:  new Types.ObjectId("664cba7ee786ab5c121aa40b"),
-    code: "EMP123",
-    createdBy: "adminUserId",
-    updatedBy: "adminUserId",
-    role: new EmployeeRole("manager",true,"ffff"),
-  };
-
   return (    
     <React.Fragment>
       <Button variant="outlined" onClick={handleClickOpen}>
@@ -78,7 +69,7 @@ const EditTask = (props: {
           component: "form",
           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
-            if (newEmployee.role.type !=='manager'){
+            if (currentUser.role.type !=='manager'||'admin'){
               const updateTaskForEmployee: UpdateTaskEmployeeDTO = {
                 description: description,
                 status: status,
@@ -104,7 +95,7 @@ const EditTask = (props: {
       >
         <DialogTitle>edit task</DialogTitle>
         <DialogContent>
-          {newEmployee.role.type == 'manager' && (
+          {currentUser.role.type == 'manager' && (
             <>
               <br />
               <TextField

@@ -13,7 +13,7 @@ const HomePage = () => {
                     <img src="logo.png" alt="Fintegrate" />
                 </div>
                 <button className="login-button" onClick={handleLoginClick}>
-                    כניסה / הרשמה
+                    התחברות                
                 </button>
             </header>
             <main>

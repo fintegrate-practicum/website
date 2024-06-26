@@ -5,7 +5,6 @@
     Global = 'global'
 }
 
-
 class Business {
     companyNumber!:string
     description!: string;
