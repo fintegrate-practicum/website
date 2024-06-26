@@ -14,7 +14,6 @@ import { Link, Route, Routes } from 'react-router-dom';
 import BaseDetailsManager from './components/createBusiness/baseDetailsManager';
 import EmailVerification from './components/createBusiness/emailVerification';
 import MoreDetailsManager from './components/createBusiness/moreDetailsManager';
-import WorkerPage from './components/workers/workerPage';
 
 import Client from './components/client/Client';
 
@@ -71,10 +70,8 @@ function App() {
 
           <LazyRouter currentRoute={currentMenu?.route || ' '} />
           <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
-          {/* <Link to={'./components/workers/workerPage'}>עמוד עובדים </Link> */}
 
           <Routes>
-          {/* <Route path='./components/workers/workerPage' element={<WorkerPage props={} />} /> */}
 
             <Route path="/CreateBusiness/BaseDetailsManager" element={<BaseDetailsManager />} />
             <Route path="/CreateBusiness/EmailVerification" element={<EmailVerification />} />
