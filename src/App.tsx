@@ -41,6 +41,7 @@ const getUserType = (): UserType => {
 function App() {
   const [typeUser, setTypeUser] = useState<UserType | null>(null);
   const [currentMenu, setCurrentMenu] = useState<menuItem>(menuItems[0]);
+  const linkUID = window.location.pathname.substring(9);
 
   useEffect(() => {
     const type = getUserType();
@@ -56,16 +57,16 @@ function App() {
       <AuthMenu />
       <ThemeProvider theme={theme}>
         <Provider store={Store}>
-          {typeUser === UserType.Client ? (
-            <Client />
-          ) : (
-            <>
-              <Header serviceName={currentMenu?.nameToView}><div></div></Header>
-              <div></div>
-              <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} />
-              <LazyRouter currentRoute={currentMenu?.route || ' '} />
-            </>
-          )}
+            {typeUser === UserType.Client ? (
+              <Client linkUID={linkUID} />
+            ) : (
+              <>
+                <Header serviceName={currentMenu?.nameToView}><div></div></Header>
+                <div></div>
+                <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} />
+                <LazyRouter currentRoute={currentMenu?.route || ' '} />
+              </>
+            )}
         </Provider>
       </ThemeProvider>
     </>
