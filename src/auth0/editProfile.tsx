@@ -6,20 +6,28 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Tooltip from '@mui/material/Tooltip';
 import { useAppDispatch, useAppSelector } from '../Redux/hooks';
 import { updateCurrentUser } from '../Redux/currentUserSlice';
-import CurrentUser from '../classes/currentUser';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { statuses } from '../classes/user';
 
-const EditProfile: React.FC = () => {  
-  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser);  
+// Convert enum to array of strings
+const statusArray = Object.keys(statuses).filter(key => isNaN(Number(key)));
+
+const EditProfile: React.FC = () => {
+  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser);
   const [isEditing, setIsEditing] = useState(false);
   const [auth0_user_id, setAuth0_user_id] = useState(currentUser.userDetails.auth0_user_id);
-  const dispatch = useAppDispatch()
+  const [status, setStatus] = useState(String(currentUser.userDetails.status));
+  const dispatch = useAppDispatch();
 
   const [formData, setFormData] = useState({
     email: currentUser.userDetails.userEmail || '',
+    city: currentUser.userDetails.address.city || '',
     name: currentUser.userDetails.userName || '',
     phone: currentUser.userDetails.mobile || '',
-    address: currentUser.userDetails.address || '',
-    role: currentUser.employeeDetails.role.type || ''
+    role: currentUser.employeeDetails.role.type || '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,34 +37,38 @@ const EditProfile: React.FC = () => {
     });
   };
 
+  const handleChangeStatus = (event: SelectChangeEvent) => {
+    setStatus(event.target.value as string);
+  };
+
   const handleEditClick = () => {
     setIsEditing(true);
   };
 
-  const updatedCurrentUser:CurrentUser = {
-    
-    employee: {
-      ...currentUser.employeeDetails,
-      role: { ...currentUser.employeeDetails.role, type: formData.role },
-      _id: undefined
-    },
-    user: {
-      ...currentUser.userDetails,
-      userEmail: formData.email,
-      userName: formData.name,
-      mobile: formData.phone,
-      address: {
-        ...currentUser.userDetails.address,
-      }
-    }
-  };
   const handleSaveClick = () => {
-    setIsEditing(false); 
-    const newData={
+    setIsEditing(false);
+    const updatedCurrentUser = {
+      employee: {
+        ...currentUser.employeeDetails,
+        role: { ...currentUser.employeeDetails.role, type: formData.role },
+      },
+      user: {
+        ...currentUser.userDetails,
+        userEmail: formData.email,
+        userName: formData.name,
+        mobile: formData.phone,
+        status: status,
+        address: {
+          ...currentUser.userDetails.address,
+          city: formData.city
+        }
+      }
+    };
+    const newData = {
       auth0_user_id,
       updatedCurrentUser
-    }
-    dispatch(updateCurrentUser(newData));        
+    };
+    dispatch(updateCurrentUser(newData));
   };
 
   const handleCopy = () => {
@@ -71,39 +83,40 @@ const EditProfile: React.FC = () => {
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
-          <TextField
-      fullWidth
-      label="Email"
-      name="email"
-      value={formData.email}
-      onChange={handleChange}
-      disabled={true}
-      variant="outlined"
-      margin="normal"
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
-            <Tooltip title='copy'>
-             <IconButton onClick={handleCopy}>
-               <ContentCopyIcon />
-             </IconButton>
-            </Tooltip>
-          </InputAdornment>
-        )
-      }}
-    />
-
+            <TextField
+              fullWidth
+              label="Email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              disabled={true}
+              variant="outlined"
+              margin="normal"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Tooltip title='Copy'>
+                      <IconButton onClick={handleCopy}>
+                        <ContentCopyIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </InputAdornment>
+                )
+              }}
+              sx={{ mt: 2 }}
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              label="name"
+              label="Name"
               name="name"
               value={formData.name}
               onChange={handleChange}
               disabled={!isEditing}
               variant="outlined"
               margin="normal"
+              sx={{ mt: 2 }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -116,19 +129,40 @@ const EditProfile: React.FC = () => {
               disabled={!isEditing}
               variant="outlined"
               margin="normal"
+              sx={{ mt: 2 }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               label="Address"
-              name="address"
-              value={formData.address}
+              name="city"
+              value={formData.city}
               onChange={handleChange}
               disabled={!isEditing}
               variant="outlined"
               margin="normal"
+              sx={{ mt: 2 }}
             />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth sx={{ mt: 2 }}>
+              <InputLabel id="demo-simple-select-label">Status</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={status}
+                label="status"
+                onChange={handleChangeStatus}
+                disabled={!isEditing}
+              >
+                {statusArray.map((statusOption, index) => (
+                  <MenuItem key={index} value={statusOption}>
+                    {statusOption}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -140,10 +174,11 @@ const EditProfile: React.FC = () => {
               disabled={!isEditing}
               variant="outlined"
               margin="normal"
+              sx={{ mt: 2 }}
             />
           </Grid>
         </Grid>
-        <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
+        <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
           {isEditing ? (
             <Button variant="contained" color="primary" onClick={handleSaveClick}>
               Save
@@ -157,7 +192,6 @@ const EditProfile: React.FC = () => {
       </Paper>
     </Box>
   );
-  
 };
 
 export default EditProfile;

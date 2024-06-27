@@ -1,12 +1,12 @@
 import { Types } from "mongoose";
 import { EmployeeRole } from "./enum/employeeRole.enum";
 class Employee {
-    id_user!: Types.ObjectId;
+    userId!: string;
     businessId!: Types.ObjectId;
     code!: string;
     createdBy!: string;
     updatedBy!: string; 
-    role!: EmployeeRole|undefined;
+    role!: EmployeeRole;
     nameEmployee!: string;   
     constructor( ) {}
 }

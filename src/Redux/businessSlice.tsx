@@ -36,10 +36,8 @@ export const businessSlice = createSlice({
 
 export const createBusiness = createAsyncThunk('', async (_business:Business) => {    
    
-    try {    
-           
+    try {           
         const response = await instance.post('/business', _business);  
-        console.log(response);                            
         return response
     } catch (error: any) {
         if (error.response.data.statusCode == 400)
@@ -48,9 +46,7 @@ export const createBusiness = createAsyncThunk('', async (_business:Business) =>
     }
 });
 
-export const checkEmailVerificationCode = createAsyncThunk('', async (payload: {email: string|undefined, code: string}) => {
-    console.log(payload.email);
-    
+export const checkEmailVerificationCode = createAsyncThunk('', async (payload: {email: string|undefined, code: string}) => {    
     try {
         const response = await instance.get(`/verification/validate`, {params: {email: payload.email, code: payload.code}})
         return response
