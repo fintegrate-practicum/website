@@ -1,4 +1,5 @@
 import { ThemeProvider } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 import { Provider } from 'react-redux';
 import './App.css';
 import Store from './Redux/store'
@@ -10,7 +11,7 @@ import AuthMenu from './auth0/AuthMenu';
 import { Home, Settings } from '@mui/icons-material';
 import SideMenu from './components/menu/SideMenu';
 import Header from './components/Header/Header';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import BaseDetailsManager from './components/createBusiness/baseDetailsManager';
 import EmailVerification from './components/createBusiness/emailVerification';
 import MoreDetailsManager from './components/createBusiness/moreDetailsManager';
@@ -32,31 +33,20 @@ const menuItems = [
 
 ];
 
+function LinkUIDRoute({ element: Element }: { element: React.ComponentType }) {
+  const { linkUID } = useParams<{ linkUID: string }>();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!linkUID) {
+      navigate('/');
+    }
+  }, [linkUID, navigate]);
 
-enum UserType {
-  Client,
-  Admin
+  return <Element />;
 }
 
-const getUserType = (): UserType => {
-  // כאן נקבל את סוג המשתמש מה-auth0 או ממקור אחר
-  return UserType.Client; // UserType.Client ללקוח, UserType.Admin למנהל
-};
-
-
 function App() {
-  const [typeUser, setTypeUser] = useState<UserType | null>(null);
   const [currentMenu, setCurrentMenu] = useState<menuItem>(menuItems[0]);
-  const linkUID = window.location.pathname.substring(9);
-
-  useEffect(() => {
-    const type = getUserType();
-    setTypeUser(type);
-  }, []);
-
-  if (typeUser === null) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <>
@@ -70,19 +60,22 @@ function App() {
             <Route path="/CreateBusiness/BaseDetailsManager" element={<BaseDetailsManager />} />
             <Route path="/CreateBusiness/EmailVerification" element={<EmailVerification />} />
             <Route path="/CreateBusiness/MoreDetailsManager" element={<MoreDetailsManager />} />
-          </Routes>
-
-          {typeUser === UserType.Client ? (
-              <Client linkUID={linkUID} />
-            ) : (
+            <Route path="/link/:linkUID" element={<LinkUIDRoute element={Client} />} />
+            <Route path="*" element={
+              <>
+                <Typography>של הדפדפן route-הכנס ב</Typography>
+                <Typography>http://localhost:0000/link/**של עסק linkUID**</Typography>
+              </>
+            } />
+            <Route path="/" element={
               <>
                 <Header serviceName={currentMenu?.nameToView}><div></div></Header>
-                <div></div>
                 <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} />
                 <LazyRouter currentRoute={currentMenu?.route || ' '} />
               </>
-            )}
-          
+            } />
+          </Routes>
+
         </Provider>
       </ThemeProvider>
     </>

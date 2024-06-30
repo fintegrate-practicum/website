@@ -4,10 +4,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-
-interface LinkUID {
-  linkUID: string;
-}
+import { useParams } from 'react-router-dom';
 
 interface Business {
   id: string;
@@ -26,49 +23,42 @@ interface Business {
   updatedAt: string;
   __v: number;
 }
-
-export default function Client(props: LinkUID) {
-
+// props: LinkUID
+export default function Client() {
+  const { linkUID } = useParams<{ linkUID: string }>();
   const [business, setBusiness] = useState<Business | null>(null);
   const [loading, setLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     async function fetchBusinessData() {
       try {
-        console.log(`Fetching business data for linkUID: ${props.linkUID}`);
-        const response = await axios.get(`http://localhost:4000/business/linkUID/${props.linkUID}`);
+        console.log(`Fetching business data for linkUID: ${linkUID}`);
+        const response = await axios.get(`http://localhost:4000/business/link/${linkUID}`);
         console.log('Business data fetched successfully:', response.data);
         setBusiness(response.data);
       } catch (error) {
         console.error("Error fetching business data", error);
         setBusiness(null);
-        setNotFound(true);
       } finally {
         setLoading(false);
       }
     }
-    if (props.linkUID) {
+    if (linkUID) {
       fetchBusinessData();
     } else {
       setLoading(false);
     }
-  }, [props.linkUID]);
-
+  }, [linkUID]);
 
   if (loading) {
     return <Typography>Loading...</Typography>;
-  }
-
-  if (notFound) {
-    return <Typography>חיפוש שגוי, לא נמצאו נתונים</Typography>;
   }
 
   if (!business) {
     return (
       <>
         <Typography>של הדפדפן route-הכנס ב</Typography>
-        <Typography>http://localhost:0000/linkUID/**של עסק linkUID**</Typography>
+        <Typography>http://localhost:0000/link/**של עסק linkUID**</Typography>
       </>
     )
   }
