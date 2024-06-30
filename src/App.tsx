@@ -3,14 +3,21 @@ import { Provider } from 'react-redux';
 import './App.css';
 import Store from './Redux/store';
 import theme from './Theme';
-import { useEffect, useState } from 'react';
-import menuItem from '../src/components/menu/types';
-import LazyRouter from './components/router/lazyRouter';
-import AuthMenu from './auth0/AuthMenu';
+import React, { Suspense, useEffect, useState } from 'react';
 import { Home, Settings } from '@mui/icons-material';
 import SideMenu from './components/menu/SideMenu';
 import Header from './components/Header/Header';
+import { Link, Route, Routes } from 'react-router-dom';
+import BaseDetailsManager from './components/createBusiness/baseDetailsManager';
+import EmailVerification from './components/createBusiness/emailVerification';
+import MoreDetailsManager from './components/createBusiness/moreDetailsManager';
 import Client from './components/client/Client';
+import { useAppSelector } from './Redux/hooks';
+import AuthMenu from './auth0/AuthMenu';
+import LazyRouter from './components/router/lazyRouter';
+import menuItem from '../src/components/menu/types';
+
+const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 
 const menuItems = [
   {
@@ -25,51 +32,45 @@ const menuItems = [
     icon: Settings,
     route: '../Setting/Category',
   },
-
 ];
 
-enum UserType {
-  Client,
-  Admin
-}
-
-const getUserType = (): UserType => {
-  // כאן נקבל את סוג המשתמש מה-auth0 או ממקור אחר
-  return UserType.Client; // UserType.Client ללקוח, UserType.Admin למנהל
-};
-
-function App() {
-  const [typeUser, setTypeUser] = useState<UserType | null>(null);
+const App = () => {
+  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser);
+  const [typeUser, setTypeUser] = useState<any | null>(null);
   const [currentMenu, setCurrentMenu] = useState<menuItem>(menuItems[0]);
 
   useEffect(() => {
-    const type = getUserType();
-    setTypeUser(type);
-  }, []);
-
-  if (typeUser === null) {
-    return <div>Loading...</div>;
-  }
+    if (currentUser) {
+      const type = currentUser.employeeDetails.role.type;
+      setTypeUser(type);
+    }
+  }, [currentUser]);
 
   return (
-    <>
-      <AuthMenu />
-      <ThemeProvider theme={theme}>
-        <Provider store={Store}>
-          {typeUser === UserType.Client ? (
-            <Client />
-          ) : (
-            <>
-              <Header serviceName={currentMenu?.nameToView}><div></div></Header>
-              <div></div>
-              <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} />
-              <LazyRouter currentRoute={currentMenu?.route || ' '} />
-            </>
-          )}
-          
-        </Provider>
-      </ThemeProvider>
-    </>
-  )
+    <ThemeProvider theme={theme}>
+      <Provider store={Store}>
+        <AuthMenu />
+        <Routes>
+          <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
+          <Route path="/CreateBusiness/BaseDetailsManager" element={<BaseDetailsManager />} />
+          <Route path="/CreateBusiness/EmailVerification" element={<EmailVerification />} />
+          <Route path="/CreateBusiness/MoreDetailsManager" element={<MoreDetailsManager />} />
+        </Routes>
+
+        {typeUser !== 'manager' && typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (
+          <Client />
+        ) : typeUser === 'manager' || typeUser === 'admin' ? (
+          <>
+            <Header serviceName={currentMenu?.nameToView}><div></div></Header>
+            <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} />
+            <LazyRouter currentRoute={currentMenu?.route || ' '} />
+          </>
+        ) : (
+          <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
+        )}
+      </Provider>
+    </ThemeProvider>
+  );
 }
-export default App
+
+export default App;

@@ -3,21 +3,18 @@ import { Box, Button, Stack } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/system';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-
-
 import { updateBusiness } from '../../Redux/businessSlice';
-import { useAppDispatch } from '../../Redux/hooks';
+import { useAppDispatch ,useAppSelector} from '../../Redux/hooks';
 import { BusinessSize } from '../../classes/business';
 
+export default function MoreDetailsManager(): JSX.Element {
+    const companyNumber=useAppSelector((state)=>state.businessSlice.business.companyNumber)
 
-
-export default function MoreDetailsManager(props: any): JSX.Element {
     const dispatch = useAppDispatch()
 
     const [description, setDescription] = useState<string>('');
     const [phone, setPhone] = useState<string>('');
     const [address, setAdress] = useState<string>('');
-    const companyNumber = props.companyNumber;
 
     const [logo, setLogo] = useState<string>();
 
@@ -47,10 +44,11 @@ export default function MoreDetailsManager(props: any): JSX.Element {
     });
 
     const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
+        const file = event.target.files?.[0];        
+        
         if (file) {
             const reader = new FileReader();            
-            reader.onloadend = () => {
+            reader.onloadend = () => {                
                 if (typeof reader.result === 'string') {
                     setLogo(reader.result);
                 }
@@ -113,8 +111,8 @@ export default function MoreDetailsManager(props: any): JSX.Element {
             )}
 
             <div>
-                <label htmlFor="image-input">
-                    <Button component="span" variant="contained">
+                <label htmlFor="logo-input">
+                    <Button component="span" variant="contained" >
                         Upload Logo
                     </Button>
                 </label>

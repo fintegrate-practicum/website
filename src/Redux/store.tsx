@@ -4,17 +4,18 @@ import taskSlice from "./taskSlice";
 import messageSlice from "./messageSlice";
 import userSlice from './reducer'
 import businessSlice from './businessSlice'
+import currentUserSlice from "./currentUserSlice";
 
 const Store = configureStore({
-
     reducer: {
         user: userSlice,
         businessSlice,
         employeeSlice,
         taskSlice,
-        messageSlice
-    }
+        messageSlice,
+        currentUserSlice,
 
+    }
 })
 
 export type RootState = ReturnType<typeof Store.getState>
