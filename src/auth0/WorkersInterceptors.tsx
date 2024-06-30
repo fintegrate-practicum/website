@@ -4,14 +4,14 @@ import { useJwtFromCookie } from '../Redux/hooks';
 
  
 
-const instance = axios.create({
-    baseURL: import.meta.env.VITE_SERVER_URL,
+const workerInstance = axios.create({
+    baseURL: import.meta.env.VITE_WORKERS_SERVER_URL,
   paramsSerializer: params => qs.stringify(params, { indices: false }),
 });
 
-instance.interceptors.request.use(
+workerInstance.interceptors.request.use(
   config => {
-    let token=useJwtFromCookie("accessToken")
+    const token=useJwtFromCookie('accessToken')
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
@@ -25,4 +25,4 @@ instance.interceptors.request.use(
 );
 
 
-export default instance;
+export default workerInstance;

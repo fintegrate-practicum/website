@@ -11,21 +11,34 @@ const auth0_audience = import.meta.env.VITE_AUTH0_AUDIENCE as string;
 const auth0_domain = import.meta.env.VITE_AUTH0_DOMAIN as string;
 
 const Profile: React.FC = () => {
+  
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [userMetadata, setUserMetadata] = useState<any>(null); 
   const dispatch = useAppDispatch()
 
+  function setCookie(name:String, value:String, days:number) {
+    let expires = "";
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+       expires = `; expires=${date.toUTCString()}`;
+      }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
   useEffect(() => {
     const getUserMetadata = async () => {
       const domain = auth0_domain;
 
       try {
         const accessToken = await getAccessTokenSilently({
+          
           authorizationParams: {
             audience: auth0_audience,
             scope: "read:current_user",
           },
+          
         });
+        setCookie("accessToken",accessToken,7)
         const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
         const metadataResponse = await fetch(userDetailsByIdUrl, {
           headers: {
