@@ -13,13 +13,12 @@ class User {
         street: string;
         num: number;
       };  
-   
-    constructor() { }
+    data: any;
 }
 
 export default User
 
-enum statuses {
+export enum statuses {
     Married,
     divorcee,
     widower,

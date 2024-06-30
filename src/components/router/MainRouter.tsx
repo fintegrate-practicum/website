@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import menuItem from '../menu/types';
-import { Home, Settings, Person, AdminPanelSettings } from '@mui/icons-material';
+import { Home, Settings, Person, AdminPanelSettings, Height } from '@mui/icons-material';
 import SideMenu from '../menu/SideMenu';
 import LazyRouter from '../router/lazyRouter';
 import Header from '../Header/Header';
@@ -71,6 +71,7 @@ const MainRouter = () => {
     return (
         <>
             <Header serviceName={currentMenu?.nameToView}><div></div></Header>
+            <div style={{height: "25vh"}}></div>
             <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} />
             <LazyRouter currentRoute={currentMenu?.component || ' '} />
         </>

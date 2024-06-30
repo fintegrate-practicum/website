@@ -3,48 +3,55 @@ import { Provider } from 'react-redux';
 import './App.css';
 import Store from './Redux/store';
 import theme from './Theme';
-import { useEffect, useState } from 'react';
 import AuthMenu from './auth0/AuthMenu';
 import Client from './components/client/Client';
 import MainRouter from './components/router/MainRouter';
+import React, { Suspense, useEffect, useState } from 'react';
+import { Link, Route, Routes } from 'react-router-dom';
+import BaseDetailsManager from './components/createBusiness/baseDetailsManager';
+import EmailVerification from './components/createBusiness/emailVerification';
+import MoreDetailsManager from './components/createBusiness/moreDetailsManager';
+import { useAppSelector } from './Redux/hooks';
+import ErrorToast from './components/generic/errorMassage';
 
-enum UserType {
-  Client,
-  Admin
-}
+const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 
-const getUserType = (): UserType => {
-  // כאן נקבל את סוג המשתמש מה-auth0 או ממקור אחר
-  return UserType.Client; // UserType.Client ללקוח, UserType.Admin למנהל
-};
-
-function App() {
-  const [typeUser, setTypeUser] = useState<UserType | null>(null);
+const App = () => {
+  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser);
+  const [typeUser, setTypeUser] = useState<any | null>(null);
 
   useEffect(() => {
-    const type = getUserType();
-    setTypeUser(type);
-  }, []);
+    if (currentUser) {
+      const type = currentUser.employeeDetails.role.type;
+      setTypeUser(type);
+    }
+  }, [currentUser]);
 
-  if (typeUser === null) {
-    return <div>Loading...</div>;
-  }
 
-  return (
-    <>
-      <AuthMenu />
-      <ThemeProvider theme={theme}>
-        <Provider store={Store}>
-          {typeUser === UserType.Client ? (
-            <Client />
-          ) : (
-            <>
+  return(
+    <ThemeProvider theme={theme}>
+      <Provider store={Store}>
+        {/* <AuthMenu /> */}
+        <ErrorToast/>
+        <Routes>
+          <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
+          <Route path="/CreateBusiness/BaseDetailsManager" element={<BaseDetailsManager />} />
+          <Route path="/CreateBusiness/EmailVerification" element={<EmailVerification />} />
+          <Route path="/CreateBusiness/MoreDetailsManager" element={<MoreDetailsManager />} />
+        </Routes>
+        {typeUser !== 'manager' && typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (
+          <Client/>
+        ) : typeUser === 'manager' || typeUser === 'admin' ? (
+          <>
               <MainRouter/>
-            </>
-          )}
-        </Provider>
-      </ThemeProvider>
-    </>
-  )
+          </>
+        ) : (
+          <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
+        )}
+      </Provider>
+    </ThemeProvider>
+  );
 }
-export default App
+
+export default App;
+

@@ -10,23 +10,22 @@ const Item = (props: {
         column: string[]
     }> | null
 }) => {
-
-    const { item, column, Desing } = props
+    const { item, column, Desing } = props;
 
     return(
         <>
         {            
-            Desing? <Desing item={item} column={column}/>:
+            Desing ? <Desing item={item} column={column}/> :
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
                 {
-                    column.map((c)=>{
-                        return(<TableCell align="left">{item[c as keyof typeof undefined]}</TableCell>)
-                    })
+                    column.map((c) => (
+                        <TableCell key={c} align="left">{item[c]}</TableCell>
+                    ))
                 }
             </TableRow>
         }
         </>
-    )
+    );
 }
 
 export default Item;

@@ -1,32 +1,25 @@
-import React from "react";
-import { useAppSelector } from "../../../Redux/hooks";
+import React, { useEffect } from "react";
 import GenericList from "../../generic/genericList";
-import { EmployeeRole } from "../../../classes/enum/employeeRole.enum";
-import taskSlice from "../../../Redux/taskSlice";
 import Task from "../../../classes/task";
-import employee from "../../../classes/employee";
-import { Types } from "mongoose";
+import { useAppSelector } from "../../../Redux/hooks";
 
-const TasksShowList = () => {
-  const tasks: Task[] = useAppSelector((state) => state.taskSlice);
+interface ShowTaskListProps {
+  filteredTasks: Task[];
+  setFilteredTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+}
 
-  const newEmployee: employee = {
-    _id: new Types.ObjectId("664cba7ee786ab5c121aa40b"),
-    businessId: new Types.ObjectId("664cba7ee786ab5c121aa40b"),
-    code: "EMP123",
-    createdBy: "adminUserId",
-    updatedBy: "adminUserId",
-    role: new EmployeeRole("cleaner", true, "clean room"),
-    nameEmployee: ""
-  };
-  let filteredTasks = tasks;
-  if (newEmployee.role.type !=='manager') {
-    filteredTasks = tasks.filter((task) => {
-      return task.employee.filter((emp) => {
-        return emp === newEmployee._id;
+const TasksShowList: React.FC<ShowTaskListProps> = ({ filteredTasks, setFilteredTasks }) => {
+  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails); 
+
+  useEffect(() => {
+    if (currentUser.role.type !== 'manager' && filteredTasks && filteredTasks.length > 0) {
+      const updatedFilteredTasks = filteredTasks.filter((task) => {
+        return task.employee.some((emp) => String(emp) === currentUser.id_user);
       });
-    });
-  }
+      setFilteredTasks(updatedFilteredTasks);
+    }
+  }, [currentUser, filteredTasks, setFilteredTasks]);
+
   return (
     <>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
@@ -40,4 +33,5 @@ const TasksShowList = () => {
     </>
   );
 };
+
 export default TasksShowList;
