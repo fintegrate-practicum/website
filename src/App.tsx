@@ -16,6 +16,7 @@ import { useAppSelector } from './Redux/hooks';
 import AuthMenu from './auth0/AuthMenu';
 import LazyRouter from './components/router/lazyRouter';
 import menuItem from '../src/components/menu/types';
+import ErrorToast from './components/generic/errorMassage';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 
@@ -50,15 +51,15 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
         <AuthMenu />
+        <ErrorToast/>
         <Routes>
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
           <Route path="/CreateBusiness/BaseDetailsManager" element={<BaseDetailsManager />} />
           <Route path="/CreateBusiness/EmailVerification" element={<EmailVerification />} />
           <Route path="/CreateBusiness/MoreDetailsManager" element={<MoreDetailsManager />} />
         </Routes>
-
         {typeUser !== 'manager' && typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (
-          <Client />
+          <Client/>
         ) : typeUser === 'manager' || typeUser === 'admin' ? (
           <>
             <Header serviceName={currentMenu?.nameToView}><div></div></Header>
@@ -74,3 +75,4 @@ const App = () => {
 }
 
 export default App;
+

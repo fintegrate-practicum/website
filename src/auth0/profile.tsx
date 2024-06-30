@@ -30,8 +30,7 @@ const Profile: React.FC = () => {
       const domain = auth0_domain;
 
       try {
-        const accessToken = await getAccessTokenSilently({
-          
+        const accessToken = await getAccessTokenSilently({      
           authorizationParams: {
             audience: auth0_audience,
             scope: "read:current_user",

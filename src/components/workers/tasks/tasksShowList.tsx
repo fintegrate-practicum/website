@@ -1,25 +1,24 @@
 import React, { useEffect } from "react";
 import GenericList from "../../generic/genericList";
-
 import Task from "../../../classes/task";
 import { useAppSelector } from "../../../Redux/hooks";
+
 interface ShowTaskListProps {
   filteredTasks: Task[];
   setFilteredTasks: React.Dispatch<React.SetStateAction<Task[]>>;
 }
 
 const TasksShowList: React.FC<ShowTaskListProps> = ({ filteredTasks, setFilteredTasks }) => {
-  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails);  
+  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails); 
+
   useEffect(() => {
-    if (currentUser.role.type !== 'manager') {
+    if (currentUser.role.type !== 'manager' && filteredTasks && filteredTasks.length > 0) {
       const updatedFilteredTasks = filteredTasks.filter((task) => {
-        return task.employee.filter((emp) => {
-          return emp === currentUser.id_user;
-        });
+        return task.employee.some((emp) => String(emp) === currentUser.id_user);
       });
       setFilteredTasks(updatedFilteredTasks);
     }
-  }, [currentUser, filteredTasks]);
+  }, [currentUser, filteredTasks, setFilteredTasks]);
 
   return (
     <>
