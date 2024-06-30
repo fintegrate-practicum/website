@@ -1,8 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import {  useEffect } from 'react';
 
-
-
 const Profile = () => {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   
@@ -18,11 +16,9 @@ const Profile = () => {
   useEffect(() => {
     const getUserMetadata = async () => {
      
-  
       try {
 
   
-       
         const _accessToken = await getAccessTokenSilently();
        
         setCookie("accessToken",_accessToken,7)
@@ -35,6 +31,7 @@ const Profile = () => {
     getUserMetadata();
   }, [getAccessTokenSilently, user?.sub]);
 
+  
   if (isLoading) {
     return <div>Loading ...</div>;
   }

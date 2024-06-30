@@ -11,7 +11,7 @@ const workerInstance = axios.create({
 
 workerInstance.interceptors.request.use(
   config => {
-    let token=useJwtFromCookie("accessToken")
+    const token=useJwtFromCookie('accessToken')
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }

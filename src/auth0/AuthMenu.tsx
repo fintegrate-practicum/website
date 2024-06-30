@@ -6,14 +6,12 @@ import Profile from './Profile';
 
 const AuthMenu = () => {
     const { user, isAuthenticated } = useAuth0();
-    // const [showProfile, setShowProfile] = useState(false);
+
     if (isAuthenticated) {
         return  <div>
             <Profile /> 
             <LogoutButton /> 
-            
-            {/* <button onClick={() => setShowProfile(!showProfile)}>nnnnnnnnnnnnnn {user?.name} </button> */}
-            {/* { showProfile && <Profile /> } */}
+       
         </div>
     } 
     return <div> <LoginButton /> </div>;
