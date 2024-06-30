@@ -4,6 +4,7 @@ import { RootState } from "./store";
 import { EmployeeRole } from "../classes/enum/employeeRole.enum";
 import { statuses } from "../classes/user";
 import { showErrorToast } from "../components/generic/errorMassage";
+import InfraInterceptors from '../auth0/InfraInterceptors'
 
 const http = import.meta.env.VITE_SERVER_URL;
 
@@ -44,7 +45,7 @@ export const fetchUserById = createAsyncThunk(
   'fetchUserById',
   async (userId: string, { dispatch }) => {
     try {
-      const response = await axios.get(`${http}/currentUser/${userId}`);
+      const response = await InfraInterceptors.get(`${http}/currentUser/${userId}`);
       const data = response.data;   
       dispatch(currentUserSlice.actions.setCurrentUser(data));      
       return data;
@@ -57,7 +58,7 @@ export const fetchUserById = createAsyncThunk(
 export const updateCurrentUser = createAsyncThunk('', async (payload: any) => { 
     const { auth0_user_id, updatedCurrentUser } = payload;
     try {           
-        const response = await axios.put(`${http}/currentUser/${auth0_user_id}`, updatedCurrentUser);
+        const response = await InfraInterceptors.put(`${http}/currentUser/${auth0_user_id}`, updatedCurrentUser);
         return response.data;
     } catch (error:any) {
       showErrorToast(error.message);

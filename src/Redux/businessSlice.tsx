@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Business from "../classes/business";
-import instance from '../auth0/interceptors'
+import InfraInterceptors from '../auth0/InfraInterceptors'
 
 const initialState = {
     business: {
@@ -36,8 +36,8 @@ export const businessSlice = createSlice({
 
 export const createBusiness = createAsyncThunk('', async (_business:Business) => {    
    
-    try {           
-        const response = await instance.post('/business', _business);  
+    try {              
+        const response = await InfraInterceptors.post('/business', _business);                                 
         return response
     } catch (error: any) {
         if (error.response.data.statusCode == 400)
@@ -48,7 +48,7 @@ export const createBusiness = createAsyncThunk('', async (_business:Business) =>
 
 export const checkEmailVerificationCode = createAsyncThunk('', async (payload: {email: string|undefined, code: string}) => {    
     try {
-        const response = await instance.get(`/verification/validate`, {params: {email: payload.email, code: payload.code}})
+        const response = await InfraInterceptors.get(`/verification/validate`, {params: {email: payload.email, code: payload.code}})
         return response
     } catch (error: any) {
         if(error.response.data.statusCode == 400)
@@ -61,7 +61,7 @@ export const updateBusiness = createAsyncThunk('', async (payload: any) => {
     
         const { companyNumber, newData } = payload;
         try {           
-            const response = await instance.put(`/business/${companyNumber}`, newData);
+            const response = await InfraInterceptors.put(`/business/${companyNumber}`, newData);
             return response.data;
         } catch (error) {
             throw error;
