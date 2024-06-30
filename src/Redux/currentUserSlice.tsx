@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "./store";
-import {  Types } from "mongoose";
 import { EmployeeRole } from "../classes/enum/employeeRole.enum";
 import { statuses } from "../classes/user";
 import { showErrorToast } from "../components/generic/errorMassage";
@@ -11,12 +10,12 @@ const http = import.meta.env.VITE_SERVER_URL;
 const initialState = {
   CurrentUser: {
     employeeDetails: {
-        id_user:'',
-        businessId: new Types.ObjectId(),
+        id_user:'6672aed7e631b436cad2e121',
+        businessId: '6672aed7e631b436cad2e121',
         code: '',
         createdBy: '',
         updatedBy: '',
-        role: new EmployeeRole('', true, "hhgg"),
+        role: new EmployeeRole('manager', true, "hhgg"),
         nameEmployee: '',
       
     },
