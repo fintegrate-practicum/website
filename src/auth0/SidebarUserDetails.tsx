@@ -15,8 +15,7 @@ interface SidebarUserDetailsProps {
     handleClose: () => void;
 }
 
-const SidebarUserDetails: React.FC<SidebarUserDetailsProps> = ({ email, nickname, anchorEl, handleClose }) => {
-    
+const SidebarUserDetails: React.FC<SidebarUserDetailsProps> = ({ email, nickname, anchorEl, handleClose }) => {    
     const { logout } = useAuth0();
     const navigate = useNavigate(); 
     const open = Boolean(anchorEl);

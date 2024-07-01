@@ -10,8 +10,7 @@ import SidebarUserDetails from './SidebarUserDetails';
 const auth0_audience = import.meta.env.VITE_AUTH0_AUDIENCE as string;
 const auth0_domain = import.meta.env.VITE_AUTH0_DOMAIN as string;
 
-const Profile: React.FC = () => {
-  
+const Profile: React.FC = () => {  
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [userMetadata, setUserMetadata] = useState<any>(null); 
   const dispatch = useAppDispatch()
@@ -24,11 +23,11 @@ const Profile: React.FC = () => {
        expires = `; expires=${date.toUTCString()}`;
       }
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
-}
-  useEffect(() => {
+  }
+  useEffect(() => {  
+      
     const getUserMetadata = async () => {
       const domain = auth0_domain;
-
       try {
         const accessToken = await getAccessTokenSilently({      
           authorizationParams: {
