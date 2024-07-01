@@ -1,12 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { RootState } from "./store";
 import { EmployeeRole } from "../classes/enum/employeeRole.enum";
 import { statuses } from "../classes/user";
 import { showErrorToast } from "../components/generic/errorMassage";
 import InfraInterceptors from '../auth0/InfraInterceptors'
-
-const http = import.meta.env.VITE_SERVER_URL;
 
 const initialState = {
   CurrentUser: {
