@@ -2,7 +2,7 @@ import { describe, test, expect, vi } from 'vitest';
 import { render, screen, fireEvent, within, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MySetting, { ComponentType } from '../components/Setting/MySetting';
-import Button from '@mui/material/Button';
+
 
 describe('<MySetting>', () => {
   const componentsToTestWithoutChildren = Object.values(ComponentType).filter(
@@ -64,7 +64,7 @@ describe('<MySetting>', () => {
 
   test('does not render without required props', () => {
     const { container } = render(
-      <MySetting />
+      <MySetting/>
     );
     expect(container.firstChild).toBeNull();
   });

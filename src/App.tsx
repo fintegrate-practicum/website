@@ -1,21 +1,24 @@
 import { ThemeProvider } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
 import { Provider } from 'react-redux';
 import './App.css';
-import Store from './Redux/store'
+import Store from './Redux/store';
 import theme from './Theme';
-import { useEffect, useState } from 'react';
-import menuItem from '../src/components/menu/types';
-import LazyRouter from './components/router/lazyRouter';
-import AuthMenu from './auth0/AuthMenu';
+import React, { Suspense, useEffect, useState } from 'react';
 import { Home, Settings } from '@mui/icons-material';
 import SideMenu from './components/menu/SideMenu';
 import Header from './components/Header/Header';
-import { Link, Route, Routes, useNavigate, useParams } from 'react-router-dom';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import BaseDetailsManager from './components/createBusiness/baseDetailsManager';
 import EmailVerification from './components/createBusiness/emailVerification';
 import MoreDetailsManager from './components/createBusiness/moreDetailsManager';
 import Client from './components/client/Client';
+import { useAppSelector } from './Redux/hooks';
+import AuthMenu from './auth0/AuthMenu';
+import LazyRouter from './components/router/lazyRouter';
+import menuItem from '../src/components/menu/types';
+import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
+
+const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 
 const menuItems = [
   {
@@ -30,55 +33,68 @@ const menuItems = [
     icon: Settings,
     route: '../Setting/Category',
   },
-
 ];
 
-function LinkUIDRoute({ element: Element }: { element: React.ComponentType }) {
-  const { linkUID } = useParams<{ linkUID: string }>();
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!linkUID) {
-      navigate('/');
-    }
-  }, [linkUID, navigate]);
+const App = () => {
 
-  return <Element />;
-}
-
-function App() {
+  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser);
+  const [typeUser, setTypeUser] = useState<any | null>(null);
   const [currentMenu, setCurrentMenu] = useState<menuItem>(menuItems[0]);
+  const [lastInvalidPath, setLastInvalidPath] = useState<string | null>(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (currentUser) {
+      const type = currentUser.employeeDetails.role.type;
+      setTypeUser(type);
+    }
+  }, [currentUser]);
+
+  const ErrorToastRoute = () => {
+    useEffect(() => {
+      if (location.pathname !== lastInvalidPath) {
+        showErrorToast('הדף שאת/ה מחפש/ת אינו נמצא route-הכנס/י ב http://localhost:0000/link/**של עסק linkUID**');
+        setLastInvalidPath(location.pathname);
+      }
+    }, [location, lastInvalidPath]);
+
+    return null;
+  };
+
+  const isRootPath = location.pathname === '/';
 
   return (
-    <>
-      <AuthMenu />
-      <ThemeProvider theme={theme}>
-        <Provider store={Store}>
-
-          <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
-
-          <Routes>
-            <Route path="/CreateBusiness/BaseDetailsManager" element={<BaseDetailsManager />} />
-            <Route path="/CreateBusiness/EmailVerification" element={<EmailVerification />} />
-            <Route path="/CreateBusiness/MoreDetailsManager" element={<MoreDetailsManager />} />
-            <Route path="/link/:linkUID" element={<LinkUIDRoute element={Client} />} />
-            <Route path="*" element={
-              <>
-                <Typography>של הדפדפן route-הכנס ב</Typography>
-                <Typography>http://localhost:0000/link/**של עסק linkUID**</Typography>
-              </>
-            } />
-            <Route path="/" element={
+    <ThemeProvider theme={theme}>
+      <Provider store={Store}>
+        <AuthMenu />
+        <ErrorToast />
+        <Routes>
+          <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
+          <Route path="/CreateBusiness/BaseDetailsManager" element={<BaseDetailsManager />} />
+          <Route path="/CreateBusiness/EmailVerification" element={<EmailVerification />} />
+          <Route path="/CreateBusiness/MoreDetailsManager" element={<MoreDetailsManager />} />
+          <Route path="/link/:linkUID" element={<Client />} />
+          <Route path="/:any/*" element={<ErrorToastRoute />} />
+        </Routes>
+        {isRootPath && (
+          <>
+            {typeUser !== 'manager' && typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (
+              <Client />
+            ) : typeUser === 'manager' || typeUser === 'admin' ? (
               <>
                 <Header serviceName={currentMenu?.nameToView}><div></div></Header>
                 <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} />
                 <LazyRouter currentRoute={currentMenu?.route || ' '} />
               </>
-            } />
-          </Routes>
-
-        </Provider>
-      </ThemeProvider>
-    </>
-  )
+            ) : (
+              <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
+            )}
+          </>
+        )}
+      </Provider>
+    </ThemeProvider>
+  );
 }
-export default App
+
+export default App;
+

@@ -5,7 +5,7 @@ class message {
     message_content!: string;
     date_time: Date;
     read_status!: boolean;
-    status!:String;
+    status!:string;
     constructor(message_id: number, sender_id: string,receiver_id: string,message_content: string, date_time: Date,read_status : boolean,status: string) {
         this.message_id = message_id
         this.sender_id = sender_id

@@ -5,6 +5,8 @@ import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { showErrorToast } from "../generic/errorMassage";
+
 
 interface Business {
   id: string;
@@ -23,13 +25,16 @@ interface Business {
   updatedAt: string;
   __v: number;
 }
-// props: LinkUID
+
 export default function Client() {
   const { linkUID } = useParams<{ linkUID: string }>();
   const [business, setBusiness] = useState<Business | null>(null);
   const [loading, setLoading] = useState(true);
+  const [errorOccurred, setErrorOccurred] = useState(false);
+
 
   useEffect(() => {
+
     async function fetchBusinessData() {
       try {
         console.log(`Fetching business data for linkUID: ${linkUID}`);
@@ -38,7 +43,7 @@ export default function Client() {
         setBusiness(response.data);
       } catch (error) {
         console.error("Error fetching business data", error);
-        setBusiness(null);
+        setErrorOccurred(true);
       } finally {
         setLoading(false);
       }
@@ -50,17 +55,20 @@ export default function Client() {
     }
   }, [linkUID]);
 
+
+  useEffect(() => {
+    if (errorOccurred) {
+      showErrorToast('הדף שאת/ה מחפש/ת אינו נמצא route-הכנס/י ב http://localhost:0000/link/**של עסק linkUID**');
+    }
+  }, [errorOccurred]);
+
+
   if (loading) {
     return <Typography>Loading...</Typography>;
   }
 
   if (!business) {
-    return (
-      <>
-        <Typography>של הדפדפן route-הכנס ב</Typography>
-        <Typography>http://localhost:0000/link/**של עסק linkUID**</Typography>
-      </>
-    )
+    return null;
   }
 
   return (
@@ -90,7 +98,6 @@ export default function Client() {
       </Box>
       <Stack spacing={2} direction="row">
         <Button variant="contained">צור הזמנה</Button>
-        <Button variant="contained">התחברות</Button>
       </Stack>
     </Box>
   );

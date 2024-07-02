@@ -1,36 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import GenericList from "../../generic/genericList";
-import { EmployeeRole } from "../../../classes/enum/employeeRole.enum";
 import Task from "../../../classes/task";
-import employee from "../../../classes/employee";
-import { Types } from "mongoose";
+import { useAppSelector } from "../../../Redux/hooks";
+
 interface ShowTaskListProps {
   filteredTasks: Task[];
   setFilteredTasks: React.Dispatch<React.SetStateAction<Task[]>>;
 }
 
 const TasksShowList: React.FC<ShowTaskListProps> = ({ filteredTasks, setFilteredTasks }) => {
-
-  const newEmployee: employee = {
-    _id: new Types.ObjectId("664cba7ee786ab5c121aa40b"),
-    businessId: new Types.ObjectId("664cba7ee786ab5c121aa40b"),
-    code: "EMP123",
-    createdBy: "adminUserId",
-    updatedBy: "adminUserId",
-    role: new EmployeeRole("cleaner", true, "clean room"),
-    nameEmployee: ""
-  };
+  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails); 
 
   useEffect(() => {
-    if (newEmployee.role.type !== 'manager') {
+    if (currentUser.role.type !== 'manager' && filteredTasks && filteredTasks.length > 0) {
       const updatedFilteredTasks = filteredTasks.filter((task) => {
-        return task.employee.filter((emp) => {
-          return emp === newEmployee._id;
-        });
+        return task.employee.some((emp) => String(emp) === currentUser.id_user);
       });
       setFilteredTasks(updatedFilteredTasks);
     }
-  }, [newEmployee, filteredTasks]);
+  }, [currentUser, filteredTasks, setFilteredTasks]);
 
   return (
     <>
