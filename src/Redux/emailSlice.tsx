@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import email from "../classes/email";
-import instance from '../auth0/interceptors'
+import axios from "axios";
 
 
 const initialState = {
@@ -30,8 +30,8 @@ export const emailSlice = createSlice({
 
 export const changeSettingEmail = createAsyncThunk('', async (_email:email) => {
     try {
-        
-        const response = await instance.post('/email', _email);  
+
+        const response = await axios.post('http://localhost:4156/email-settings', _email);  
         console.log(response)      
         return response.data
 
@@ -41,3 +41,7 @@ export const changeSettingEmail = createAsyncThunk('', async (_email:email) => {
         return error
     }
 });
+
+export const { } = emailSlice.actions;
+
+export default emailSlice.reducer;

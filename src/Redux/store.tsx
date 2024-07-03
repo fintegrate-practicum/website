@@ -4,6 +4,7 @@ import taskSlice from "./taskSlice";
 import messageSlice from "./messageSlice";
 import userSlice from './reducer'
 import businessSlice from './businessSlice'
+import emailSlice from "./emailSlice";
 
 const Store = configureStore({
 
@@ -12,7 +13,8 @@ const Store = configureStore({
         businessSlice,
         employeeSlice,
         taskSlice,
-        messageSlice
+        messageSlice,
+        emailSlice
     }
 
 })

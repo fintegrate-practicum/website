@@ -9,6 +9,7 @@ import { changeSettingEmail } from '../../Redux/emailSlice';
 
 
 
+
 export default function ChooseEmail() {
     const dispatch = useAppDispatch()
 
@@ -29,7 +30,6 @@ export default function ChooseEmail() {
         sendSalaryCalculationUpdate: true,
         sendPaymentTransferConfirmation: true,
     });
-
     const handleCheckboxChange = (event: any) => {
         const { name, checked } = event.target;
         setCheckBoxValues({ ...checkBoxValues, [name]: checked });
@@ -42,9 +42,9 @@ export default function ChooseEmail() {
     return (
         <>
             <Box>Select preferred email types</Box>
-            <FormGroup sx={{ display: 'flex', flexWrap: 'nowrap', flexDirection: 'row' }} >
+            <FormGroup sx={{ display: 'flex', flexWrap: 'nowrap', flexDirection: 'row', justifyContent: 'space-evenly' }} >
 
-                <Box sx={{ display: 'flex', flexWrap: 'wrap' }} >
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }} >
                     <FormControlLabel
                         control={<Checkbox checked={checkBoxValues.sendRecruitmentNotification} onChange={handleCheckboxChange} name="sendRecruitmentNotification" />}
                         label="send Recruitment Notification"
@@ -56,7 +56,7 @@ export default function ChooseEmail() {
                     <FormControlLabel control={<Checkbox checked={checkBoxValues.sendTaskStatusUpdate} onChange={handleCheckboxChange} name="sendTaskStatusUpdate" />} label="send Task Status Update" />
                     <FormControlLabel control={<Checkbox checked={checkBoxValues.sendApprovalRequest} onChange={handleCheckboxChange} name="sendApprovalRequest" />} label="send Approval Request" />
                 </Box>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
                     <FormControlLabel control={<Checkbox checked={checkBoxValues.sendFeedbackToEmployee} onChange={handleCheckboxChange} name="sendFeedbackToEmployee" />} label="send Feedback To Employee" />
                     <FormControlLabel control={<Checkbox checked={checkBoxValues.sendNewCourseNotification} onChange={handleCheckboxChange} name="sendNewCourseNotification" />} label="send New Course Notification" />
                     <FormControlLabel control={<Checkbox checked={checkBoxValues.sendTrainingInvitation} onChange={handleCheckboxChange} name="sendTrainingInvitation" />} label="send Training Invitation" />
@@ -65,9 +65,10 @@ export default function ChooseEmail() {
                     <FormControlLabel control={<Checkbox checked={checkBoxValues.sendSalaryCalculationUpdate} onChange={handleCheckboxChange} name="sendSalaryCalculationUpdate" />} label="send Salary Calculation Update" />
                     <FormControlLabel control={<Checkbox checked={checkBoxValues.sendPaymentTransferConfirmation} onChange={handleCheckboxChange} name="sendPaymentTransferConfirmation" />} label="send Payment Transfer Confirmation" />
                 </Box>
-                <Button variant="contained" color="success" onClick={onsubmit} />
 
             </FormGroup>
+            <Button variant="contained" onClick={onsubmit}>ok</Button>
+
         </>
     );
 }

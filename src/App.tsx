@@ -62,20 +62,18 @@ function App() {
       <ThemeProvider theme={theme}>
         <Provider store={Store}>
 
-          {/* {typeUser === UserType.Client ? (
+          {typeUser === UserType.Client ? (
             <Client />
-          ) : ( */}
+          ) : (
             <>
-              {/* <Header serviceName={currentMenu?.nameToView}><div></div></Header> */}
+              <Header serviceName={currentMenu?.nameToView}><div></div></Header>
               <div></div>
-              {/* <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} /> */}
-              {/* <LazyRouter currentRoute={currentMenu?.route || ' '} /> */}
+              <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} />
+              <LazyRouter currentRoute={currentMenu?.route || ' '} />
 
-              <Routes>
-                <Route path="/chooseEmail/" element={<ChooseEmail />} />
-              </Routes>
+
             </>
-          {/* )} */}
+          )}
 
         </Provider>
       </ThemeProvider>
