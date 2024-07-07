@@ -1,15 +1,5 @@
-//אני אמורה ליצור כפתור שבלחיצתו יפתח דיאלוג - האם אתה בטוח ואם כן
-// כפתור זה יפעיל פונקציה שתזמן את הפונקציה שמוחקת מהרידקס ואת הפונקציה שמוחקת מהדטה בייס
-
-
-//לסדר צבעים וסגנון עיצוב לפי האתר
-//לפני המיזוג לשים את הקומפוננטה במיקום המיועד לה 
-
-
-//מאיפה אני מקבלת את הid של המוצר
-
 import DeleteIcon from '@mui/icons-material/Delete';
-import * as React from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -17,11 +7,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { deleteItem } from '../Api-Requests/genericRequests';
-import { deleteItem as deleteFromRedux } from "../app/actions";
 import { useDispatch } from 'react-redux';
+import { deleteProduct as deleteProductFromState} from '../features/product/productSlice';
+import { IProduct } from '../interfaces/IProduct';
 
 
-const DeleteProduct = () => {
+const DeleteProduct = ({item}:any) => {
 
     const [open, setOpen] = React.useState(false);
     let dispatch = useDispatch();
@@ -35,22 +26,16 @@ const DeleteProduct = () => {
     };
 
     const deleteProduct = async () => {
-
         try {
-            // פונקציה למחיקה ממסד הנתונים 
-            //   let response=await deleteItem("",""); 
+            let response=await deleteItem("product",item.id); 
             alert("המחיקה בוצעה בהצלחה")
-            //     console.log(response);
-
+            console.log(response);
         }
         catch (err) {
             console.log(err);
         }
-
-        //מחיקה מהרידקס
-        // dispatch(deleteFromRedux("",""))///מה לבכניס לכאן?
+        dispatch(deleteProductFromState(item.id))
         setOpen(false);
-
     }
 
 
