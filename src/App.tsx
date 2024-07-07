@@ -29,28 +29,30 @@ const App = () => {
   }, [currentUser]);
 
 
-  return(
-    <ThemeProvider theme={theme}>
-      <Provider store={Store}>
-        <AuthMenu />
-        <ErrorToast/>
-        <Routes>
-          <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
-          <Route path="/CreateBusiness/BaseDetailsManager" element={<BaseDetailsManager />} />
-          <Route path="/CreateBusiness/EmailVerification" element={<EmailVerification />} />
-          <Route path="/CreateBusiness/MoreDetailsManager" element={<MoreDetailsManager />} />
-        </Routes>
-        {typeUser !== 'manager' && typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (
-          <Client/>
-        ) : typeUser === 'manager' || typeUser === 'admin' ? (
-          <>
-              <MainRouter/>
-          </>
-        ) : (
-          <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
-        )}
-      </Provider>
-    </ThemeProvider>
+  return (
+    <>
+      <ThemeProvider theme={theme}>
+        <Provider store={Store}>
+          <AuthMenu />
+          <ErrorToast />
+          <Routes>
+            <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
+            <Route path="/CreateBusiness/BaseDetailsManager" element={<BaseDetailsManager />} />
+            <Route path="/CreateBusiness/EmailVerification" element={<EmailVerification />} />
+            <Route path="/CreateBusiness/MoreDetailsManager" element={<MoreDetailsManager />} />
+          </Routes>
+          {typeUser !== 'manager' && typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (
+            <Client />
+          ) : typeUser === 'manager' || typeUser === 'admin' ? (
+            <>
+              <MainRouter />
+            </>
+          ) : (
+            <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
+          )}
+        </Provider>
+      </ThemeProvider>
+    </>
   );
 }
 
