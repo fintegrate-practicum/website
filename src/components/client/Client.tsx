@@ -26,19 +26,21 @@ interface Business {
   __v: number;
 }
 
+
+
 export default function Client() {
   const { linkUID } = useParams<{ linkUID: string }>();
   const [business, setBusiness] = useState<Business | null>(null);
   const [loading, setLoading] = useState(true);
   const [errorOccurred, setErrorOccurred] = useState(false);
-
+  const http = import.meta.env.VITE_SERVER_URL;
 
   useEffect(() => {
 
     async function fetchBusinessData() {
       try {
         console.log(`Fetching business data for linkUID: ${linkUID}`);
-        const response = await axios.get(`http://localhost:4000/business/link/${linkUID}`);
+        const response = await axios.get(`${http}/business/link/${linkUID}`);
         console.log('Business data fetched successfully:', response.data);
         setBusiness(response.data);
       } catch (error) {
