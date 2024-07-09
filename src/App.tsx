@@ -7,7 +7,7 @@ import AuthMenu from './auth0/AuthMenu';
 import Client from './components/client/Client';
 import MainRouter from './components/router/MainRouter';
 import React, { Suspense, useEffect, useState } from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import BaseDetailsManager from './components/createBusiness/baseDetailsManager';
 import EmailVerification from './components/createBusiness/emailVerification';
 import MoreDetailsManager from './components/createBusiness/moreDetailsManager';
@@ -22,6 +22,8 @@ const App = () => {
 
   const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser);
   const [typeUser, setTypeUser] = useState<any | null>(null);
+  const [lastInvalidPath, setLastInvalidPath] = useState<string | null>(null);
+  const location = useLocation();
 
   useEffect(() => {
     if (currentUser) {
@@ -30,12 +32,25 @@ const App = () => {
     }
   }, [currentUser]);
 
+  const ErrorToastRoute = () => {
+    useEffect(() => {
+      if (location.pathname !== lastInvalidPath) {
+        // showErrorToast('הדף שאת/ה מחפש/ת אינו נמצא route-הכנס/י ב http://localhost:0000/link/**של עסק linkUID**');
+        setLastInvalidPath(location.pathname);
+      }
+    }, [location, lastInvalidPath]);
+
+    return null;
+  };
+
+  const isRootPath = location.pathname === '/';
 
   return (
 
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
         <AuthMenu />
+        <ErrorToast />
         <ErrorToast />
         <Routes>
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
