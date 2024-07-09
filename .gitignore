@@ -28,4 +28,6 @@ dist-ssr
 .env.local
 
 *storybook.log
+/node_modules
+
 

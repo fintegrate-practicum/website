@@ -1,9 +1,13 @@
+// import * as React from 'react';
 import './HomePage.css';
 
 
 const HomePage = () => {
+    // const [allPage,setAllPage]=React.useState(false)
     const handleLoginClick = () => {
+    
         window.location.href = 'Login.tsx';
+      
     };
 
     return (

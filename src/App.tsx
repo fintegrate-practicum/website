@@ -14,6 +14,7 @@ import MoreDetailsManager from './components/createBusiness/moreDetailsManager';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast from './components/generic/errorMassage';
 
+
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 
 const App = () => {
@@ -32,13 +33,14 @@ const App = () => {
   return(
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
-        <AuthMenu />
-        <ErrorToast/>
+        {/* <AuthMenu />
+        <ErrorToast/> */}
         <Routes>
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
           <Route path="/CreateBusiness/BaseDetailsManager" element={<BaseDetailsManager />} />
           <Route path="/CreateBusiness/EmailVerification" element={<EmailVerification />} />
           <Route path="/CreateBusiness/MoreDetailsManager" element={<MoreDetailsManager />} />
+          
         </Routes>
         {typeUser !== 'manager' && typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (
           <Client/>
