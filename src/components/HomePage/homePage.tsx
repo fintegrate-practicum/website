@@ -1,9 +1,13 @@
+import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
 
 
 const HomePage = () => {
+    const navigate = useNavigate();
+
     const handleLoginClick = () => {
-        window.location.href = 'Login.tsx';
+        // window.location.href = '../../auth0/Login.tsx';
+        navigate('/Login');
     };
 
     return (

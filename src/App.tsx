@@ -13,6 +13,8 @@ import EmailVerification from './components/createBusiness/emailVerification';
 import MoreDetailsManager from './components/createBusiness/moreDetailsManager';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast from './components/generic/errorMassage';
+import Login from '../src/auth0/Login'
+
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 
@@ -29,22 +31,24 @@ const App = () => {
   }, [currentUser]);
 
 
-  return(
+  return (
+
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
         <AuthMenu />
-        <ErrorToast/>
+        <ErrorToast />
         <Routes>
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
           <Route path="/CreateBusiness/BaseDetailsManager" element={<BaseDetailsManager />} />
           <Route path="/CreateBusiness/EmailVerification" element={<EmailVerification />} />
           <Route path="/CreateBusiness/MoreDetailsManager" element={<MoreDetailsManager />} />
+          <Route path="Login" element={<Login />} />
         </Routes>
         {typeUser !== 'manager' && typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (
-          <Client/>
+          <Client />
         ) : typeUser === 'manager' || typeUser === 'admin' ? (
           <>
-              <MainRouter/>
+            <MainRouter />
           </>
         ) : (
           <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
