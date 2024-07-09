@@ -1,15 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
-
-
+import { useAppSelector } from '../../Redux/hooks';
 const HomePage = () => {
-    const navigate = useNavigate();
+
+    const userName = useAppSelector((state) => state.currentUserSlice.CurrentUser.userDetails.userName);
+    const navigate = useNavigate()
 
     const handleLoginClick = () => {
-        // window.location.href = '../../auth0/Login.tsx';
-        navigate('/Login');
-    };
+        // window.location.href = 'Login.tsx';
+        navigate("/Login")
 
+    };
     return (
         <div className="App">
             <header>
@@ -17,18 +18,17 @@ const HomePage = () => {
                     <img src="logo.png" alt="Fintegrate" />
                 </div>
                 <button className="login-button" onClick={handleLoginClick}>
-                    התחברות                
+                    התחברות
                 </button>
             </header>
-            <main>
+            {userName !== '' && userName != null && <main>
                 <section className="screenshots">
                     <img src="screenshot1.png" alt="צילום מסך 1" />
                     <img src="screenshot2.png" alt="צילום מסך 2" />
                     <img src="screenshot3.png" alt="צילום מסך 3" />
                 </section>
-            </main>
+            </main>}
         </div>
     );
 };
-
 export default HomePage;
