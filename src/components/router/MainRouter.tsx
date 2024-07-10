@@ -29,7 +29,7 @@ const MainRouter = () => {
           name: 'worker',
           nameToView: 'Worker',
           icon: Person,
-          route: '../Worker/details',
+          route: '../Workers/workerPage',
           component: '../navigation/Workers'
         }
     ];
@@ -47,6 +47,7 @@ const MainRouter = () => {
     const [currentMenu, setCurrentMenu] = useState<menuItem>(menuItems[0]);
 
     useEffect(() => {
+      console.log({currentMenu})
       if(location.pathname == '/Setting/Category'){
         setCurrentMenu(menuItems[1])
       }

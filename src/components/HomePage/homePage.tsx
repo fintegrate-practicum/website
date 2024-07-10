@@ -1,16 +1,17 @@
 
 import { useAppSelector } from '../../Redux/hooks';
+
 import './HomePage.css';
 
 
 const HomePage = () => {
-    // const products = useSelector<RootState,IProduct[]>((state) => state.product.data);
+  
     const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser.userDetails.userName);
-    const handleLoginClick = () => {
+    // const handleLoginClick = () => {
     
-        window.location.href = 'Login.tsx';
+    //     window.location.href = 'Login.tsx';
       
-    };
+    // };
 
     return (
         <div className="App">
@@ -18,17 +19,19 @@ const HomePage = () => {
                 <div className="logo">
                     <img src="logo.png" alt="Fintegrate" />
                 </div>
+{/*                
                 <button className="login-button" onClick={handleLoginClick}>
                     התחברות                
-                </button>
+                </button> */}
             </header>
-           {currentUser!=''&&currentUser!=null?<main>
+           
+           {Boolean(currentUser)&&<main>
                 <section className="screenshots">
                     <img src="screenshot1.png" alt="צילום מסך 1" />
                     <img src="screenshot2.png" alt="צילום מסך 2" />
                     <img src="screenshot3.png" alt="צילום מסך 3" />
                 </section>
-            </main>:null} 
+            </main>} 
         </div>
     );
 };

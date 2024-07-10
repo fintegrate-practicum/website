@@ -28,7 +28,7 @@ interface Business {
 
 
 
-export default function Client() {
+const Client =() => {
   const { linkUID } = useParams<{ linkUID: string }>();
   const [business, setBusiness] = useState<Business | null>(null);
   const [loading, setLoading] = useState(true);
@@ -60,6 +60,7 @@ export default function Client() {
 
   useEffect(() => {
     if (errorOccurred) {
+      console.log("vxcvxcvzv")
       showErrorToast('הדף שאת/ה מחפש/ת אינו נמצא route-הכנס/י ב http://localhost:0000/link/**של עסק linkUID**');
     }
   }, [errorOccurred]);
@@ -84,6 +85,7 @@ export default function Client() {
         textAlign: 'right'
       }}
     >
+      
       <Typography variant="h5">פרטי העסק</Typography>
       <Box sx={{ mb: 2 }}>
         <Typography>{business.name} :שם העסק</Typography>
@@ -104,3 +106,4 @@ export default function Client() {
     </Box>
   );
 }
+export default Client;
