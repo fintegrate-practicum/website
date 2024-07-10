@@ -21,7 +21,6 @@ const HomePage = () => {
                 {/* <button className="login-button" onClick={handleLoginClick}>
                     התחברות
                 </button> */}
-                <AuthMenu />
             </header>
             {userName !== '' && userName != null && <main>
                 <section className="screenshots">
