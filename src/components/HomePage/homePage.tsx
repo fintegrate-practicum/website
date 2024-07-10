@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
 import { useAppSelector } from '../../Redux/hooks';
+import AuthMenu from '../../auth0/AuthMenu';
 const HomePage = () => {
 
     const userName = useAppSelector((state) => state.currentUserSlice.CurrentUser.userDetails.userName);
@@ -17,9 +18,10 @@ const HomePage = () => {
                 <div className="logo">
                     <img src="logo.png" alt="Fintegrate" />
                 </div>
-                <button className="login-button" onClick={handleLoginClick}>
+                {/* <button className="login-button" onClick={handleLoginClick}>
                     התחברות
-                </button>
+                </button> */}
+                <AuthMenu />
             </header>
             {userName !== '' && userName != null && <main>
                 <section className="screenshots">

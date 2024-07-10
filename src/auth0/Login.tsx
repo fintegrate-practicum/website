@@ -4,8 +4,6 @@ import { Button } from "@mui/material";
 const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
   console.log("login");
-  
-  debugger
   return <Button id="login" variant="contained" onClick={() => loginWithRedirect()}>התחברות</Button>;
 };
 
