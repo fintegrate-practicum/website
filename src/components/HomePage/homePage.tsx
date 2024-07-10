@@ -7,11 +7,11 @@ const HomePage = () => {
     const userName = useAppSelector((state) => state.currentUserSlice.CurrentUser.userDetails.userName);
     const navigate = useNavigate()
 
-    const handleLoginClick = () => {
-        // window.location.href = 'Login.tsx';
-        navigate("/Login")
+    // const handleLoginClick = () => {
+    //     // window.location.href = 'Login.tsx';
+    //     navigate("/Login")
 
-    };
+    // };
     return (
         <div className="App">
             <header>
@@ -22,7 +22,7 @@ const HomePage = () => {
                     התחברות
                 </button> */}
             </header>
-            {userName !== '' && userName != null && <main>
+            {Boolean(userName) && <main>
                 <section className="screenshots">
                     <img src="screenshot1.png" alt="צילום מסך 1" />
                     <img src="screenshot2.png" alt="צילום מסך 2" />

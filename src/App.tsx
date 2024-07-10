@@ -16,18 +16,22 @@ import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
 import  Login from './components/Login/login';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
+
 const App = () => {
   const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser);
   const [typeUser, setTypeUser] = useState<any | null>(null);
   const [lastInvalidPath, setLastInvalidPath] = useState<string | null>(null);
   const location = useLocation();
+
   useEffect(() => {
     if (currentUser) {
       const type = currentUser.employeeDetails.role.type;
       setTypeUser(type);
     }
   }, [currentUser]);
+
   const ErrorToastRoute = () => {
+    
     useEffect(() => {
       if (location.pathname !== lastInvalidPath) {
         showErrorToast('הדף שאת/ה מחפש/ת אינו נמצא route-הכנס/י ב http://localhost:0000/link/**של עסק linkUID**');
@@ -36,11 +40,14 @@ const App = () => {
     }, [location, lastInvalidPath]);
     return null;
   };
+
   const isRootPath = location.pathname === '/';
+
   return (
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
          {/* <AuthMenu /> */}
+         <Client />
         <ErrorToast />
         <Routes>
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
