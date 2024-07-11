@@ -17,7 +17,7 @@
     "allowJs": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "declaration": false,
+    "declaration": true,  // Enable declaration file generation
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -27,10 +27,15 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
+    "src/*.ts",
     "src/**/*.ts",
-    "src/**/*.tsx",
+    // "src/**/**/*.ts",
+    // "src/**/**/**/*.ts",
+    // "src/**/**/**/**/*.ts",
+     "src/**/*.tsx",
     "vite.config.ts",
-    "src/env.d.ts" // הוסף קובץ זה אם יש לך קובץ שמגדיר את משתני הסביבה שלך
+    ".env",
+    "src/env.d.ts"
   ],
   "references": [
     {
