@@ -19,7 +19,7 @@ cat <<EOF > $TMP_TSCONFIG
 EOF
 # Compile only staged TypeScript files to check for errors
 echo -e "\nCompiling Javascript & Typescript files to check for errors:"
-./node_modules/.bin/tsc --noEmit --skipLibCheck -p $TMP_TSCONFIG
+./node_modules/.bin/tsc --noEmit --skipLibCheck -p tsconfig.json
 tsc_result=$?
 rm $TMP_TSCONFIG
 if [ $tsc_result -ne 0 ]; then
