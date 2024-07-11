@@ -20,3 +20,21 @@ echo "$FILES" | xargs git add
 echo "$STAGED_FILES" | xargs git add
 
 exit $?
+
+
+#!/bin/bash
+
+# Get the list of staged files in the last commit
+files=$(git diff --cached --name-only)
+
+# Regular expression to match desired file types
+regex="\.(jsx?|tsx?|js|ts)$"
+
+# Check if any staged files match the regex
+if [[ "$files" =~ $regex ]]; then
+    echo "Files with specified extensions were changed in the last commit."
+    exit 0
+else
+    echo "No files with specified extensions were changed in the last commit."
+    exit 1
+fi
