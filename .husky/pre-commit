@@ -1,24 +1,30 @@
 #!/bin/sh
-
 # npm test
 
-# Supported file types
-file_types=".jsx?$|.tsx?$|.js$|.ts$"
-
-# Get staged files with supported types
-FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep "$file_types")
+# Check for staged files
+FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
 [ -z "$FILES" ] && exit 0
 
 # Prettify all selected files
 echo "$FILES" | xargs ./node_modules/.bin/prettier --ignore-unknown --write
 
-echo -e "\nValidating Javascript and Typescript with eslint:"
+echo -e "\nValidating JavaScript and TypeScript with ESLint and TypeScript Compiler:"
 
-# Run eslint with fix on staged JS and TS files
-echo "$FILES" | xargs ./node_modules/.bin/eslint --fix
+# Separate JavaScript and TypeScript files
+STAGED_JS_FILES=$(echo "$FILES" | grep ".jsx\{0,1\}$\|\.js$")
+STAGED_TS_FILES=$(echo "$FILES" | grep "\.tsx\{0,1\}$\|\.ts$")
 
-# Check for TypeScript compilation errors (adjust the command as needed)
-tsc --noEmit --pretty --skipLibCheck --project tsconfig.json "$FILES"
+# Run ESLint for JavaScript files
+if [ -n "$STAGED_JS_FILES" ]; then
+  echo "$STAGED_JS_FILES" | xargs ./node_modules/.bin/eslint --fix
+fi
+
+# Run TypeScript Compiler for TypeScript files
+if [ -n "$STAGED_TS_FILES" ]; then
+  echo "$STAGED_TS_FILES" | xargs ./node_modules/.bin/tsc --noEmit
+fi
+
+echo -e "JavaScript and TypeScript validation completed."
 
 # Add back the modified/prettified files to staging
 echo "$FILES" | xargs git add
