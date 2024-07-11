@@ -3,7 +3,6 @@ import { Provider } from 'react-redux';
 import './App.css';
 import Store from './Redux/store';
 import theme from './Theme';
-import AuthMenu from './auth0/AuthMenu';
 import Client from './components/client/Client';
 import MainRouter from './components/router/MainRouter';
 import React, { Suspense, useEffect, useState } from 'react';
@@ -13,13 +12,14 @@ import EmailVerification from './components/createBusiness/emailVerification';
 import MoreDetailsManager from './components/createBusiness/moreDetailsManager';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
-import  Login from './components/Login/login';
+import Login from './components/Login/login';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 
 const App = () => {
   const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser);
   const [typeUser, setTypeUser] = useState<any | null>(null);
+  const [isLogin, setIsLogin] = useState(false);
   const [lastInvalidPath, setLastInvalidPath] = useState<string | null>(null);
   const location = useLocation();
 
@@ -31,7 +31,7 @@ const App = () => {
   }, [currentUser]);
 
   const ErrorToastRoute = () => {
-    
+
     useEffect(() => {
       if (location.pathname !== lastInvalidPath) {
         showErrorToast('הדף שאת/ה מחפש/ת אינו נמצא route-הכנס/י ב http://localhost:0000/link/**של עסק linkUID**');
@@ -46,7 +46,8 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
-         <Client />
+        <Client />
+        <Login />
         <ErrorToast />
         <Routes>
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
@@ -64,10 +65,8 @@ const App = () => {
               <>
                 <MainRouter />
               </>
-            ) : (
-              // 
-              <Login/>
-              // <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
+            ) : isLogin && (
+              <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
             )}
           </>
         )}
