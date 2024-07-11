@@ -31,7 +31,10 @@
     "src",
     "src/**/*.ts",
     "src/**/*.tsx",
-    "vitest.config.ts"
+    "vitest.config.ts",
+    "./src/**/*.tsx",
+    "./src/**/*.ts",
+    "./src/**/*.js"
   ],
   "references": [
     {
