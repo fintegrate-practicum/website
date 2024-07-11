@@ -12,9 +12,7 @@ const HomePage = () => {
                 <div className="logo">
                     <img src="logo.png" alt="Fintegrate" />
                 </div>
-                {/* <button className="login-button" onClick={handleLoginClick}>
-                    התחברות
-                </button> */}
+
             </header>
             {Boolean(userName) && <main>
                 <section className="screenshots">

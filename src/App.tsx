@@ -46,7 +46,6 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
-         {/* <AuthMenu /> */}
          <Client />
         <ErrorToast />
         <Routes>
