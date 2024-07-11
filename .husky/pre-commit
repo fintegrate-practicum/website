@@ -1,27 +1,27 @@
 #!/bin/sh
 
 # Define regular expression for file types
- FILE_TYPES="\.jsx?$|\.tsx?$|\.js$|\.ts$"
+FILE_TYPES="\.jsx?$|\.tsx?$|\.js$|\.ts$"
 
-# failWithMessage() {
-#     echo >&2 "$1"
-#     exit 1
-# }
+failWithMessage() {
+    echo >&2 "$1"
+    exit 1
+}
 
-# # Check for staged files that match file types
-# staged_files=$(git diff --cached --name-only --diff-filter=ACM | grep -E $FILE_TYPES)
-# [ -z "$staged_files" ] && exit 0
+# Check for staged files that match file types
+staged_files=$(git diff --cached --name-only --diff-filter=ACM | grep -E $FILE_TYPES)
+[ -z "$staged_files" ] && exit 0
 
-# # Check if any staged files have compile errors
-# for file in $staged_files; do
-#     if [[ $file =~ \.jsx?$|\.tsx?$ ]]; then
-#         # For JSX and TSX files, use babel-eslint for parsing
-#         eslint --ext .jsx,.js,.tsx,.ts --parser babel-eslint "$file" || failWithMessage "ESLint found errors in $file. Please fix them before committing."
-#     else
-#         # For JS and TS files, use regular parser
-#         eslint --ext .js,.ts "$file" || failWithMessage "ESLint found errors in $file. Please fix them before committing."
-#     fi
-# done
+# Check if any staged files have compile errors
+for file in $staged_files; do
+    if [[ $file =~ \.jsx?$|\.tsx?$ ]]; then
+        # For JSX and TSX files, use babel-eslint for parsing
+        eslint --ext .jsx,.js,.tsx,.ts --parser babel-eslint "$file" || failWithMessage "ESLint found errors in $file. Please fix them before committing."
+    else
+        # For JS and TS files, use regular parser
+        eslint --ext .js,.ts "$file" || failWithMessage "ESLint found errors in $file. Please fix them before committing."
+    fi
+done
 
-# # If all checks pass, allow the commit
-# exit 0
+# If all checks pass, allow the commit
+exit 0
