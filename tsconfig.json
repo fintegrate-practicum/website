@@ -28,9 +28,9 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    // "src/**/*.ts",
-    // "src/**/*.tsx",
-    // "vitest.config.ts"
+    "src/**/*",
+    "src/**/*.",
+    "vitest.config.ts"
   ],
 
   "references": [
