@@ -1,17 +1,11 @@
-import { useNavigate } from 'react-router-dom';
+
 import './HomePage.css';
 import { useAppSelector } from '../../Redux/hooks';
-import AuthMenu from '../../auth0/AuthMenu';
+
 const HomePage = () => {
 
     const userName = useAppSelector((state) => state.currentUserSlice.CurrentUser.userDetails.userName);
-    const navigate = useNavigate()
 
-    // const handleLoginClick = () => {
-    //     // window.location.href = 'Login.tsx';
-    //     navigate("/Login")
-
-    // };
     return (
         <div className="App">
             <header>
