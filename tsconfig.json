@@ -13,11 +13,12 @@
     ],
     "module": "ESNext",
     "skipLibCheck": true,
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    "moduleResolution": "node",
+    "allowJs": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": false, // או תסירי את השורה כדי לאפשר את יצירת קבצי הייצוא
+    "noEmit": true,
+    "declaration": false, // Add this line
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -26,13 +27,15 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  // "include": [
-  //   ""
-  // ],
+  "include": [
+    // "src/**/*.ts",
+    // "src/**/*.tsx",
+    // "vitest.config.ts"
+  ],
+
   "references": [
     {
       "path": "./tsconfig.node.json"
     }
-  
   ]
 }
