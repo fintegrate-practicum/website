@@ -29,7 +29,7 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "vitest.config.ts",
+    "vite.config.ts",
     "src/env.d.ts" // הוסף קובץ זה אם יש לך קובץ שמגדיר את משתני הסביבה שלך
   ],
   "references": [
