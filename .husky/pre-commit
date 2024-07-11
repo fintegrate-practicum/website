@@ -23,7 +23,7 @@ echo "$STAGED_FILES" | xargs git add
 files=$(git diff --cached --name-only)
 
 # Regular expression to match desired file types
-regex=".jsx?$|.tsx?$|.js$|.ts$|.pre-commit$"
+regex=".jsx?$|.tsx?$|.js$|.ts$|.pre-commit"
 
 # Flag to track if error occurred
 error=false
