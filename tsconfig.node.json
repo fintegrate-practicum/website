@@ -7,5 +7,5 @@
     "allowSyntheticDefaultImports": true,
     "strict": true
   },
-  "include": ["src/**/*.ts",]
+  "include": ["src/**/*.ts", "src/Esty.tsx",]
 }

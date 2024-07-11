@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import { useAppDispatch } from '../Redux/hooks';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
+// import { useDispatch } from 'react-redux';
 import { fetchUserById } from '../Redux/currentUserSlice';
 import SidebarUserDetails from './SidebarUserDetails';
 
@@ -11,9 +13,14 @@ const auth0_audience = import.meta.env.VITE_AUTH0_AUDIENCE as string;
 const auth0_domain = import.meta.env.VITE_AUTH0_DOMAIN as string;
 
 const Profile: React.FC = () => {  
+
+
+ 
+   
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [userMetadata, setUserMetadata] = useState<any>(null); 
   const dispatch = useAppDispatch()
+ 
 
   function setCookie(name:String, value:String, days:number) {
     let expires = "";
@@ -23,6 +30,7 @@ const Profile: React.FC = () => {
        expires = `; expires=${date.toUTCString()}`;
       }
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
+   
   }
   useEffect(() => {  
       
@@ -36,6 +44,7 @@ const Profile: React.FC = () => {
           },
           
         });
+   
         setCookie("accessToken",accessToken,7)
         const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
         const metadataResponse = await fetch(userDetailsByIdUrl, {
@@ -44,7 +53,8 @@ const Profile: React.FC = () => {
           },
         });
         const user_metadata = await metadataResponse.json();
-        setUserMetadata(user_metadata);        
+        setUserMetadata(user_metadata);   
+        
         dispatch(fetchUserById(user_metadata?.user_id));        
       } catch (e) {
         console.log((e as Error).message);
@@ -106,6 +116,7 @@ const Profile: React.FC = () => {
         anchorEl={anchorEl}
         handleClose={handleClose}
       />
+       <Link to="/CreateBusiness/BaseDetailsManager">הרשמה של עסק</Link>
     </>
   );
 };

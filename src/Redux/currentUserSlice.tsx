@@ -36,6 +36,7 @@ const initialState = {
       
     }
   }
+ 
 }
 
 export const fetchUserById = createAsyncThunk(
@@ -51,6 +52,7 @@ export const fetchUserById = createAsyncThunk(
     }
   }
 );
+
 
 export const updateCurrentUser = createAsyncThunk('', async (payload: any) => { 
     const { auth0_user_id, updatedCurrentUser } = payload;
@@ -69,12 +71,17 @@ const currentUserSlice = createSlice({
   reducers: {
     setCurrentUser(state, action) { 
       
-      debugger  
+ 
       state.CurrentUser = action.payload;          
     },
+    
   },
+ 
+
+  
 });
 
 export const selectCurrentUser = (state: RootState) => state.currentUserSlice.CurrentUser;
 export default currentUserSlice.reducer;
+
 

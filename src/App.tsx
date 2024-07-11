@@ -16,6 +16,7 @@ import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
 import Login from './components/Login/login';
 
 
+
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 
 const App = () => {
@@ -24,9 +25,11 @@ const App = () => {
   const [typeUser, setTypeUser] = useState<any | null>(null);
   const [lastInvalidPath, setLastInvalidPath] = useState<string | null>(null);
   const location = useLocation();
+  // const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   useEffect(() => {
     if (currentUser) {
+     
       const type = currentUser.employeeDetails.role.type;
       setTypeUser(type);
     }
@@ -42,13 +45,14 @@ const App = () => {
 
     return null;
   };
+  
 
   const isRootPath = location.pathname === '/';
 
   return (
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
-      
+        <Login />
         <ErrorToast />
         <Routes>
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
@@ -58,7 +62,7 @@ const App = () => {
           <Route path="/link/:linkUID" element={<Client />} />
           <Route path="/:any/*" element={<ErrorToastRoute />} />
         </Routes>
-        {isRootPath && (
+        {/* {isRootPath && (
           <>
             {typeUser !== 'manager' && typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (
               <Client />
@@ -66,14 +70,10 @@ const App = () => {
               <>
                 <MainRouter />
               </>
-            ) : (
-             
-              <Login/>
-             
-            
-            )}
+            ) :  (
+                  <Link to="/CreateBusiness/BaseDetailsManager">הרשמה של עסק</Link> ) }
           </>
-        )}
+        )} */}
       </Provider>
     </ThemeProvider>
   );
