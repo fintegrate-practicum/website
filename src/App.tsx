@@ -16,6 +16,12 @@ import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
 import  Login from './components/Login/login';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
+const LazyBaseDetailsManager = React.lazy(() => import('./components/createBusiness/baseDetailsManager'));
+const LazyEmailVerification = React.lazy(() => import('./components/createBusiness/emailVerification'));
+const LazyMoreDetailsManager = React.lazy(() => import('./components/createBusiness/moreDetailsManager'));
+const LazyClient = React.lazy(() => import('./components/client/Client'));
+
+
 
 const App = () => {
   const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser);
@@ -50,11 +56,11 @@ const App = () => {
         <ErrorToast />
         <Routes>
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
-          <Route path="/CreateBusiness/BaseDetailsManager" element={<BaseDetailsManager />} />
-          <Route path="/CreateBusiness/EmailVerification" element={<EmailVerification />} />
-          <Route path="/CreateBusiness/MoreDetailsManager" element={<MoreDetailsManager />} />
-          <Route path="/link/:linkUID" element={<Client />} />
-          <Route path="/:any/*" element={<ErrorToastRoute />} />
+          <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
+          <Route path="/CreateBusiness/BaseDetailsManager" element={<Suspense fallback="Loading..."><LazyBaseDetailsManager /></Suspense>} />
+          <Route path="/CreateBusiness/EmailVerification" element={<Suspense fallback="Loading..."><LazyEmailVerification /></Suspense>} />
+          <Route path="/CreateBusiness/MoreDetailsManager" element={<Suspense fallback="Loading..."><LazyMoreDetailsManager /></Suspense>} />
+          <Route path="/link/:linkUID" element={<Suspense fallback="Loading..."><LazyClient /></Suspense>} />
         </Routes>
         {isRootPath && (
           <>
