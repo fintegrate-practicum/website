@@ -17,7 +17,7 @@
     "allowJs": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "declaration": true,  // Enable declaration file generation
+    "declaration": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -27,12 +27,8 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "src/*.ts",
     "src/**/*.ts",
-    "src/**/**/*.ts",
-    "src/**/**/**/*.ts",
-    "src/**/**/**/**/*.ts",
-      "src/**/*.tsx",
+    "src/**/*.tsx",
     "vite.config.ts",
     ".env",
     "src/env.d.ts"
