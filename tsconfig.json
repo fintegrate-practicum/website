@@ -27,6 +27,8 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
+    "src/*.tsx",
+    "src/main.tsx",
     "src/**/*.ts",
     "src/**/*.tsx",
     "vite.config.ts",
