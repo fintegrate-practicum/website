@@ -1,29 +1,26 @@
-#!/bin/bash
+#!/bin/sh
 
-# Get the list of staged files in the last commit
-files=$(git diff --cached --name-only)
+# npm test
 
-# Regular expression to match desired file types
-regex=".jsx?$|.tsx?$|.js$|.ts$|pre-commit"
+# Supported file types
+file_types=".jsx?$|.tsx?$|.js$|.ts$"
 
-# Flag to track if error occurred
-error=false
+# Get staged files with supported types
+FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep "$file_types")
+[ -z "$FILES" ] && exit 0
 
-# Check each staged file if it matches the regex
-for file in $files
-do
-    if [[ "$file" =~ $regex ]]; then
-        echo "Valid file: $file"
-    else
-        echo -e "\e[31mError: Invalid file $file - File type not allowed\e[0m"
-        error=true
-    fi
-done
+# Prettify all selected files
+echo "$FILES" | xargs ./node_modules/.bin/prettier --ignore-unknown --write
 
-# If error flag is set, prevent the commit
-if [ "$error" = true ]; then
-    echo -e "\e[31mCommit blocked due to errors. Please fix the issues.\e[0m"
-    exit 1
-fi
+echo -e "\nValidating Javascript and Typescript with eslint:"
 
-exit 0
+# Run eslint with fix on staged JS and TS files
+echo "$FILES" | xargs ./node_modules/.bin/eslint --fix
+
+# Check for TypeScript compilation errors (adjust the command as needed)
+tsc --noEmit --pretty --skipLibCheck --project tsconfig.json "$FILES"
+
+# Add back the modified/prettified files to staging
+echo "$FILES" | xargs git add
+
+exit $?
