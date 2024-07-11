@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import { useAppDispatch } from '../Redux/hooks';
 import { fetchUserById } from '../Redux/currentUserSlice';
 import SidebarUserDetails from './SidebarUserDetails';
+import { Link } from 'react-router-dom';
 
 const auth0_audience = import.meta.env.VITE_AUTH0_AUDIENCE as string;
 const auth0_domain = import.meta.env.VITE_AUTH0_DOMAIN as string;
@@ -89,6 +90,7 @@ const Profile: React.FC = () => {
   return (
     <>
       {isAuthenticated && (
+        <div>
         <Box 
           position="absolute" 
           top={18} 
@@ -98,6 +100,7 @@ const Profile: React.FC = () => {
         >
           <Avatar {...profileAvatar()} src={userMetadata?.picture || ''} />    
         </Box>
+         <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link></div>
       )}
       <SidebarUserDetails
         email={userMetadata?.email}

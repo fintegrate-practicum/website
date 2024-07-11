@@ -61,13 +61,16 @@ const App = () => {
           <>
             {typeUser !== 'manager' && typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (
               <Client />
-            ) : typeUser === 'manager' || typeUser === 'admin' ? (
+            ) : typeUser === 'manager' || typeUser === 'admin' ?(
               <>
                 <MainRouter />
               </>
-            ) : isLogin && (
-              <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
-            )}
+            ) 
+            : null
+            // isLogin && (
+            //   <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
+            // )
+            }
           </>
         )}
       </Provider>
