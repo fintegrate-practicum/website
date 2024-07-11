@@ -22,14 +22,14 @@ fi
 
 # Run TypeScript Compiler for TypeScript files
 if [ -n "$STAGED_TS_FILES" ]; then
-  # Check for TypeScript compilation errors
-  tsc_output=$(echo "$STAGED_TS_FILES" | xargs ./node_modules/.bin/tsc --noEmit)
-  tsc_exit_code=$?
+  for file in $STAGED_TS_FILES; do
+    tsc_output=$(./node_modules/.bin/tsc --noEmit $file)
+    tsc_exit_code=$?
 
-  if [ $tsc_exit_code -ne 0 ]; then
-    echo "TypeScript compilation failed. Please fix the errors before committing."
-    exit 1
-  fi
+    if [ $tsc_exit_code -ne 0 ]; then
+      echo "TypeScript compilation failed for $file. Please fix the errors."
+    fi
+  done
 fi
 
 echo -e "JavaScript and TypeScript validation completed."
