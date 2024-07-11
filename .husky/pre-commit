@@ -19,10 +19,9 @@ echo -e "Javascript validation completed."
 echo "$FILES" | xargs git add
 echo "$STAGED_FILES" | xargs git add
 
-exit $?
 
 
-#!/bin/bash
+
 
 # Get the list of staged files in the last commit
 files=$(git diff --cached --name-only)
@@ -38,3 +37,4 @@ else
     echo "No files with specified extensions were changed in the last commit."
     exit 1
 fi
+exit $?
