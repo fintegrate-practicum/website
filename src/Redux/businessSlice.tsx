@@ -60,9 +60,19 @@ export const checkEmailVerificationCode = createAsyncThunk('', async (payload: {
 export const updateBusiness = createAsyncThunk('', async (payload: any) => {     
     
         const { companyNumber, newData } = payload;
-        try {           
+        try {     
+            console.log("companyNumber" ,companyNumber);
+            console.log("newData" ,newData);
+
             const response = await InfraInterceptors.put(`/business/${companyNumber}`, newData);
+             // בדוק את התגובה כאן
+        if (response.status === 200 || response.status === 201) {
+            console.log("העסק עודכן בהצלחה:", response.data);
             return response.data;
+        } else {
+            throw new Error("עדכון העסק נכשל");
+        }
+            // return response.data;
         } catch (error) {
             throw error;
         }
