@@ -26,7 +26,6 @@ export default function MoreDetailsManager(): JSX.Element {
     };
 
     const handleBusinessPhoneChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        
         setPhone(event.target.value);
     };
     const handleBusinessAdressChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -126,8 +125,6 @@ export default function MoreDetailsManager(): JSX.Element {
         </Box>
     );
 }
-
-
 
 
 

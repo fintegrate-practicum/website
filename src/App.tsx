@@ -13,8 +13,7 @@ import EmailVerification from './components/createBusiness/emailVerification';
 import MoreDetailsManager from './components/createBusiness/moreDetailsManager';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
-import { MenuItem } from '@mui/material';
-// import  Login from './components/Login/login';
+import  Login from './components/Login/login';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 
@@ -47,7 +46,6 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
-        <AuthMenu />
         <ErrorToast />
         <Routes>
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
@@ -66,9 +64,8 @@ const App = () => {
                 <MainRouter />
               </>
             ) : (
-              // 
-              // <Login/>
-              <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
+              <Login/>
+              // <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
             )}
           </>
         )}

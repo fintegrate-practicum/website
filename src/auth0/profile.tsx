@@ -43,9 +43,7 @@ const Profile: React.FC = () => {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        const user_metadata = await metadataResponse.json();
-        console.log(user_metadata);
-        
+        const user_metadata = await metadataResponse.json();        
         setUserMetadata(user_metadata);        
         dispatch(fetchUserById(user_metadata?.user_id));        
       } catch (e) {
