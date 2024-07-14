@@ -56,10 +56,6 @@ const Profile: React.FC = () => {
     }
   }, [getAccessTokenSilently, user?.sub,dispatch]);
 
-  if (isLoading) {
-    return <div>Loading ...</div>;
-  }
-
   const profileAvatar = () => {
     let emailUser = '';
     if(userMetadata){
@@ -85,6 +81,10 @@ const Profile: React.FC = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
 
   return (
     <>

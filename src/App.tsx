@@ -3,7 +3,6 @@ import { Provider } from 'react-redux';
 import './App.css';
 import Store from './Redux/store';
 import theme from './Theme';
-import AuthMenu from './auth0/AuthMenu';
 import Client from './components/client/Client';
 import MainRouter from './components/router/MainRouter';
 import React, { Suspense, useEffect, useState } from 'react';
@@ -13,7 +12,8 @@ import EmailVerification from './components/createBusiness/emailVerification';
 import MoreDetailsManager from './components/createBusiness/moreDetailsManager';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
-import  Login from './components/Login/login';
+import Login from './auth0/Login';
+import Profile from './auth0/profile';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 
@@ -46,7 +46,8 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
-         <Client />
+        <Profile />
+        <Client />
         <ErrorToast />
         <Routes>
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
