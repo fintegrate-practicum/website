@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import employeeSlice from "./employeeSlice";
-import taskSlice from "./taskSlice";
-import messageSlice from "./messageSlice";
-import userSlice from './reducer'
+import employeeSlice from "../modules/workers/Redux/employeeSlice";
+import taskSlice from "../modules/workers/Redux/taskSlice";
+import messageSlice from "../modules/workers/Redux/messageSlice";
+import userSlice from '../modules/workers/Redux/reducer'
 import businessSlice from './businessSlice'
 import currentUserSlice from "./currentUserSlice";
 

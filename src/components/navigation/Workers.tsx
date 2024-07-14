@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Box, Tab } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import WorkerPage from '../workers/workerPage';
-import TasksShowList from '../workers/tasks/tasksShowList';
+import WorkerPage from '../../modules/workers/components/workerPage';
+import TasksShowList from '../../modules/workers/components/tasks/tasksShowList';
 import User from '../../classes/user';
 import employee from '../../classes/employee';
-import MessageList from '../workers/messageList';
+import MessageList from '../../modules/workers/components/messageList';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
