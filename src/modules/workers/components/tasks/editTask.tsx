@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from "../../../../Redux/hooks";
 import { UpdateTaskEmployeeDTO } from "../../dto/updateTaskEmployeeDto";
 import { editTask } from "../../features/taskSlice";
 import { UpdateTaskManagerDTO } from "../../dto/updateTaskManagerDto";
-import { TaskStatus } from "../../../../classes/enum/taskStatus.enum";
+import { TaskStatus } from "../../classes/enum/taskStatus.enum";
 
 const EditTask = (props: {
   status: TaskStatus;
@@ -146,7 +146,7 @@ const EditTask = (props: {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={status}
+                value={status.toString()}
                 label="status"
                 onChange={handleChange}
               >

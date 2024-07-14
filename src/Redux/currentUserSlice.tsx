@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
-import { EmployeeRole } from "../modules/workers/classes/enum/employeeRole.enum";
+import { EmployeeRole } from "../modules/workers/classes/employeeRole";
 import { statuses } from "../modules/workers/classes/user";
 import { showErrorToast } from "../components/generic/errorMassage";
 import InfraInterceptors from '../auth0/InfraInterceptors'

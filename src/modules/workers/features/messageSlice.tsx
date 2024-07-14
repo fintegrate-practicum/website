@@ -17,7 +17,7 @@ const initialState: MessageState = {
 export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
   async (employeeId: string) => {
-    const response = await axios.get(`http://localhost:3001/message/${employeeId}`);
+    const response = await axios.get(`http://localhost:4001/message/${employeeId}`);
     return response.data;
   }
 );

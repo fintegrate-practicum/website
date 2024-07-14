@@ -9,8 +9,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { createTask } from "../../features/taskSlice";
 import { useAppDispatch } from "../../../../Redux/hooks";
 import { Types } from "mongoose";
-import Task from "../../../../classes/task";
-import { TaskStatus } from "../../../../classes/enum/taskStatus.enum";
+import Task from "../../classes/task";
+import { TaskStatus } from "../../classes/enum/taskStatus.enum";
 
 export default function AddTaskBtn() {
   const [open, setOpen] = React.useState(false);
@@ -38,7 +38,7 @@ export default function AddTaskBtn() {
       urgency,
       status: TaskStatus.ToDo,
       completionDate: new Date(0),
-      directLink: "http://localhost:3001/api#/Workers/WorkersController_create"
+      directLink: "http://localhost:4001/api#/Workers/WorkersController_create"
     };
     dispatch(createTask(task));
     setOpen(false);

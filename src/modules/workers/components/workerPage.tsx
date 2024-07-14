@@ -38,7 +38,6 @@ interface WorkerPageProps {
             <Grid style={{ display: 'flex', flexWrap: 'wrap', width: '80%', margin: 'auto', flexDirection: 'column' }} id="all">
                 <Grid style={{ textAlign: 'left', margin: 'none' }} >
                     <Typography>Name:{props.user.userName} </Typography>
-                    <Typography>Working Position:{props.employee.position}</Typography>
                 </Grid>
 
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>

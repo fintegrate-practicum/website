@@ -1,4 +1,4 @@
-import { TaskStatus } from "../../../classes/enum/taskStatus.enum";
+import { TaskStatus } from "../classes/enum/taskStatus.enum";
 
 export interface UpdateTaskEmployeeDTO{
     description: string;
