@@ -7,6 +7,7 @@ import { updateBusiness } from '../../Redux/businessSlice';
 import { useAppDispatch ,useAppSelector} from '../../Redux/hooks';
 import { BusinessSize } from '../../classes/business';
 
+
 export default function MoreDetailsManager(): JSX.Element {
     const companyNumber=useAppSelector((state)=>state.businessSlice.business.companyNumber)
 
