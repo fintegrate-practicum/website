@@ -13,7 +13,7 @@ const initialState = {
         code: '',
         createdBy: '',
         updatedBy: '',
-        role: new EmployeeRole('manager', true, "hhgg"),
+        role: new EmployeeRole('', true, "hhgg"),
         nameEmployee: '',
       
     },
