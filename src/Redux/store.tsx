@@ -10,11 +10,10 @@ const Store = configureStore({
     reducer: {
         businessSlice,
         currentUserSlice,
-        user:userSlice.reducer,
+        user: userSlice.reducer,
         employeeSlice,
         taskSlice,
         messageSlice,
-
     }
 })
 

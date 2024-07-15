@@ -93,6 +93,23 @@ import MoreDetailsManager from './components/createBusiness/moreDetailsManager';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
 import WorkersTopNav from './components/navigation/Workers';
+import ItemDetailToWorker from './modules/workers/components/itemDetailToWorker';
+import MessageList from './modules/workers/components/messageList';
+import SidebarWorkerDetails from './modules/workers/components/sidebar_bacik_personal_details';
+import WorkersShowList from './modules/workers/components/workersShowList';
+import WorkerPage from './modules/workers/components/workerPage';
+import User from './modules/workers/classes/user';
+import Employee from './modules/workers/classes/employee';
+import DeleteTask from './modules/workers/components/tasks/deleteTask';
+import EditTask from './modules/workers/components/tasks/editTask';
+import { Search } from '@mui/icons-material';
+import TaskPage from './modules/workers/components/tasks/taskPage';
+import SearchTask from './modules/workers/components/tasks/searchTask';
+import Task from './modules/workers/classes/task';
+import FilterAndSortTask from './modules/workers/components/tasks/filterAndSortTask';
+import TasksShowList from './modules/workers/components/tasks/tasksShowList';
+import AddTaskBtn from './modules/workers/components/tasks/createTaskBtn';
+import { TaskStatus } from './modules/workers/classes/enum/taskStatus.enum';
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const App = () => {
   const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser);
@@ -122,7 +139,41 @@ const App = () => {
           <AuthMenu />
           <ErrorToast />
           <Routes>
-            <Route path="/WorkersTopNav" element={<WorkersTopNav />}/>
+
+          {/* קומפוננטות 1-4 עובדות נפלא */}
+          {/* שגיאת טייפסקירפט */}
+          <Route path="/1" element={<ItemDetailToWorker item={undefined} column={[]} />}/>
+          <Route path="/2" element={<MessageList messages={[]} />}/>
+          <Route path="/3" element={<SidebarWorkerDetails/>}/>
+          <Route path="/4" element={<WorkerPage user={new User} employee={new Employee} />}/>
+
+          {/* //דף לבן עם כמה שגיאות */}
+          <Route path="/details" element={<WorkersShowList />}/>
+
+          {/* הנאב נפתח אבל כשלוחצים על כל דבר עושה שהניתוב לא נכון */}
+            <Route path="/6" element={<WorkersTopNav />}/>
+
+            <Route path="/7" element={<AddTaskBtn />}/>
+            <Route path="/8" element={<DeleteTask taskId={''} />}/>
+            <Route path="/9" element={<EditTask
+                status={TaskStatus.Completed} 
+                taskId="123" 
+                description="Task description" 
+                taskName="Task name" 
+                targetDate={new Date()} 
+                employee={["employee1", "employee2"]} 
+             />}/>
+            <Route path="/10" element={<FilterAndSortTask filteredTasks={[]} setFilteredTasks={function (value: React.SetStateAction<Task[]>): void {
+              throw new Error('Function not implemented.');
+            } } />}/>
+            <Route path="/11" element={<SearchTask tasks={[]} setFilteredTasks={function (value: React.SetStateAction<Task[]>): void {
+              throw new Error('Function not implemented.');
+            } } />}/>
+            <Route path="/tasks" element={<TaskPage />}/>
+            <Route path="/13" element={<TasksShowList filteredTasks={[]} setFilteredTasks={function (value: React.SetStateAction<Task[]>): void {
+              throw new Error('Function not implemented.');
+            } } />}/>
+
             <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
             <Route path="/CreateBusiness/BaseDetailsManager" element={<BaseDetailsManager />} />
             <Route path="/CreateBusiness/EmailVerification" element={<EmailVerification />} />
