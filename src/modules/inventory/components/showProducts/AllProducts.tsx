@@ -11,18 +11,22 @@ import Button from "@mui/material/Button";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useAppSelector } from "../../app/hooks";
+import { Link } from 'react-router-dom';
 
 export default function ShowProducts() {
   const dispatch = useDispatch();
   const [startIndex, setStartIndex] = useState(0);
   const itemsPerPage = 10;
-  const products = useAppSelector((state) => state.product.data);
-  const components = useAppSelector((state) => state.component.data);
+  const products = useAppSelector((state) => state.product?.data || []);
+  console.log(useAppSelector((state) => state.product?.data));
+ 
+  const components = useAppSelector((state) => state.component?.data || []);
   const listProducts = [...products,...components];
+
   
   const getAllProducts = async () => {
     try {
-      const res = await getAllItems<IProduct[]>('product');
+      const res = await getAllItems<IProduct[]>('inventory/product');   
       dispatch(getProducts(res.data));
     }
     catch (err) {
@@ -32,7 +36,7 @@ export default function ShowProducts() {
 
   const getComponents = async () => {
     try {
-      const res = await getAllItems<IComponent[]>('component');
+      const res = await getAllItems<IComponent[]>('inventory/component');
       dispatch(getAllComponents(res.data));
     }
     catch (err) {
@@ -59,8 +63,10 @@ export default function ShowProducts() {
   return (
     <Grid sx={{ flexGrow: 1 }} container spacing={2} direction="column">
       <Grid container justifyContent="center">
-        {paginatedProducts.map((product: IProduct | IComponent) => (
-          <SingleProduct key={product.id} product={product} />
+        {products.length > 0 && paginatedProducts.map((product: IProduct | IComponent) => (
+          <Link key={product.id}  to={`${location.pathname}/${product.id}`}  style={{ textDecoration: 'none' }}>
+           <SingleProduct product={product} />
+          </Link>
         ))}
       </Grid>
       <div style={{ display: 'flex', justifyContent: 'center' }}>

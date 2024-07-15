@@ -23,6 +23,7 @@ export const addItem = <T extends Item>(state: State<T>, action: PayloadAction<T
 };
 
 export const setData = <T extends Item>(state: State<T>, action: PayloadAction<T[]>) => {
+  console.log(state,action)
   return {
     ...state,
     data: action.payload,
