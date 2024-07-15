@@ -19,7 +19,6 @@ const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const App = () => {
   const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser);
   const [typeUser, setTypeUser] = useState<any | null>(null);
-  const [isLogin, setIsLogin] = useState(false);
   const [lastInvalidPath, setLastInvalidPath] = useState<string | null>(null);
   const location = useLocation();
 
