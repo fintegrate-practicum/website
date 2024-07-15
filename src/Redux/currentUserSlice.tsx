@@ -13,7 +13,7 @@ const initialState = {
         code: '',
         createdBy: '',
         updatedBy: '',
-        role: new EmployeeRole('', true, "hhgg"),
+        role: { type: '', active: true, description: "hhgg" },  
         nameEmployee: '',
       
     },
@@ -21,11 +21,11 @@ const initialState = {
         userName: '',
         userEmail: '',
         auth0_user_id: '',
-        registeredAt: new Date(),
-        lastLogin: new Date(),
+        registeredAt: new Date().toISOString(), 
+        lastLogin: new Date().toISOString(),    
         mobile: '',
         status: statuses.Married,
-        dateOfBirth: new Date(),
+        dateOfBirth: new Date().toISOString(),  
         address: {
           city: '',
           street: '',
@@ -43,7 +43,10 @@ export const fetchUserById = createAsyncThunk(
   async (userId: string, { dispatch }) => {
     try {
       const response = await InfraInterceptors.get(`$/currentUser/${userId}`);
-      const data = response.data;   
+      const data = response.data; 
+      data.userDetails.registeredAt = new Date(data.userDetails.registeredAt);
+      data.userDetails.lastLogin = new Date(data.userDetails.lastLogin);
+      data.userDetails.dateOfBirth = new Date(data.userDetails.dateOfBirth);  
       dispatch(currentUserSlice.actions.setCurrentUser(data));      
       return data;
     } catch (error: any) {
