@@ -1,7 +1,7 @@
 export interface IProduct {
     id: string;
-    productName: string;
-    productDescription: string;
+    name: string;
+    description: string;
     componentsImages: string[];
     packageCost: number;
     productComponents: string[];

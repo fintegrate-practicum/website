@@ -13,7 +13,7 @@ const initialState = {
         code: '',
         createdBy: '',
         updatedBy: '',
-        role: null,
+        role: new EmployeeRole('manager', true, "hhgg"),
         nameEmployee: '',
       
     },
@@ -21,11 +21,11 @@ const initialState = {
         userName: '',
         userEmail: '',
         auth0_user_id: '',
-        registeredAt: null,
-        lastLogin: null,
+        registeredAt: new Date(),
+        lastLogin: new Date(),
         mobile: '',
         status: statuses.Married,
-        dateOfBirth: null,
+        dateOfBirth: new Date(),
         address: {
           city: '',
           street: '',

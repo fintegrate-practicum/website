@@ -1,42 +1,46 @@
 import React from 'react';
-import { Card, CardContent, CardActions, Typography, Button } from '@mui/material';
+import AspectRatio from '@mui/joy/AspectRatio';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
-import { IProduct } from '../../interfaces/IProduct';
+import Button from '@mui/joy/Button';
+import Card from '@mui/joy/Card';
+import CardContent from '@mui/joy/CardContent';
+import CardOverflow from '@mui/joy/CardOverflow';
+import Typography from '@mui/joy/Typography';
+import { IProduct } from '../../interfaces/IProduct'
 import { IComponent } from '../../interfaces/IComponent';
-import { json } from 'stream/consumers';
-import { useParams } from 'react-router-dom';
-import { useAppSelector } from '../../app/hooks';
 
-interface Props {
-  product: IProduct | IComponent;
-}
-
-const SingleProduct: React.FC<Props> = ({ product }) => {
-
-  const products = useAppSelector((state) => state.product?.data || []);
-  const productId=useParams().productId;
-  const product1=productId?products.find(p => p.id == productId)!:product;
-  
-  const { productName, totalPrice } = product1;
-
+const SingleProduct: React.FC<{ product: IProduct | IComponent }> = ({ product }) => {
+  const isProduct = "productComponents" in product;
+  const description = product.description ;
+  const price = product.totalPrice;
+  const images = isProduct ? product.componentsImages : product.componentImages;
 
   return (
-    <Card sx={{ maxWidth: 400 }}>
+    <Card sx={{ width: 200, maxWidth: '100%', boxShadow: 'lg', margin: 2 }}>
+      <CardOverflow>
+        <AspectRatio sx={{ minWidth: 200 }}>
+          {
+            images.map((image) => (
+              <img></img>
+              // <img src={image.src} alt={image.alt} key={image.id} />
+            ))
+          }
+        </AspectRatio>
+      </CardOverflow>
       <CardContent>
-        <Typography variant="h5" component="div">
-          {productName}
+        <Typography>
+          {description}
         </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Price: {totalPrice} <AttachMoneyOutlinedIcon fontSize='small' />
+        <Typography level="h4">
+          {price}<AttachMoneyOutlinedIcon fontSize='small' />
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button variant="contained" color="primary">
-          Add to Cart
+      <CardOverflow>
+        <Button variant="solid" color="danger" size="lg">
+          Add to cart
         </Button>
-      </CardActions>
+      </CardOverflow>
     </Card>
   );
 }
-
 export default SingleProduct;
