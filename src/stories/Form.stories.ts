@@ -3,7 +3,7 @@ import { Story, Meta } from '@storybook/react';
 import { Form } from './Form';
 
 export default {
-  title: 'Example/Form', // Update the title to group it under "Example"
+  title: 'Example/Form',
   component: Form,
 } as Meta;
 
@@ -17,10 +17,18 @@ type TemplateProps = {
 
 const Template: Story<TemplateProps> = (args) => <Form {...args} />;
 
-export const Default = Template.bind({});
-Default.args = {
+export const Login = Template.bind({});
+Login.args = {
   onSubmit: (formData) => {
-    // Handle form submission
-    console.log(formData);
+    // Handle login form submission
+    console.log('Logged in:', formData);
+  },
+};
+
+export const Logout = Template.bind({});
+Logout.args = {
+  onSubmit: (formData) => {
+    // Handle logout form submission
+    console.log('Logged out:', formData);
   },
 };
