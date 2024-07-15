@@ -15,15 +15,20 @@ const Profile: React.FC = () => {
   const [userMetadata, setUserMetadata] = useState<any>(null); 
   const dispatch = useAppDispatch()
 
-  function setCookie(name:String, value:String, days:number) {
+  function setCookie(name: string, value: string, days: number) {
+    const encodedName = encodeURIComponent(name);
+    const encodedValue = encodeURIComponent(value);
+
     let expires = "";
     if (days) {
         const date = new Date();
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-       expires = `; expires=${date.toUTCString()}`;
-      }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
-  }
+        expires = `; expires=${date.toUTCString()}`;
+    }
+    
+    let cookieOptions = `${encodedName}=${encodedValue || ""}${expires}; path=/; HttpOnly; Secure`;
+    document.cookie = cookieOptions;
+}
   useEffect(() => {  
       
     const getUserMetadata = async () => {
