@@ -5,6 +5,7 @@ import messageSlice from "./messageSlice";
 import userSlice from './reducer'
 import businessSlice from './businessSlice'
 import currentUserSlice from "./currentUserSlice";
+import productSlice from "../modules/inventory/features/product/productSlice";
 
 const Store = configureStore({
     reducer: {
@@ -14,7 +15,7 @@ const Store = configureStore({
         taskSlice,
         messageSlice,
         currentUserSlice,
-
+        product : productSlice
     }
 })
 

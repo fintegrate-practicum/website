@@ -13,6 +13,8 @@ import EmailVerification from './components/createBusiness/emailVerification';
 import MoreDetailsManager from './components/createBusiness/moreDetailsManager';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
+import AddProductForm from './modules/inventory/components/AddProductForm';
+import Inventory from './modules/inventory/Inventory';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 
@@ -44,33 +46,38 @@ const App = () => {
   const isRootPath = location.pathname === '/';
 
   return (
-    <ThemeProvider theme={theme}>
-      <Provider store={Store}>
-        <AuthMenu />
-        <ErrorToast />
-        <Routes>
-          <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
-          <Route path="/CreateBusiness/BaseDetailsManager" element={<BaseDetailsManager />} />
-          <Route path="/CreateBusiness/EmailVerification" element={<EmailVerification />} />
-          <Route path="/CreateBusiness/MoreDetailsManager" element={<MoreDetailsManager />} />
-          <Route path="/link/:linkUID" element={<Client />} />
-          <Route path="/:any/*" element={<ErrorToastRoute />} />
-        </Routes>
-        {isRootPath && (
-          <>
-            {typeUser !== 'manager' && typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (
-              <Client />
-            ) : typeUser === 'manager' || typeUser === 'admin' ? (
-              <>
-                <MainRouter />
-              </>
-            ) : (
-              <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
-            )}
-          </>
-        )}
-      </Provider>
-    </ThemeProvider>
+    <>
+      <h1>נווט לi כדי לראות </h1>
+      <ThemeProvider theme={theme}>
+        <Provider store={Store}>
+          <AuthMenu />
+          <ErrorToast />
+          <Routes>
+            <Route path="/i/*" element={<Inventory></Inventory>} />
+            <Route path="/addProduct" element={<AddProductForm></AddProductForm>} />
+            <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
+            <Route path="/CreateBusiness/BaseDetailsManager" element={<BaseDetailsManager />} />
+            <Route path="/CreateBusiness/EmailVerification" element={<EmailVerification />} />
+            <Route path="/CreateBusiness/MoreDetailsManager" element={<MoreDetailsManager />} />
+            <Route path="/link/:linkUID" element={<Client />} />
+            <Route path="/:any/*" element={<ErrorToastRoute />} />
+          </Routes>
+          {isRootPath && (
+            <>
+              {typeUser !== 'manager' && typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (
+                <Client />
+              ) : typeUser === 'manager' || typeUser === 'admin' ? (
+                <>
+                  <MainRouter />
+                </>
+              ) : (
+                <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
+              )}
+            </>
+          )}
+        </Provider>
+      </ThemeProvider>
+    </>
   );
 }
 
