@@ -13,6 +13,8 @@ import EmailVerification from './components/createBusiness/emailVerification';
 import MoreDetailsManager from './components/createBusiness/moreDetailsManager';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
+import Inventory from './modules/inventory/Inventory';
+
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 
@@ -25,7 +27,7 @@ const App = () => {
 
   useEffect(() => {
     if (currentUser) {
-      const type = currentUser.employeeDetails.role.type;
+      const type = "admin"
       setTypeUser(type);
     }
   }, [currentUser]);
@@ -49,6 +51,7 @@ const App = () => {
         <AuthMenu />
         <ErrorToast />
         <Routes>
+          <Route path="/Inventory/*" element={<Inventory />} />
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
           <Route path="/CreateBusiness/BaseDetailsManager" element={<BaseDetailsManager />} />
           <Route path="/CreateBusiness/EmailVerification" element={<EmailVerification />} />
