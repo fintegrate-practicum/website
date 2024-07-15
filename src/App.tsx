@@ -92,8 +92,6 @@ import EmailVerification from './components/createBusiness/emailVerification';
 import MoreDetailsManager from './components/createBusiness/moreDetailsManager';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
-import TaskPage from './modules/workers/components/tasks/taskPage';
-import WorkersShowList from './modules/workers/components/workersShowList';
 import WorkersTopNav from './components/navigation/Workers';
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const App = () => {
@@ -124,7 +122,7 @@ const App = () => {
           <AuthMenu />
           <ErrorToast />
           <Routes>
-            <Route path="/taskPage" element={<WorkersTopNav />}/>
+            <Route path="/WorkersTopNav" element={<WorkersTopNav />}/>
             <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
             <Route path="/CreateBusiness/BaseDetailsManager" element={<BaseDetailsManager />} />
             <Route path="/CreateBusiness/EmailVerification" element={<EmailVerification />} />
