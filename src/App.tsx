@@ -56,6 +56,7 @@ const App = () => {
           <Route path="/link/:linkUID" element={<Client />} />
           <Route path="/:any/*" element={<ErrorToastRoute />} />
         </Routes>
+        
         {isRootPath && (
           <>
             {typeUser !== 'manager' && typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (
