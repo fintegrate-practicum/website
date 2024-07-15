@@ -1,0 +1,14 @@
+.section {
+    background: #f0f0f0;
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  .section h2 {
+    color: #333;
+  }
+  
+  .section p {
+    color: #666;
+  }
