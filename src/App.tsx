@@ -27,7 +27,7 @@ const App = () => {
 
   useEffect(() => {
     if (currentUser) {
-      const type = "admin"
+      const type = currentUser.employeeDetails.role.type
       setTypeUser(type);
     }
   }, [currentUser]);

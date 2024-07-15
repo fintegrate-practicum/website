@@ -11,9 +11,6 @@ function Inventory() {
   const products = useAppSelector((state) => state.product?.data || []);
   const components = useAppSelector((state) => state.component?.data || []);
 
- console.log(`111:`,useParams().productId);
- console.log(`222:`,products.find(p => p.id == useParams().productId));
-
   return (
     <div>
       <Routes>
