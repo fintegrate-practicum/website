@@ -10,11 +10,11 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
-import { UpdateTaskEmployeeDTO } from "../../../dto/updateTaskEmployeeDto";
-import { editTask } from "../../../Redux/taskSlice";
-import { UpdateTaskManagerDTO } from "../../../dto/updateTaskManagerDto";
-import { TaskStatus } from "../../../classes/enum/taskStatus.enum";
+import { useAppDispatch, useAppSelector } from "../../../../Redux/hooks";
+import { UpdateTaskEmployeeDTO } from "../../dto/updateTaskEmployeeDto";
+import { editTask } from "../../features/taskSlice";
+import { UpdateTaskManagerDTO } from "../../dto/updateTaskManagerDto";
+import { TaskStatus } from "../../classes/enum/taskStatus.enum";
 
 const EditTask = (props: {
   status: TaskStatus;
@@ -146,7 +146,7 @@ const EditTask = (props: {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={status}
+                value={status.toString()}
                 label="status"
                 onChange={handleChange}
               >

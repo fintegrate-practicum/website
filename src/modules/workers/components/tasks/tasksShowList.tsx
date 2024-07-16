@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import GenericList from "../../generic/genericList";
-import Task from "../../../classes/task";
-import { useAppSelector } from "../../../Redux/hooks";
+import GenericList from "../../../../components/generic/genericList";
+import Task from "../../classes/task";
+import { useAppSelector } from "../../../../Redux/hooks";
 
 interface ShowTaskListProps {
   filteredTasks: Task[];

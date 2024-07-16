@@ -13,9 +13,9 @@ import Stack from '@mui/material/Stack';
 import Badge from '@mui/material/Badge';
 import MailIcon from '@mui/icons-material/Mail';
 
-import User from '../../classes/user';
+import User from '../classes/user';
 import React from 'react';
-import employee from '../../classes/employee';
+import employee from '../classes/employee';
 
 interface WorkerPageProps {
     user: User;
@@ -38,7 +38,6 @@ interface WorkerPageProps {
             <Grid style={{ display: 'flex', flexWrap: 'wrap', width: '80%', margin: 'auto', flexDirection: 'column' }} id="all">
                 <Grid style={{ textAlign: 'left', margin: 'none' }} >
                     <Typography>Name:{props.user.userName} </Typography>
-                    <Typography>Working Position:{props.employee.position}</Typography>
                 </Grid>
 
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>

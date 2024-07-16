@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import { List, ListItem, ListItemText, Paper, Typography, CssBaseline } from '@mui/material';
 import { Box } from '@mui/system';
 import PropTypes from 'prop-types';
-import Message from '../../classes/message'; 
-
+import Message from '../classes/message'
 const MessageList = ({ messages }: { messages: Message[] }) => {
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
 

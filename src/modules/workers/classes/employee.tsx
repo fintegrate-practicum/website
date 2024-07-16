@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { EmployeeRole } from "./enum/employeeRole.enum";
+import { EmployeeRole } from "./employeeRole";
 class Employee {
     userId!: string;
     businessId!: Types.ObjectId;

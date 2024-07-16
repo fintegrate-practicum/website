@@ -44,7 +44,7 @@ export default function SidebarWorkerDetails(props: SidebarWorkerDetailsProps) {
                                         <Icon sx={{
                                             padding: "12px", paddingTop: "2px",
                                         }}><CallIcon /></Icon>
-                                        phon
+                                        phone
                                     </Button>
                                 </MenuItem>
                                 <MenuItem >

@@ -1,19 +1,21 @@
 import * as React from 'react';
 import { Box, Tab } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import WorkerPage from '../workers/workerPage';
-import TasksShowList from '../workers/tasks/tasksShowList';
-import User from '../../classes/user';
-import employee from '../../classes/employee';
-import MessageList from '../workers/messageList';
+import WorkerPage from '../../modules/workers/components/workerPage';
+import TasksShowList from '../../modules/workers/components/tasks/tasksShowList';
+import User from '../../modules/workers/classes/user';
+import employee from '../../modules/workers/classes/employee';
+import MessageList from '../../modules/workers/components/messageList';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import Task from '../../modules/workers/classes/task';
 
 const WorkersTopNav = () => {
 
   const location = useLocation();
     
   const [value, setValue] = useState(location.pathname.slice(8));
+  const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
 
   useEffect(() => {
     setValue(location.pathname.slice(8))
@@ -34,7 +36,7 @@ const WorkersTopNav = () => {
           </TabList>
         </Box>
         <TabPanel value="details"><WorkerPage user={new User} employee={new employee}/></TabPanel>
-        <TabPanel value="tasks"><TasksShowList/></TabPanel>
+        <TabPanel value="tasks"><TasksShowList filteredTasks={filteredTasks} setFilteredTasks={setFilteredTasks} /></TabPanel>
         <TabPanel value="messages"><MessageList messages={[]}/></TabPanel>
       </TabContext>
     </Box>
