@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../app/store";
+import { RootState } from "../../../Redux/store";
+
 import axios from "axios";
 import employee from "../classes/employee";
 

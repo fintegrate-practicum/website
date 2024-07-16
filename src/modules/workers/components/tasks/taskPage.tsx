@@ -2,7 +2,7 @@ import { useState } from 'react';
 import SearchTask from "./searchTask";
 import Task from "../../classes/task";
 import TasksShowList from "./tasksShowList";
-import { useAppSelector } from '../../app/hooks';
+import { useAppSelector } from "../../../../Redux/hooks";
 
 const TaskPage = () => {
     const tasks = useAppSelector((state) => state.taskSlice);

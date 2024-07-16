@@ -15,6 +15,7 @@ const WorkersTopNav = () => {
   const location = useLocation();
     
   const [value, setValue] = useState(location.pathname.slice(8));
+  const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
 
   useEffect(() => {
     setValue(location.pathname.slice(8))
@@ -35,9 +36,7 @@ const WorkersTopNav = () => {
           </TabList>
         </Box>
         <TabPanel value="details"><WorkerPage user={new User} employee={new employee}/></TabPanel>
-        <TabPanel value="tasks"><TasksShowList filteredTasks={[]} setFilteredTasks={function (value: React.SetStateAction<Task[]>): void {
-          throw new Error('Function not implemented.');
-        } }/></TabPanel>
+        <TabPanel value="tasks"><TasksShowList filteredTasks={filteredTasks} setFilteredTasks={setFilteredTasks} /></TabPanel>
         <TabPanel value="messages"><MessageList messages={[]}/></TabPanel>
       </TabContext>
     </Box>

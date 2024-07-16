@@ -3,7 +3,7 @@ import axios from "axios";
 import task from "../classes/task";
 import {  UpdateTaskEmployeeDTO } from "../dto/updateTaskEmployeeDto";
 import { UpdateTaskManagerDTO } from "../dto/updateTaskManagerDto";
-import { RootState } from "../app/store";
+import { RootState } from "../../../Redux/store";
 interface EditTaskArgs {
     taskId: string;
     updateTask: UpdateTaskManagerDTO | UpdateTaskEmployeeDTO;

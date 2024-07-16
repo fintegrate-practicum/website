@@ -1,10 +1,10 @@
 
 import GenericList from "../../../components/generic/genericList";
-import { useAppSelector } from "../app/hooks";
+import { useAppSelector } from "../../../Redux/hooks";
 import ItemDetailToWorker from "./itemDetailToWorker";
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
-import { RootState } from "../app/store";
+import { RootState } from "../../../Redux/store";
 
 const WorkersShowList = () => {
 
