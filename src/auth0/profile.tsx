@@ -16,9 +16,7 @@ const Profile: React.FC = () => {
   const dispatch = useAppDispatch()
 
   function setCookie(name: string, value: string, days: number) {
-    const encodedName = encodeURIComponent(name);
-    const encodedValue = encodeURIComponent(value);
-
+    
     let expires = "";
     if (days) {
         const date = new Date();
@@ -26,9 +24,11 @@ const Profile: React.FC = () => {
         expires = `; expires=${date.toUTCString()}`;
     }
     
-    let cookieOptions = `${encodedName}=${encodedValue || ""}${expires}; path=/; HttpOnly; Secure`;
-    document.cookie = cookieOptions;
+    document.cookie = name + "=" + (value || "") + expires + "; path=/; HttpOnly";
+    // Secure
+    
 }
+
   useEffect(() => {  
       
     const getUserMetadata = async () => {
