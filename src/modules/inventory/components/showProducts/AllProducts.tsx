@@ -18,8 +18,6 @@ export default function ShowProducts() {
   const [startIndex, setStartIndex] = useState(0);
   const itemsPerPage = 10;
   const products = useAppSelector((state) => state.product?.data || []);
-  console.log(useAppSelector((state) => state.product?.data));
- 
   const components = useAppSelector((state) => state.component?.data || []);
   const listProducts = [...products,...components];
 
