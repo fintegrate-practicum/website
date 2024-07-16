@@ -12,22 +12,15 @@ interface Props {
 }
 
 const SingleProduct: React.FC<Props> = ({ product }) => {
-
-  const products = useAppSelector((state) => state.product?.data || []);
-  const productId=useParams().productId;
-  const product1=productId?products.find(p => p.id == productId)!:product;
   
-  const { productName, totalPrice } = product1;
-
-
   return (
     <Card sx={{ maxWidth: 400 }}>
       <CardContent>
         <Typography variant="h5" component="div">
-          {productName}
+          {product.productName}
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Price: {totalPrice} <AttachMoneyOutlinedIcon fontSize='small' />
+          Price: {product.totalPrice} <AttachMoneyOutlinedIcon fontSize='small' />
         </Typography>
       </CardContent>
       <CardActions>
