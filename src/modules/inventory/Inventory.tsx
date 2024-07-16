@@ -8,9 +8,6 @@ import { useAppSelector } from './app/hooks';
 
 function Inventory() {
 
-  const products = useAppSelector((state) => state.product?.data || []);
-  const components = useAppSelector((state) => state.component?.data || []);
-
   return (
     <div>
       <Routes>
