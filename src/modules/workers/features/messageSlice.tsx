@@ -3,17 +3,14 @@ import axios from "axios";
 import { RootState } from "../../../Redux/store";
 import message from "../classes/message";
 
-// Define a type for the slice state
 interface MessageState {
   messages: message[];
 }
 
-// Define the initial state using that type
 const initialState: MessageState = {
   messages: [],
 };
 
-// Async thunk to fetch messages
 export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
   async (employeeId: string) => {
@@ -35,3 +32,4 @@ const messageSlice = createSlice({
 
 export const selectMessages = (state: RootState) => state.messageSlice.messages;
 export default messageSlice.reducer;
+
