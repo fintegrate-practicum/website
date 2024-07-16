@@ -6,28 +6,38 @@ import {
     Avatar,
     Typography,
     Grid,
-
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle
 } from '@mui/material';
-
 import Stack from '@mui/material/Stack';
 import Badge from '@mui/material/Badge';
 import MailIcon from '@mui/icons-material/Mail';
-
 import User from '../classes/user';
-import React from 'react';
+import React, { useState } from 'react';
 import employee from '../classes/employee';
+import UpdateEmployeeDetails from './updateEmployeeDetails';
 
 interface WorkerPageProps {
     user: User;
-    employee:employee;
-  }  
+    employee: employee;
+}
 
+const WorkerPage: React.FC<WorkerPageProps> = (props) => {
+    const [open, setOpen] = useState(false);
 
-  const WorkerPage: React.FC<WorkerPageProps> = (props) => {
- 
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     return (
-
         <>
             <Stack spacing={4} direction="row-reverse" sx={{ color: 'action.active', display: 'flex', justifyContent: 'flex-end', width: '90%', flexDirection: 'row' }}>
                 <Badge color="secondary" badgeContent={0} showZero>
@@ -55,20 +65,39 @@ interface WorkerPageProps {
                                         variant="body2"
                                         color="text.primary"
                                     > dateOfBirth: {props.user.userName}
-                                    <br/> 
-                                    mobile: {props.user.mobile} 
-                                    <br/>
-                                    status: {props.user.status}                                                                                                     
-                                    </Typography>                                    
-                                }                                
+                                        <br />
+                                        mobile: {props.user.mobile}
+                                        <br />
+                                        status: {props.user.status}
+                                    </Typography>
+                                }
                             />
-                            
                         </Grid>
                     </ListItem>
                 </List>
+                <Button variant="contained" color="primary" onClick={handleClickOpen}>
+                    לעריכה
+                </Button>
+
+                <Dialog open={open} onClose={handleClose}>
+                    <DialogTitle>ערוך פרטים</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            ערוך שינויים בפרטיך ושמור
+                        </DialogContentText>
+                        <UpdateEmployeeDetails />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="primary">
+                            בטל
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Grid>
         </>
     );
 };
 
 export default WorkerPage;
+
+
