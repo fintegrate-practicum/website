@@ -59,7 +59,3 @@ MessageList.propTypes = {
 };
 
 export default MessageList;
-
-
-
-
