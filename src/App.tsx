@@ -48,7 +48,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
-         <Client />
+      <Login />
         <ErrorToast />
         <Routes>
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
@@ -58,7 +58,7 @@ const App = () => {
           <Route path="/CreateBusiness/MoreDetailsManager" element={<Suspense fallback="Loading..."><LazyMoreDetailsManager /></Suspense>} />
           <Route path="/link/:linkUID" element={<Suspense fallback="Loading..."><LazyClient /></Suspense>} />
         </Routes>
-        {isRootPath && (
+        {/* {isRootPath && (
           <>
             {typeUser !== 'manager' && typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (
               <Client />
@@ -67,12 +67,12 @@ const App = () => {
                 <MainRouter />
               </>
             ) : (
-              // 
+              
               <Login/>
-              // <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
+              <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
             )}
           </>
-        )}
+        )} */}
       </Provider>
     </ThemeProvider>
   );
