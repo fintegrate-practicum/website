@@ -16,7 +16,7 @@ const setCurrentMenu = vi.fn();
 const renderSideMenu = () =>
   render(
     <BrowserRouter>
-      <SideMenu props={{ items, setCurrentMenu }} />
+      <SideMenu  items = {items} setCurrentMenu = {setCurrentMenu} />
     </BrowserRouter>
   );
 

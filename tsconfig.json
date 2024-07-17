@@ -33,9 +33,4 @@
     "src/**/*.tsx",
     "vitest.config.ts"
   ],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ]
 }
