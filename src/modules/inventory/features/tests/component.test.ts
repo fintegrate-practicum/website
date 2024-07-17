@@ -19,11 +19,33 @@ describe('myReducer', () => {
 
 describe('myReducer', () => {
   it('should remove a component from the state using deleteComponent', () => {
-    const initialState = { data: [{ id: "0", componentName: "rivki", componentBuyPrice: 50, addingComponentDate: new Date("2024-05-28"), minQuantity: 3, componentStock: 6,
-    isActive: false, adminId: "reuven", isSoldSeparately: true, componentDescription: "des", salePrice: 60,
-    componentImages: ['1', '2', '3', '4'], isInSale: true, salePercentage: 5, componentColor: "red", componentSize: "medium",
-    bussinesId: "shop"  }] }; 
-
+    
+    const initialState = {
+      data: [{
+        id: "0",
+        componentName: "rivki",
+        componentBuyPrice: 50,
+        addingComponentDate: new Date("2024-05-28"),
+        minQuantity: 3,
+        componentStock: 6,
+        isActive: false,
+        adminId: "reuven",
+        isSoldSeparately: true,
+        componentDescription: "des",
+        salePrice: 60,
+        componentImages: ['1', '2', '3', '4'],
+        isInSale: true,
+        salePercentage: 5,
+        componentColor: "red",
+        componentSize: "medium",
+        bussinesId: "shop",
+        name: "", // Add missing properties based on the IComponent interface
+        stockQuantity: 0,
+        description: "",
+        totalPrice: 0,
+        isOnSale: false,
+      }],
+    };
     const store = createStore(reducer, initialState);
 
     const itemIdToDelete = "0"; 

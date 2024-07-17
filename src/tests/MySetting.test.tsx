@@ -58,17 +58,22 @@ describe('<MySetting>', () => {
           props: {},
         }}
       />
-    );
+    )
     expect(container.firstChild).toBeNull();
   });
 
   test('does not render without required props', () => {
+    const setting = {
+      settingDesc: 'Sample description',
+      type: ComponentType.Button, // Example value for the correct ComponentType
+      // Add any other required properties here
+    };
+  
     const { container } = render(
-      <MySetting/>
+      <MySetting setting={setting} />
     );
     expect(container.firstChild).toBeNull();
   });
-
   test('renders component button with children', () => {
     render(
       <MySetting
@@ -84,7 +89,6 @@ describe('<MySetting>', () => {
     expect(childElement).not.toBeNull();
   });
 
-  
   test('renders ButtonGroup component with children', async () => {
     const { container } = render(
       <MySetting
@@ -93,8 +97,8 @@ describe('<MySetting>', () => {
           type: ComponentType.ButtonGroup,
           props: { variant: 'contained' },
           children: [
-            { key: '1', value: '1' },
-            { key: '2', value: '2' }
+            { key: '1', value: '1' }, // Example object for the ButtonGroup children
+            { key: '2', value: '2' } // Example object for the ButtonGroup children
           ],
         }}
       />
