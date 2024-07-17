@@ -38,7 +38,9 @@ const AddProductForm = () => {
     const sumArrComponent = () => {
         let sum = 0;
         productComponents.forEach((component: IComponent) => {
-            sum += component.componentBuyPrice;
+            if (component.componentBuyPrice !== undefined) {
+                sum += component.componentBuyPrice;
+            }
         });
         return sum;
     };

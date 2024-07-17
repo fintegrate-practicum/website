@@ -11,7 +11,7 @@ const deleteButton: React.FunctionComponent<{componentDetails:IComponent}> = ({c
     const dispatch = useDispatch();
     const handleClickDelete = async () => {
         try {
-            await deleteItem<IComponent>('component', componentDetails.id);
+            await deleteItem<IComponent>('component', componentDetails.id as string);
             dispatch(deleteComponent(componentDetails.id));
 
         } catch (error) {

@@ -13,7 +13,7 @@ const SingleProduct: React.FC<{ product: IProduct | IComponent }> = ({ product }
   const isProduct = "productComponents" in product;
   const description = product.description ;
   const price = product.totalPrice;
-  const images = isProduct ? product.componentsImages : product.componentImages;
+  const images = isProduct ? product.componentsImages : product.componentImages as string[] ;
 
   return (
     <Card sx={{ width: 200, maxWidth: '100%', boxShadow: 'lg', margin: 2 }}>
