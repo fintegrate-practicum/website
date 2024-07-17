@@ -1,4 +1,4 @@
- export enum BusinessSize {
+export enum BusinessSize {
     Private = 'Private',
     Public = 'public',
     International = 'International',
@@ -24,5 +24,4 @@ class Business {
 }
 
 export default Business 
-
 

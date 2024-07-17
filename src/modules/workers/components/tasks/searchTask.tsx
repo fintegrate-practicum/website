@@ -3,7 +3,7 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import Task from '../../../classes/task';
+import Task from '../../classes/task';
 
 interface SearchTaskProps {
   tasks: Task[];
