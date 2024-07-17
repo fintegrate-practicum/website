@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { useAuth0 } from "@auth0/auth0-react";
 import { RootState } from "./store";
 import { EmployeeRole } from "../classes/enum/employeeRole.enum";
 import { statuses } from "../classes/user";
@@ -42,7 +43,20 @@ export const fetchUserById = createAsyncThunk(
   'fetchUserById',
   async (userId: string, { dispatch }) => {
     try {
-      const response = await InfraInterceptors.get(`$/currentUser/${userId}`);
+      const { getAccessTokenSilently } = useAuth0();
+      const auth0_audience = import.meta.env.VITE_AUTH0_AUDIENCE as string;
+      const accessToken = await getAccessTokenSilently({      
+        authorizationParams: {
+          audience: auth0_audience,
+          scope: "read:current_user",
+        },
+        
+      });
+      const response = await InfraInterceptors.get(`$/currentUser`, {
+        headers: { 
+            Authorization: `Bearer ${accessToken}`,
+            UserId: userId 
+    }});
       const data = response.data;   
       dispatch(currentUserSlice.actions.setCurrentUser(data));      
       return data;
