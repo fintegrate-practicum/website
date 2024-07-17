@@ -47,13 +47,19 @@ export interface RadioGroupChildren {
 export interface FloatingActionButtonChildren {
   children: string;
 }
-
+interface CustomChildren {
+  key?: string;
+  value?: string;
+  text?: string;
+  label?:string;
+}
 export interface MySettingProps {
+
   setting: {
     settingDesc: string;
     type: ComponentType;
     props?: Record<string, any>;
-    children?: RadioGroupChildren | SelectChildren | ButtonGroupChildren | ButtonChildren | FloatingActionButtonChildren | string;
+    children?: CustomChildren[] |CustomChildren| RadioGroupChildren | SelectChildren | ButtonGroupChildren | ButtonChildren | FloatingActionButtonChildren | string;
   };
 }
 
