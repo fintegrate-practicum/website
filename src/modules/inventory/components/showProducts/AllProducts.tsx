@@ -62,9 +62,7 @@ export default function ShowProducts() {
     <Grid sx={{ flexGrow: 1 }} container spacing={2} direction="column">
       <Grid container justifyContent="center">
         {products.length > 0 && paginatedProducts.map((product: IProduct | IComponent) => (
-          <Link key={product.id}  to={`${location.pathname}/${product.id}`}  style={{ textDecoration: 'none' }}>
-           <SingleProduct product={product} />
-          </Link>
+          <SingleProduct product={product} />
         ))}
       </Grid>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
