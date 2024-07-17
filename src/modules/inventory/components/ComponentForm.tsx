@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import { addItem } from '../Api-Requests/genericRequests';
 import { addComponent } from '../features/component/componentSlice';
 import './ComponentForm.css';
+import { IComponent } from '../interfaces/IComponent';
 
 const notSaleAloneSchema = yup.object().shape({
     name: yup.string().required("name is a required field").min(3, "name must be at least 3 characters").max(20, "name must be at most 20 characters"),

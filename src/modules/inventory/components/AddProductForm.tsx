@@ -16,15 +16,14 @@ import React, { useState } from 'react';
 const AddProductForm=()=>{
     const [selectedImages, setSelectedImages] = useState<FileList | null>(null);
 
-  const productSchema = yup.object().shape({
-    name: yup.string().required("productName is a required field").min(3, "productName must be at least 3 characters").max(20, "productName must be at most 20 characters"),
-    description: yup.string().required("productDescription is a required field"),
-    totalPrice: yup.string().required("purchase price is a required field").matches(/^[0-9]+(\.[0-9]{1,2})?$/, "price must be a number"),
-    componentsImages: yup.array().min(1, "must be at least 1").max(5, "must be at most 5").required('please select an image')
-});
-
-  const { register, handleSubmit, setValue, formState: { errors } } =
-  useForm<IProduct>({ resolver:  yupResolver(productSchema) });
+    const productSchema = yup.object().shape({
+        name: yup.string().required('Name is required'),
+        description: yup.string().required('Description is required'),
+        componentsImages: yup.array().of(yup.string()).min(1, 'Select at least one image'),
+        totalPrice: yup.number().required('Price is required'),
+    });
+    const { register, handleSubmit, setValue, formState: { errors } } =
+    useForm<IProduct>({ resolver: yupResolver(productSchema) as any });
     const dispatch=useDispatch();
     const onSubmit: SubmitHandler<IProduct> = async (data) => {
       if (selectedImages) {
@@ -55,12 +54,13 @@ const AddProductForm=()=>{
       return sum;
     }
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files) {
-        setValue('componentsImages', Array.from(files));
-    }
-};
+    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = event.target.files;
+        if (files) {
+            const urls = Array.from(files).map(file => URL.createObjectURL(file));
+            setValue('componentsImages', urls);
+        }
+    };
     return (
          <form onSubmit={handleSubmit(onSubmit)}>
              {!errors.name?
