@@ -17,11 +17,9 @@ const Store = configureStore({
         employeeSlice,
         taskSlice,
         messageSlice,
-        currentUserSlice,
         product: productSlice,
         component: componentSlice,
         provider: providerSlice
-
 
     }
 })

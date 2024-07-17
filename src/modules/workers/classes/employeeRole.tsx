@@ -8,6 +8,3 @@ export class EmployeeRole{
     this.description=description;
   }
 }
-
-
-
