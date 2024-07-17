@@ -21,7 +21,7 @@ const Store = configureStore({
         component: componentSlice,
         provider: providerSlice
 
-    }
+    },
   
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
