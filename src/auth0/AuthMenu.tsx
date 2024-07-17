@@ -3,7 +3,7 @@ import Profile from "./profile";
 import LoginButton from "./Login";
 
 const AuthMenu = () => {
-    const { user, isAuthenticated } = useAuth0();
+    const { isAuthenticated } = useAuth0();
     if (isAuthenticated) {
         return (
              <Profile/>

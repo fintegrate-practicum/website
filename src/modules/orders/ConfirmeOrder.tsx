@@ -1,4 +1,4 @@
-import React from 'react';
+
 import './ConfirmeOrder.css';
 
 interface Order {

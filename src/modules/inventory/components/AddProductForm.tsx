@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +10,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import  Button  from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
+import React, { useState } from 'react';
+
+
 const AddProductForm=()=>{
+    const [selectedImages, setSelectedImages] = useState<FileList | null>(null);
+
   const productSchema = yup.object().shape({
     name: yup.string().required("productName is a required field").min(3, "productName must be at least 3 characters").max(20, "productName must be at most 20 characters"),
     description: yup.string().required("productDescription is a required field"),
