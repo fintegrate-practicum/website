@@ -50,7 +50,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
-         <Client />
+      <Client />
         <ErrorToast />
         <Routes>
           <Route path="/Inventory/*" element={<Inventory />} />
@@ -70,7 +70,7 @@ const App = () => {
                 <MainRouter />
               </>
             ) : (
-              // 
+              //
               <Login/>
               // <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
             )}
