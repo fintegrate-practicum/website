@@ -1,0 +1,50 @@
+.App {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+.logo {
+    display: inline-block;
+}
+
+.logo img {
+    width: 100px;
+    height: auto;
+}
+
+.login-button {
+    background-color: #8400ff;
+    color: rgb(255, 234, 0);
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.screenshots {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.screenshots img {
+    width: 200px;
+    height: 150px;
+    margin: 10px;
+    border: 1px solid #ccc;
+}
+
