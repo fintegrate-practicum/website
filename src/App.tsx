@@ -48,7 +48,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
-         <Client />
+      <Client />
         <ErrorToast />
         <Routes>
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
@@ -67,7 +67,7 @@ const App = () => {
                 <MainRouter />
               </>
             ) : (
-              // 
+              //
               <Login/>
               // <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
             )}
