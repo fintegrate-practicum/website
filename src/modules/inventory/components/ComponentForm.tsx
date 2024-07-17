@@ -17,6 +17,7 @@ const notSaleAloneSchema = yup.object().shape({
     isAlone: yup.boolean()
 });
 
+
 const saleAloneSchema = yup.object().shape({
     name: yup.string().required("name is a required field").min(3, "name must be at least 3 characters").max(20, "name must be at most 20 characters"),
     purchasePrice: yup.string().required("purchase price is a required field").matches(/^[0-9]+(\.[0-9]{1,2})?$/, "price must be a number"),
@@ -31,9 +32,9 @@ const saleAloneSchema = yup.object().shape({
             const parsedPurchasePrice = parseFloat(purchasePrice);
             return parsedSalePrice > parsedPurchasePrice || parsedSalePrice === 0;
         }),
-
-    images: yup.array().min(1, "must be at least 1").max(5, "must be at most 5").required('please select an image')
+    images: yup.array().of(yup.mixed()).min(1, "must be at least 1").max(5, "must be at most 5").required('please select an image')
 });
+
 
 export const ComponentForm: React.FC<IComponent> = () => {
     const dispatch = useDispatch();

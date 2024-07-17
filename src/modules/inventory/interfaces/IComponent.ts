@@ -16,4 +16,6 @@ export interface IComponent {
     componentColor: string;
     componentSize: string;
     bussinesId: string;
+    images?: File[];
+
 }
