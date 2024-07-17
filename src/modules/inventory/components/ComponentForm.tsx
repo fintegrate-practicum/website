@@ -10,8 +10,7 @@ import Button from '@mui/material/Button';
 import { addItem } from '../Api-Requests/genericRequests';
 import { addComponent } from '../features/component/componentSlice';
 import './ComponentForm.css';
-import { IComponent } from '../interfaces/IComponent';
-
+;
 const notSaleAloneSchema = yup.object().shape({
     name: yup.string().required("name is a required field").min(3, "name must be at least 3 characters").max(20, "name must be at most 20 characters"),
     purchasePrice: yup.string().required("purchase price is a required field").matches(/^[0-9]+(\.[0-9]{1,2})?$/, "price must be a number"),
@@ -42,7 +41,7 @@ export const ComponentForm: React.FC<IComponent> = () => {
     const [isAloneChecked, setIsAloneChecked] = useState(false);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const { register, handleSubmit, setValue, formState: { errors } } =
-        useForm<IComponent>({ resolver: isAloneChecked ? yupResolver(saleAloneSchema) : yupResolver(notSaleAloneSchema) });
+        useForm<IComponent>({ resolver: isAloneChecked ? yupResolver(saleAloneSchema ) : yupResolver(notSaleAloneSchema) as any});
     const save = async (data: IComponent) => {
         try {
             await addItem<IComponent>('component', data);
@@ -66,12 +65,15 @@ export const ComponentForm: React.FC<IComponent> = () => {
 
     return (
         <form onSubmit={handleSubmit(save)}>
-            {!errors.name ?
-                <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' }, }} noValidate autoComplete="off">
-                    <TextField id="outlined-basic" label="name" variant="outlined" {...register("name")} />
+        {!errors.name ?
+            <form noValidate>
+                <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
+                    <TextField id="outlined-basic" label="name" variant="outlined" {...register("name")} autoComplete="off" />
                 </Box>
-                :
-                <Box className='itemInput' sx={{ '& .MuiTextField-root': { m: 1, width: '18ch' }, }} noValidate autoComplete="off">
+            </form>
+            :
+            <form noValidate>
+                <Box className='itemInput' sx={{ '& .MuiTextField-root': { m: 1, width: '18ch' } }}>
                     <TextField
                         error
                         id="outlined-error-helper-text"
@@ -79,15 +81,21 @@ export const ComponentForm: React.FC<IComponent> = () => {
                         defaultValue="name"
                         helperText={errors.name.message}
                         {...register("name")}
+                        autoComplete="off"
                     />
                 </Box>
-            }
-            {!errors.purchasePrice ?
-                <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' }, }} noValidate autoComplete="off">
+            </form>
+        }
+    
+        {!errors.purchasePrice ?
+            <form noValidate autoComplete="off">
+                <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                     <TextField id="outlined-basic" label="purchase price" variant="outlined" {...register("purchasePrice")} />
                 </Box>
-                :
-                <Box className='itemInput' sx={{ '& .MuiTextField-root': { m: 1, width: '18ch' }, }} noValidate autoComplete="off">
+            </form>
+            :
+            <form noValidate autoComplete="off">
+                <Box className='itemInput' sx={{ '& .MuiTextField-root': { m: 1, width: '18ch' } }}>
                     <TextField
                         error
                         id="outlined-error-helper-text"
@@ -97,21 +105,25 @@ export const ComponentForm: React.FC<IComponent> = () => {
                         {...register("purchasePrice")}
                     />
                 </Box>
-            }
-
-            <label>can be sold separately</label>
-            <input type="checkbox" {...register("isAlone")}
-                checked={isAloneChecked}
-                onChange={handleIsAloneChange} />
-
-            {isAloneChecked && (
-                <>
-                    {!errors.description ?
-                        <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' }, }} noValidate autoComplete="off">
+            </form>
+        }
+    
+        <label>can be sold separately</label>
+        <input type="checkbox" {...register("isAlone")}
+            checked={isAloneChecked}
+            onChange={handleIsAloneChange} />
+    
+        {isAloneChecked && (
+            <>
+                {!errors.description ?
+                    <form noValidate autoComplete="off">
+                        <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                             <TextField id="outlined-basic" label="description" variant="outlined" {...register("description")} />
                         </Box>
-                        :
-                        <Box className='itemInput' sx={{ '& .MuiTextField-root': { m: 1, width: '18ch' }, }} noValidate autoComplete="off">
+                    </form>
+                    :
+                    <form noValidate autoComplete="off">
+                        <Box className='itemInput' sx={{ '& .MuiTextField-root': { m: 1, width: '18ch' } }}>
                             <TextField
                                 error
                                 id="outlined-error-helper-text"
@@ -121,14 +133,18 @@ export const ComponentForm: React.FC<IComponent> = () => {
                                 {...register("description")}
                             />
                         </Box>
-                    }
-
-                    {!errors.salePrice ?
-                        <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' }, }} noValidate autoComplete="off">
+                    </form>
+                }
+    
+                {!errors.salePrice ?
+                    <form noValidate autoComplete="off">
+                        <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                             <TextField id="outlined-basic" label="sale price" variant="outlined" {...register("salePrice")} />
                         </Box>
-                        :
-                        <Box className='itemInput' sx={{ '& .MuiTextField-root': { m: 1, width: '18ch' }, }} noValidate autoComplete="off">
+                    </form>
+                    :
+                    <form noValidate autoComplete="off">
+                        <Box className="itemInput" sx={{ '& .MuiTextField-root': { m: 1, width: '18ch' } }}>
                             <TextField
                                 error
                                 id="outlined-error-helper-text"
@@ -138,16 +154,18 @@ export const ComponentForm: React.FC<IComponent> = () => {
                                 {...register("salePrice")}
                             />
                         </Box>
-                    }
-                    <label>images</label>
-                    <input type="file" multiple onChange={handleImageChange} />
-                    {errors.images && <p>{errors.images.message}</p>}
-                </>
-            )}
-
-            <Button variant="outlined" type="submit">save</Button>
-
-        </form>
+                    </form>
+                }
+    
+                <label>images</label>
+                <input type="file" multiple onChange={handleImageChange} />
+                {errors.images && <p>{errors.images.message}</p>}
+            </>
+        )}
+    
+        <Button variant="outlined" type="submit">save</Button>
+    
+    </form>
     );
 }
 

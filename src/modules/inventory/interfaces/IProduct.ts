@@ -14,3 +14,4 @@ export interface IProduct {
     bussinesId: string;
     componentStatus: string;
 }
+
