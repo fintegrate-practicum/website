@@ -140,15 +140,15 @@ const MySetting: FC<MySettingProps> = (props) => {
     throw new Error(`Invalid children for component type: ${setting.type}`);
   }
 
-  let children: ReactElement | ReactElement[] | undefined;
+  let children: ReactElement | ReactElement[] | undefined | any;
   if (setting.type === ComponentType.Select && Array.isArray(setting.children)) {
-    children = setting.children.map((child: { key: string; value: string; text: string }) => (
+    children = (setting.children as CustomChildren[]).map((child) => (
       <MenuItem key={child.key} value={child.value}>
         {child.text}
       </MenuItem>
     ));
   } else if (setting.type === ComponentType.RadioGroup && Array.isArray(setting.children)) {
-    children = setting.children.map((child: { value: string; label: string }) => (
+    children = setting.children.map((child) => (
       <FormControlLabel
         key={child.value}
         value={child.value}
@@ -157,7 +157,7 @@ const MySetting: FC<MySettingProps> = (props) => {
       />
     ));
   } else if (setting.type === ComponentType.ButtonGroup && Array.isArray(setting.children)) {
-    children = setting.children.map((child: { key: string; value: string }) => (
+    children = setting.children.map((child) => (
       <Button key={child.key} variant={setting.props?.variant}>
         {child.value}
       </Button>

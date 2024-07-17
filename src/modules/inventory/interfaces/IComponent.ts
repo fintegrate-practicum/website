@@ -1,5 +1,5 @@
 export interface IComponent {
-    id?: string;
+    id?: string | any ;
     name?: string;
     componentBuyPrice?: number;
     addingComponentDate?: Date;
