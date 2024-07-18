@@ -1,5 +1,5 @@
-export interface IComponent {
-    id?: string | any ;
+import { Item } from "../app/actions"
+export interface IComponent extends Item {
     name?: string;
     componentBuyPrice?: number;
     addingComponentDate?: Date;
