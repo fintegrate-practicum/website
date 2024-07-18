@@ -62,7 +62,7 @@ export default function ShowProducts() {
     <Grid sx={{ flexGrow: 1 }} container spacing={2} direction="column">
       <Grid container justifyContent="center">
         {paginatedProducts.map((product: IProduct | IComponent) => (
-          <SingleProduct product={product} />
+          <SingleProduct key={product.id} product={product}/>
         ))}
       </Grid>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
