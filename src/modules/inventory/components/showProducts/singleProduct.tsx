@@ -11,8 +11,8 @@ import { IComponent } from '../../interfaces/IComponent';
 
 const SingleProduct: React.FC<{ product: IProduct | IComponent }> = ({ product }) => {
   const isProduct = "productComponents" in product;
-  const description = product.description ;
-  const price = product.totalPrice;
+  const description = isProduct ? product.productDescription:product.componentDescription ;
+  const price = isProduct ? product.totalPrice:product.salePrice;
   const images = isProduct ? product.componentsImages : product.componentImages;
 
   return (
@@ -20,7 +20,7 @@ const SingleProduct: React.FC<{ product: IProduct | IComponent }> = ({ product }
       <CardOverflow>
         <AspectRatio sx={{ minWidth: 200 }}>
           {
-            images.map((image) => (
+            images && images.map((image) => (
               <img></img>
               // <img src={image.src} alt={image.alt} key={image.id} />
             ))
