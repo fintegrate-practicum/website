@@ -47,7 +47,7 @@ export interface RadioGroupChildren {
 export interface FloatingActionButtonChildren {
   children: string;
 }
-interface CustomChildren {
+interface CustomChild {
   key?: string;
   value?: string;
   text?: string;
@@ -59,7 +59,7 @@ export interface MySettingProps {
     settingDesc: string;
     type: ComponentType;
     props?: Record<string, any>;
-    children?: CustomChildren[] |CustomChildren| RadioGroupChildren | SelectChildren | ButtonGroupChildren | ButtonChildren | FloatingActionButtonChildren | string;
+    children?: CustomChild[] |CustomChild| RadioGroupChildren | SelectChildren | ButtonGroupChildren | ButtonChildren | FloatingActionButtonChildren | string;
   };
 }
 
@@ -142,7 +142,7 @@ const MySetting: FC<MySettingProps> = (props) => {
 
   let children: ReactElement | ReactElement[] | undefined | any;
   if (setting.type === ComponentType.Select && Array.isArray(setting.children)) {
-    children = (setting.children as CustomChildren[]).map((child) => (
+    children = (setting.children as CustomChild[]).map((child) => (
       <MenuItem key={child.key} value={child.value}>
         {child.text}
       </MenuItem>

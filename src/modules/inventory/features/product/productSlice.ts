@@ -10,12 +10,7 @@ const productSlice = createSlice({
     name: "product",
     initialState,
     reducers: {
-        deleteProduct: (state, action: PayloadAction<string>) => {
-            return {
-                ...state,
-                data: state.data.filter(item => item.id !== action.payload)
-            };
-        },
+        deleteProduct: deleteItem,
         addProduct: addItem,
         getProducts: setData,
         updateProduct: updateItem,
