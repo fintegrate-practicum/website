@@ -1,20 +1,24 @@
 import React from 'react';
-import AspectRatio from '@mui/joy/AspectRatio';
+import { Card, CardContent, CardActions, Typography, Button } from '@mui/material';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
-import Button from '@mui/joy/Button';
-import Card from '@mui/joy/Card';
-import CardContent from '@mui/joy/CardContent';
-import CardOverflow from '@mui/joy/CardOverflow';
-import Typography from '@mui/joy/Typography';
-import { IProduct } from '../../interfaces/IProduct'
+import { IProduct } from '../../interfaces/IProduct';
 import { IComponent } from '../../interfaces/IComponent';
+import { json } from 'stream/consumers';
+import { Link, useParams } from 'react-router-dom';
+import { useAppSelector } from '../../app/hooks';
 
-const SingleProduct: React.FC<{ product: IProduct | IComponent }> = ({ product }) => {
+  const SingleProduct: React.FC<{ product: IProduct | IComponent }> = ({ product }) => {
   const isProduct = "productComponents" in product;
   const description = isProduct ? product.productDescription:product.componentDescription ;
   const price = isProduct ? product.totalPrice:product.salePrice;
   const images = isProduct ? product.componentsImages : product.componentImages;
 
+interface Props {
+  product: IProduct | IComponent;
+}
+
+const SingleProduct: React.FC<Props> = ({ product }) => {
+  
   return (
     <Card sx={{ width: 200, maxWidth: '100%', boxShadow: 'lg', margin: 2 }}>
       <CardOverflow>
@@ -28,19 +32,23 @@ const SingleProduct: React.FC<{ product: IProduct | IComponent }> = ({ product }
         </AspectRatio>
       </CardOverflow>
       <CardContent>
-        <Typography>
-          {description}
+      <Link key={product.id}  to={`${location.pathname}/${product.id}`}  style={{ textDecoration: 'none' }}>
+        <Typography variant="h5" component="div">
+          {product.productName}
         </Typography>
-        <Typography level="h4">
-          {price}<AttachMoneyOutlinedIcon fontSize='small' />
+        
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          Price: {product.totalPrice} <AttachMoneyOutlinedIcon fontSize='small' />
         </Typography>
+      </Link>
       </CardContent>
-      <CardOverflow>
-        <Button variant="solid" color="danger" size="lg">
-          Add to cart
+      <CardActions>
+        <Button variant="contained" color="primary">
+          Add to Cart
         </Button>
-      </CardOverflow>
+      </CardActions>
     </Card>
   );
 }
+
 export default SingleProduct;
