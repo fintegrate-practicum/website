@@ -41,7 +41,7 @@ const initialState = {
 
 export const fetchUserById = createAsyncThunk(
   'fetchUserById',
-  async (userId: string, { dispatch }) => {
+  async (_, { dispatch }) => {
     try {
       const { getAccessTokenSilently } = useAuth0();
       const auth0_audience = import.meta.env.VITE_AUTH0_AUDIENCE as string;
@@ -54,8 +54,7 @@ export const fetchUserById = createAsyncThunk(
       });
       const response = await InfraInterceptors.get(`$/currentUser`, {
         headers: { 
-            Authorization: `Bearer ${accessToken}`,
-            UserId: userId 
+            Authorization: `Bearer ${accessToken}`
     }});
       const data = response.data;   
       dispatch(currentUserSlice.actions.setCurrentUser(data));      
@@ -67,15 +66,18 @@ export const fetchUserById = createAsyncThunk(
 );
 
 export const updateCurrentUser = createAsyncThunk('', async (payload: any) => { 
-    const { auth0_user_id, updatedCurrentUser } = payload;
-    try {           
-        const response = await InfraInterceptors.put(`$/currentUser/${auth0_user_id}`, updatedCurrentUser);
-        return response.data;
-    } catch (error:any) {
+  const { updatedCurrentUser, token } = payload;
+  try {           
+      const response = await InfraInterceptors.put(`/currentUser`, updatedCurrentUser, {
+          headers: { 
+              Authorization: `Bearer ${token}`
+          }
+      });
+      return response.data;
+  } catch (error: any) {
       showErrorToast(error.message);
-    }
-}
-)
+  }
+});
 
 const currentUserSlice = createSlice({
   name: "CurrentUser",
