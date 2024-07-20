@@ -41,17 +41,8 @@ const initialState = {
 
 export const fetchUserById = createAsyncThunk(
   'fetchUserById',
-  async (_, { dispatch }) => {
+  async (_,{ dispatch }) => {
     try {
-      const { getAccessTokenSilently } = useAuth0();
-      const auth0_audience = import.meta.env.VITE_AUTH0_AUDIENCE as string;
-      const accessToken = await getAccessTokenSilently({      
-        authorizationParams: {
-          audience: auth0_audience,
-          scope: "read:current_user",
-        },
-        
-      });
       const response = await InfraInterceptors.get(`$/currentUser`);
       const data = response.data;   
       dispatch(currentUserSlice.actions.setCurrentUser(data));      
