@@ -52,10 +52,7 @@ export const fetchUserById = createAsyncThunk(
         },
         
       });
-      const response = await InfraInterceptors.get(`$/currentUser`, {
-        headers: { 
-            Authorization: `Bearer ${accessToken}`
-    }});
+      const response = await InfraInterceptors.get(`$/currentUser`);
       const data = response.data;   
       dispatch(currentUserSlice.actions.setCurrentUser(data));      
       return data;
@@ -66,18 +63,16 @@ export const fetchUserById = createAsyncThunk(
 );
 
 export const updateCurrentUser = createAsyncThunk('', async (payload: any) => { 
-  const { updatedCurrentUser, token } = payload;
+  const {  updatedCurrentUser } = payload;
   try {           
-      const response = await InfraInterceptors.put(`/currentUser`, updatedCurrentUser, {
-          headers: { 
-              Authorization: `Bearer ${token}`
-          }
-      });
+      const response = await InfraInterceptors.put(`$/currentUser`, updatedCurrentUser);
       return response.data;
-  } catch (error: any) {
-      showErrorToast(error.message);
+  } catch (error:any) {
+    showErrorToast(error.message);
   }
-});
+}
+);
+
 
 const currentUserSlice = createSlice({
   name: "CurrentUser",
