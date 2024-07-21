@@ -9,8 +9,8 @@ function ProductsPage() {
   const productsArr:IProduct[]=
    [ 
       {id: "1",
-      name: "table",
-      description:"mnbvcx",
+      productName: "table",
+      productDescription:"mnbvcx",
       componentsImages: [],
       productComponents: ["10", "11","14","12"],
       packageCost: 100,
@@ -23,8 +23,8 @@ function ProductsPage() {
       bussinesId: "44",
       componentStatus: ""},
       {id: "2",
-      name: "table",
-      description:"aaaaaaaaaaaa",
+      productName: "table",
+      productDescription:"aaaaaaaaaaaa",
       componentsImages: [],
       productComponents: ["12", "13"],
       packageCost: 100,

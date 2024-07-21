@@ -8,8 +8,8 @@ import { IComponent } from '../../interfaces/IComponent';
 const mockProducts: IProduct[] = [
     {
       id: '1',
-      name: 'Table',
-      description: 'Some description',
+      productName: 'Table',
+      productDescription: 'Some description',
       componentsImages: [],
       productComponents: ["10", "11","12"],
       packageCost: 100,
@@ -24,8 +24,8 @@ const mockProducts: IProduct[] = [
     },
     {
       id: '2',
-      name: 'Chair',
-      description: 'Another description',
+      productName: 'Chair',
+      productDescription: 'Another description',
       componentsImages: [],
       productComponents: ["12", "13"],
       packageCost: 50,

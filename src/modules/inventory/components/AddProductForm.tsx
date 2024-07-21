@@ -53,12 +53,11 @@ const AddProductForm = () => {
         }
     };
 
-    // Return the JSX for the form
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            {!errors.name ? (
+            {!errors.productName ? (
                 <Box className='itemInput' component="div">
-                    <TextField id="outlined-basic" label="name" variant="outlined" {...register("name")} />
+                    <TextField id="outlined-basic" label="name" variant="outlined" {...register("productName")} />
                 </Box>
             ) : (
                 <Box className='itemInput' component="div">
@@ -67,8 +66,8 @@ const AddProductForm = () => {
                         id="outlined-error-helper-text"
                         label="name"
                         defaultValue="name"
-                        helperText={errors.name?.message}
-                        {...register("name")}
+                        helperText={errors.productName?.message}
+                        {...register("productName")}
                     />
                 </Box>
             )}
