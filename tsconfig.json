@@ -1,13 +1,11 @@
 {
   "compilerOptions": {
     "typeRoots": [
-      
       "./node_modules/@types",
       "./src/types"
     ],
     "target": "ESNext",
-
-        "useDefineForClassFields": true,
+    "useDefineForClassFields": true,
     "lib": [
       "ES2020",
       "DOM",
@@ -30,7 +28,6 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "src",
     "src/**/*.ts",
     "src/**/*.tsx",
     "vitest.config.ts"
