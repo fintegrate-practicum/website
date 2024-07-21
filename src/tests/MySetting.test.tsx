@@ -65,8 +65,7 @@ describe('<MySetting>', () => {
   test('does not render without required props', () => {
     const setting = {
       settingDesc: 'Sample description',
-      type: ComponentType.Button, // Example value for the correct ComponentType
-      // Add any other required properties here
+      type: ComponentType.Button, 
     };
   
     const { container } = render(
@@ -97,8 +96,8 @@ describe('<MySetting>', () => {
           type: ComponentType.ButtonGroup,
           props: { variant: 'contained' },
           children: [
-            { key: '1', value: '1' }, // Example object for the ButtonGroup children
-            { key: '2', value: '2' } // Example object for the ButtonGroup children
+            { key: '1', value: '1' }, 
+            { key: '2', value: '2' } 
           ],
         }}
       />

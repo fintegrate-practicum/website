@@ -25,33 +25,48 @@ const AddProductForm = () => {
 
     const dispatch = useDispatch();
 
-    // Define the onSubmit function
     const onSubmit: SubmitHandler<IProduct> = async (data) => {
-        // Handle form submission logic here
-    };
 
-    const navigate = useNavigate();
-
-    const productState = useSelector((state: any) => state.product);
-    const productComponents = productState.data.map((product: IProduct) => product.productComponents);
-
-    const sumArrComponent = () => {
-        let sum = 0;
-        productComponents.forEach((component: IComponent) => {
-            if (component.componentBuyPrice !== undefined) {
-                sum += component.componentBuyPrice;
+        if (selectedImages) {
+            try {
+                const formData = new FormData();
+                formData.append('Name', data.productName);
+                formData.append('Description', data.productDescription);
+                formData.append('Price', data.totalPrice.toString());
+                Array.from(selectedImages).forEach((image) => {
+                    formData.append('componentsImages', image);
+                });
+            } catch (error) {
+                console.error('שגיאה בהוספת מוצר:', error);
             }
-        });
-        return sum;
-    };
-
-    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const files = event.target.files;
-        if (files) {
-            const urls = Array.from(files).map(file => URL.createObjectURL(file));
-            setValue('componentsImages', urls);
+        } else {
+            console.error("No images selected!");
         }
-    };
+    
+};
+
+const navigate = useNavigate();
+
+const productState = useSelector((state: any) => state.product);
+const productComponents = productState.data.map((product: IProduct) => product.productComponents);
+
+const sumArrComponent = () => {
+    let sum = 0;
+    productComponents.forEach((component: IComponent) => {
+        if (component.componentBuyPrice !== undefined) {
+            sum += component.componentBuyPrice;
+        }
+    });
+    return sum;
+};
+
+const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+        const fileNames = Array.from(files).map(file => file.name);
+        setValue('componentsImages', fileNames);
+    }
+};
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -77,6 +92,29 @@ const AddProductForm = () => {
             <Button variant="contained" color="success" type="submit">Submit</Button>
         </form>
     );
+// Return the JSX for the form
+return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+        {!errors.productName ? (
+            <Box className='itemInput' component="div">
+                <TextField id="outlined-basic" label="name" variant="outlined" {...register("productName")} />
+            </Box>
+        ) : (
+            <Box className='itemInput' component="div">
+                <TextField
+                    error
+                    id="outlined-error-helper-text"
+                    label="name"
+                    defaultValue="name"
+                    helperText={errors.productName?.message}
+                    {...register("productName")}
+                />
+            </Box>
+        )}
+        
+        <Button variant="contained" color="success" type="submit">Submit</Button>
+    </form>
+);
 };
 
 export default AddProductForm;

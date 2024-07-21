@@ -11,7 +11,6 @@ export interface IComponent extends Item {
     description?: string;
     totalPrice?: number;
     componentImages?: string[];
-    purchasePrice?: string;
     isOnSale?: boolean;
     salePercentage?: number;
     componentColor?: string;

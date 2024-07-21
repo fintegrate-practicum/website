@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import { addItem } from '../Api-Requests/genericRequests';
 import { addComponent } from '../features/component/componentSlice';
 import './ComponentForm.css';
-;
+
 const notSaleAloneSchema = yup.object().shape({
     name: yup.string().required("name is a required field").min(3, "name must be at least 3 characters").max(20, "name must be at most 20 characters"),
     purchasePrice: yup.string().required("purchase price is a required field").matches(/^[0-9]+(\.[0-9]{1,2})?$/, "price must be a number"),
@@ -87,10 +87,10 @@ export const ComponentForm: React.FC<IComponent> = () => {
             </form>
         }
     
-        {!errors.purchasePrice ?
+        {!errors.salePrice ?
             <form noValidate autoComplete="off">
                 <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
-                    <TextField id="outlined-basic" label="purchase price" variant="outlined" {...register("purchasePrice")} />
+                    <TextField id="outlined-basic" label="purchase price" variant="outlined" {...register("salePrice")} />
                 </Box>
             </form>
             :
@@ -101,8 +101,8 @@ export const ComponentForm: React.FC<IComponent> = () => {
                         id="outlined-error-helper-text"
                         label="purchase price"
                         defaultValue="purchasePrice"
-                        helperText={errors.purchasePrice.message}
-                        {...register("purchasePrice")}
+                        helperText={errors.salePrice.message}
+                        {...register("salePrice")}
                     />
                 </Box>
             </form>
