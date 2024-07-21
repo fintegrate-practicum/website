@@ -41,7 +41,7 @@ const initialState = {
 
 export const fetchUserById = createAsyncThunk(
   'fetchUserById',
-  async (_,{ dispatch }) => {
+  async ({ dispatch }) => {
     try {
       const response = await InfraInterceptors.get(`$/currentUser`);
       const data = response.data;   
