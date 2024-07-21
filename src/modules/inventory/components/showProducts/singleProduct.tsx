@@ -3,8 +3,7 @@ import { Card, CardContent, CardActions, Typography, Button } from '@mui/materia
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import { IProduct } from '../../interfaces/IProduct';
 import { IComponent } from '../../interfaces/IComponent';
-import { Link, useParams } from 'react-router-dom';
-import { useAppSelector } from '../../app/hooks';
+import { Link} from 'react-router-dom';
 
 interface Props {
   product: IProduct | IComponent;
@@ -30,7 +29,7 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
           </Link>
         ) : (
           <Typography variant="h5" component="div">
-            {product.name} // Example property of IComponent
+            {product.name} 
           </Typography>
         )}
       </CardContent>
