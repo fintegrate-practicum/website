@@ -32,51 +32,30 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
         componentsImages: yup.array().of(yup.mixed()).min(1, "must be at least 1").max(5, "must be at most 5"),
     });
 
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm<IProduct>({
+    const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<IProduct>({
         resolver: yupResolver(productSchema)
     });
 
     useEffect(() => {
         if (product) {
-            setValue("productName", product.productName || "");
-            setValue("productDescription", product.productDescription || "");
-            setValue("packageCost", product.packageCost || 0);
-            setValue("totalPrice", product.totalPrice || 0);
-            setValue("adminId", product.adminId || "");
-            setValue("isActive", product.isActive || false);
-            setValue("isOnSale", product.isOnSale || false);
-            setValue("salePercentage", product.salePercentage || 0);
-            setValue("stockQuantity", product.stockQuantity || 0);
-            setValue("bussinesId", product.bussinesId || "");
-            setValue("componentStatus", product.componentStatus || "");
-            setValue("productComponents", product.productComponents || []);
-            setValue("componentsImages", product.componentsImages || []);
+            reset(product);
         }
-    }, [product, setValue]);
+    }, [product, reset]);
 
     const onSubmit: SubmitHandler<IProduct> = async (data) => {
-        console.log("submit");
         if (typeof data.productComponents === 'string') {
             data.productComponents = data.productComponents.split(',').map(s => s.trim());
-            const formData = new FormData();
-            formData.append('productName', data.productName);
-            formData.append('productDescription', data.productDescription);
-            if (data.componentsImages) {
-                data.componentsImages.forEach((image) => {
-                    formData.append('componentsImages', image);
-                });
-            }
-            formData.append('totalPrice', data.totalPrice.toString());
-            formData.append('packageCost', data.packageCost.toString());
-            formData.append('productComponents', JSON.stringify(data.productComponents));
-            formData.append('adminId', data.adminId);
-            formData.append('isActive', data.isActive.toString());
-            formData.append('isOnSale', data.isOnSale.toString());
-            formData.append('salePercentage', data.salePercentage.toString());
-            formData.append('stockQuantity', data.stockQuantity.toString());
-            formData.append('bussinesId', data.bussinesId);
-            formData.append('componentStatus', data.componentStatus);
 
+            const formData = new FormData();
+            Object.entries(data).forEach(([key, value]) => {
+                if (Array.isArray(value)) {
+                    value.forEach((item) => {
+                        formData.append(key, item);
+                    });
+                } else {
+                    formData.append(key, value.toString());
+                }
+            })
 
             //   התמונות בשליחת נכשלת fromData של השליחה
             // try {
@@ -138,6 +117,7 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                     error={!!errors.productName}
                     helperText={errors.productName?.message}
                     {...register("productName")}
+                    defaultValue={product?.productName || ''}
                 />
             </Box>
 
@@ -149,6 +129,7 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                     error={!!errors.productDescription}
                     helperText={errors.productDescription?.message}
                     {...register("productDescription")}
+                    defaultValue={product?.productDescription || ''}
                 />
             </Box>
 
@@ -161,6 +142,7 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                     error={!!errors.packageCost}
                     helperText={errors.packageCost?.message}
                     {...register("packageCost")}
+                    defaultValue={product?.packageCost || ''}
                 />
             </Box>
 
@@ -173,6 +155,7 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                     error={!!errors.totalPrice}
                     helperText={errors.totalPrice?.message}
                     {...register("totalPrice")}
+                    defaultValue={product?.totalPrice || ''}
                 />
             </Box>
 
@@ -184,6 +167,7 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                     error={!!errors.adminId}
                     helperText={errors.adminId?.message}
                     {...register("adminId")}
+                    defaultValue={product?.adminId || ''}
                 />
             </Box>
 
@@ -196,6 +180,7 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                     error={!!errors.salePercentage}
                     helperText={errors.salePercentage?.message}
                     {...register("salePercentage")}
+                    defaultValue={product?.salePercentage || ''}
                 />
             </Box>
 
@@ -208,6 +193,7 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                     error={!!errors.stockQuantity}
                     helperText={errors.stockQuantity?.message}
                     {...register("stockQuantity")}
+                    defaultValue={product?.stockQuantity || ''}
                 />
             </Box>
 
@@ -219,6 +205,7 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                     error={!!errors.bussinesId}
                     helperText={errors.bussinesId?.message}
                     {...register("bussinesId")}
+                    defaultValue={product?.bussinesId || ''}
                 />
             </Box>
 
@@ -230,6 +217,7 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                     error={!!errors.componentStatus}
                     helperText={errors.componentStatus?.message}
                     {...register("componentStatus")}
+                    defaultValue={product?.componentStatus || ''}
                 />
             </Box>
 
@@ -241,6 +229,7 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                     error={!!errors.productComponents}
                     helperText={errors.productComponents?.message}
                     {...register("productComponents")}
+                    defaultValue={product?.productComponents || ''}
                 />
             </Box>
 

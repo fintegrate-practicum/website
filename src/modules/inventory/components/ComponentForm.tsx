@@ -53,7 +53,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
     const [isAloneChecked, setIsAloneChecked] = useState(initialData?.isSoldSeparately || false);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
-    const { register, handleSubmit, setValue, formState: { errors }, control, reset } = useForm<IComponent>({
+    const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<IComponent>({
         resolver: yupResolver(isAloneChecked ? saleAloneSchema : notSaleAloneSchema),
         defaultValues: initialData || {}
     });
