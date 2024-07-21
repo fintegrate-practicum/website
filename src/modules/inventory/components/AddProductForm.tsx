@@ -30,8 +30,8 @@ const AddProductForm = () => {
         if (selectedImages) {
             try {
                 const formData = new FormData();
-                formData.append('Name', data.name);
-                formData.append('Description', data.description);
+                formData.append('Name', data.productName);
+                formData.append('Description', data.productDescription);
                 formData.append('Price', data.totalPrice.toString());
                 Array.from(selectedImages).forEach((image) => {
                     formData.append('componentsImages', image);
@@ -71,9 +71,9 @@ const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 // Return the JSX for the form
 return (
     <form onSubmit={handleSubmit(onSubmit)}>
-        {!errors.name ? (
+        {!errors.productName ? (
             <Box className='itemInput' component="div">
-                <TextField id="outlined-basic" label="name" variant="outlined" {...register("name")} />
+                <TextField id="outlined-basic" label="name" variant="outlined" {...register("productName")} />
             </Box>
         ) : (
             <Box className='itemInput' component="div">
@@ -82,8 +82,8 @@ return (
                     id="outlined-error-helper-text"
                     label="name"
                     defaultValue="name"
-                    helperText={errors.name?.message}
-                    {...register("name")}
+                    helperText={errors.productName?.message}
+                    {...register("productName")}
                 />
             </Box>
         )}
