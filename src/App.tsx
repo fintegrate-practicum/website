@@ -9,6 +9,8 @@ import React, { Suspense, useEffect, useState } from 'react';
 import {  Route, Routes, useLocation } from 'react-router-dom';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
+import Inventory from './modules/inventory/Inventory';
+
 import  Login from './components/Login/login';
 import Inventory from './modules/inventory/Inventory';
 
@@ -28,7 +30,7 @@ const App = () => {
 
   useEffect(() => {
     if (currentUser) {
-      const type = currentUser.employeeDetails.role.type;
+      const type = currentUser.employeeDetails.role.type
       setTypeUser(type);
     }
   }, [currentUser]);
@@ -49,7 +51,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
-         <Client />
+      <Client />
         <ErrorToast />
         <Routes>
           <Route path="/inventory/*" element={<Inventory />} />
@@ -69,7 +71,7 @@ const App = () => {
                 <MainRouter />
               </>
             ) : (
-              // 
+              //
               <Login/>
               // <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
             )}
