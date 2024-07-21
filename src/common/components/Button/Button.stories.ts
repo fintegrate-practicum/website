@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import theme from '../../../../../src/Theme';
+import theme from '../../../../src/Theme';
 import Button from './Button';
 
 const meta = {
@@ -13,19 +13,25 @@ type Story = StoryObj<typeof Button>;
 
 export const fullColor: Story = {
     args: {
+        onClickFunction: () => {
+            console.log("Button clicked");
+        },
         backgroundColor: theme.palette.secondary.dark,
         borderColor: theme.palette.primary.dark,
-        border:"double",
+        border: "double",
         outlineColor: theme.palette.info.main,
         color: theme.palette.info.main,
         value: "Button",
-        isLink:false
-        
+        isLink: false,
+     
     },
 
 };
 export const empty: Story = {
     args: {
+        onClickFunction: () => {
+            console.log("Button clicked");
+        },
         value: "Button",
         backgroundColor: "white",
         borderColor: theme.palette.primary.dark,

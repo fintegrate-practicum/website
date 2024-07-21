@@ -13,6 +13,11 @@ interface ButtonProps {
     color: '#F2B704' | '#F2CB05' | '#6503A6'
 }
 const Button = (props: ButtonProps) => {
+    const handleClick = () => {
+        if (props.onClickFunction) {
+          props.onClickFunction();
+        }
+      };
 if(props.isLink){
 return (
     <Link href={props.href}>Link</Link>
@@ -20,7 +25,7 @@ return (
 }
 else{
     return (
-            <MaterialButton onClick={props.onClickFunction}
+            <MaterialButton onClick={handleClick}
                 style={{
                     backgroundColor: props.backgroundColor,
                     borderColor: props.borderColor,
