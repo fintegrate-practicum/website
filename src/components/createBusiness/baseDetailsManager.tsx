@@ -5,7 +5,7 @@ import { createBusiness, saveBusiness } from '../../Redux/businessSlice';
 import { useAppDispatch } from "../../Redux/hooks";
 import { useForm } from 'react-hook-form';
 import { Typography } from '@mui/material';
-import { BusinessSize } from '../../classes/business';
+import { BusinessSize } from '../../classes/Business';
 import { useNavigate } from 'react-router-dom';
 export default function BaseDetailsManager(): JSX.Element {
     const dispatch = useAppDispatch()

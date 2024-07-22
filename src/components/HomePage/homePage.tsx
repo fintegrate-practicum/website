@@ -1,10 +1,10 @@
-import './HomePage.css';
 
+import './HomePage.css';
+import { useAppSelector } from '../../Redux/hooks';
 
 const HomePage = () => {
-    const handleLoginClick = () => {
-        window.location.href = 'Login.tsx';
-    };
+
+    const userName = useAppSelector((state) => state.currentUserSlice.CurrentUser.userDetails.userName);
 
     return (
         <div className="App">
@@ -12,19 +12,16 @@ const HomePage = () => {
                 <div className="logo">
                     <img src="logo.png" alt="Fintegrate" />
                 </div>
-                <button className="login-button" onClick={handleLoginClick}>
-                    התחברות                
-                </button>
+
             </header>
-            <main>
+            {Boolean(userName) && <main>
                 <section className="screenshots">
                     <img src="screenshot1.png" alt="צילום מסך 1" />
                     <img src="screenshot2.png" alt="צילום מסך 2" />
                     <img src="screenshot3.png" alt="צילום מסך 3" />
                 </section>
-            </main>
+            </main>}
         </div>
     );
 };
-
 export default HomePage;

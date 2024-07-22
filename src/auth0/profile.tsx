@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
+import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -15,15 +16,20 @@ const Profile: React.FC = () => {
   const [userMetadata, setUserMetadata] = useState<any>(null); 
   const dispatch = useAppDispatch()
 
-  function setCookie(name:String, value:String, days:number) {
+  function setCookie(name: string, value: string, days: number) {
+    
     let expires = "";
     if (days) {
         const date = new Date();
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-       expires = `; expires=${date.toUTCString()}`;
-      }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
-  }
+        expires = `; expires=${date.toUTCString()}`;
+    }
+    
+    document.cookie = name + "=" + (value || "") + expires + "; path=/; HttpOnly";
+    // Secure
+    
+}
+
   useEffect(() => {  
       
     const getUserMetadata = async () => {
@@ -106,6 +112,7 @@ const Profile: React.FC = () => {
         anchorEl={anchorEl}
         handleClose={handleClose}
       />
+        <Link to="/CreateBusiness/BaseDetailsManager">הרשמה של עסק</Link>
     </>
   );
 };

@@ -10,7 +10,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { statuses } from '../classes/user';
+import { statuses } from '../modules/workers/classes/enum/statuses.enum';
 
 // Convert enum to array of strings
 const statusArray = Object.keys(statuses).filter(key => isNaN(Number(key)));
