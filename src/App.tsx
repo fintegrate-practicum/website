@@ -3,16 +3,14 @@ import { Provider } from 'react-redux';
 import './App.css';
 import Store from './Redux/store';
 import theme from './Theme';
-import AuthMenu from './auth0/AuthMenu';
 import Client from './components/client/Client';
 import MainRouter from './components/router/MainRouter';
 import React, { Suspense, useEffect, useState } from 'react';
-import { Link, Route, Routes, useLocation } from 'react-router-dom';
-import BaseDetailsManager from './components/createBusiness/baseDetailsManager';
-import EmailVerification from './components/createBusiness/emailVerification';
-import MoreDetailsManager from './components/createBusiness/moreDetailsManager';
+import {  Route, Routes, useLocation } from 'react-router-dom';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
+import Inventory from './modules/inventory/Inventory';
+
 import  Login from './components/Login/login';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
@@ -31,7 +29,7 @@ const App = () => {
 
   useEffect(() => {
     if (currentUser) {
-      const type = currentUser.employeeDetails.role.type;
+      const type = currentUser.employeeDetails.role.type
       setTypeUser(type);
     }
   }, [currentUser]);
@@ -52,9 +50,10 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
-         <Client />
+      <Client />
         <ErrorToast />
         <Routes>
+          <Route path="/Inventory/*" element={<Inventory />} />
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
           <Route path="/CreateBusiness/BaseDetailsManager" element={<Suspense fallback="Loading..."><LazyBaseDetailsManager /></Suspense>} />
@@ -71,7 +70,7 @@ const App = () => {
                 <MainRouter />
               </>
             ) : (
-              // 
+              //
               <Login/>
               // <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
             )}

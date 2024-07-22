@@ -1,3 +1,5 @@
+import { statuses } from "./enum/statuses.enum";
+
 class User {
     
     userName!:string;
@@ -18,9 +20,3 @@ class User {
 
 export default User
 
-export enum statuses {
-    Married,
-    divorcee,
-    widower,
-    Bachelor
-}

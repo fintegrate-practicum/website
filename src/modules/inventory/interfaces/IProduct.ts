@@ -1,7 +1,7 @@
 export default interface IProduct {
     id: string;
-    name: string;
-    description: string;
+    productName: string;
+    productDescription: string;
     componentsImages: string[];
     packageCost: number;
     productComponents: string[];

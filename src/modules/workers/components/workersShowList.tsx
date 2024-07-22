@@ -1,12 +1,14 @@
 
-import GenericList from "../generic/genericList";
-import { useAppSelector } from "../../Redux/hooks";
+import GenericList from "../../../components/generic/genericList";
+import { useAppSelector } from "../../../Redux/hooks";
 import ItemDetailToWorker from "./itemDetailToWorker";
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
+import { RootState } from "../../../Redux/store";
 
 const WorkersShowList = () => {
-  const employees = useAppSelector((state) => state.employeeSlice);
+
+  const employees = useAppSelector((state: RootState) => state.employeeSlice.employees);
 
   const [startIndex, setStartIndex] = useState<number>(0);
   const itemsPerPage = 10;

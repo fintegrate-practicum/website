@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
-import { deleteTask } from '../../../Redux/taskSlice';
-import { useAppDispatch } from '../../../Redux/hooks';
+import { deleteTask } from '../../features/taskSlice';
+import { useAppDispatch } from '../../../../Redux/hooks';
 
 const DeleteTask = (props: {
   taskId: string;
