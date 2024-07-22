@@ -10,9 +10,7 @@ import {  Route, Routes, useLocation } from 'react-router-dom';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
 import Inventory from './modules/inventory/Inventory';
-
 import  Login from './components/Login/login';
-import Inventory from './modules/inventory/Inventory';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(() => import('./components/createBusiness/baseDetailsManager'));

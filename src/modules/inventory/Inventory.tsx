@@ -2,12 +2,8 @@ import './App.css';
 import AddProductForm from './components/AddProductForm';
 import { ComponentForm } from './components/ComponentForm';
 import ShowProducts from './components/showProducts/AllProducts';
-import React from 'react';
-import { Routes, Route, useParams, useLocation } from 'react-router-dom';
-import ShowProducts from './components/showProducts/AllProducts';
+import { Routes, Route } from 'react-router-dom';
 import SingleProductDetails from './components/showProducts/singleProductDetails';
-import { useAppSelector } from './app/hooks';
-
 
 function Inventory() {
   return (

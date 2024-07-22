@@ -1,19 +1,20 @@
 export interface IComponent {
     id: string;
-    componentName: string;
+    name: string;
     componentBuyPrice: number;
     addingComponentDate: Date;
     minQuantity: number;
-    componentStock: number;
+    stockQuantity: number;
     isActive: boolean;
     adminId: string;
     isSoldSeparately: boolean;
-    componentDescription?: string;
-    salePrice?: number;
-    componentImages?: string[];
-    isInSale?: boolean;
+    description?: string;
+    totalPrice?: number;
+    images?: string[];
+    isOnSale?: boolean;
     salePercentage?: number;
     componentColor?: string;
     componentSize?: string;
     businessId: string;
 }
+

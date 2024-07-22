@@ -11,7 +11,6 @@ import Button from "@mui/material/Button";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useAppSelector } from "../../app/hooks";
-import { Link } from 'react-router-dom';
 
 export default function ShowProducts() {
   const dispatch = useDispatch();
@@ -21,8 +20,7 @@ export default function ShowProducts() {
   const components = useAppSelector((state) => state.component?.data || []);
   const listProducts = [...products,...components];
 
-  
-  const getAllProducts = async () => {
+    const getAllProducts = async () => {
     try {
       const res = await getAllItems<IProduct[]>('inventory/product');   
       dispatch(getProducts(res.data));

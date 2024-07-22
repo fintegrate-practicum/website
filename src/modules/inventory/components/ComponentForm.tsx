@@ -8,15 +8,14 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { addItem, updateItem } from '../Api-Requests/genericRequests';
-import { addComponent, updateComponent } from '../features/component/componentSlice';
 import './ComponentForm.css';
 import { Checkbox, FormControlLabel } from "@mui/material";
 
 const notSaleAloneSchema = yup.object().shape({
-    componentName: yup.string().required("Name is a required field").min(3, "Name must be at least 3 characters").max(20, "Name must be at most 20 characters"),
+    name: yup.string().required("Name is a required field").min(3, "Name must be at least 3 characters").max(20, "Name must be at most 20 characters"),
     componentBuyPrice: yup.number().required("Purchase price is a required field").positive("Price must be a positive number"),
     minQuantity: yup.number().required("Minimum quantity is a required field").positive("Quantity must be a positive number"),
-    componentStock: yup.number().required("Stock is a required field").positive("Stock must be a positive number"),
+    stockQuantity: yup.number().required("Stock is a required field").positive("Stock must be a positive number"),
     isActive: yup.boolean().required(),
     adminId: yup.string().required(),
     isSoldSeparately: yup.boolean().required(),
@@ -26,17 +25,17 @@ const notSaleAloneSchema = yup.object().shape({
 });
 
 const saleAloneSchema = yup.object().shape({
-    componentName: yup.string().required("Name is a required field").min(3, "Name must be at least 3 characters").max(20, "Name must be at most 20 characters"),
+    name: yup.string().required("Name is a required field").min(3, "Name must be at least 3 characters").max(20, "Name must be at most 20 characters"),
     componentBuyPrice: yup.number().required("Purchase price is a required field").positive("Price must be a positive number"),
     minQuantity: yup.number().required("Minimum quantity is a required field").positive("Quantity must be a positive number"),
-    componentStock: yup.number().required("Stock is a required field").positive("Stock must be a positive number"),
+    stockQuantity: yup.number().required("Stock is a required field").positive("Stock must be a positive number"),
     isActive: yup.boolean().required(),
     adminId: yup.string().required(),
     isSoldSeparately: yup.boolean().required(),
-    componentDescription: yup.string().required("Description is a required field"),
-    salePrice: yup.number().required("Sale price is a required field").positive("Price must be a positive number"),
-    componentImages: yup.array().of(yup.mixed()).required("Please select an image").min(1, "Must be at least 1").max(5, "Must be at most 5"),
-    isInSale: yup.boolean().required(),
+    description: yup.string().required("Description is a required field"),
+    totalPrice: yup.number().required("Sale price is a required field").positive("Price must be a positive number"),
+    images: yup.array().of(yup.mixed()).required("Please select an image").min(1, "Must be at least 1").max(5, "Must be at most 5"),
+    isOnSale: yup.boolean().required(),
     salePercentage: yup.number().required("Sale percentage is a required field").min(0, "Percentage must be positive"),
     componentColor: yup.string().nullable().notRequired(),
     componentSize: yup.string().nullable().notRequired(),
@@ -91,11 +90,11 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
         // if (files) {
         //     const fileNames = Array.from(files).map(file => file.name);
         //     setSelectedFiles(Array.from(files));
-        //     setValue('componentImages', fileNames);
+        //     setValue('images', fileNames);
         // }
         if (event.target.files) {
             const images = Array.from(event.target.files).map(file => URL.createObjectURL(file));
-            setValue("componentImages", images);
+            setValue("images", images);
         }
     };
 
@@ -103,12 +102,12 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
         <form onSubmit={handleSubmit(save)} noValidate autoComplete="on">
             <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                 <TextField
-                    error={!!errors.componentName}
+                    error={!!errors.name}
                     id="outlined-basic"
                     label="Component Name"
                     variant="outlined"
-                    helperText={errors.componentName?.message}
-                    {...register("componentName")}
+                    helperText={errors.name?.message}
+                    {...register("name")}
                 />
             </Box>
 
@@ -139,12 +138,12 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
             <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                 <TextField
                     type="number"
-                    error={!!errors.componentStock}
+                    error={!!errors.stockQuantity}
                     id="outlined-basic"
                     label="Stock"
                     variant="outlined"
-                    helperText={errors.componentStock?.message}
-                    {...register("componentStock")}
+                    helperText={errors.stockQuantity?.message}
+                    {...register("stockQuantity")}
                 />
             </Box>
 
@@ -207,24 +206,24 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                 <>
                     <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                         <TextField
-                            error={!!errors.componentDescription}
+                            error={!!errors.description}
                             id="outlined-basic"
                             label="Description"
                             variant="outlined"
-                            helperText={errors.componentDescription?.message}
-                            {...register("componentDescription")}
+                            helperText={errors.description?.message}
+                            {...register("description")}
                         />
                     </Box>
 
                     <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                         <TextField
                             type="number"
-                            error={!!errors.salePrice}
+                            error={!!errors.totalPrice}
                             id="outlined-basic"
                             label="Sale Price"
                             variant="outlined"
-                            helperText={errors.salePrice?.message}
-                            {...register("salePrice")}
+                            helperText={errors.totalPrice?.message}
+                            {...register("totalPrice")}
                         />
                     </Box>
 
@@ -234,7 +233,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                         multiple
                         onChange={handleImageChange}
                     />
-                    {errors.componentImages && <p>{errors.componentImages.message}</p>}
+                    {errors.images && <p>{errors.images.message}</p>}
                 </>
             )}
 
@@ -252,7 +251,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                     <FormControlLabel
                         control={
                             <Checkbox
-                                {...register("isInSale")}
+                                {...register("isOnSale")}
                             />
                         }
                         label="Is In Sale"
