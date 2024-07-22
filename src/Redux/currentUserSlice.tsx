@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
-import { EmployeeRole } from "../classes/enum/employeeRole.enum";
-import { statuses } from "../classes/user";
+import { EmployeeRole } from "../modules/workers/classes/employeeRole";
+import { statuses } from "../modules/workers/classes/enum/statuses.enum";
 import { showErrorToast } from "../components/generic/errorMassage";
 import InfraInterceptors from '../auth0/InfraInterceptors'
 
@@ -13,7 +13,7 @@ const initialState = {
         code: '',
         createdBy: '',
         updatedBy: '',
-        role: new EmployeeRole('manager', true, "hhgg"),
+        role: new EmployeeRole('', true, "hhgg"),
         nameEmployee: '',
       
     },

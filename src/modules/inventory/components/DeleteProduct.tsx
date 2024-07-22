@@ -9,7 +9,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { deleteItem } from '../Api-Requests/genericRequests';
 import { useDispatch } from 'react-redux';
 import { deleteProduct as deleteProductFromState} from '../features/product/productSlice';
-import { IProduct } from '../interfaces/IProduct';
 
 
 const DeleteProduct = ({item}:any) => {

@@ -9,94 +9,87 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { addItem, updateItem } from "../Api-Requests/genericRequests";
 import React, { useEffect } from "react";
+
 interface Props {
-    product?: IProduct; // Product received as props for update
+    product?: IProduct;
 }
+
 const AddProductForm: React.FC<Props> = ({ product }) => {
+
     const productSchema = yup.object().shape({
-        productName: yup.string().required("productName is a required field").min(3, "productName must be at least 3 characters").max(20, "productName must be at most 20 characters"),
-        productDescription: yup.string().required("productDescription is a required field"),
+        name: yup.string().required("productName is a required field").min(3, "productName must be at least 3 characters").max(20, "productName must be at most 20 characters"),
+        description: yup.string().required("productDescription is a required field"),
         packageCost: yup.number().typeError("packageCost must be a number").required("packageCost is a required field").min(0, "package cost must be positive"),
-        // productComponents: yup.string().required("productComponents is a required field").min(1, "Must provide at least one component"),
-        productComponents: yup.array().of(yup.string()).required("productComponents is a required field").min(1, "Must provide at least one component"),
         totalPrice: yup.number().typeError("totalPrice must be a number").required("totalPrice is a required field").min(1, "price must be positive"),
         adminId: yup.string().required("adminId is a required field"),
         isActive: yup.boolean().required("isActive is a required field"),
         isOnSale: yup.boolean().required("isOnSale is a required field"),
         salePercentage: yup.number().typeError("salePercentage must be a number").min(0).max(100).required("salePercentage is a required field"),
         stockQuantity: yup.number().typeError("stockQuantity must be a number").required("stockQuantity is a required field").min(0, "stock cannot be negative"),
-        bussinesId: yup.string().required("bussinesId is a required field"),
+        businessId: yup.string().required("bussinesId is a required field"),
         componentStatus: yup.string().required("componentStatus is a required field").min(3, "componentStatus must be at least 3 characters").max(15, "componentStatus must be at most 15 characters"),
-        componentsImages: yup.array().of(yup.string()).min(1, "must be at least 1").max(5, "must be at most 5")
+        productComponents: yup.string().min(1, "must provide at least one component"),
+        images: yup.array().of(yup.mixed()).min(1, "must be at least 1").max(5, "must be at most 5"),
     });
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm<IProduct>({
+
+    const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<IProduct>({
         resolver: yupResolver(productSchema)
     });
+
     useEffect(() => {
         if (product) {
-            setValue("productName", product.productName || "");
-            setValue("productDescription", product.productDescription || "");
-            setValue("packageCost", product.packageCost || 0);
-            setValue("totalPrice", product.totalPrice || 0);
-            setValue("adminId", product.adminId || "");
-            setValue("isActive", product.isActive || false);
-            setValue("isOnSale", product.isOnSale || false);
-            setValue("salePercentage", product.salePercentage || 0);
-            setValue("stockQuantity", product.stockQuantity || 0);
-            setValue("bussinesId", product.bussinesId || "");
-            setValue("componentStatus", product.componentStatus || "");
-            // setValue("productComponents", product.productComponents?.join(",") || "");
-            setValue("productComponents", product.productComponents || []);
-            setValue("componentsImages", product.componentsImages);
+            reset(product);
         }
-    }, [product, setValue]);
+    }, [product, reset]);
+
     const onSubmit: SubmitHandler<IProduct> = async (data) => {
-        console.log("submit");
-        const formData = new FormData();
-        formData.append('productName', data.productName);
-        formData.append('productDescription', data.productDescription);
-        if (data.componentsImages) {
-            data.componentsImages.forEach((image) => {
-                formData.append('componentsImages', image);
-            });
-        }
-        formData.append('totalPrice', data.totalPrice.toString());
-        formData.append('packageCost', data.packageCost.toString());
-        // formData.append('productComponents', JSON.stringify(data.productComponents.split(",").map(s => s.trim())));
-        formData.append('adminId', data.adminId);
-        formData.append('isActive', data.isActive.toString());
-        formData.append('isOnSale', data.isOnSale.toString());
-        formData.append('salePercentage', data.salePercentage.toString());
-        formData.append('stockQuantity', data.stockQuantity.toString());
-        formData.append('bussinesId', data.bussinesId);
-        formData.append('componentStatus', data.componentStatus);
-        // try {
-        //     const response = await addItem<FormData>('api/inventory/product', formData);
-        //     console.log('Product added successfully:', response.data);
-        // } catch (error) {
-        //     console.error('Error adding product:', error);
-        // }
-        if (product && product.id) {
-            try {
-                const response = await updateItem<IProduct>(`api/inventory/product`, product.id, data);
-                console.log('Product updated successfully:', response.data);
-            } catch (error) {
-                console.error('Error updating product:', error);
-            }
-        } else {
-            try {
-                // data.productComponents = data.productComponents.split(",").map(s => s.trim());
-                const response = await addItem<IProduct>('api/inventory/product', data);
-                console.log('Product added successfully:', response.data);
-            } catch (error) {
-                console.error('Error adding product:', error);
+        if (typeof data.productComponents === 'string') {
+            data.productComponents = data.productComponents.split(',').map(s => s.trim());
+
+            const formData = new FormData();
+            Object.entries(data).forEach(([key, value]) => {
+                if (Array.isArray(value)) {
+                    value.forEach((item) => {
+                        formData.append(key, item);
+                    });
+                } else {
+                    formData.append(key, value.toString());
+                }
+            })
+
+            //   התמונות בשליחת נכשלת fromData של השליחה
+            // try {
+            //     const response = await addItem<FormData>('api/inventory/product', formData);
+            //     console.log('Product added successfully:', response.data);
+            // } catch (error) {
+            //     console.error('Error adding product:', error);
+            // }
+
+            if (product && product.id) {
+                try {
+                    const response = await updateItem<IProduct>(`api/inventory/product`, product.id, data);
+                    console.log('Product updated successfully:', response.data);
+                } catch (error) {
+                    console.error('Error updating product:', error);
+                }
+            } else {
+                try {
+                    const response = await addItem<IProduct>('api/inventory/product', data);
+                    console.log('Product added successfully:', response.data);
+                } catch (error) {
+                    console.error('Error adding product:', error);
+                }
             }
         }
     }
+
+
     const productState = useSelector((state: any) => state.product);
+
     if (!productState || !productState.data) {
         return <div>אין נתונים זמינים</div>;
     }
+
     const productComponents = productState.data?.map((product: IProduct) => product.productComponents) || [];
     const sumArrComponent = () => {
         let sum = 0;
@@ -105,34 +98,41 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
         });
         return sum;
     }
+
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             const images = Array.from(event.target.files).map(file => URL.createObjectURL(file));
-            setValue("componentsImages", images);
+            setValue("images", images);
         }
     };
+
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="on">
             <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                 <TextField
-                    id="productName-input"
-                    label="productName"
+                    id="name-input"
+                    label="name"
                     variant="outlined"
-                    error={!!errors.productName}
-                    helperText={errors.productName?.message}
-                    {...register("productName")}
+                    error={!!errors.name}
+                    helperText={errors.name?.message}
+                    {...register("name")}
+                    defaultValue={product?.name || ''}
                 />
             </Box>
+
             <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                 <TextField
                     id="description-input"
-                    label="productDescription"
+                    label="description"
                     variant="outlined"
-                    error={!!errors.productDescription}
-                    helperText={errors.productDescription?.message}
-                    {...register("productDescription")}
+                    error={!!errors.description}
+                    helperText={errors.description?.message}
+                    {...register("description")}
+                    defaultValue={product?.description || ''}
                 />
             </Box>
+
             <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                 <TextField
                     id="packageCost-input"
@@ -142,8 +142,10 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                     error={!!errors.packageCost}
                     helperText={errors.packageCost?.message}
                     {...register("packageCost")}
+                    defaultValue={product?.packageCost || ''}
                 />
             </Box>
+
             <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                 <TextField
                     id="totalPrice-input"
@@ -153,8 +155,10 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                     error={!!errors.totalPrice}
                     helperText={errors.totalPrice?.message}
                     {...register("totalPrice")}
+                    defaultValue={product?.totalPrice || ''}
                 />
             </Box>
+
             <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                 <TextField
                     id="adminId-input"
@@ -163,8 +167,10 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                     error={!!errors.adminId}
                     helperText={errors.adminId?.message}
                     {...register("adminId")}
+                    defaultValue={product?.adminId || ''}
                 />
             </Box>
+
             <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                 <TextField
                     id="salePercentage-input"
@@ -174,8 +180,10 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                     error={!!errors.salePercentage}
                     helperText={errors.salePercentage?.message}
                     {...register("salePercentage")}
+                    defaultValue={product?.salePercentage || ''}
                 />
             </Box>
+
             <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                 <TextField
                     id="stockQuantity-input"
@@ -185,18 +193,22 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                     error={!!errors.stockQuantity}
                     helperText={errors.stockQuantity?.message}
                     {...register("stockQuantity")}
+                    defaultValue={product?.stockQuantity || ''}
                 />
             </Box>
+
             <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                 <TextField
-                    id="bussinesId-input"
-                    label="bussinesId"
+                    id="businessId-input"
+                    label="businessId"
                     variant="outlined"
-                    error={!!errors.bussinesId}
-                    helperText={errors.bussinesId?.message}
-                    {...register("bussinesId")}
+                    error={!!errors.businessId}
+                    helperText={errors.businessId?.message}
+                    {...register("businessId")}
+                    defaultValue={product?.businessId || ''}
                 />
             </Box>
+
             <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                 <TextField
                     id="componentStatus-input"
@@ -205,8 +217,10 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                     error={!!errors.componentStatus}
                     helperText={errors.componentStatus?.message}
                     {...register("componentStatus")}
+                    defaultValue={product?.componentStatus || ''}
                 />
             </Box>
+
             <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                 <TextField
                     id="productComponents-input"
@@ -214,14 +228,16 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                     variant="outlined"
                     error={!!errors.productComponents}
                     helperText={errors.productComponents?.message}
-                    // {...register("productComponents")}
-                    onChange={(e) => { setValue("productComponents", e.target.value.split(",").map((pc) => pc.trim())) }}
+                    {...register("productComponents")}
+                    defaultValue={product?.productComponents || ''}
                 />
             </Box>
+
             <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                 <input type="file" multiple onChange={handleImageChange} />
-                {errors.componentsImages && <p>{errors.componentsImages.message}</p>}
+                {errors.images && <p>{errors.images.message}</p>}
             </Box>
+
             <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                 <label>
                     isActive
@@ -229,6 +245,7 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                 </label>
                 {errors.isActive && <p>{errors.isActive.message}</p>}
             </Box>
+
             <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                 <label>
                     isOnSale
@@ -236,12 +253,14 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                 </label>
                 {errors.isOnSale && <p>{errors.isOnSale.message}</p>}
             </Box>
+
             {/* <Button variant="contained" color="success" onClick={() => navigate('/')}>בחר רכיבים</Button> */}
             <div>{sumArrComponent()}</div>
             <Button variant="contained" color="success" type="submit">
-                {product?.id ? "Update" : "Add"} {/* Change button label based on whether it's an update or add */}
+                {product?.id ? "Update" : "Add"}
             </Button>
         </form>
     );
 }
+
 export default AddProductForm;
