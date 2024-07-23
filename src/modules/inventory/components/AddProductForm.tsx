@@ -16,7 +16,7 @@ const AddProductForm = () => {
     const productSchema = yup.object().shape({
         name: yup.string().required('Name is required'),
         description: yup.string().required('Description is required'),
-        componentsImages: yup.array().of(yup.string()).min(1, 'Select at least one image'),
+        images: yup.array().of(yup.string()).min(1, 'Select at least one image'),
         totalPrice: yup.number().required('Price is required'),
     });
 
@@ -30,11 +30,11 @@ const AddProductForm = () => {
         if (selectedImages) {
             try {
                 const formData = new FormData();
-                formData.append('Name', data.productName);
-                formData.append('Description', data.productDescription);
+                formData.append('Name', data.name);
+                formData.append('Description', data.description);
                 formData.append('Price', data.totalPrice.toString());
                 Array.from(selectedImages).forEach((image) => {
-                    formData.append('componentsImages', image);
+                    formData.append('images', image);
                 });
             } catch (error) {
                 console.error('שגיאה בהוספת מוצר:', error);
@@ -64,15 +64,15 @@ const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
         const fileNames = Array.from(files).map(file => file.name);
-        setValue('componentsImages', fileNames);
+        setValue('images', fileNames);
     }
 };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            {!errors.productName ? (
+            {!errors.name ? (
                 <Box className='itemInput' component="div">
-                    <TextField id="outlined-basic" label="name" variant="outlined" {...register("productName")} />
+                    <TextField id="outlined-basic" label="name" variant="outlined" {...register("name")} />
                 </Box>
             ) : (
                 <Box className='itemInput' component="div">
@@ -81,40 +81,16 @@ const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
                         id="outlined-error-helper-text"
                         label="name"
                         defaultValue="name"
-                        helperText={errors.productName?.message}
-                        {...register("productName")}
+                        helperText={errors.name?.message}
+                        {...register("name")}
                     />
                 </Box>
             )}
 
-            {/* Repeat similar Box components for other form fields as needed */}
-
             <Button variant="contained" color="success" type="submit">Submit</Button>
         </form>
     );
-// Return the JSX for the form
-return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-        {!errors.productName ? (
-            <Box className='itemInput' component="div">
-                <TextField id="outlined-basic" label="name" variant="outlined" {...register("productName")} />
-            </Box>
-        ) : (
-            <Box className='itemInput' component="div">
-                <TextField
-                    error
-                    id="outlined-error-helper-text"
-                    label="name"
-                    defaultValue="name"
-                    helperText={errors.productName?.message}
-                    {...register("productName")}
-                />
-            </Box>
-        )}
-        
-        <Button variant="contained" color="success" type="submit">Submit</Button>
-    </form>
-);
+
 };
 
 export default AddProductForm;

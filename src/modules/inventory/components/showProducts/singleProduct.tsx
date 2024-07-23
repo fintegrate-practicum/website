@@ -11,7 +11,7 @@ interface Props {
 
 const SingleProduct: React.FC<Props> = ({ product }) => {
   const isProduct = (obj: any): obj is IProduct => {
-    return (obj as IProduct).productName !== undefined;
+    return (obj as IProduct).name !== undefined;
   };
 
   return (
@@ -20,7 +20,7 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
         {isProduct(product) ? (
           <Link key={product.id} to={`${location.pathname}/${product.id}`} style={{ textDecoration: 'none' }}>
             <Typography variant="h5" component="div">
-              {product.productName}
+              {product.name}
             </Typography>
             
             <Typography sx={{ mb: 1.5 }} color="text.secondary">

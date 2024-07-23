@@ -9,9 +9,9 @@ function ProductsPage() {
   const productsArr:IProduct[]=
    [ 
       {id: "1",
-      productName: "table",
-      productDescription:"mnbvcx",
-      componentsImages: [],
+      name: "table",
+      description:"mnbvcx",
+      images: [],
       productComponents: ["10", "11","14","12"],
       packageCost: 100,
       totalPrice: 300,
@@ -20,12 +20,12 @@ function ProductsPage() {
       isOnSale: true,
       salePercentage: 10,
       stockQuantity: 40,
-      bussinesId: "44",
+      businessId: "44",
       componentStatus: ""},
       {id: "2",
-      productName: "table",
-      productDescription:"aaaaaaaaaaaa",
-      componentsImages: [],
+      name: "table",
+      description:"aaaaaaaaaaaa",
+      images: [],
       productComponents: ["12", "13"],
       packageCost: 100,
       totalPrice: 200,
@@ -34,7 +34,7 @@ function ProductsPage() {
       isOnSale: true,
       salePercentage: 10,
       stockQuantity: 50,
-      bussinesId: "44",
+      businessId: "44",
       componentStatus: ""}
 ];
 const componentsArr:IComponent[]=
