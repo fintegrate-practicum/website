@@ -1,6 +1,6 @@
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
+import Button from '../../common/components/Button/Button'
 import { createBusiness, saveBusiness } from '../../Redux/businessSlice';
 import { useAppDispatch } from "../../Redux/hooks";
 import { useForm } from 'react-hook-form';
@@ -17,8 +17,8 @@ export default function BaseDetailsManager(): JSX.Element {
         formState: { errors }
     } = useForm();
 
-    const onSubmit = async (values: any) => {     
-        
+    const onSubmit = async (values: any) => {
+
         const answer = await dispatch(createBusiness({
             companyNumber: values.companyNumber, name: values.name, email: values.email,
             description: '',
@@ -34,12 +34,12 @@ export default function BaseDetailsManager(): JSX.Element {
             establishmentDate: '',
             code: ''
         }));
-    
-        if(answer.payload.status==201){
-             
+
+        if (answer.payload.status == 201) {
+
             dispatch(saveBusiness({ companyNumber: values.companyNumber, email: values.email }))
             navigate('/CreateBusiness/EmailVerification');
-        }    
+        }
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -78,7 +78,12 @@ export default function BaseDetailsManager(): JSX.Element {
             </div>
 
             <Stack direction="row" spacing={2}>
-                <Button variant="contained" color="success" type='submit'> Submit</Button>
+                <Button
+                    isLink={false}
+                    value="שלח"
+                    color="#6503A6"
+                    type='submit'
+                />
             </Stack>
         </form>
     )
