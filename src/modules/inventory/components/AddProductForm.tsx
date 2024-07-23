@@ -92,29 +92,6 @@ const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
             <Button variant="contained" color="success" type="submit">Submit</Button>
         </form>
     );
-// Return the JSX for the form
-return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-        {!errors.productName ? (
-            <Box className='itemInput' component="div">
-                <TextField id="outlined-basic" label="name" variant="outlined" {...register("productName")} />
-            </Box>
-        ) : (
-            <Box className='itemInput' component="div">
-                <TextField
-                    error
-                    id="outlined-error-helper-text"
-                    label="name"
-                    defaultValue="name"
-                    helperText={errors.productName?.message}
-                    {...register("productName")}
-                />
-            </Box>
-        )}
-        
-        <Button variant="contained" color="success" type="submit">Submit</Button>
-    </form>
-);
 };
 
 export default AddProductForm;
