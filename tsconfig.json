@@ -32,4 +32,18 @@
     "src/**/*.tsx",
     "vitest.config.ts"
   ],
+
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ],
+  "watchOptions": {
+    "watchFile": "dynamicPriorityPolling",
+    "watchDirectory": "dynamicPriorityPolling",
+    "excludeDirectories": [
+      "**/node_modules",
+      "dist"
+    ]
+  }
 }
