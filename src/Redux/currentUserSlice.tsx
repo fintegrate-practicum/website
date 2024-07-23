@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { useAuth0 } from "@auth0/auth0-react";
 import { RootState } from "./store";
-import { EmployeeRole } from "../classes/enum/employeeRole.enum";
-import { statuses } from "../classes/user";
+import { EmployeeRole } from "../modules/workers/classes/employeeRole";
+import { statuses } from "../modules/workers/classes/enum/statuses.enum";
 import { showErrorToast } from "../components/generic/errorMassage";
 import InfraInterceptors from '../auth0/InfraInterceptors'
 
@@ -41,7 +40,7 @@ const initialState = {
 
 export const fetchUserById = createAsyncThunk(
   'fetchUserById',
-  async ({ dispatch }) => {
+  async ( _,{dispatch }) => {
     try {
       const response = await InfraInterceptors.get(`$/currentUser`);
       const data = response.data;   
@@ -54,16 +53,15 @@ export const fetchUserById = createAsyncThunk(
 );
 
 export const updateCurrentUser = createAsyncThunk('', async (payload: any) => { 
-  const {  updatedCurrentUser } = payload;
-  try {           
-      const response = await InfraInterceptors.put(`$/currentUser`, updatedCurrentUser);
-      return response.data;
-  } catch (error:any) {
-    showErrorToast(error.message);
-  }
+    const { auth0_user_id, updatedCurrentUser } = payload;
+    try {           
+        const response = await InfraInterceptors.put(`$/currentUser/${auth0_user_id}`, updatedCurrentUser);
+        return response.data;
+    } catch (error:any) {
+      showErrorToast(error.message);
+    }
 }
-);
-
+)
 
 const currentUserSlice = createSlice({
   name: "CurrentUser",
@@ -77,4 +75,3 @@ const currentUserSlice = createSlice({
 
 export const selectCurrentUser = (state: RootState) => state.currentUserSlice.CurrentUser;
 export default currentUserSlice.reducer;
-
