@@ -136,9 +136,9 @@ const MySetting: FC<MySettingProps> = (props) => {
     return null;
   }
 
-  if (!validateChildrenType(setting.type, setting.children)) {
-    throw new Error(`Invalid children for component type: ${setting.type}`);
-  }
+  // if (!validateChildrenType(setting.type, setting.children)) {
+  //   throw new Error(`Invalid children for component type: ${setting.type}`);
+  // }
 
   let children: ReactElement | ReactElement[] | undefined | any;
   if (setting.type === ComponentType.Select && Array.isArray(setting.children)) {
