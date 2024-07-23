@@ -90,7 +90,6 @@ const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
             <Button variant="contained" color="success" type="submit">Submit</Button>
         </form>
     );
-
 };
 
 export default AddProductForm;
