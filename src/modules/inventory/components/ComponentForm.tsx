@@ -7,9 +7,10 @@ import { IComponent } from '../interfaces/IComponent';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { addItem, updateItem } from '../Api-Requests/genericRequests';
+import { addItem, getAllItems, updateItem } from '../Api-Requests/genericRequests';
 import './ComponentForm.css';
 import { Checkbox, FormControlLabel } from "@mui/material";
+import { getProducts } from "../features/product/productSlice";
 
 const notSaleAloneSchema = yup.object().shape({
     name: yup.string().required("Name is a required field").min(3, "Name must be at least 3 characters").max(20, "Name must be at most 20 characters"),
@@ -61,7 +62,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
             reset(initialData);
         }
     }, [initialData, reset]);
-    
+
     const save = async (data: IComponent) => {
         console.log("submit");
         try {
