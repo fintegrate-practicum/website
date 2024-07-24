@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import theme from '../../../../src/Theme';
+import theme from '../../../Theme';
 import Button from './Button';
 
 const meta = {
@@ -12,16 +12,20 @@ export default meta;
 
 type Story = StoryObj<typeof Button>;
 
+const baseProps = {
+    borderColor: theme.palette.primary.dark,
+    border: "double",
+    outlineColor: theme.palette.info.main,
+    color: theme.palette.secondary.dark,
+};
+
 export const fullColor: Story = {
     args: {
         onClick: action('onClick'),
         backgroundColor: theme.palette.secondary.dark,
-        borderColor: theme.palette.primary.dark,
-        border: "double",
-        outlineColor: theme.palette.info.main,
-        color: theme.palette.info.main,
         value: "Button",
         isLink: false,
+        ...baseProps,
     },
 };
 
@@ -32,22 +36,16 @@ export const empty: Story = {
         },
         value: "Button",
         backgroundColor: "white",
-        borderColor: theme.palette.primary.dark,
-        border: "double",
-        outlineColor: theme.palette.info.main,
-        color: theme.palette.secondary.dark,
         isLink: false,
+        ...baseProps,
     },
-
 };
+
 export const link: Story = {
     args: {
         value: "Button",
         backgroundColor: "white",
-        borderColor: theme.palette.primary.dark,
-        border: "double",
-        outlineColor: theme.palette.info.main,
-        color: theme.palette.secondary.dark,
         isLink: true,
+        ...baseProps,
     },
-}
+};

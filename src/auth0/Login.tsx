@@ -1,4 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
+// import { Button } from "@mui/material";
 import Button from '../common/components/Button/Button'
 
 const LoginButton = () => {
@@ -7,15 +8,9 @@ const LoginButton = () => {
 
   return   <Button
   onClick={() => loginWithRedirect()}
-  href="#"
   isLink={false}
-  value="התחברות"
-  backgroundColor="#6503A6"
-  borderColor="#F2CB05"
-  border="1px solid black"
-  outlineColor="#F2B704"
-  color="white"
 />;
+  // <Button id="login" variant="contained" onClick={() => loginWithRedirect()}>התחברות</Button>;
 };
 
 export default LoginButton;
