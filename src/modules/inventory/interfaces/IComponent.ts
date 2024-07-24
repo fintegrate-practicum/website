@@ -1,4 +1,6 @@
-export interface IComponent {
+import Item from "../../../components/generic/item";
+
+export interface IComponent extends Item{
     id: string;
     name: string;
     componentBuyPrice: number;
