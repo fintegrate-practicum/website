@@ -6,7 +6,6 @@ import { Routes, Route } from 'react-router-dom';
 import SingleProductDetails from './components/showProducts/singleProductDetails';
 
 function Inventory() {
-
   return (
     <>
       <h1>Inventory</h1>
