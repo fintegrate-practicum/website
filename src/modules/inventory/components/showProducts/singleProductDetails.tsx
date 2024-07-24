@@ -13,17 +13,17 @@ const SingleProductDetails = () => {
   const product = products.find(p => p.id === productId);
 
   // Optional chaining and nullish coalescing operators used here
-  const { productName, totalPrice, productDescription, productComponents, isOnSale } = product ?? {};
+  const { name, totalPrice, description, productComponents, isOnSale } = product ?? {};
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', p: 2 }}>
       <Card sx={{ maxWidth: 800, width: '100%', p: 3 }}>
         <CardContent>
           <Typography variant="h4" component="div">
-            {productName}
+            {name}
           </Typography>
           <Typography variant="h6">
-            {productDescription}
+            {description}
           </Typography>
           {productComponents}
           {isOnSale}

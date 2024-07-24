@@ -18,13 +18,13 @@ describe('myReducer', () => {
       adminId: "reuven",
       isSoldSeparately: true,
       description: "des",
-      salePrice: "60", // Corrected type to string
+      totalPrice: 60, // Corrected type to string
       componentImages: ['1', '2', '3', '4'],
       isOnSale: true,
       salePercentage: 5,
       componentColor: "red",
       componentSize: "medium",
-      bussinesId: "shop"
+      businessId: "shop"
     };
 
     store.dispatch(addComponent(newItem));
@@ -45,13 +45,13 @@ describe('myReducer', () => {
         adminId: "reuven",
         isSoldSeparately: true,
         description: "des",
-        salePrice: "60",
+        totalPrice: 60,
         componentImages: ['1', '2', '3', '4'],
         isOnSale: true,
         salePercentage: 5,
         componentColor: "red",
         componentSize: "medium",
-        bussinesId: "shop"
+        businessId: "shop"
       }],
     };
 

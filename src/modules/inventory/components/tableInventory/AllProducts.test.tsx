@@ -8,9 +8,9 @@ import { IComponent } from '../../interfaces/IComponent';
 const mockProducts: IProduct[] = [
     {
       id: '1',
-      productName: 'Table',
-      productDescription: 'Some description',
-      componentsImages: [],
+      name: 'Table',
+      description: 'Some description',
+      images: [],
       productComponents: ["10", "11","12"],
       packageCost: 100,
       totalPrice: 300,
@@ -19,14 +19,14 @@ const mockProducts: IProduct[] = [
       isOnSale: true,
       salePercentage: 10,
       stockQuantity: 40,
-      bussinesId: '44',
+      businessId: '44',
       componentStatus: '',
     },
     {
       id: '2',
-      productName: 'Chair',
-      productDescription: 'Another description',
-      componentsImages: [],
+      name: 'Chair',
+      description: 'Another description',
+      images: [],
       productComponents: ["12", "13"],
       packageCost: 50,
       totalPrice: 100,
@@ -35,7 +35,7 @@ const mockProducts: IProduct[] = [
       isOnSale: false,
       salePercentage: 0,
       stockQuantity: 20,
-      bussinesId: '33',
+      businessId: '33',
       componentStatus: '',
     },
   ];
@@ -57,7 +57,7 @@ const mockComponents:IComponent[]=
    salePercentage: 20,
    componentColor: "",
    componentSize:"120",
-   bussinesId: "",
+   businessId: "",
 },
 {
    id:"12",
@@ -76,7 +76,7 @@ const mockComponents:IComponent[]=
    salePercentage: 20,
    componentColor: "",
    componentSize:"120",
-   bussinesId: "",
+   businessId: "",
 },
 {
  id:"10",
@@ -95,7 +95,7 @@ const mockComponents:IComponent[]=
  salePercentage: 20,
  componentColor: "",
  componentSize:"120",
- bussinesId: "",
+ businessId: "",
 },
 {
  id:"13",
@@ -114,7 +114,7 @@ const mockComponents:IComponent[]=
  salePercentage: 20,
  componentColor: "",
  componentSize:"120",
- bussinesId: "",
+ businessId: "",
 },
 ]
 describe('AllProducts component', () => {

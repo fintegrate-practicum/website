@@ -23,14 +23,14 @@ const saleAloneSchema = yup.object().shape({
     purchasePrice: yup.string().required("purchase price is a required field").matches(/^[0-9]+(\.[0-9]{1,2})?$/, "price must be a number"),
     isAlone: yup.boolean(),
     description: yup.string().required("description is a required field"),
-    salePrice: yup.string()
+    totalPrice: yup.string()
         .required("sale price is a required field")
         .matches(/^[0-9]+(\.[0-9]{1,2})?$/, "price must be a number")
         .test('is-greater-than', 'sale price must be greater than purchase price', function (value) {
             const { purchasePrice } = this.parent;
-            const parsedSalePrice = parseFloat(value);
+            const parsedtotalPrice = parseFloat(value);
             const parsedPurchasePrice = parseFloat(purchasePrice);
-            return parsedSalePrice > parsedPurchasePrice || parsedSalePrice === 0;
+            return parsedtotalPrice > parsedPurchasePrice || parsedtotalPrice === 0;
         }),
     images: yup.array().of(yup.mixed()).min(1, "must be at least 1").max(5, "must be at most 5").required('please select an image')
 });
@@ -59,7 +59,7 @@ export const ComponentForm: React.FC<IComponent> = () => {
         const files = event.target.files;
         if (files) {
             setSelectedFiles(Array.from(files));
-            setValue('images', Array.from(files));
+            // setValue('componentImages', Array..from(files));
         }
     };
 
@@ -87,10 +87,10 @@ export const ComponentForm: React.FC<IComponent> = () => {
             </form>
         }
     
-        {!errors.salePrice ?
+        {!errors.totalPrice ?
             <form noValidate autoComplete="off">
                 <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
-                    <TextField id="outlined-basic" label="purchase price" variant="outlined" {...register("salePrice")} />
+                    <TextField id="outlined-basic" label="purchase price" variant="outlined" {...register("totalPrice")} />
                 </Box>
             </form>
             :
@@ -101,15 +101,15 @@ export const ComponentForm: React.FC<IComponent> = () => {
                         id="outlined-error-helper-text"
                         label="purchase price"
                         defaultValue="purchasePrice"
-                        helperText={errors.salePrice.message}
-                        {...register("salePrice")}
+                        helperText={errors.totalPrice.message}
+                        {...register("totalPrice")}
                     />
                 </Box>
             </form>
         }
     
         <label>can be sold separately</label>
-        <input type="checkbox" {...register("isAlone")}
+        <input type="checkbox" {...register("isSoldSeparately")}
             checked={isAloneChecked}
             onChange={handleIsAloneChange} />
     
@@ -136,10 +136,10 @@ export const ComponentForm: React.FC<IComponent> = () => {
                     </form>
                 }
     
-                {!errors.salePrice ?
+                {!errors.totalPrice ?
                     <form noValidate autoComplete="off">
                         <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
-                            <TextField id="outlined-basic" label="sale price" variant="outlined" {...register("salePrice")} />
+                            <TextField id="outlined-basic" label="sale price" variant="outlined" {...register("totalPrice")} />
                         </Box>
                     </form>
                     :
@@ -150,8 +150,8 @@ export const ComponentForm: React.FC<IComponent> = () => {
                                 id="outlined-error-helper-text"
                                 label="sale price"
                                 defaultValue="sale price"
-                                helperText={errors.salePrice.message}
-                                {...register("salePrice")}
+                                helperText={errors.totalPrice.message}
+                                {...register("totalPrice")}
                             />
                         </Box>
                     </form>
@@ -159,7 +159,7 @@ export const ComponentForm: React.FC<IComponent> = () => {
     
                 <label>images</label>
                 <input type="file" multiple onChange={handleImageChange} />
-                {errors.images && <p>{errors.images.message}</p>}
+                {errors.componentImages && <p>{errors.componentImages.message}</p>}
             </>
         )}
     
