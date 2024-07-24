@@ -7,7 +7,7 @@ import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { addItem, getAllItems, updateItem } from "../Api-Requests/genericRequests";
+import { addItem, getAllItems, getItemById, updateItem } from "../Api-Requests/genericRequests";
 import React, { useEffect, useState } from "react";
 import { getProducts } from "../features/product/productSlice";
 import { Chip, Grid, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, FormControl, FormControlLabel, Checkbox } from "@mui/material";
@@ -76,6 +76,13 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
     }
 
     const onSubmit: SubmitHandler<IProduct> = async (data) => {
+        
+        console.log("before get product by id");
+        const fetchedProduct = await getItemById<IProduct>(`api/inventory/product`, "669e66c58934ea5bb56090fa");
+        console.log("fetched product", fetchedProduct)
+        console.log("after get product by id");
+
+
         const componentIds = data.productComponents.map(name => {
             const component = components.find(c => c.name === name);
             return component ? component.id : null;
