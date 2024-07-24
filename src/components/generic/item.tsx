@@ -2,17 +2,21 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import { ComponentType } from 'react';
 
+interface Item {
+  [key: string]: any;
+}
+
 const Item = (props: {
-    item: object,
+    item: Item,
     column: string[],
     Desing: ComponentType<{
-        item: object,
+        item: Item,
         column: string[]
     }> | null
 }) => {
     const { item, column, Desing } = props;
 
-    return(
+    return (
         <>
         {            
             Desing ? <Desing item={item} column={column}/> :

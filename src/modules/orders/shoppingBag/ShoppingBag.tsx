@@ -15,8 +15,8 @@ interface BagItem {
 }
 
 
-const ShoppingBag: React.FC<{ initialBag: BagItem[] }> = ({ initialBag }) => {
-  const [bag, setBag] = useState<BagItem[]>(initialBag);
+const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
+  const [bag, setBag] = useState<BagItem[]>(initialBag||[]);
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
