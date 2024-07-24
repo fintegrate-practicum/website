@@ -16,7 +16,7 @@ const Profile: React.FC = () => {
   const [userMetadata, setUserMetadata] = useState<any>(null); 
   const dispatch = useAppDispatch()
 
-  function setCookie(name:String, value:String, days:number) {
+  function setCookie(name:string, value:string, days:number) {
     let expires = "";
     if (days) {
         const date = new Date();

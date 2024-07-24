@@ -4,8 +4,8 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { List, ListItem, ListItemText, MenuItem } from '@mui/material';
-import MySetting, { ComponentType, MySettingProps } from './MySetting';
+import { List, ListItem, ListItemText } from '@mui/material';
+import MySetting, {  MySettingProps } from './MySetting';
 import { ctgr } from './exampleData';
 //עיצוב ההגדרה
 const style = {
