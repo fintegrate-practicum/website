@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import Business from '../classes/business'
+import Business from '../classes/Business'
 import InfraInterceptors from '../auth0/InfraInterceptors'
 
 const initialState = {
