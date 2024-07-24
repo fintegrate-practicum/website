@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
-import { useDispatch } from "react-redux";
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { IComponent } from '../interfaces/IComponent';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { addItem, updateItem } from '../Api-Requests/genericRequests';
+import { addItem, getItemById, updateItem } from '../Api-Requests/genericRequests';
 import './ComponentForm.css';
 import { Checkbox, FormControlLabel } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 const notSaleAloneSchema = yup.object().shape({
     name: yup.string().required("Name is a required field").min(3, "Name must be at least 3 characters").max(20, "Name must be at most 20 characters"),
@@ -42,39 +42,44 @@ const saleAloneSchema = yup.object().shape({
     businessId: yup.string().required(),
 });
 
-interface ComponentFormProps {
-    initialData?: IComponent;
-}
+export const ComponentForm = () => {
 
-export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => {
-
-    const dispatch = useDispatch();
-    const [isAloneChecked, setIsAloneChecked] = useState(initialData?.isSoldSeparately || false);
+    const { componentId } = useParams<{ componentId: string }>();
+    const [component, setComponent] = useState<IComponent | any>(null);
+    const [isAloneChecked, setIsAloneChecked] = useState(component?.isSoldSeparately || false);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
-    const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<IComponent>({
+    const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<IComponent>({
         resolver: yupResolver(isAloneChecked ? saleAloneSchema : notSaleAloneSchema),
-        defaultValues: initialData || {}
+        defaultValues: component || {}
     });
 
     useEffect(() => {
-        if (initialData) {
-            reset(initialData);
-        }
-    }, [initialData, reset]);
-    
+        const fetchComponent = async () => {
+            if (componentId) {
+                try {
+                    const fetchedComponent = await getItemById<any>(`api/inventory/component`, componentId);
+                    delete fetchedComponent.data._id;
+                    delete fetchedComponent.data.__v;
+                    setComponent(fetchedComponent);
+                    reset(fetchedComponent.data);
+                } catch (error) {
+                    console.error('Error fetching component:', error);
+                }
+            }
+        };
+        fetchComponent();
+    }, [componentId, reset]);
+
     const save = async (data: IComponent) => {
-        console.log("submit");
         try {
             data.addingComponentDate = new Date();
-            if (initialData) {
-                const response = await updateItem<IComponent>(`api/inventory/component`, initialData.id, data);
+            if (component && componentId) {
+                const response = await updateItem<IComponent>(`api/inventory/component`, componentId, data);
                 console.log('Component updated successfully:', response.data);
-                // dispatch(updateComponent(data));
             } else {
                 const response = await addItem<IComponent>('api/inventory/component', data);
                 console.log('Component added successfully:', response.data);
-                // dispatch(addComponent(data));
             }
         } catch (error) {
             console.error(error);
@@ -108,6 +113,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                     variant="outlined"
                     helperText={errors.name?.message}
                     {...register("name")}
+                    value={watch("name") || ""}
                 />
             </Box>
 
@@ -120,6 +126,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                     variant="outlined"
                     helperText={errors.componentBuyPrice?.message}
                     {...register("componentBuyPrice")}
+                    value={watch("componentBuyPrice") || ""}
                 />
             </Box>
 
@@ -132,6 +139,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                     variant="outlined"
                     helperText={errors.minQuantity?.message}
                     {...register("minQuantity")}
+                    value={watch("minQuantity") || ""}
                 />
             </Box>
 
@@ -144,6 +152,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                     variant="outlined"
                     helperText={errors.stockQuantity?.message}
                     {...register("stockQuantity")}
+                    value={watch("stockQuantity") || ""}
                 />
             </Box>
 
@@ -155,6 +164,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                     variant="outlined"
                     helperText={errors.componentColor?.message}
                     {...register("componentColor")}
+                    value={watch("componentColor") || ""}
                 />
             </Box>
 
@@ -166,6 +176,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                     variant="outlined"
                     helperText={errors.componentSize?.message}
                     {...register("componentSize")}
+                    value={watch("componentSize") || ""}
                 />
             </Box>
 
@@ -177,6 +188,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                     variant="outlined"
                     helperText={errors.adminId?.message}
                     {...register("adminId")}
+                    value={watch("adminId") || ""}
                 />
             </Box>
 
@@ -188,6 +200,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                     variant="outlined"
                     helperText={errors.businessId?.message}
                     {...register("businessId")}
+                    value={watch("businessId") || ""}
                 />
             </Box>
 
@@ -212,6 +225,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                             variant="outlined"
                             helperText={errors.description?.message}
                             {...register("description")}
+                            value={watch("description") || ""}
                         />
                     </Box>
 
@@ -220,20 +234,18 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                             type="number"
                             error={!!errors.totalPrice}
                             id="outlined-basic"
-                            label="Sale Price"
+                            label="total price"
                             variant="outlined"
                             helperText={errors.totalPrice?.message}
                             {...register("totalPrice")}
+                            value={watch("totalPrice") || ""}
                         />
                     </Box>
 
-                    <label>Images</label>
-                    <input
-                        type="file"
-                        multiple
-                        onChange={handleImageChange}
-                    />
-                    {errors.images && <p>{errors.images.message}</p>}
+                    <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
+                        <input type="file" multiple onChange={handleImageChange}  />
+                        {errors.images && <p>{errors.images.message}</p>}
+                    </Box>
                 </>
             )}
 
@@ -266,6 +278,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                             variant="outlined"
                             helperText={errors.salePercentage?.message}
                             {...register("salePercentage")}
+                            value={watch("salePercentage") || ""}
                         />
                     </Box>
                 </>

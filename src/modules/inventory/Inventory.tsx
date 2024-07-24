@@ -6,12 +6,15 @@ import { Routes, Route } from 'react-router-dom';
 import SingleProductDetails from './components/showProducts/singleProductDetails';
 
 function Inventory() {
+
   return (
     <>
       <h1>Inventory</h1>
       <Routes>
         <Route path="/productForm" element={<AddProductForm />} />
+        <Route path="/productForm/:productId" element={<AddProductForm />} />
         <Route path="/componentForm" element={<ComponentForm />} />
+        <Route path="/componentForm/:componentId" element={<ComponentForm />} />
         <Route path="/products" element={<ShowProducts />} />
         <Route path="/products/:productId" element={<SingleProductDetails/>}/>
       </Routes>
