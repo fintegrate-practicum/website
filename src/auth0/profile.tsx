@@ -45,6 +45,9 @@ const Profile: React.FC = () => {
           },
         });
         const user_metadata = await metadataResponse.json();
+
+        setCookie("user_id", user_metadata.identities[0]?.user_id, 30);
+
         setUserMetadata(user_metadata);        
         dispatch(fetchUserById(user_metadata?.user_id));        
       } catch (e) {
