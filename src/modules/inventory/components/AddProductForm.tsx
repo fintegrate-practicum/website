@@ -24,7 +24,6 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
         description: yup.string().required("productDescription is a required field"),
         packageCost: yup.number().typeError("packageCost must be a number").required("packageCost is a required field").min(0, "package cost must be positive"),
         totalPrice: yup.number().typeError("totalPrice must be a number").required("totalPrice is a required field").min(1, "price must be positive"),
-        adminId: yup.string().required("adminId is a required field"),
         isActive: yup.boolean().required("isActive is a required field"),
         isOnSale: yup.boolean().required("isOnSale is a required field"),
         salePercentage: yup.number().when('isOnSale', {
@@ -33,7 +32,6 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
             otherwise: yup.number().notRequired()
         }),
         stockQuantity: yup.number().typeError("stockQuantity must be a number").required("stockQuantity is a required field").min(0, "stock cannot be negative"),
-        businessId: yup.string().required("bussinesId is a required field"),
         componentStatus: yup.string().required("componentStatus is a required field").min(3, "componentStatus must be at least 3 characters").max(15, "componentStatus must be at most 15 characters"),
         productComponents: yup.array().of(yup.string()).min(1, "Must select at least one component"),
         images: yup.array().of(yup.string()).required("must be at least 1").min(1, "must be at least 1").max(5, "must be at most 5"),
@@ -77,7 +75,6 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
     }
 
     const onSubmit: SubmitHandler<IProduct> = async (data) => {
-
         const componentIds = data.productComponents.map(name => {
             const component = components.find(c => c.name === name);
             return component ? component.id : null;
@@ -85,12 +82,12 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
 
         const formData = {
             ...data,
-            businessId:"here will be the business id",
-            adminId:"here will be the admin id",
+            businessId: "here will be the business id",
+            adminId: "here will be the admin id",
             productComponents: componentIds,
             images: data.images
         };
-
+        
         if (product && product.id) {
             try {
                 const response = await updateItem<IProduct>(`api/inventory/product`, product.id, formData);
