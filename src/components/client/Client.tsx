@@ -33,7 +33,7 @@ export default function Client() {
   const [business, setBusiness] = useState<Business | null>(null);
   const [loading, setLoading] = useState(true);
   const [errorOccurred, setErrorOccurred] = useState(false);
-  const http = import.meta.env.VITE_SERVER_URL;
+  const http = import.meta.env.INFRA_SERVICE_URL;
 
   useEffect(() => {
 

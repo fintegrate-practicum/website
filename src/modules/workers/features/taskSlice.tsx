@@ -11,7 +11,7 @@ interface EditTaskArgs {
   employeeType: string; 
 }
 
-const http = import.meta.env.VITE_HTTP;
+const http = import.meta.env.WORKERS_SERVICE_URL;
 const managerId = import.meta.env.VITE_MANAGERID;
 const businessId = import.meta.env.VITE_BUSINESSID;
 const response = await axios.get(`${http}/tasks/manager/${businessId}/${managerId}`);
@@ -54,7 +54,7 @@ export const editTask = createAsyncThunk('',async ({ taskId, updateTask, employe
 
 export const deleteTask = createAsyncThunk('',async (taskId:string) => {
   try {
-      const response = await axios.delete(http+`/tasks/manager/task/${taskId}`)
+      const response = await axios.delete(`${http}/tasks/manager/task/${taskId}`)
       return response.data
   } catch (error) {
       return error

@@ -15,7 +15,6 @@ const initialState = {
         updatedBy: '',
         role: new EmployeeRole('', true, "hhgg"),
         nameEmployee: '',
-      
     },
     userDetails: {
         userName: '',
@@ -42,7 +41,7 @@ export const fetchUserById = createAsyncThunk(
   'fetchUserById',
   async (userId: string, { dispatch }) => {
     try {
-      const response = await InfraInterceptors.get(`$/currentUser/${userId}`);
+      const response = await InfraInterceptors.get(`/user/${userId}`);
       const data = response.data;   
       dispatch(currentUserSlice.actions.setCurrentUser(data));      
       return data;
@@ -55,7 +54,7 @@ export const fetchUserById = createAsyncThunk(
 export const updateCurrentUser = createAsyncThunk('', async (payload: any) => { 
     const { auth0_user_id, updatedCurrentUser } = payload;
     try {           
-        const response = await InfraInterceptors.put(`$/currentUser/${auth0_user_id}`, updatedCurrentUser);
+        const response = await InfraInterceptors.put(`$/user/${auth0_user_id}`, updatedCurrentUser);
         return response.data;
     } catch (error:any) {
       showErrorToast(error.message);
