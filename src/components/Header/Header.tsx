@@ -15,7 +15,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 
 
 export interface HeaderProps {
-  serviceName: string; 
+  serviceName?: string; 
   children?: ReactElement;
 }
 

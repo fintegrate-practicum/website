@@ -1,7 +1,7 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 
 export interface Item {
-  id: string;
+  id?: string;
 }
 
 export interface State<T extends Item> {

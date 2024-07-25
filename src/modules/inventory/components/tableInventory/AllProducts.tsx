@@ -5,8 +5,15 @@ import { IProduct } from '../../interfaces/IProduct';
 import { IComponent } from '../../interfaces/IComponent';
 
 const AllProducts: React.FunctionComponent<{ productsArr: IProduct[], componentsArr: IComponent[] }> = ({ productsArr, componentsArr }) => {
-  const componentMap: { [key: string]: string } = useMemo(() => componentsArr.reduce((acc, item) => ({ ...acc, [item.id]: item.name }), {}), [componentsArr]);
-  const [selectedRows, setSelectedRows] = useState<string[]>([]);
+  const componentMap: Record<string, string> = useMemo(() => 
+    componentsArr.reduce((acc, item) => {
+      const id = String(item.id);
+      acc[id] = item.name || 'Unknown';
+      return acc;
+    }, {} as Record<string, string>), 
+    [componentsArr]
+  );
+    const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const allRows: (IProduct | IComponent)[] = [...productsArr, ...componentsArr];
 
   const columns: GridColDef[] = [

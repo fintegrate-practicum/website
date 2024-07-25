@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from 'react-router-dom';
-import { IProduct } from "../interfaces/IProduct";
-import { IComponent } from "../interfaces/IComponent";
+import React, { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { IProduct } from '../interfaces/IProduct';
+import { IComponent } from '../interfaces/IComponent';
 import TextField from '@mui/material/TextField';
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";

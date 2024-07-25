@@ -12,7 +12,7 @@ import { IComponent } from '../../interfaces/IComponent';
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         sx={{ height: 140 }}
-        image={component.componentImages[0]}
+        image={component.componentImages?.[0] ?? 'defaultImageURL'}
         title={component.name}
       />
       <CardContent>
