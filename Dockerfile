@@ -11,17 +11,14 @@ ENV SSL_CERT_FILE=/etc/ca-bundle.crt
 
 WORKDIR /app
 
+
 COPY package*.json ./
 
 RUN npm install
 
-<<<<<<< HEAD
 COPY . .
 
 
 EXPOSE 5173
-=======
-EXPOSE 5173 
->>>>>>> 23a1e9ad7f19592734695d15eb927ba063a35d22
 
 CMD [ "npm", "run","dev" ]

@@ -10,8 +10,8 @@ function Inventory() {
     <>
       <h1>Inventory</h1>
       <Routes>
-        <Route path="/product/:id" element={<AddProductForm />} />
-        <Route path="/component/:id" element={<ComponentForm />} />
+        <Route path="/product/:id?" element={<AddProductForm />} />
+        <Route path="/component/:id?" element={<ComponentForm />} />
         <Route path="/products" element={<ShowProducts />} />
         <Route path="/products/:productId" element={<SingleProductDetails/>}/>
       </Routes>

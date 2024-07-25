@@ -45,6 +45,7 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
 
     const [loading, setLoading] = useState<boolean>(false);
     const [components, setComponents] = useState<IComponent[]>([]);
+    const [imagePreviews, setImagePreviews] = useState<string[]>([]);
     const dispatch = useDispatch();
     const componentState = useSelector((state: RootState) => state.component);
 
@@ -76,12 +77,6 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
     }
 
     const onSubmit: SubmitHandler<IProduct> = async (data) => {
-        
-        console.log("before get product by id");
-        const fetchedProduct = await getItemById<IProduct>(`api/inventory/product`, "669e66c58934ea5bb56090fa");
-        console.log("fetched product", fetchedProduct)
-        console.log("after get product by id");
-
 
         const componentIds = data.productComponents.map(name => {
             const component = components.find(c => c.name === name);
@@ -118,6 +113,7 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             const images = Array.from(event.target.files).map(file => URL.createObjectURL(file));
+            setImagePreviews(images);
             setValue("images", images);
         }
     };
@@ -298,6 +294,16 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                         </Select>
                         {errors.productComponents && <p style={{ color: 'red' }}>{errors.productComponents.message}</p>}
                     </FormControl>
+                </Grid>
+
+                <Grid item xs={12} sm={12}>
+                    {imagePreviews.length > 0 && (
+                        <Box sx={{ display: 'flex', gap: 1, marginTop: 2 }}>
+                            {imagePreviews.map((preview, index) => (
+                                <img key={index} src={preview} alt={`Image ${index + 1}`} style={{ maxWidth: 200, maxHeight: 200 }} />
+                            ))}
+                        </Box>
+                    )}
                 </Grid>
 
                 <Grid item xs={12} sm={12}>

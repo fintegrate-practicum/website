@@ -5,6 +5,7 @@ import ConfirmeOrder from './ConfirmeOrder';
 import ShoppingBag from './shoppingBag/ShoppingBag';
 
 import BaseWizard from './Stepper/BaseWizard';
+import MyTable from './smallBag/SmallShoppingBag';
 
 function Orders() {
 
@@ -18,6 +19,7 @@ function Orders() {
     {/* <ConfirmeOrder newOrder={newOrder} /> */}
     {/* <SmallShoppingBag /> */}
     <ShoppingBag initialBag={[]}/>
+    <MyTable/>
     </>
   );
 }
