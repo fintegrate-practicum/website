@@ -29,8 +29,6 @@
     "@mui/joy": "^5.0.0-beta.47",
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.14",
-    "@nestjs/core": "^10.3.10",
-    "@nestjs/platform-express": "^10.3.10",
     "@reduxjs/toolkit": "^2.2.3",
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.5.2",
