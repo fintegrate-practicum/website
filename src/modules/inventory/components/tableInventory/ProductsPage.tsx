@@ -11,7 +11,7 @@ function ProductsPage() {
       {id: "1",
       name: "table",
       description:"mnbvcx",
-      componentsImages: [],
+      images: [],
       productComponents: ["10", "11","14","12"],
       packageCost: 100,
       totalPrice: 300,
@@ -20,12 +20,12 @@ function ProductsPage() {
       isOnSale: true,
       salePercentage: 10,
       stockQuantity: 40,
-      bussinesId: "44",
+      businessId: "44",
       componentStatus: ""},
       {id: "2",
       name: "table",
       description:"aaaaaaaaaaaa",
-      componentsImages: [],
+      images: [],
       productComponents: ["12", "13"],
       packageCost: 100,
       totalPrice: 200,
@@ -34,7 +34,7 @@ function ProductsPage() {
       isOnSale: true,
       salePercentage: 10,
       stockQuantity: 50,
-      bussinesId: "44",
+      businessId: "44",
       componentStatus: ""}
 ];
 const componentsArr:IComponent[]=
@@ -55,7 +55,7 @@ const componentsArr:IComponent[]=
     salePercentage: 20,
     componentColor: "",
     componentSize:"120",
-    bussinesId: "",
+    businessId: "",
 },
 {
     id:"12",
@@ -74,7 +74,7 @@ const componentsArr:IComponent[]=
     salePercentage: 20,
     componentColor: "",
     componentSize:"120",
-    bussinesId: "",
+    businessId: "",
 },
 {
   id:"10",
@@ -93,7 +93,7 @@ const componentsArr:IComponent[]=
   salePercentage: 20,
   componentColor: "",
   componentSize:"120",
-  bussinesId: "",
+  businessId: "",
 },
 {
   id:"13",
@@ -112,7 +112,7 @@ const componentsArr:IComponent[]=
   salePercentage: 20,
   componentColor: "",
   componentSize:"120",
-  bussinesId: "",
+  businessId: "",
 },
 {
   id:"14",
@@ -131,7 +131,7 @@ const componentsArr:IComponent[]=
   salePercentage: 20,
   componentColor: "",
   componentSize:"120",
-  bussinesId: "",
+  businessId: "",
 }
 ]
 
