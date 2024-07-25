@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { deleteItem, setData, addItem, updateItem, State } from "../../app/actions";
 import { IProduct } from "../../interfaces/IProduct";
   
@@ -16,5 +16,5 @@ const initialState: State<IProduct> = {
         }
     });
 
-    export const { deleteProduct, addProduct, getProducts, updateProduct } = productSlice.actions;
-    export default productSlice.reducer;
+export const { deleteProduct, addProduct, getProducts, updateProduct } = productSlice.actions;
+export default productSlice.reducer;

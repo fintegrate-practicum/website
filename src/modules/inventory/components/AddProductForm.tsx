@@ -85,6 +85,8 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
 
         const formData = {
             ...data,
+            businessId:"here will be the business id",
+            adminId:"here will be the admin id",
             productComponents: componentIds,
             images: data.images
         };
@@ -185,7 +187,7 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                     />
                 </Grid>
 
-                <Grid item xs={12} sm={6}>
+                {/* <Grid item xs={12} sm={6}>
                     <TextField
                         id="adminId-input"
                         label="Admin ID"
@@ -196,7 +198,7 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                         defaultValue={product?.adminId || ''}
                         fullWidth
                     />
-                </Grid>
+                </Grid> */}
 
                 <Grid item xs={12} sm={6}>
                     <TextField
@@ -212,7 +214,7 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                     />
                 </Grid>
 
-                <Grid item xs={12} sm={6}>
+                {/* <Grid item xs={12} sm={6}>
                     <TextField
                         id="businessId-input"
                         label="Business ID"
@@ -223,7 +225,7 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                         defaultValue={product?.businessId || ''}
                         fullWidth
                     />
-                </Grid>
+                </Grid> */}
 
                 <Grid item xs={12} sm={6}>
                     <TextField

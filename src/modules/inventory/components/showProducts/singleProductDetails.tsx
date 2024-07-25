@@ -4,11 +4,12 @@ import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../app/hooks';
 
 const SingleProductDetails = () => {
-
   const products = useAppSelector((state) => state.product?.data || []);
   const productId = useParams().productId;
-  const product = products.find(p => p.id == productId);
-  const { name, totalPrice, description, productComponents, isOnSale } = product || {};
+  const product = products.find(p => p.id === productId);
+
+  // Optional chaining and nullish coalescing operators used here
+  const { name, totalPrice, description, productComponents, isOnSale } = product ?? {};
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', p: 2 }}>
@@ -34,6 +35,6 @@ const SingleProductDetails = () => {
       </Card>
     </Box>
   );
-}
+};
 
 export default SingleProductDetails;

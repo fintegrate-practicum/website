@@ -47,13 +47,19 @@ export interface RadioGroupChildren {
 export interface FloatingActionButtonChildren {
   children: string;
 }
-
+interface CustomChild {
+  key?: string;
+  value?: string;
+  text?: string;
+  label?:string;
+}
 export interface MySettingProps {
+
   setting: {
     settingDesc: string;
     type: ComponentType;
     props?: Record<string, any>;
-    children?: RadioGroupChildren | SelectChildren | ButtonGroupChildren | ButtonChildren | FloatingActionButtonChildren | string;
+    children?: CustomChild[] |CustomChild| RadioGroupChildren | SelectChildren | ButtonGroupChildren | ButtonChildren | FloatingActionButtonChildren | string;
   };
 }
 
@@ -130,19 +136,19 @@ const MySetting: FC<MySettingProps> = (props) => {
     return null;
   }
 
-  if (!validateChildrenType(setting.type, setting.children)) {
-    throw new Error(`Invalid children for component type: ${setting.type}`);
-  }
+  // if (!validateChildrenType(setting.type, setting.children)) {
+  //   throw new Error(`Invalid children for component type: ${setting.type}`);
+  // }
 
-  let children: ReactElement | ReactElement[] | undefined;
+  let children: ReactElement | ReactElement[] | undefined | any;
   if (setting.type === ComponentType.Select && Array.isArray(setting.children)) {
-    children = setting.children.map((child: { key: string; value: string; text: string }) => (
+    children = (setting.children as CustomChild[]).map((child) => (
       <MenuItem key={child.key} value={child.value}>
         {child.text}
       </MenuItem>
     ));
   } else if (setting.type === ComponentType.RadioGroup && Array.isArray(setting.children)) {
-    children = setting.children.map((child: { value: string; label: string }) => (
+    children = setting.children.map((child) => (
       <FormControlLabel
         key={child.value}
         value={child.value}
@@ -151,7 +157,7 @@ const MySetting: FC<MySettingProps> = (props) => {
       />
     ));
   } else if (setting.type === ComponentType.ButtonGroup && Array.isArray(setting.children)) {
-    children = setting.children.map((child: { key: string; value: string }) => (
+    children = setting.children.map((child) => (
       <Button key={child.key} variant={setting.props?.variant}>
         {child.value}
       </Button>

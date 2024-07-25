@@ -13,5 +13,4 @@ export interface IProduct {
     stockQuantity: number;
     businessId: string;
     componentStatus: string;
-}
-
+  }
