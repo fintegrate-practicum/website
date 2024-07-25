@@ -24,6 +24,7 @@ const notSaleAloneSchema = yup.object().shape({
     businessId: yup.string().required(),
 });
 
+
 const saleAloneSchema = yup.object().shape({
     name: yup.string().required("Name is a required field").min(3, "Name must be at least 3 characters").max(20, "Name must be at most 20 characters"),
     componentBuyPrice: yup.number().required("Purchase price is a required field").positive("Price must be a positive number"),
