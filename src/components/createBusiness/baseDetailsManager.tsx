@@ -1,6 +1,5 @@
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
-// import Button from '@mui/material/Button';
 import Button from '../../common/components/Button/Button'
 import { createBusiness, saveBusiness } from '../../Redux/businessSlice';
 import { useAppDispatch } from "../../Redux/hooks";
@@ -80,8 +79,7 @@ export default function BaseDetailsManager(): JSX.Element {
 
             <Stack direction="row" spacing={2}>
                 <Button
-                    isLink={false}
-                    value="submit"
+                    color="success"
                     type='submit'
                 />
             </Stack>

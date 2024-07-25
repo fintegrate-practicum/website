@@ -13,39 +13,39 @@ export default meta;
 type Story = StoryObj<typeof Button>;
 
 const baseProps = {
-    borderColor: theme.palette.primary.dark,
-    border: "double",
-    outlineColor: theme.palette.info.main,
-    color: theme.palette.secondary.dark,
+    disabled:false,
+    color: "secondary",
+    isLink: false,
+    value: "Button",
+    tabIndex:1,
+    component:"button",
+    size:"small",
+    variant:"contained",
+    onClick: action('onClick'),
 };
 
 export const fullColor: Story = {
     args: {
-        onClick: action('onClick'),
-        backgroundColor: theme.palette.secondary.dark,
-        value: "Button",
-        isLink: false,
         ...baseProps,
     },
 };
 
 export const empty: Story = {
     args: {
+        ...baseProps,
         onClick: () => {
             window.location.href = 'https://www.example.com';
         },
-        value: "Button",
-        backgroundColor: "white",
-        isLink: false,
-        ...baseProps,
+        variant:"outlined",
+      
     },
 };
 
 export const link: Story = {
     args: {
-        value: "Button",
-        backgroundColor: "white",
-        isLink: true,
         ...baseProps,
+        backgroundColor: "white",
+        isLink: true, 
+        href:"https://chat.yishreylev.net/"
     },
 };

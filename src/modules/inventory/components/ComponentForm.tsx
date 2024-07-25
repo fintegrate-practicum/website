@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { IComponent } from '../interfaces/IComponent';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import Button from '../../../common/components/Button/Button';
 import { addItem } from '../Api-Requests/genericRequests';
 import { addComponent } from '../features/component/componentSlice';
 import './ComponentForm.css';
@@ -143,7 +143,7 @@ export const ComponentForm: React.FC<IComponent> = () => {
                 </>
             )}
 
-            <Button variant="outlined" type="submit">save</Button>
+            <Button variant="outlined" type="submit" value="save"></Button>
 
         </form>
     );

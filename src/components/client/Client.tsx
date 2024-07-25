@@ -1,5 +1,5 @@
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
+import Button from '../../common/components/Button/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
@@ -99,7 +99,7 @@ export default function Client() {
         </Typography>
       </Box>
       <Stack spacing={2} direction="row">
-        <Button variant="contained">צור הזמנה</Button>
+      <Button value="צור הזמנה" />
       </Stack>
     </Box>
   );

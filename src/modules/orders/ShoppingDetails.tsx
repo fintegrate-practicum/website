@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup"
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { Button } from '@mui/material';
+import Button from '../../common/components/Button/Button';
 import "./ShoppingDetails.css";
 
 
@@ -77,7 +77,7 @@ const ShoppingDetails = () => {
                         {errors.apartmentNumber && <p>{errors.apartmentNumber.message}</p>}
                         <TextField id="filled-basic" fullWidth label="משפחה" variant="filled" {...register("lastName")} />
                         {errors.lastName && <p>{errors.lastName.message}</p>}
-                        <Button type="submit" variant="contained" color="primary">
+                        <Button type="submit" >
                             שמור פרטים
                         </Button>
                     </Box>)

@@ -36,7 +36,7 @@ const BaseWizard = () => {
     };
 
     return <div>
-        <Button variant="contained" onClick={handleOpen}>
+        <Button  onClick={handleOpen}>
             Open Wizard
         </Button>
         <Modal open={open}

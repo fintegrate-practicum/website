@@ -1,5 +1,5 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
+import Button from "../../../../common/components/Button/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -16,7 +16,8 @@ import { editTask } from "../../features/taskSlice";
 import { UpdateTaskManagerDTO } from "../../dto/updateTaskManagerDto";
 import { TaskStatus } from "../../classes/enum/taskStatus.enum";
 
-const EditTask = (props: {
+const EditTask = (
+  props: {
   status: TaskStatus;
   taskId: string;
   description: string;
@@ -59,8 +60,8 @@ const EditTask = (props: {
 
   return (    
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        edit task
+      <Button variant="outlined" onClick={handleClickOpen} value=" edit task">
+       
       </Button>
       <Dialog
         open={open}
@@ -172,8 +173,8 @@ const EditTask = (props: {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Save</Button>
+          <Button onClick={handleClose} value="Cancel"></Button>
+          <Button type="submit" value="Save"></Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

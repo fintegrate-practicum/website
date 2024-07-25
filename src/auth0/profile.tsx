@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
-// import { Link } from 'react-router-dom';
 import Button from '../common/components/Button/Button'
 import { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
@@ -113,7 +112,6 @@ const Profile: React.FC = () => {
         anchorEl={anchorEl}
         handleClose={handleClose}
       />
-      {/* <Link to="/CreateBusiness/BaseDetailsManager">הרשמה של עסק</Link> */}
       <Button
         href="/CreateBusiness/BaseDetailsManager"
         isLink={true}
