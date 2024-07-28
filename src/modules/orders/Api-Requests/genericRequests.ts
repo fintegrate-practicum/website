@@ -13,7 +13,6 @@ export const deleteItem = <T>(route: string, id: string) => {
 };
 
 export const addItem = <T>(route: string, item: T) => {
-    console.log(import.meta.env.ORDERS_SERVICE_URL)
     return httpSrvice.post<T>(`/${route}`, item);
 };
 
