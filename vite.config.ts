@@ -12,9 +12,13 @@ export default defineConfig({
       exclude: [],
     }),
   ],
+  build: {
+    target: 'esnext', // או 'es2022' אם זה מתאים יותר
+  },
   test: {
     environment: 'jsdom',
     globals: true,
     setupFiles: './src/tests/setup.ts',
   }
 })
+
