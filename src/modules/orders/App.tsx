@@ -2,7 +2,7 @@ import './App.css';
 import ShoppingBag from './shoppingBag/ShoppingBag';
 
 import BaseWizard from './Stepper/BaseWizard';
-import MyTable from './smallBag/SmallShoppingBag';
+import SmallShoppingBag from './smallBag/SmallShoppingBag';
 
 function Orders() {
   return (
@@ -12,7 +12,7 @@ function Orders() {
     {/* <ConfirmeOrder newOrder={newOrder} /> */}
     {/* <SmallShoppingBag /> */}
     <ShoppingBag initialBag={[]}/>
-    <MyTable/>
+    <SmallShoppingBag/>
     </>
   );
 }

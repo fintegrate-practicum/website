@@ -51,7 +51,7 @@ const bag = [
 
 ];
 
-const MyTable = () => {
+const SmallShoppingBag = () => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -102,5 +102,5 @@ const MyTable = () => {
   );
 };
 
-export default MyTable;
+export default SmallShoppingBag;
 
