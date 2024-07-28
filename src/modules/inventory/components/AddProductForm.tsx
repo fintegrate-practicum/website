@@ -76,13 +76,14 @@ const AddProductForm = () => {
             // } catch (error) {
             //     console.error('Error adding product:', error);
             // }
+            
+            //נתונים קשים עד לעדכון הרידקס
+            data.adminId = "dgds";
+            data.businessId = "fdsfd";
+            //
 
             if (product && productId) {
                 try {
-                    //נתונים קשים עד לעדכון הרידקס
-                    data.adminId = "dgds";
-                    data.businessId = "fdsfd";
-                    //
                     const response = await updateItem<IProduct>(`api/inventory/product`, productId, data);
                     console.log('Product updated successfully:', response.data);
                 } catch (error) {
@@ -90,10 +91,6 @@ const AddProductForm = () => {
                 }
             } else {
                 try {
-                    //נתונים קשים עד לעדכון הרידקס
-                    data.adminId = "dgds";
-                    data.businessId = "fdsfd";
-                    //
                     const response = await addItem<IProduct>('api/inventory/product', data);
                     console.log('Product added successfully:', response.data);
                 } catch (error) {
