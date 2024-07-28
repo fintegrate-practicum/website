@@ -55,7 +55,7 @@ const componentsArr:IComponent[]=
     salePercentage: 20,
     componentColor: "",
     componentSize:"120",
-    bussinesId: "",
+    businessId: "",
 },
 {
     id:"12",
@@ -74,7 +74,7 @@ const componentsArr:IComponent[]=
     salePercentage: 20,
     componentColor: "",
     componentSize:"120",
-    bussinesId: "",
+    businessId: "",
 },
 {
   id:"10",
@@ -93,7 +93,7 @@ const componentsArr:IComponent[]=
   salePercentage: 20,
   componentColor: "",
   componentSize:"120",
-  bussinesId: "",
+  businessId: "",
 },
 {
   id:"13",
@@ -112,7 +112,7 @@ const componentsArr:IComponent[]=
   salePercentage: 20,
   componentColor: "",
   componentSize:"120",
-  bussinesId: "",
+  businessId: "",
 },
 {
   id:"14",
@@ -131,7 +131,7 @@ const componentsArr:IComponent[]=
   salePercentage: 20,
   componentColor: "",
   componentSize:"120",
-  bussinesId: "",
+  businessId: "",
 }
 ]
 

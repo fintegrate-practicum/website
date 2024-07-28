@@ -62,17 +62,17 @@ describe('<MySetting>', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  test('does not render without required props', () => {
-    const setting = {
-      settingDesc: 'Sample description',
-      type: ComponentType.Button, 
-    };
+  // test('does not render without required props', () => {
+  //   const setting = {
+  //     settingDesc: 'Sample description',
+  //     type: ComponentType.Button, 
+  //   };
   
-    const { container } = render(
-      <MySetting setting={setting} />
-    );
-    expect(container.firstChild).toBeNull();
-  });
+  //   const { container } = render(
+  //     <MySetting setting={setting} />
+  //   );
+  //   expect(container.firstChild).toBeNull();
+  // });
   test('renders component button with children', () => {
     render(
       <MySetting

@@ -1,4 +1,4 @@
-import './App.css';
+import './Inventory.css';
 import React from 'react';
 import { Routes, Route, useParams, useLocation } from 'react-router-dom';
 import ShowProducts from './components/showProducts/AllProducts';

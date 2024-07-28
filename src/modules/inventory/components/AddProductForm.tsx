@@ -70,26 +70,90 @@ const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
+<<<<<<< HEAD
             {!errors.name ? (
                 <Box className='itemInput' component="div">
+=======
+             {!errors.name?
+                <Box component="div" className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' }, }} 
+                // noValidate autoComplete="off"
+                >
+>>>>>>> 5d178254aaf3b0fed6c60ff8ff0456c484d159a1
                     <TextField id="outlined-basic" label="name" variant="outlined" {...register("name")} />
                 </Box>
-            ) : (
-                <Box className='itemInput' component="div">
+                :
+                <Box component="div" className='itemInput' sx={{ '& .MuiTextField-root': { m: 1, width: '18ch' }, }}
+                //  noValidate autoComplete="off"
+                 >
                     <TextField
                         error
                         id="outlined-error-helper-text"
                         label="name"
                         defaultValue="name"
+<<<<<<< HEAD
                         helperText={errors.name?.message}
+=======
+                        helperText={errors.name.message}
+>>>>>>> 5d178254aaf3b0fed6c60ff8ff0456c484d159a1
                         {...register("name")}
                     />
                 </Box>
-            )}
+            }
 
+<<<<<<< HEAD
             <Button variant="contained" color="success" type="submit">Submit</Button>
         </form>
     );
+=======
+           {!errors.description ?
+                <Box component="div" className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' }, }} 
+                // noValidate autoComplete="off"
+                >
+                    <TextField id="outlined-basic" label="description" variant="outlined" {...register("description")} />
+                </Box>
+                :
+                <Box component="div" className='itemInput' sx={{ '& .MuiTextField-root': { m: 1, width: '18ch' }, }}
+                //  noValidate autoComplete="off"
+                 >
+                    <TextField
+                        error
+                        id="outlined-error-helper-text"
+                        label="description"
+                        defaultValue="description"
+                        helperText={errors.description.message}
+                        {...register("description")}
+                    />
+                </Box>
+            }
+            <Button variant="contained" color="success" onClick={()=>navigate('/')}>select components</Button>
+            <div>{sumArrComponent()}</div>
+            <input type="file" multiple onChange={handleImageChange} />
+            {errors.images && <p>{errors.images.message}</p>}
+            {!errors.totalPrice ?
+                <Box component="div" className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' }, }}
+                //  noValidate autoComplete="off"
+                 >
+                    <TextField id="outlined-basic" label="price" variant="outlined" {...register("totalPrice")} />
+                </Box>
+                :
+                <Box component="div" className='itemInput' sx={{ '& .MuiTextField-root': { m: 1, width: '18ch' }, }}
+                //  noValidate autoComplete="off"
+                 >
+                    <TextField
+                        error
+                        id="outlined-error-helper-text"
+                        label="price"
+                        defaultValue="price"
+                        helperText={errors.totalPrice.message}
+                        {...register("totalPrice")}
+                    />
+                </Box>
+            }
+            <Button variant="contained" color="success" type="submit" >Submit</Button>
+        </form>
+    );
+
+>>>>>>> 5d178254aaf3b0fed6c60ff8ff0456c484d159a1
 };
 
 export default AddProductForm;
