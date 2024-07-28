@@ -54,7 +54,7 @@ export const fetchUserById = createAsyncThunk(
 export const updateCurrentUser = createAsyncThunk('', async (payload: any) => { 
     const { auth0_user_id, updatedCurrentUser } = payload;
     try {           
-        const response = await InfraInterceptors.put(`$/user/${auth0_user_id}`, updatedCurrentUser);
+        const response = await InfraInterceptors.put(`/user/${auth0_user_id}`, updatedCurrentUser);
         return response.data;
     } catch (error:any) {
       showErrorToast(error.message);
