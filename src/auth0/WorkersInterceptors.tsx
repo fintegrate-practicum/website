@@ -8,7 +8,6 @@ const workerInstance = axios.create({
   baseURL: import.meta.env.VITE_WORKERS_SERVICE_URL,  
   paramsSerializer: params => qs.stringify(params, { indices: false }),
 });
-console.log(import.meta.env.VITE_WORKERS_SERVICE_URL);
 workerInstance.interceptors.request.use(
   config => {
     const token=useJwtFromCookie('accessToken')

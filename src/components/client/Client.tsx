@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { showErrorToast } from "../generic/errorMassage";
-import { log } from 'console';
 
 
 interface Business {
@@ -41,7 +40,6 @@ export default function Client() {
     async function fetchBusinessData() {
       try {
         console.log(`Fetching business data for linkUID: ${linkUID}`);
-        console.log(`${baseUrl}/business/link/${linkUID}`)
         const response = await axios.get(`${baseUrl}/business/link/${linkUID}`);
         console.log('Business data fetched successfully:', response.data);
         setBusiness(response.data);

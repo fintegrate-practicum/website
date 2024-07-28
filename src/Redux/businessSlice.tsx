@@ -35,7 +35,6 @@ export const businessSlice = createSlice({
 });    
 
 export const createBusiness = createAsyncThunk('', async (_business:Business) => {    
-   console.log(_business)
     try {              
         const response = await InfraInterceptors.post('/business', _business);                                 
         return response
