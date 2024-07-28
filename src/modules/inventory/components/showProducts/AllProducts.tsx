@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Grid from '@mui/joy/Grid';
+import Grid from '@mui/material/Grid';
 import SingleProduct from './singleProduct';
 import { IProduct } from '../../interfaces/IProduct';
 import { IComponent } from '../../interfaces/IComponent';
