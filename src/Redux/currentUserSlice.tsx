@@ -3,7 +3,7 @@ import { RootState } from "./store";
 import { EmployeeRole } from "../modules/workers/classes/employeeRole";
 import { statuses } from "../modules/workers/classes/enum/statuses.enum";
 import { showErrorToast } from "../components/generic/errorMassage";
-import workerInstance from '../auth0/WorkersInterceptors'
+import workerInstance from "../auth0/WorkersInterceptors";
 
 const initialState = {
   CurrentUser: {
@@ -38,7 +38,7 @@ const initialState = {
 }
 
 export const fetchUserById = createAsyncThunk(
-  'fetchUserById',
+  'user/fetchUserById',
   async (userId: string, { dispatch }) => {
     try {
       const response = await workerInstance.get(`/user/${userId}`);

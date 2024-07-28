@@ -10,10 +10,14 @@ const deleteButton: React.FunctionComponent<{componentDetails:IComponent}> = ({c
 
     const dispatch = useDispatch();
     const handleClickDelete = async () => {
+        if (!componentDetails.id) {
+            console.error("Component ID is not defined");
+            return;
+        }
+
         try {
             await deleteItem<IComponent>('component', componentDetails.id);
             dispatch(deleteComponent(componentDetails.id));
-
         } catch (error) {
             console.error(error);
         }
