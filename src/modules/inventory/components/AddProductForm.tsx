@@ -21,12 +21,10 @@ const AddProductForm = () => {
         description: yup.string().required("productDescription is a required field"),
         packageCost: yup.number().typeError("packageCost must be a number").required("packageCost is a required field").min(0, "package cost must be positive"),
         totalPrice: yup.number().typeError("totalPrice must be a number").required("totalPrice is a required field").min(1, "price must be positive"),
-        adminId: yup.string().required("adminId is a required field"),
         isActive: yup.boolean().required("isActive is a required field"),
         isOnSale: yup.boolean().required("isOnSale is a required field"),
         salePercentage: yup.number().typeError("salePercentage must be a number").min(0).max(100).required("salePercentage is a required field"),
         stockQuantity: yup.number().typeError("stockQuantity must be a number").required("stockQuantity is a required field").min(0, "stock cannot be negative"),
-        businessId: yup.string().required("bussinesId is a required field"),
         componentStatus: yup.string().required("componentStatus is a required field").min(3, "componentStatus must be at least 3 characters").max(15, "componentStatus must be at most 15 characters"),
         productComponents: yup.string().min(1, "must provide at least one component"),
         images: yup.array().of(yup.mixed()).min(1, "must be at least 1").max(5, "must be at most 5"),
@@ -43,10 +41,11 @@ const AddProductForm = () => {
             if (productId) {
                 try {
                     const fetchedProduct = await getItemById<any>(`api/inventory/product`, productId);
-                    delete fetchedProduct.data._id;
-                    delete fetchedProduct.data.__v;
-                    setProduct(fetchedProduct);
-                    reset(fetchedProduct.data);
+                    const upDateProduct = fetchedProduct;
+                    delete upDateProduct.data._id;
+                    delete upDateProduct.data.__v;
+                    setProduct(upDateProduct);
+                    reset(upDateProduct.data);
                 } catch (error) {
                     console.error('Error fetching product:', error);
                 }
@@ -80,6 +79,10 @@ const AddProductForm = () => {
 
             if (product && productId) {
                 try {
+                    //נתונים קשים עד לעדכון הרידקס
+                    data.adminId = "dgds";
+                    data.businessId = "fdsfd";
+                    //
                     const response = await updateItem<IProduct>(`api/inventory/product`, productId, data);
                     console.log('Product updated successfully:', response.data);
                 } catch (error) {
@@ -87,6 +90,10 @@ const AddProductForm = () => {
                 }
             } else {
                 try {
+                    //נתונים קשים עד לעדכון הרידקס
+                    data.adminId = "dgds";
+                    data.businessId = "fdsfd";
+                    //
                     const response = await addItem<IProduct>('api/inventory/product', data);
                     console.log('Product added successfully:', response.data);
                 } catch (error) {
@@ -171,18 +178,6 @@ const AddProductForm = () => {
 
             <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
                 <TextField
-                    id="adminId-input"
-                    label="adminId"
-                    variant="outlined"
-                    error={!!errors.adminId}
-                    helperText={errors.adminId?.message}
-                    {...register("adminId")}
-                    value={watch("adminId") || ""}
-                />
-            </Box>
-
-            <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
-                <TextField
                     id="salePercentage-input"
                     label="salePercentage"
                     variant="outlined"
@@ -204,18 +199,6 @@ const AddProductForm = () => {
                     helperText={errors.stockQuantity?.message}
                     {...register("stockQuantity")}
                     value={watch("stockQuantity") || ""}
-                />
-            </Box>
-
-            <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
-                <TextField
-                    id="businessId-input"
-                    label="businessId"
-                    variant="outlined"
-                    error={!!errors.businessId}
-                    helperText={errors.businessId?.message}
-                    {...register("businessId")}
-                    value={watch("businessId") || ""}
                 />
             </Box>
 
