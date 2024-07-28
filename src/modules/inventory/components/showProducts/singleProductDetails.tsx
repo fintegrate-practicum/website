@@ -1,9 +1,5 @@
-import React from 'react';
 import { Card, CardContent, CardActions, Typography, Button, Box } from '@mui/material';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
-import { IProduct } from '../../interfaces/IProduct';
-import { IComponent } from '../../interfaces/IComponent';
-import { json } from 'stream/consumers';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../app/hooks';
 
