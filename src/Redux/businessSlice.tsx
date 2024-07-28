@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import Business from '../classes/business'
+import Business from '../classes/Business'
 import InfraInterceptors from '../auth0/InfraInterceptors'
 
 const initialState = {
@@ -35,7 +35,7 @@ export const businessSlice = createSlice({
 });    
 
 export const createBusiness = createAsyncThunk('', async (_business:Business) => {    
-   
+   console.log(_business)
     try {              
         const response = await InfraInterceptors.post('/business', _business);                                 
         return response

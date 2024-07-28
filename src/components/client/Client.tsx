@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { showErrorToast } from "../generic/errorMassage";
+import { log } from 'console';
 
 
 interface Business {
@@ -33,13 +34,14 @@ export default function Client() {
   const [business, setBusiness] = useState<Business | null>(null);
   const [loading, setLoading] = useState(true);
   const [errorOccurred, setErrorOccurred] = useState(false);
-  const baseUrl = import.meta.env.INFRA_SERVICE_URL;
+  const baseUrl = import.meta.env.VITE_INFRA_SERVICE_URL;
 
   useEffect(() => {
 
     async function fetchBusinessData() {
       try {
         console.log(`Fetching business data for linkUID: ${linkUID}`);
+        console.log(`${baseUrl}/business/link/${linkUID}`)
         const response = await axios.get(`${baseUrl}/business/link/${linkUID}`);
         console.log('Business data fetched successfully:', response.data);
         setBusiness(response.data);

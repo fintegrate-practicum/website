@@ -4,7 +4,7 @@ import { RootState } from "../../../Redux/store";
 import axios from "axios";
 import employee from "../classes/employee";
 
-const baseUrl = import.meta.env.WORKERS_SERVICE_URL;
+const baseUrl = import.meta.env.VITE_WORKERS_SERVICE_URL;
 const businessId = import.meta.env.VITE_BUSINESSID;
 const res = await axios.get(`${baseUrl}/workers?businessId=${businessId}`);
 const { data = {} } = res.data;

@@ -5,10 +5,10 @@ import { useJwtFromCookie } from '../Redux/hooks';
  
 
 const InfraInstance = axios.create({
-  baseURL: import.meta.env.INFRA_SERVICE_URL,
+  baseURL: import.meta.env.VITE_INFRA_SERVICE_URL,
   paramsSerializer: params => qs.stringify(params, { indices: false }),
 });
-
+console.log(import.meta.env.VITE_INFRA_SERVICE_URL);
 InfraInstance.interceptors.request.use(
   config => {
     const token=useJwtFromCookie('accessToken')
