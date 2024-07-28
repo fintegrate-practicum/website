@@ -33,14 +33,14 @@ export default function Client() {
   const [business, setBusiness] = useState<Business | null>(null);
   const [loading, setLoading] = useState(true);
   const [errorOccurred, setErrorOccurred] = useState(false);
-  const http = import.meta.env.INFRA_SERVICE_URL;
+  const baseUrl = import.meta.env.INFRA_SERVICE_URL;
 
   useEffect(() => {
 
     async function fetchBusinessData() {
       try {
         console.log(`Fetching business data for linkUID: ${linkUID}`);
-        const response = await axios.get(`${http}/business/link/${linkUID}`);
+        const response = await axios.get(`${baseUrl}/business/link/${linkUID}`);
         console.log('Business data fetched successfully:', response.data);
         setBusiness(response.data);
       } catch (error) {
