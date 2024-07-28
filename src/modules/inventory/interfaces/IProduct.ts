@@ -3,9 +3,6 @@ export interface IProduct {
     name: string;
     description: string;
     images: string[];
-    name: string;
-    description: string;
-    images: string[];
     packageCost: number;
     productComponents: string[];
     totalPrice: number;
@@ -14,7 +11,6 @@ export interface IProduct {
     isOnSale: boolean;
     salePercentage: number;
     stockQuantity: number;
-    businessId: string;
     businessId: string;
     componentStatus: string;
 }

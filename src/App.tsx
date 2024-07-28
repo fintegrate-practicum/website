@@ -54,7 +54,7 @@ const App = () => {
         <ErrorToast />
         <Routes>
           <Route path="/inventory/*" element={<Inventory />} />
-          <Route path="/orders/s" element={<AllOrders />} />
+          <Route path="/orders/s/:businessCode?" element={<AllOrders />} />
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
           <Route path="/CreateBusiness/BaseDetailsManager" element={<Suspense fallback="Loading..."><LazyBaseDetailsManager /></Suspense>} />
