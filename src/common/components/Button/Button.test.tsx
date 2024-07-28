@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest';
-import { render } from '@testing-library/react';
+import { render,fireEvent } from '@testing-library/react';
 import Button from './Button';
 
 describe('<Button />', () => {
@@ -9,9 +9,7 @@ describe('<Button />', () => {
                 onClick={() => console.log("succeed")}
                 isLink={false}
                 value="התחברות"
-                backgroundColor="#6503A6" 
-                outlineColor="#F2B704" 
-                color="white" 
+                color="primary"
             />
         );
 
@@ -25,9 +23,7 @@ describe('<Button />', () => {
                 onClick={() => console.log("succeed")}
                 isLink={false}
                 value="התחברות"
-                backgroundColor="white" 
-                outlineColor="#F2B704" 
-                color="white" 
+                color="primary"
             />
         );
 
@@ -41,11 +37,22 @@ describe('<Button />', () => {
                 href='https://www.example.com'
                 isLink={true}
                 value="התחברות"
-                color="white" 
+                color="primary"
             />
         );
 
         const buttonElement = getByText('התחברות');
         expect(buttonElement).toBeInTheDocument();
+    });
+
+
+    test('button click event', () => {
+        const { getByText } = render(<Button />);
+        const button = getByText('התחברות') 
+        
+
+        fireEvent.click(button);
+
+    
     });
 });

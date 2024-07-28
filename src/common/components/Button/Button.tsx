@@ -21,29 +21,22 @@ const Button = (props: ButtonProps) => {
     const {
         onClick,
         href,
-        isLink,
-        value,
-        type,
-        color,
-        disabled,
-        size,
-        variant,
-        component,
-        tabIndex,
+        isLink=false,
+        value="התחברות",
+        type='button',
+        color='primary',
+        disabled=false,
+        size='medium',
+        variant='contained',
+        component='button',
+        tabIndex=1,
         children
 
     } = props;
-    const actualValue = value || "התחברות";
-    const actualType = type || 'button';
-    const actualColor = color || 'primary';
-    const actualIsLink = isLink || false;
-    const actualDisabled = disabled || false;
-    const actualSize = size || 'medium';
-    const actualVariant = variant || 'contained';
-    const actualComponent = component || 'button';
-    const actualTabIndex = tabIndex || 1;
-    if (actualIsLink==true) {
-        return <Link href={href}>{actualValue}</Link>;
+
+   
+    if (isLink==true) {
+        return <Link href={href}>{value}</Link>;
     }
 
     else {
@@ -51,15 +44,15 @@ const Button = (props: ButtonProps) => {
             <div>
                 <MaterialButton
                     onClick={onClick}
-                    type={actualType}
-                    disabled={actualDisabled}
-                    variant={actualVariant}
-                    size={actualSize}
-                    component={actualComponent}
-                    color={actualColor}
-                    tabIndex={actualTabIndex}
+                    type={type}
+                    disabled={disabled}
+                    variant={variant}
+                    size={size}
+                    component={component}
+                    color={color}
+                    tabIndex={tabIndex}
                 >
-                    {actualValue}
+                    {value}
                     {children}
                 </MaterialButton>
             </div>
