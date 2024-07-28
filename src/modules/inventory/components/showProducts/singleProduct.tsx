@@ -28,8 +28,8 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
       </Link>
       </CardContent>
       <CardActions>
-      <Button value="Add to Cart">
-        
+      <Button >
+      Add to Cart
         </Button>
       </CardActions>
     </Card>

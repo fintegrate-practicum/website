@@ -11,8 +11,8 @@ const DeleteTask = (props: {
     dispatch(deleteTask(props.taskId));
   };
   return (
-    <Button variant='outlined' onClick={handleDelete} value="Delete">
-      
+    <Button variant='outlined' onClick={handleDelete} >
+      Delete
     </Button>  
   );
 };

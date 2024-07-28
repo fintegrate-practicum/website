@@ -6,7 +6,6 @@ interface ButtonProps {
     onClick?: () => void;
     href?: string;
     isLink?: boolean;
-    value?: string | number;
     color?: "primary"|"secondary" | "success";
     component?:"button" | "label" | "span" ;
     type?: 'button' | 'submit' | 'reset' | 'span';
@@ -15,6 +14,9 @@ interface ButtonProps {
     variant?:"outlined"|"contained" ;
     tabIndex?: -1|1
     children?: React.ReactNode;
+    startIcon?: JSX.Element; 
+    autoFocus?:boolean;
+
 }
 
 const Button = (props: ButtonProps) => {
@@ -22,7 +24,6 @@ const Button = (props: ButtonProps) => {
         onClick,
         href,
         isLink=false,
-        value="התחברות",
         type='button',
         color='primary',
         disabled=false,
@@ -30,13 +31,16 @@ const Button = (props: ButtonProps) => {
         variant='contained',
         component='button',
         tabIndex=1,
-        children
+        children,
+        startIcon,
+        autoFocus
+
 
     } = props;
 
    
     if (isLink==true) {
-        return <Link href={href}>{value}</Link>;
+        return <Link href={href}>{children}</Link>;
     }
 
     else {
@@ -51,8 +55,10 @@ const Button = (props: ButtonProps) => {
                     component={component}
                     color={color}
                     tabIndex={tabIndex}
+                    startIcon={startIcon}
+                    autoFocus={autoFocus}
+
                 >
-                    {value}
                     {children}
                 </MaterialButton>
             </div>

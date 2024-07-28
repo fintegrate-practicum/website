@@ -42,23 +42,6 @@ export default function MoreDetailsManager(): JSX.Element {
         setIndustryType(event.target.value);
     };
 
-    // const StyledInput = styled('input')({
-    //     display: 'none',
-    // });
-
-    // const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     const file = event.target.files?.[0];        
-        
-    //     if (file) {
-    //         const reader = new FileReader();            
-    //         reader.onloadend = () => {                
-    //             if (typeof reader.result === 'string') {
-    //                 setLogo(reader.result);
-    //             }
-    //         };
-    //         reader.readAsDataURL(file);
-    //     }
-    // }; 
     const handleLogoChange = (file: File) => {
         if (file) {
             const reader = new FileReader();            
@@ -144,8 +127,8 @@ export default function MoreDetailsManager(): JSX.Element {
 
             <div>
                 <label htmlFor="logo-input">
-                    <Button onClick={handleButtonClick} value="Upload Logo"  component="span" variant="contained">
-                      
+                    <Button onClick={handleButtonClick}  component="span" variant="contained">
+                    Upload Logo
                     </Button>
                 </label>
                 <input
@@ -153,12 +136,8 @@ export default function MoreDetailsManager(): JSX.Element {
                     type="file"
                     style={{ display: 'none' }}
                 />
-                {/* <StyledInput id="logo-input" type="file" accept="logo/*" onChange={handleLogoChange}/>               */}
             </div>
 
-            {/* <Button  onClick={() => {
-                dispatch(updateBusiness({ companyNumber, newData }));
-            }} value="Submit"> </Button> */}
             <Button 
             onClick={handleClickToSubmit} 
             variant="contained" color="success"

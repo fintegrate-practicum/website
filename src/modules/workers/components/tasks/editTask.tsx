@@ -60,8 +60,8 @@ const EditTask = (
 
   return (    
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen} value=" edit task">
-       
+      <Button variant="outlined" onClick={handleClickOpen}>
+      edit task
       </Button>
       <Dialog
         open={open}
@@ -173,8 +173,8 @@ const EditTask = (
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} value="Cancel"></Button>
-          <Button type="submit" value="Save"></Button>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button type="submit">Save</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

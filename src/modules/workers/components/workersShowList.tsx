@@ -45,7 +45,6 @@ const WorkersShowList = () => {
       </div>
       <Button
         component="label"
-        variant="contained"
         tabIndex={-1}
         // startIcon={<CloudUploadIcon />}
         onClick={showMoreData}
@@ -55,7 +54,6 @@ const WorkersShowList = () => {
       </Button>
       <Button
         component="label"
-        variant="contained"
         tabIndex={-1}
         // startIcon={<CloudUploadIcon />}
         onClick={showLessData}

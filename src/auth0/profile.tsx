@@ -113,10 +113,7 @@ const Profile: React.FC = () => {
         handleClose={handleClose}
       />
       <Button
-        href="/CreateBusiness/BaseDetailsManager"
-        isLink={true}
-        value="הרשמה של עסק"
-      />;
+       href="/CreateBusiness/BaseDetailsManager" isLink={true}>הרשמה של עסק</Button>
     </>
   );
 };

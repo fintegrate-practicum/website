@@ -91,8 +91,7 @@ const AddProductForm=()=>{
                     />
                 </Box>
             }
-            <Button onClick={()=>navigate('/')} value="select components"/>
-             {/* <Button variant="contained" color="success" onClick={()=>navigate('/')}>select components</Button> */}
+            <Button onClick={()=>navigate('/')}>select components</Button>
             <div>{sumArrComponent()}</div>
             <input type="file" multiple onChange={handleImageChange} />
             {errors.componentsImages && <p>{errors.componentsImages.message}</p>}
@@ -112,7 +111,7 @@ const AddProductForm=()=>{
                     />
                 </Box>
             }
-            <Button  variant="contained" color="success" type="submit" value="Submit"/>
+            <Button  color="success" type="submit">Submit</Button>
            
         </form>
   );

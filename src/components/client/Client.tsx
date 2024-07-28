@@ -99,7 +99,7 @@ export default function Client() {
         </Typography>
       </Box>
       <Stack spacing={2} direction="row">
-      <Button value="צור הזמנה" />
+      <Button>צור הזמנה</Button>
       </Stack>
     </Box>
   );

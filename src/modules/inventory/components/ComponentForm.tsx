@@ -143,7 +143,7 @@ export const ComponentForm: React.FC<IComponent> = () => {
                 </>
             )}
 
-            <Button variant="outlined" type="submit" value="save"></Button>
+            <Button variant="outlined" type="submit" >save</Button>
 
         </form>
     );

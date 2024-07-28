@@ -181,12 +181,12 @@ const EditProfile: React.FC = () => {
         </Grid>
         <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
           {isEditing ? (
-            <Button value="save" onClick={handleSaveClick}>
-              
+            <Button  onClick={handleSaveClick}>
+              save
             </Button>
           ) : (
-            <Button value="Edit" onClick={handleEditClick}>
-              
+            <Button  onClick={handleEditClick}>
+              Edit
             </Button>
           )}
         </Box>
