@@ -16,6 +16,7 @@ interface ButtonProps {
     children?: React.ReactNode;
     startIcon?: JSX.Element; 
     autoFocus?:boolean;
+    value:string;
 
 }
 
@@ -33,14 +34,15 @@ const Button = (props: ButtonProps) => {
         tabIndex=1,
         children,
         startIcon,
-        autoFocus
+        autoFocus,
+        value="התחברות"
 
 
     } = props;
 
    
     if (isLink==true) {
-        return <Link href={href}>{children}</Link>;
+        return <Link href={href}>{children}{value}</Link>;
     }
 
     else {
@@ -59,6 +61,7 @@ const Button = (props: ButtonProps) => {
                     autoFocus={autoFocus}
 
                 >
+                    {value}
                     {children}
                 </MaterialButton>
             </div>
