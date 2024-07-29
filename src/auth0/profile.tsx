@@ -26,15 +26,21 @@ const Profile: React.FC = () => {
     }
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
   }
-  function getCookie(name: string) {
-    const nameEQ = name + "="; const ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) === ' ') c = c.substring(1, c.length); if (c.indexOf(nameEQ) === 0)
-        return c.substring(nameEQ.length, c.length);
+  function getCookie(cookieName: string) {
+    const nameEQ = cookieName + "=";
+    const cookieArray = document.cookie.split(';');
+
+    for (const elementFromCookie of cookieArray) {
+        const trimmedCookie = elementFromCookie.trim();
+
+        if (trimmedCookie.startsWith(nameEQ)) {
+            return trimmedCookie.substring(nameEQ.length);
+        }
     }
+
     return null;
-  }
+}
+
 
   setCookie("user_id", user?.sub as string, 30);
   useEffect(() => {
