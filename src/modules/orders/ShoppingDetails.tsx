@@ -8,7 +8,8 @@ import * as yup from 'yup';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup"
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+// import TextField from '@mui/material/TextField';
+import TextField from '../../common/component/TextField/TextField';
 import { Button } from '@mui/material';
 import "./ShoppingDetails.css";
 

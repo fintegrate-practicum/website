@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { IComponent } from '../interfaces/IComponent';
-import TextField from '@mui/material/TextField';
+import TextField from '../../../common/component/TextField/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { addItem } from '../Api-Requests/genericRequests';

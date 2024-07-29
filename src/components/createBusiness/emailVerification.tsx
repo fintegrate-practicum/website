@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { TextField, Typography, Container, Button, Stack } from '@mui/material';
+import { Typography, Container, Button, Stack } from '@mui/material';
+import TextField from '../../common/component/TextField/TextField';
 import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 import { checkEmailVerificationCode } from '../../Redux/businessSlice';
 import { useNavigate } from 'react-router-dom';

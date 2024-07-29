@@ -13,8 +13,15 @@ type Story = StoryObj<typeof TextField>;
 
 export const primary: Story = {
     args: {
-        label: "Enter text:",
-        value: "",
-        onChange: (value: string) => console.log(value),
+        id: 'storybook-textfield', 
+        variant: 'outlined',
+        label: 'Example Label',
+        value: '',
+        onChange: () => { },
+        disabled: false,
+        margin: 'normal',
+        InputProps: {},
+        sx: { mt: 2 },
     },
 };
+

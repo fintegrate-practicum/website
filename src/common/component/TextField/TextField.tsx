@@ -1,22 +1,22 @@
+
 import React from 'react';
+import TextField, { TextFieldProps } from '@mui/material/TextField';
 
-interface TextFieldProps {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-}
-
-const TextField: React.FC<TextFieldProps> = ({ label, value, onChange }) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value);
-  };
-
+const CustomTextField: React.FC<TextFieldProps> = ({ id, variant, label, value, onChange, disabled, margin, InputProps, sx, ...rest }) => {
   return (
-    <div>
-      <label>{label}</label>
-      <input type="text" value={value} onChange={handleChange} />
-    </div>
+    <TextField
+      id={id}
+      variant={variant}
+      label={label}
+      value={value}
+      onChange={onChange}
+      disabled={disabled}
+      margin={margin}
+      InputProps={InputProps}
+      sx={sx}
+      {...rest} // Spread the rest of the props
+    />
   );
 };
 
-export default TextField;
+export default CustomTextField;

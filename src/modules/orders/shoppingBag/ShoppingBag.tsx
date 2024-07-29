@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './shoppingBag.css';
-import { Table, TableBody, TableCell, TableHead, TableRow, Typography, TextField, IconButton, Button } from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableRow, Typography, IconButton, Button } from '@mui/material';
+import TextField from '../../../common/component/TextField/TextField';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
