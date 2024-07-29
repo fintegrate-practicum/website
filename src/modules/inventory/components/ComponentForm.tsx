@@ -17,11 +17,9 @@ const notSaleAloneSchema = yup.object().shape({
     minQuantity: yup.number().required("Minimum quantity is a required field").positive("Quantity must be a positive number"),
     stockQuantity: yup.number().required("Stock is a required field").positive("Stock must be a positive number"),
     isActive: yup.boolean().required(),
-    adminId: yup.string().required(),
     isSoldSeparately: yup.boolean().required(),
     componentColor: yup.string().optional(),
     componentSize: yup.string().optional(),
-    businessId: yup.string().required(),
 });
 
 
@@ -31,7 +29,6 @@ const saleAloneSchema = yup.object().shape({
     minQuantity: yup.number().required("Minimum quantity is a required field").positive("Quantity must be a positive number"),
     stockQuantity: yup.number().required("Stock is a required field").positive("Stock must be a positive number"),
     isActive: yup.boolean().required(),
-    adminId: yup.string().required(),
     isSoldSeparately: yup.boolean().required(),
     description: yup.string().required("Description is a required field"),
     totalPrice: yup.number().required("Sale price is a required field").positive("Price must be a positive number"),
@@ -40,7 +37,6 @@ const saleAloneSchema = yup.object().shape({
     salePercentage: yup.number().required("Sale percentage is a required field").min(0, "Percentage must be positive"),
     componentColor: yup.string().nullable().notRequired(),
     componentSize: yup.string().nullable().notRequired(),
-    businessId: yup.string().required(),
 });
 
 export const ComponentForm = () => {
@@ -75,6 +71,8 @@ export const ComponentForm = () => {
     const save = async (data: IComponent) => {
         try {
             data.addingComponentDate = new Date();
+            data.businessId = "here will be the business id";
+            data.adminId = "here will be the admin id";
             if (component && componentId) {
                 const response = await updateItem<IComponent>(`api/inventory/component`, componentId, data);
                 console.log('Component updated successfully:', response.data);
@@ -178,30 +176,6 @@ export const ComponentForm = () => {
                     helperText={errors.componentSize?.message}
                     {...register("componentSize")}
                     value={watch("componentSize") || ""}
-                />
-            </Box>
-
-            <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
-                <TextField
-                    error={!!errors.adminId}
-                    id="outlined-basic"
-                    label="Admin ID"
-                    variant="outlined"
-                    helperText={errors.adminId?.message}
-                    {...register("adminId")}
-                    value={watch("adminId") || ""}
-                />
-            </Box>
-
-            <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
-                <TextField
-                    error={!!errors.businessId}
-                    id="outlined-basic"
-                    label="Business ID"
-                    variant="outlined"
-                    helperText={errors.businessId?.message}
-                    {...register("businessId")}
-                    value={watch("businessId") || ""}
                 />
             </Box>
 
