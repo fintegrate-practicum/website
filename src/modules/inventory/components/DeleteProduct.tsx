@@ -11,7 +11,6 @@ import { useDispatch } from 'react-redux';
 import { deleteProduct as deleteProductFromState} from '../features/product/productSlice';
 
 
-
 const DeleteProduct = ({item}:any) => {
 
     const [open, setOpen] = React.useState(false);
