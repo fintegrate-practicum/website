@@ -10,8 +10,8 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
 import Inventory from './modules/inventory/Inventory';
-import Orders from './modules/orders/App';
 import Login from './components/Login/login';
+import Orders from './modules/orders/App';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(() => import('./components/createBusiness/baseDetailsManager'));
@@ -67,6 +67,9 @@ const App = () => {
               <MainRouter />
             ) : (
               <Login />
+              //
+              <Login />
+              // <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
             )}
           </>
         )}

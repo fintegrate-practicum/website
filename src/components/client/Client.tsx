@@ -68,34 +68,36 @@ export default function LazyClient() {
   }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '50vh',
-        flexDirection: 'column',
-        textAlign: 'right'
-      }}
-    >
-      <Typography variant="h5">פרטי העסק</Typography>
-      <Box sx={{ mb: 2 }}>
-        <Typography>{business.name} :שם העסק</Typography>
-        <Typography>{business.companyNumber} :מספר חברה</Typography>
-        <Typography>{business.description} :תיאור</Typography>
-        <Typography>{business.email} :אימייל</Typography>
-        <Typography>{business.phone} :טלפון</Typography>
-        <Typography>{business.owner} :בעל העסק</Typography>
-        <Typography>{business.businessSize} :גודל העסק</Typography>
-        <Typography>{business.industryType} :תחום העסק</Typography>
-        <Typography>
-          {new Date(business.establishmentDate).toLocaleDateString()} :תאריך ייסוד
-        </Typography>
+    <>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '50vh',
+          flexDirection: 'column',
+          textAlign: 'right'
+        }}
+      >
+        <Typography variant="h5">פרטי העסק</Typography>
+        <Box sx={{ mb: 2 }}>
+          <Typography>{business.name} :שם העסק</Typography>
+          <Typography>{business.companyNumber} :מספר חברה</Typography>
+          <Typography>{business.description} :תיאור</Typography>
+          <Typography>{business.email} :אימייל</Typography>
+          <Typography>{business.phone} :טלפון</Typography>
+          <Typography>{business.owner} :בעל העסק</Typography>
+          <Typography>{business.businessSize} :גודל העסק</Typography>
+          <Typography>{business.industryType} :תחום העסק</Typography>
+          <Typography>
+            {new Date(business.establishmentDate).toLocaleDateString()} :תאריך ייסוד
+          </Typography>
+        </Box>
+        <Stack spacing={2} direction="row">
+          <Button variant="contained">צור הזמנה</Button>
+        </Stack>
       </Box>
-      <Stack spacing={2} direction="row">
-        <Button variant="contained">צור הזמנה</Button>
-      </Stack>
       <Outlet />
-    </Box>
+    </>
   );
 }
