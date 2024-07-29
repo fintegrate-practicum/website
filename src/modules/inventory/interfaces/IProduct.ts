@@ -1,8 +1,8 @@
 export interface IProduct {
     id: string;
-    productName: string;
-    productDescription: string;
-    componentsImages: string[];
+    name: string;
+    description: string;
+    images: string[];
     packageCost: number;
     productComponents: string[];
     totalPrice: number;
@@ -11,6 +11,6 @@ export interface IProduct {
     isOnSale: boolean;
     salePercentage: number;
     stockQuantity: number;
-    bussinesId: string;
+    businessId: string;
     componentStatus: string;
-}
+  }

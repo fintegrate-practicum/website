@@ -8,6 +8,7 @@ export interface CategoryProps {
       CategoryName: string,
       Settings: MySettingProps[];
       SubCategory: CategoryProps[];
+      
     };
   }
 // אובייקט דוגמא להגדרות

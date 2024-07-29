@@ -16,12 +16,12 @@ const Profile: React.FC = () => {
   const [userMetadata, setUserMetadata] = useState<any>(null); 
   const dispatch = useAppDispatch()
 
-  function setCookie(name: string, value: string, days: number) {
-    
+  function setCookie(name:string, value:string, days:number) {
     let expires = "";
     if (days) {
         const date = new Date();
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+
         expires = `; expires=${date.toUTCString()}`;
     }
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
@@ -39,7 +39,8 @@ const Profile: React.FC = () => {
   }
 
   setCookie("user_id", user?.sub as string, 30);
-  useEffect(() => {
+  useEffect(() => {      
+
     const getUserMetadata = async () => {
       const domain = auth0_domain;
       try {
