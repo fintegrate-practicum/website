@@ -8,7 +8,7 @@ describe('<Button />', () => {
             <Button
                 onClick={() => console.log("succeed")}
                 isLink={false}
-                value="התחברות"
+                children="התחברות"
                 color="primary"
             />
         );
@@ -22,7 +22,7 @@ describe('<Button />', () => {
             <Button
                 onClick={() => console.log("succeed")}
                 isLink={false}
-                value="התחברות"
+                children="התחברות"
                 color="primary"
             />
         );
@@ -36,7 +36,7 @@ describe('<Button />', () => {
             <Button
                 href='https://www.example.com'
                 isLink={true}
-                value="התחברות"
+                children="התחברות"
                 color="primary"
             />
         );

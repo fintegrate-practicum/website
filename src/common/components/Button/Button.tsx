@@ -1,6 +1,7 @@
 import MaterialButton from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import React from 'react';
+import theme from '../../../Theme';
 
 interface ButtonProps {
     onClick?: () => void;
@@ -16,8 +17,6 @@ interface ButtonProps {
     children?: React.ReactNode;
     startIcon?: JSX.Element; 
     autoFocus?:boolean;
-    value:string;
-
 }
 
 const Button = (props: ButtonProps) => {
@@ -32,17 +31,15 @@ const Button = (props: ButtonProps) => {
         variant='contained',
         component='button',
         tabIndex=1,
-        children,
+        children="התחברות",
         startIcon,
-        autoFocus,
-        value="התחברות"
-
+        autoFocus
 
     } = props;
 
    
     if (isLink==true) {
-        return <Link href={href}>{children}{value}</Link>;
+        return <Link href={href}>{children}</Link>;
     }
 
     else {
@@ -59,9 +56,7 @@ const Button = (props: ButtonProps) => {
                     tabIndex={tabIndex}
                     startIcon={startIcon}
                     autoFocus={autoFocus}
-
                 >
-                    {value}
                     {children}
                 </MaterialButton>
             </div>
@@ -70,3 +65,4 @@ const Button = (props: ButtonProps) => {
 };
 
 export default Button;
+

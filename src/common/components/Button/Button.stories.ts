@@ -16,7 +16,7 @@ const baseProps = {
     disabled:false,
     color: "secondary",
     isLink: false,
-    value: "Button",
+    children: "Button",
     tabIndex:1,
     component:"button",
     size:"small",
