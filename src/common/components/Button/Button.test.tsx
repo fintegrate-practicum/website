@@ -5,12 +5,13 @@ import Button from './Button';
 describe('<Button />', () => {
     test('renders full color Button', () => {
         const { getByText } = render(
-            <Button
-                onClick={() => console.log("succeed")}
-                isLink={false}
-                children="התחברות"
-                color="primary"
-            />
+            <Button 
+            onClick={() => console.log("succeed")}
+            isLink={false}
+            color="primary"
+            variant="contained">
+                התחברות
+            </Button>
         );
 
         const buttonElement = getByText('התחברות');
@@ -22,9 +23,9 @@ describe('<Button />', () => {
             <Button
                 onClick={() => console.log("succeed")}
                 isLink={false}
-                children="התחברות"
                 color="primary"
-            />
+                variant="outlined"
+            >התחברות</Button>
         );
 
         const buttonElement = getByText('התחברות');
@@ -36,9 +37,8 @@ describe('<Button />', () => {
             <Button
                 href='https://www.example.com'
                 isLink={true}
-                children="התחברות"
                 color="primary"
-            />
+            >התחברות</Button>
         );
 
         const buttonElement = getByText('התחברות');
