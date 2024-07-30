@@ -12,11 +12,12 @@ interface ButtonProps {
     type?: 'button' | 'submit' | 'reset' | 'span';
     disabled?:boolean;
     size?:"small"|"medium"|"large"   
-    variant?:"outlined"|"contained" ;
+    variant?:"outlined"|"contained" |"text";
     tabIndex?: -1|1
     children?: React.ReactNode;
     startIcon?: JSX.Element; 
     autoFocus?:boolean;
+    style?: React.CSSProperties;
 }
 
 const Button = (props: ButtonProps) => {
@@ -24,7 +25,7 @@ const Button = (props: ButtonProps) => {
         onClick,
         href,
         isLink=false,
-        type='button',
+        type,
         color='primary',
         disabled=false,
         size='medium',
@@ -33,7 +34,8 @@ const Button = (props: ButtonProps) => {
         tabIndex=1,
         children,
         startIcon,
-        autoFocus
+        autoFocus,
+        style
 
     } = props;
 
@@ -56,6 +58,7 @@ const Button = (props: ButtonProps) => {
                     tabIndex={tabIndex}
                     startIcon={startIcon}
                     autoFocus={autoFocus}
+                    style={style}
                 >
                     {children}
                 </MaterialButton>
