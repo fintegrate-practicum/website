@@ -3,7 +3,6 @@ import { RootState } from "./store";
 import { EmployeeRole } from "../modules/workers/classes/employeeRole";
 import { statuses } from "../modules/workers/classes/enum/statuses.enum";
 import { showErrorToast } from "../components/generic/errorMassage";
-import InfraInterceptors from '../auth0/InfraInterceptors'
 import workerInstance from "../auth0/WorkersInterceptors";
 
 const initialState = {
@@ -16,7 +15,6 @@ const initialState = {
         updatedBy: '',
         role: new EmployeeRole('', true, "hhgg"),
         nameEmployee: '',
-      
     },
     userDetails: {
         userName: '',
@@ -56,7 +54,7 @@ export const fetchUserById = createAsyncThunk(
 export const updateCurrentUser = createAsyncThunk('', async (payload: any) => { 
     const { auth0_user_id, updatedCurrentUser } = payload;
     try {           
-        const response = await InfraInterceptors.put(`$/currentUser/${auth0_user_id}`, updatedCurrentUser);
+        const response = await workerInstance.put(`/user/${auth0_user_id}`, updatedCurrentUser);
         return response.data;
     } catch (error:any) {
       showErrorToast(error.message);

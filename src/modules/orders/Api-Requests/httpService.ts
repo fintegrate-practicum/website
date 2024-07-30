@@ -1,6 +1,5 @@
 import axios from 'axios';
 
 export default axios.create({
-   baseURL:import.meta.env.VITE_INVENTORY_SERVICE_URL
+    baseURL:import.meta.env.VITE_ORDERS_SERVICE_URL
 });
-
