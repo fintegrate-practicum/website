@@ -4,7 +4,6 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { IProduct } from '../interfaces/IProduct';
 import { IComponent } from '../interfaces/IComponent';
-// import TextField from '@mui/material/TextField';
 import  TextField  from '../../../common/component/TextField/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
