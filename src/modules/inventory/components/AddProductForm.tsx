@@ -31,11 +31,6 @@ const AddProductForm = () => {
         totalPrice: yup.number().typeError("totalPrice must be a number").required("totalPrice is a required field").min(1, "price must be positive"),
         isActive: yup.boolean().required("isActive is a required field"),
         isOnSale: yup.boolean().required("isOnSale is a required field"),
-        // salePercentage: yup.number().when('isOnSale', {
-        //     is: true,
-        //     then: yup.number().typeError("salePercentage must be a number").min(0).max(100).required("salePercentage is a required field"),
-        //     otherwise: yup.number().notRequired()
-        // }),
         salePercentage: yup.number()
             .when('isOnSale', {
                 is: true,
