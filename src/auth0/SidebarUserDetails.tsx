@@ -5,7 +5,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useAuth0 } from "@auth0/auth0-react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 interface SidebarUserDetailsProps {
     email: string | undefined;
@@ -30,21 +31,22 @@ const SidebarUserDetails: React.FC<SidebarUserDetailsProps> = ({ email, nickname
             anchorEl={anchorEl}
             onClose={handleClose}
             anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: 'bottom',
+                horizontal: 'left',
             }}
             transformOrigin={{
                 vertical: 'top',
-                horizontal: 'left',
+                horizontal: 'right',
             }}
             PaperProps={{
                 sx: {
-                    marginTop: 5.5,
+                    marginTop: 2,
+                    marginLeft: 20,
                     borderRadius: 4,
                 }
             }}
         >
-            <Box sx={{ p: 1, minWidth: 200 }}>
+            <Box sx={{ p: 3, minWidth: 200 }}>
                 <List>
                     <ListItem>
                         <ListItemIcon>
@@ -78,4 +80,4 @@ const SidebarUserDetails: React.FC<SidebarUserDetailsProps> = ({ email, nickname
     );
 };
 
-export default SidebarUserDetails
+export default SidebarUserDetails;

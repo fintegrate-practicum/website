@@ -10,12 +10,13 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
-import menuItem from './types';
 import { IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Divider from '@mui/material/Divider';
+import SidebarUserDetails from '../../auth0/SidebarUserDetails';
+// import menuItems from './types';
 
-const drawerWidth = 240;
+const drawerWidth = 150;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -32,9 +33,9 @@ const closedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
+  width: `calc(${theme.spacing(10)} + 1px)`,
   [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
+    width: `calc(${theme.spacing(10)} + 1px)`,
   },
 });
 
@@ -54,19 +55,23 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
   }),
 );
+
 interface Props {
     items: menuItem[];
     setCurrentMenu: (currentMenu:menuItem) => void;
 }
+
 const SideMenu: FC<Props> = ({ items, setCurrentMenu }) => {
-
   const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
-  const handleDrawerOpen = () => {
+  const handleDrawerOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
     setOpen(true);
   };
 
   const handleDrawerClose = () => {
+    setAnchorEl(null);
     setOpen(false);
   };
 
@@ -111,13 +116,21 @@ const SideMenu: FC<Props> = ({ items, setCurrentMenu }) => {
       >
         <Drawer
           variant="permanent"
-          anchor="right"
+          anchor="left"
           open={open}
         >
           {drawer}
         </Drawer>
       </Box>
+      <SidebarUserDetails 
+        email="user@example.com" 
+        nickname="User" 
+        user_id="123" 
+        anchorEl={anchorEl} 
+        handleClose={handleDrawerClose} 
+      />
     </Box>
   );
 }
+
 export default SideMenu;
