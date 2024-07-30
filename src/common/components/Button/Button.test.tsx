@@ -47,7 +47,7 @@ describe('<Button />', () => {
 
 
     test('button click event', () => {
-        const { getByText } = render(<Button />);
+        const { getByText } = render(<Button children="התחברות"/>);
         const button = getByText('התחברות') 
         
 

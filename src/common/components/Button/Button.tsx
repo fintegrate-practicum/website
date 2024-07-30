@@ -31,7 +31,7 @@ const Button = (props: ButtonProps) => {
         variant='contained',
         component='button',
         tabIndex=1,
-        children="התחברות",
+        children,
         startIcon,
         autoFocus
 
