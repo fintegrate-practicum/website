@@ -12,6 +12,7 @@ import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
 import Inventory from './modules/inventory/Inventory';
 
 import  Login from './components/Login/login';
+import { ComponentForm } from './modules/inventory/components/ComponentForm';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(() => import('./components/createBusiness/baseDetailsManager'));
@@ -51,6 +52,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
       <Client />
+      <ComponentForm/>
         <ErrorToast />
         <Routes>
           <Route path="/Inventory/*" element={<Inventory />} />
