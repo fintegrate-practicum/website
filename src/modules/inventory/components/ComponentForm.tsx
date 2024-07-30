@@ -56,10 +56,9 @@ export const ComponentForm = () => {
             if (componentId) {
                 try {
                     const fetchedComponent = await getItemById<any>(`api/inventory/component`, componentId);
-                    delete fetchedComponent.data._id;
-                    delete fetchedComponent.data.__v;
-                    setComponent(fetchedComponent);
-                    reset(fetchedComponent.data);
+                    const { _id, __v, ...dataToUpdate } = fetchedComponent.data;
+                    setComponent(dataToUpdate);
+                    reset(dataToUpdate);
                 } catch (error) {
                     console.error('Error fetching component:', error);
                 }
@@ -218,7 +217,7 @@ export const ComponentForm = () => {
                     </Box>
 
                     <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
-                        <input type="file" multiple onChange={handleImageChange}  />
+                        <input type="file" multiple onChange={handleImageChange} />
                         {errors.images && <p>{errors.images.message}</p>}
                     </Box>
                 </>
