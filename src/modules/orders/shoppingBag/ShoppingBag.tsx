@@ -17,12 +17,12 @@ interface BagItem {
 
 
 const ShoppingBag
-// : React.FC<{ initialBag: BagItem[] }>
+: React.FC<{ initialBag: BagItem[] }>
  = (
-  // { initialBag }
+  { initialBag }
 ) => {
   const [bag, setBag] = useState<BagItem[]>(
-    // initialBag
+    initialBag
   );
   const [total, setTotal] = useState<number>(0);
 
@@ -31,14 +31,14 @@ const ShoppingBag
   }, [bag]);
 
   const calculateTotal = () => {
-    // const sum = bag.reduce((acc, item) => acc + item.price * item.amount, 0);
-    // setTotal(sum);
+    const sum = bag.reduce((acc, item) => acc + item.price * item.amount, 0);
+    setTotal(sum);
   };
 
   const handleRemove = (index: number) => {
     if (window.confirm('האם ברצונך להסיר את המוצר?')) {
-      // const newBag = bag.filter((_, i) => i !== index);
-      // setBag(newBag);
+      const newBag = bag.filter((_, i) => i !== index);
+      setBag(newBag);
     }
   };
 
@@ -46,22 +46,22 @@ const ShoppingBag
     if (newAmount === 0) {
       handleRemove(index);
     } else {
-      // const newBag = bag.map((item, i) => {
-      //   if (i === index) {
-      //     return { ...item, amount: newAmount };
-      //   }
-      //   return item;
-      // });
-      // setBag(newBag);
+      const newBag = bag.map((item, i) => {
+        if (i === index) {
+          return { ...item, amount: newAmount };
+        }
+        return item;
+      });
+      setBag(newBag);
     }
   };
 
   return (
     <div className='shoppingBag-container'>
       <Typography paragraph={true} variant='h5'> סל קניות </Typography>
-      {/* {bag.length === 0 ? ( */}
+      {bag.length === 0 ? (
         <Typography> סל הקניות שלך ריק </Typography>
-       {/* ) : ( */}
+       ) : (
         <>
           <Table className='shoppingBag' style={{ direction: 'rtl' }}>
             <TableHead>
@@ -73,34 +73,34 @@ const ShoppingBag
               </TableRow>
             </TableHead>
             <TableBody>
-              {/* {bag.map((row, index) => ( */}
+              {bag.map((row, index) => (
                 <TableRow
-                //  key={row.name}
+                 key={row.name}
                  >
                   <TableCell align='right'>
-                    {/* {row.name} <img src={row.image} width='80px' alt={row.name}
-                     /> */}
+                    {row.name} <img src={row.image} width='80px' alt={row.name}
+                     />
                   </TableCell>
                   <TableCell align='right'>
                     <TextField
                       type='number'
-                      // value={row.amount}
-                      // onChange={(e) => handleAmountChange(index, Number(e.target.value))}
+                      value={row.amount}
+                      onChange={(e) => handleAmountChange(index, Number(e.target.value))}
                     />
                   </TableCell>
                   <TableCell align='right'>
-                    {/* {(row.price * row.amount).toFixed(2)} ₪ */}
+                    {(row.price * row.amount).toFixed(2)} ₪
                   </TableCell>
                   <TableCell align='right'>
                     <IconButton
                       aria-label='הסרת המוצר'
-                      // onClick={() => handleRemove(index)}
+                      onClick={() => handleRemove(index)}
                     >
                       <DeleteForever />
                     </IconButton>
                   </TableCell>
                 </TableRow>
-              {/* ))} */}
+               ))} 
             </TableBody>
             <TableCell colSpan={3} className='total_line'>
               סכום לתשלום {total.toFixed(2)} ₪
@@ -114,7 +114,7 @@ const ShoppingBag
             לתשלום
           </Button>
         </>
-       {/* )} */}
+       )}
     </div>
   );
 };
