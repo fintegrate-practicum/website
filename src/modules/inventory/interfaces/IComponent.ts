@@ -10,12 +10,13 @@ export interface IComponent extends Item{
     isActive: boolean;
     adminId: string;
     isSoldSeparately: boolean;
-    description: string;
-    totalPrice: number;
-    componentImages: string[];
-    isOnSale: boolean;
-    salePercentage: number;
-    componentColor: string;
-    componentSize: string;
+    description?: string;
+    totalPrice?: number;
+    images?: string[];
+    isOnSale?: boolean;
+    salePercentage?: number;
+    componentColor?: string;
+    componentSize?: string;
     businessId: string;
 }
+

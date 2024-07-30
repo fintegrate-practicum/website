@@ -15,7 +15,10 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
   };
 
   return (
-    <Card sx={{ maxWidth: 400 }}>
+    <Card sx={{ width: 200, maxWidth: '100%', boxShadow: 'lg', margin: 2 }}>
+      {product.images && product.images.map((image, index) => (
+        <img src={image} alt="product" key={index} />
+      ))}
       <CardContent>
         {isProduct(product) ? (
           <Link key={product.id} to={`${location.pathname}/${product.id}`} style={{ textDecoration: 'none' }}>
