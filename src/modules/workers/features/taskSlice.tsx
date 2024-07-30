@@ -11,10 +11,10 @@ interface EditTaskArgs {
   employeeType: string; 
 }
 
-const http = import.meta.env.VITE_HTTP;
+const baseUrl = import.meta.env.VITE_WORKERS_SERVICE_URL;
 const managerId = import.meta.env.VITE_MANAGERID;
 const businessId = import.meta.env.VITE_BUSINESSID;
-const response = await axios.get(`${http}/tasks/manager/${businessId}/${managerId}`);
+const response = await axios.get(`${baseUrl}/tasks/manager/${businessId}/${managerId}`);
 const { data = {} } = response.data;
 
 const taskSlice = createSlice({
@@ -29,7 +29,7 @@ export default taskSlice.reducer;
 
 export const createTask = createAsyncThunk('',async (_task: task) => {
   try {
-      const response = await axios.post(`${http}/tasks/manager/task`, _task)
+      const response = await axios.post(`${baseUrl}/tasks/manager/task`, _task)
       return response.data
   } catch (error) {
       return error
@@ -39,7 +39,7 @@ export const createTask = createAsyncThunk('',async (_task: task) => {
 export const editTask = createAsyncThunk('',async ({ taskId, updateTask, employeeType }: EditTaskArgs) => {
     try {
       
-      const response = await axios.put(`${http}/tasks/task/${taskId}`, updateTask, {
+      const response = await axios.put(`${baseUrl}/tasks/task/${taskId}`, updateTask, {
         headers: {
           'employee-type': employeeType
         }
@@ -54,7 +54,7 @@ export const editTask = createAsyncThunk('',async ({ taskId, updateTask, employe
 
 export const deleteTask = createAsyncThunk('',async (taskId:string) => {
   try {
-      const response = await axios.delete(http+`/tasks/manager/task/${taskId}`)
+      const response = await axios.delete(`${baseUrl}/tasks/manager/task/${taskId}`)
       return response.data
   } catch (error) {
       return error

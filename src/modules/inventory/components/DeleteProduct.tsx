@@ -11,11 +11,10 @@ import { useDispatch } from 'react-redux';
 import { deleteProduct as deleteProductFromState} from '../features/product/productSlice';
 
 
-
 const DeleteProduct = ({item}:any) => {
 
     const [open, setOpen] = React.useState(false);
-    let dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -27,7 +26,7 @@ const DeleteProduct = ({item}:any) => {
 
     const deleteProduct = async () => {
         try {
-            let response=await deleteItem("product",item.id); 
+            const response=await deleteItem("product",item.id); 
             alert("המחיקה בוצעה בהצלחה")
             console.log(response);
         }

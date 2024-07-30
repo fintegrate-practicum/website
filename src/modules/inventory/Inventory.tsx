@@ -1,25 +1,23 @@
-import './Inventory.css';
-import React from 'react';
-import { Routes, Route, useParams, useLocation } from 'react-router-dom';
+// import './App.css';
+import AddProductForm from './components/AddProductForm';
+import { ComponentForm } from './components/ComponentForm';
 import ShowProducts from './components/showProducts/AllProducts';
+import { Routes, Route } from 'react-router-dom';
 import SingleProductDetails from './components/showProducts/singleProductDetails';
-import { useAppSelector } from './app/hooks';
-
 
 function Inventory() {
-
   return (
-    <div>
+    <>
+      <h1>Inventory</h1>
       <Routes>
+        <Route path="/product/:id?" element={<AddProductForm />} />
+        <Route path="/component/:id?" element={<ComponentForm />} />
         <Route path="/products" element={<ShowProducts />} />
         <Route path="/products/:productId" element={<SingleProductDetails/>}/>
       </Routes>
-    </div>
+    </>
   );
 }
 
 export default Inventory;
-
-
-
 
