@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
 import "./ShoppingDetails.css";
+import { addItem } from './Api-Requests/genericRequests';
 
 
 
@@ -23,9 +24,15 @@ const ShoppingDetails = () => {
         setSelectedOption(e.target.value);
     };
 
-    const saveDetails = (data: Record<string, any>) => {
-        console.log(data);
-        alert("כאן צריך לשמור את הנתונים");
+    const saveDetails = async (data: Record<string, any>) => {
+        try {
+            let response = await addItem("orders", data);
+            alert("ההזמנה נשמרה בהצלחה");
+            console.log(response);
+        } catch (err) {
+            console.log(err);
+            alert("הייתה שגיאה בשמירת ההזמנה");
+        }
     };
 
 

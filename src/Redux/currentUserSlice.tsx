@@ -3,7 +3,6 @@ import { RootState } from "./store";
 import { EmployeeRole } from "../modules/workers/classes/employeeRole";
 import { statuses } from "../modules/workers/classes/enum/statuses.enum";
 import { showErrorToast } from "../components/generic/errorMassage";
-import InfraInterceptors from '../auth0/InfraInterceptors'
 import workerInstance from "../auth0/WorkersInterceptors";
 
 const initialState = {
@@ -16,7 +15,6 @@ const initialState = {
         updatedBy: '',
         role: new EmployeeRole('', true, "hhgg"),
         nameEmployee: '',
-      
     },
     userDetails: {
         userName: '',
@@ -64,6 +62,7 @@ export const updateCurrentUser = createAsyncThunk('', async (payload: any) => {
   } catch (error: any) {
     showErrorToast(error.message);
   }
+
 }
 )
 

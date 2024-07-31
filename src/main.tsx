@@ -16,15 +16,15 @@ if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
       <Auth0Provider domain={auth0_domain} clientId={auth0_client_id} authorizationParams={{
-      redirect_uri: window.location.origin,
-      audience: auth0_audience,
-      scope: "read:current_user update:current_user_metadata"
-    }}>
-      <BrowserRouter>
-      <Provider store={Store}>
-        <App />
-        </Provider>
-      </BrowserRouter>
+        redirect_uri: window.location.origin,
+        audience: auth0_audience,
+        scope: "read:current_user update:current_user_metadata"
+      }}>
+        <BrowserRouter>
+          <Provider store={Store}>
+            <App />
+          </Provider>
+        </BrowserRouter>
       </Auth0Provider>
     </React.StrictMode>
   );
