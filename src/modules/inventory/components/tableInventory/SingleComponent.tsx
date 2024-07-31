@@ -34,3 +34,4 @@ const SingleComponent: React.FunctionComponent<{ component: IComponent }> = ({ c
     </>
   );
 }
+export default SingleComponent;
