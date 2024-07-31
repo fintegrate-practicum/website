@@ -20,25 +20,27 @@ interface Props {
 
 const AddProductForm: React.FC<Props> = ({ product }) => {
     const productSchema = yup.object().shape({
-        name: yup.string().required("productName is a required field").min(3, "productName must be at least 3 characters").max(20, "productName must be at most 20 characters"),
+        name: yup.string().required("name is a required field").min(3, "name must be at least 3 characters").max(20, "name must be at most 20 characters"),
         description: yup.string().required("productDescription is a required field"),
         packageCost: yup.number().typeError("packageCost must be a number").required("packageCost is a required field").min(0, "package cost must be positive"),
         totalPrice: yup.number().typeError("totalPrice must be a number").required("totalPrice is a required field").min(1, "price must be positive"),
         isActive: yup.boolean().required("isActive is a required field"),
         isOnSale: yup.boolean().required("isOnSale is a required field"),
-        salePercentage: yup.number().when('isOnSale', {
-            is: true,
-            then: yup.number().typeError("salePercentage must be a number").min(0).max(100).required("salePercentage is a required field"),
-            otherwise: yup.number().notRequired()
-        }),
+        salePercentage: yup.number()
+            .when('isOnSale', {
+                is: true,
+                then: (schema) => schema
+                    .typeError("Sale percentage must be a number").min(0, "Sale percentage must be at least 0").max(100, "Sale percentage must be at most 100")
+                    .required("Sale percentage is a required field"), otherwise: (schema) => schema
+                        .notRequired()
+            }),
         stockQuantity: yup.number().typeError("stockQuantity must be a number").required("stockQuantity is a required field").min(0, "stock cannot be negative"),
         componentStatus: yup.string().required("componentStatus is a required field").min(3, "componentStatus must be at least 3 characters").max(15, "componentStatus must be at most 15 characters"),
         productComponents: yup.array().of(yup.string()).min(1, "Must select at least one component"),
         images: yup.array().of(yup.string()).required("must be at least 1").min(1, "must be at least 1").max(5, "must be at most 5"),
     });
-
     const { register, handleSubmit, setValue, formState: { errors }, reset, watch } = useForm<IProduct>({
-        resolver: yupResolver(productSchema)
+        // resolver: yupResolver(productSchema)
     });
 
     const [loading, setLoading] = useState<boolean>(false);
