@@ -9,9 +9,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup"
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { Button } from '@mui/material';
+import Button from '../../common/components/Button/Button';
 import "./ShoppingDetails.css";
-import { addItem } from './Api-Requests/genericRequests';
 
 
 
@@ -24,15 +23,9 @@ const ShoppingDetails = () => {
         setSelectedOption(e.target.value);
     };
 
-    const saveDetails = async (data: Record<string, any>) => {
-        try {
-            let response = await addItem("orders", data);
-            alert("ההזמנה נשמרה בהצלחה");
-            console.log(response);
-        } catch (err) {
-            console.log(err);
-            alert("הייתה שגיאה בשמירת ההזמנה");
-        }
+    const saveDetails = (data: Record<string, any>) => {
+        console.log(data);
+        alert("כאן צריך לשמור את הנתונים");
     };
 
 
@@ -84,7 +77,7 @@ const ShoppingDetails = () => {
                         {errors.apartmentNumber && <p>{errors.apartmentNumber.message}</p>}
                         <TextField id="filled-basic" fullWidth label="משפחה" variant="filled" {...register("lastName")} />
                         {errors.lastName && <p>{errors.lastName.message}</p>}
-                        <Button type="submit" variant="contained" color="primary">
+                        <Button type="submit" >
                             שמור פרטים
                         </Button>
                     </Box>)

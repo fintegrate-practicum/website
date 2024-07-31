@@ -1,6 +1,6 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import React from 'react';
-import Button from '@mui/material/Button';
+import Button from '../../../common/components/Button/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -9,12 +9,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { deleteItem } from '../Api-Requests/genericRequests';
 import { useDispatch } from 'react-redux';
 import { deleteProduct as deleteProductFromState} from '../features/product/productSlice';
+import { IProduct } from '../interfaces/IProduct';
 
 
 const DeleteProduct = ({item}:any) => {
 
     const [open, setOpen] = React.useState(false);
-    const dispatch = useDispatch();
+    let dispatch = useDispatch();
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -26,7 +27,7 @@ const DeleteProduct = ({item}:any) => {
 
     const deleteProduct = async () => {
         try {
-            const response=await deleteItem("product",item.id); 
+            let response=await deleteItem("product",item.id); 
             alert("המחיקה בוצעה בהצלחה")
             console.log(response);
         }

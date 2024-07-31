@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './shoppingBag.css';
-import { Table, TableBody, TableCell, TableHead, TableRow, Typography, TextField, IconButton, Button } from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableRow, Typography, TextField, IconButton } from '@mui/material';
+import Button from '../../../common/components/Button/Button';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
@@ -15,8 +16,14 @@ interface BagItem {
 }
 
 
-const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
-  const [bag, setBag] = useState<BagItem[]>(initialBag||[]);
+const ShoppingBag
+// : React.FC<{ initialBag: BagItem[] }>
+ = (
+  // { initialBag }
+) => {
+  const [bag, setBag] = useState<BagItem[]>(
+    // initialBag
+  );
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
@@ -24,14 +31,14 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
   }, [bag]);
 
   const calculateTotal = () => {
-    const sum = bag.reduce((acc, item) => acc + item.price * item.amount, 0);
-    setTotal(sum);
+    // const sum = bag.reduce((acc, item) => acc + item.price * item.amount, 0);
+    // setTotal(sum);
   };
 
   const handleRemove = (index: number) => {
     if (window.confirm('האם ברצונך להסיר את המוצר?')) {
-      const newBag = bag.filter((_, i) => i !== index);
-      setBag(newBag);
+      // const newBag = bag.filter((_, i) => i !== index);
+      // setBag(newBag);
     }
   };
 
@@ -39,22 +46,22 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
     if (newAmount === 0) {
       handleRemove(index);
     } else {
-      const newBag = bag.map((item, i) => {
-        if (i === index) {
-          return { ...item, amount: newAmount };
-        }
-        return item;
-      });
-      setBag(newBag);
+      // const newBag = bag.map((item, i) => {
+      //   if (i === index) {
+      //     return { ...item, amount: newAmount };
+      //   }
+      //   return item;
+      // });
+      // setBag(newBag);
     }
   };
 
   return (
     <div className='shoppingBag-container'>
       <Typography paragraph={true} variant='h5'> סל קניות </Typography>
-      {bag.length === 0 ? (
+      {/* {bag.length === 0 ? ( */}
         <Typography> סל הקניות שלך ריק </Typography>
-      ) : (
+       {/* ) : ( */}
         <>
           <Table className='shoppingBag' style={{ direction: 'rtl' }}>
             <TableHead>
@@ -66,31 +73,34 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {bag.map((row, index) => (
-                <TableRow key={row.name}>
+              {/* {bag.map((row, index) => ( */}
+                <TableRow
+                //  key={row.name}
+                 >
                   <TableCell align='right'>
-                    {row.name} <img src={row.image} width='80px' alt={row.name} />
+                    {/* {row.name} <img src={row.image} width='80px' alt={row.name}
+                     /> */}
                   </TableCell>
                   <TableCell align='right'>
                     <TextField
                       type='number'
-                      value={row.amount}
-                      onChange={(e) => handleAmountChange(index, Number(e.target.value))}
+                      // value={row.amount}
+                      // onChange={(e) => handleAmountChange(index, Number(e.target.value))}
                     />
                   </TableCell>
                   <TableCell align='right'>
-                    {(row.price * row.amount).toFixed(2)} ₪
+                    {/* {(row.price * row.amount).toFixed(2)} ₪ */}
                   </TableCell>
                   <TableCell align='right'>
                     <IconButton
                       aria-label='הסרת המוצר'
-                      onClick={() => handleRemove(index)}
+                      // onClick={() => handleRemove(index)}
                     >
                       <DeleteForever />
                     </IconButton>
                   </TableCell>
                 </TableRow>
-              ))}
+              {/* ))} */}
             </TableBody>
             <TableCell colSpan={3} className='total_line'>
               סכום לתשלום {total.toFixed(2)} ₪
@@ -98,15 +108,13 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
           </Table>
           <Button
             onClick={() => alert('payment button was clicked')}
-            variant='contained'
             startIcon={<ArrowBackIosIcon />}
-            style={{ textTransform: 'none' }}
             size='large'
           >
             לתשלום
           </Button>
         </>
-      )}
+       {/* )} */}
     </div>
   );
 };
