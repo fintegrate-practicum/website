@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useForm } from 'react-hook-form';
-import { useDispatch } from "react-redux";
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { IComponent } from '../interfaces/IComponent';
@@ -50,9 +49,11 @@ export const ComponentForm: React.FC<IComponent> = () => {
         }
     };
 
+
     const handleIsAloneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setIsAloneChecked(event.target.checked);
     };
+
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
@@ -61,6 +62,7 @@ export const ComponentForm: React.FC<IComponent> = () => {
             setValue('images', Array.from(files));
         }
     };
+
 
     return (
         <form onSubmit={handleSubmit(save)}>
