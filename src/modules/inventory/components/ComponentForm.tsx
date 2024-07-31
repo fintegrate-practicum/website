@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from 'react-hook-form';
 import { useDispatch } from "react-redux";
 import * as yup from 'yup';
@@ -51,12 +51,14 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
     const dispatch = useDispatch();
     const [isAloneChecked, setIsAloneChecked] = useState(initialData?.isSoldSeparately || false);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+    const schema = useMemo(() => isAloneChecked ? saleAloneSchema : notSaleAloneSchema, [isAloneChecked]);
 
     const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<IComponent>({
-        resolver: yupResolver(isAloneChecked ? saleAloneSchema : notSaleAloneSchema),
+        resolver: yupResolver(schema as any) as any,
         defaultValues: initialData || {}
     });
 
+    
     useEffect(() => {
         if (initialData) {
             reset(initialData);
