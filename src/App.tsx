@@ -53,7 +53,6 @@ const App = () => {
         <Client />
         <ErrorToast />
         <Routes>
-          <Route path="inventory/*" element={<Inventory />} />
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
           <Route path="/CreateBusiness/BaseDetailsManager" element={<Suspense fallback="Loading..."><LazyBaseDetailsManager /></Suspense>} />
@@ -61,7 +60,7 @@ const App = () => {
           <Route path="/CreateBusiness/MoreDetailsManager" element={<Suspense fallback="Loading..."><LazyMoreDetailsManager /></Suspense>} />
           <Route path="/link/:linkUID" element={<Suspense fallback="Loading..."><LazyClient /></Suspense>} >
             <Route path="inventory/*" element={<Inventory />} />
-            <Route path="orders/*" element={<Orders />} />
+            <Route path="orders/*" element={<Orders/>}/>
           </Route>
         </Routes>
         {isRootPath && (
