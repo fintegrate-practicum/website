@@ -68,9 +68,6 @@ const App = () => {
               <MainRouter />
             ) : (
               <Login />
-              //
-              <Login />
-              // <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
             )}
           </>
         )}

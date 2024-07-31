@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -45,12 +45,13 @@ export const ComponentForm = () => {
     const [component, setComponent] = useState<IComponent | any>(null);
     const [isAloneChecked, setIsAloneChecked] = useState(component?.isSoldSeparately || false);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+    const schema = useMemo(() => isAloneChecked ? saleAloneSchema : notSaleAloneSchema, [isAloneChecked]);
 
     const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<IComponent>({
         resolver: yupResolver(isAloneChecked ? saleAloneSchema : notSaleAloneSchema),
         defaultValues: component || {}
     });
-
+    
     useEffect(() => {
         const fetchComponent = async () => {
             if (componentId) {
