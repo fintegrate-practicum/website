@@ -8,10 +8,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { deleteItem } from '../Api-Requests/genericRequests';
 import { useDispatch } from 'react-redux';
-import { deleteProduct as deleteProductFromState} from '../features/product/productSlice';
+import { deleteProduct as deleteProductFromState } from '../features/product/productSlice';
+import { IconButton } from '@mui/material';
 
 
-const DeleteProduct = ({item}:any) => {
+const DeleteProduct = ({ item }: any) => {
 
     const [open, setOpen] = React.useState(false);
     let dispatch = useDispatch();
@@ -26,7 +27,7 @@ const DeleteProduct = ({item}:any) => {
 
     const deleteProduct = async () => {
         try {
-            let response=await deleteItem("product",item.id); 
+            let response = await deleteItem("product", item.id);
             alert("המחיקה בוצעה בהצלחה")
             console.log(response);
         }
@@ -39,12 +40,9 @@ const DeleteProduct = ({item}:any) => {
 
 
     return (<>
-
-        <Button variant="outlined" onClick={handleClickOpen} startIcon={<DeleteIcon />}>
-            Delete
-        </Button>
-
-
+        <IconButton onClick={handleClickOpen} color='primary'>
+            <DeleteIcon />
+        </IconButton>
 
         <Dialog
             open={open}
@@ -57,7 +55,7 @@ const DeleteProduct = ({item}:any) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    Product code to delete:
+                    Product code to delete:{item.id}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
