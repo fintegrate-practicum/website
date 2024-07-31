@@ -16,28 +16,39 @@ const Profile: React.FC = () => {
   const [userMetadata, setUserMetadata] = useState<any>(null); 
   const dispatch = useAppDispatch()
 
-  function setCookie(name:string, value:string, days:number) {
+  function setCookie(name: string, value: string, days: number) {
+    
     let expires = "";
     if (days) {
         const date = new Date();
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-       expires = `; expires=${date.toUTCString()}`;
-      }
+        expires = `; expires=${date.toUTCString()}`;
+    }
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
   }
-  useEffect(() => {  
-      
+  function getCookie(name: string) {
+    const nameEQ = name + "="; const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1, c.length); if (c.indexOf(nameEQ) === 0)
+        return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  }
+
+  setCookie("user_id", user?.sub as string, 30);
+  useEffect(() => {
     const getUserMetadata = async () => {
       const domain = auth0_domain;
       try {
-        const accessToken = await getAccessTokenSilently({      
+        const accessToken = await getAccessTokenSilently({
           authorizationParams: {
+            userId:getCookie("user_id"),
             audience: auth0_audience,
             scope: "read:current_user",
           },
           
         });
-        setCookie("accessToken",accessToken,7)
         const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
         const metadataResponse = await fetch(userDetailsByIdUrl, {
           headers: {
