@@ -1,4 +1,4 @@
-import React, { useState,useRef } from 'react';
+import React, { useState } from 'react';
 import { Box, Stack } from '@mui/material';
 import Button from '../../common/components/Button/Button'
 import TextField from '@mui/material/TextField';
@@ -8,11 +8,9 @@ import { updateBusiness } from '../../Redux/businessSlice';
 import { useAppDispatch ,useAppSelector} from '../../Redux/hooks';
 import { BusinessSize } from '../../classes/Business';
 
-
-
 export default function MoreDetailsManager(): JSX.Element {
     const companyNumber=useAppSelector((state)=>state.businessSlice.business.companyNumber)
-    const fileInputRef = useRef<HTMLInputElement>(null);
+
     const dispatch = useAppDispatch()
 
     const [description, setDescription] = useState<string>('');
@@ -42,7 +40,13 @@ export default function MoreDetailsManager(): JSX.Element {
         setIndustryType(event.target.value);
     };
 
-    const handleLogoChange = (file: File) => {
+    const StyledInput = styled('input')({
+        display: 'none',
+    });
+
+    const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];        
+        
         if (file) {
             const reader = new FileReader();            
             reader.onloadend = () => {                
@@ -52,28 +56,10 @@ export default function MoreDetailsManager(): JSX.Element {
             };
             reader.readAsDataURL(file);
         }
-    };
-    
-    const handleButtonClick = () => {
-        if (fileInputRef.current) {
-            fileInputRef.current.click();
-        }
-    
-        fileInputRef.current?.addEventListener('change', () => {
-            const file = fileInputRef.current?.files?.[0];
-            if (file) {
-                handleLogoChange(file);
-            }
-        });
-    };
+    }; 
     
     const newData = { description, phone, address, businessSize ,industryType,logo: logo?.replace(/^data:image\/png;base64,/, '')};
-   const handleClickToSubmit=()=>{
-    dispatch(updateBusiness({ companyNumber, newData }));
-   }
 
-
-   
     return (
         <Box
             component="form" sx={{ '& > :not(style)': { m: 1, width: '25ch' }, }}
@@ -127,27 +113,16 @@ export default function MoreDetailsManager(): JSX.Element {
 
             <div>
                 <label htmlFor="logo-input">
-                    <Button onClick={handleButtonClick}  component="span" variant="contained">
-                    Upload Logo
+                    <Button component="span" variant="contained" >
+                        Upload Logo
                     </Button>
                 </label>
-                <input
-                    ref={fileInputRef}
-                    type="file"
-                    style={{ display: 'none' }}
-                />
+                <StyledInput id="logo-input" type="file" accept="logo/*" onChange={handleLogoChange}/>              
             </div>
 
-            <Button 
-            onClick={handleClickToSubmit} 
-            variant="contained" color="success"
-            value="send"/>
+            <Button variant="contained" color="success" onClick={() => {
+                dispatch(updateBusiness({ companyNumber, newData }));
+            }}> Submit</Button>
         </Box>
     );
 }
-
-
-
-
-
-
