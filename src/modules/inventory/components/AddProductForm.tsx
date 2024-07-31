@@ -25,6 +25,7 @@ const AddProductForm = () => {
     const componentState = useSelector((state: RootState) => state.component);
 
     const productSchema = yup.object().shape({
+<<<<<<< HEAD
         name: yup.string().required("Name is a required field").min(3, "Name must be at least 3 characters").max(20, "Name must be at most 20 characters"),
         description: yup.string().required("Description is a required field"),
         packageCost: yup.number().typeError("Package cost must be a number").required("Package cost is a required field").min(0, "Package cost must be positive"),
@@ -43,6 +44,51 @@ const AddProductForm = () => {
         productComponents: yup.array().of(yup.string()).min(1, "Must select at least one component"),
         images: yup.array().of(yup.string()).required("Must provide at least one image").min(1, "Must provide at least one image").max(5, "Must provide at most five images"),
     });
+=======
+        name: yup.string().required("name is a required field").min(3, "name must be at least 3 characters").max(20, "name must be at most 20 characters"),
+        description: yup.string().required("productDescription is a required field"),
+        images: yup.array().of(yup.string()).required("Images are required").min(1, "must be at least 1").max(5, "must be at most 5"),
+        packageCost: yup.number().typeError("packageCost must be a number").required("packageCost is a required field").min(0, "package cost must be positive"),
+        productComponents: yup.array().of(yup.string()).min(1, "Must select at least one component"),
+        totalPrice: yup.number().typeError("totalPrice must be a number").required("totalPrice is a required field").min(1, "price must be positive"),
+        adminId: yup.string().required("Admin ID is required"),
+        isActive: yup.boolean().required("isActive is a required field"),
+        isOnSale: yup.boolean().required("isOnSale is a required field"),
+        salePercentage: yup.number()
+            .when('isOnSale', {
+                is: true,
+                then: (schema) => schema
+                    .typeError("Sale percentage must be a number").min(0, "Sale percentage must be at least 0").max(100, "Sale percentage must be at most 100")
+                    .required("Sale percentage is a required field"), otherwise: (schema) => schema
+                        .notRequired()
+            }),
+        stockQuantity: yup.number().typeError("stockQuantity must be a number").required("stockQuantity is a required field").min(0, "stock cannot be negative"),
+        businessId: yup.string().required("Business ID is required"),
+        componentStatus: yup.string().required("componentStatus is a required field").min(3, "componentStatus must be at least 3 characters").max(15, "componentStatus must be at most 15 characters"),
+    });
+
+    const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<IProduct>({
+        resolver: yupResolver(productSchema),
+        defaultValues: product || {}
+    });
+    
+
+    useEffect(() => {
+        const fetchProduct = async () => {
+            if (productId) {
+                try {
+                    const fetchedProduct = await getItemById<any>(`api/inventory/product`, productId);
+                    const { _id, __v, ...dataToUpdate } = fetchedProduct.data;
+                    setProduct(dataToUpdate);
+                    reset(dataToUpdate);
+                } catch (error) {
+                    console.error('Error fetching product:', error);
+                }
+            }
+        };
+        fetchProduct();
+    }, [productId, reset]);
+>>>>>>> bfc879a1c4529a89a595d9ea603db030c6cf4545
 
     const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<IProduct>({
         resolver: yupResolver(productSchema),
