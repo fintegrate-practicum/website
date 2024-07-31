@@ -46,7 +46,7 @@ const Button = (props: ButtonProps) => {
 
     else {
         return (
-            <div>
+        
                 <MaterialButton
                     onClick={onClick}
                     type={type}
@@ -62,7 +62,7 @@ const Button = (props: ButtonProps) => {
                 >
                     {children}
                 </MaterialButton>
-            </div>
+           
         );
     }
 };
