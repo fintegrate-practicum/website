@@ -40,7 +40,7 @@ const EmailVerification = () => {
                     style={{ marginBottom: '1rem' }}
                 />
                 <Stack direction="row" spacing={2}>
-                    <Button variant="contained" color="success"   type='submit'>submit</Button>
+                    <Button  color="success"   type='submit'>submit</Button>
                 </Stack>
             </form>
         </Container>
