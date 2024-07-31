@@ -49,9 +49,22 @@ export const editEmployee = createAsyncThunk('', async (_employee: employee) => 
 
 export const getUserByEmail = createAsyncThunk('', async (email: string) => {
     try {
-        const response = await axios.get(`${http}/user/email/${email}`)
+        console.log('employee slice get email 1',email)
+        const response = await workerInstance.get(`/user/email/${email}`)
+        console.log(response)
+        console.log(response.data)
+
         return response.data
     } catch (error) {
         return error
+    }
+});
+
+export const getUserByJwt = createAsyncThunk('', async () => {
+    try {
+        const response = await workerInstance.get('/user/jwt');
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching user info:', error);
     }
 });
