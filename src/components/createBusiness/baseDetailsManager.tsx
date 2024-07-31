@@ -78,10 +78,8 @@ export default function BaseDetailsManager(): JSX.Element {
             </div>
 
             <Stack direction="row" spacing={2}>
-                <Button
-                    color="success"
-                    type='submit'
-                />
+                <Button color="success"
+                    type='submit'>submit</Button>
             </Stack>
         </form>
     )
