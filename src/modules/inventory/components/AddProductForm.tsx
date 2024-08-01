@@ -285,11 +285,11 @@ const AddProductForm = () => {
                                 </Box>
                             )}
                         >
-                            {/* {components.map((component) => (
+                            {components.map((component) => (
                                 <MenuItem key={component.id} value={component.name}>
                                     {component.name}
                                 </MenuItem>
-                            ))} */}
+                            ))}
                         </Select>
                         {errors.productComponents && <p style={{ color: 'red' }}>{errors.productComponents.message}</p>}
                     </FormControl>
@@ -306,7 +306,7 @@ const AddProductForm = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={12}>
-                    <Button variant="contained" component="label" fullWidth>
+                    <Button  component="label" fullWidth>
                         Upload Images
                         <input
                             type="file"
@@ -320,7 +320,7 @@ const AddProductForm = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={12}>
-                    <Button type="submit" variant="contained" color="primary" fullWidth>
+                    <Button type="submit"  fullWidth>
                         {product ? "Update Product" : "Add Product"}
                     </Button>
                 </Grid>
