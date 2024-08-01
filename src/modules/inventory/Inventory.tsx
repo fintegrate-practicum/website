@@ -1,4 +1,4 @@
-import './App.css';
+// import './App.css';
 import AddProductForm from './components/AddProductForm';
 import { ComponentForm } from './components/ComponentForm';
 import ShowProducts from './components/ClientShowProducts/AllProducts';
@@ -13,7 +13,7 @@ function Inventory() {
       <Routes>
         <Route path="/productForm/:productId?" element={<AddProductForm />} />
         <Route path="/componentForm/:componentId?" element={<ComponentForm />} />
-        {/* <Route path="/products" element={<ShowProducts />} /> */}
+        <Route path="/products" element={<ShowProducts />} />
         <Route path="/products/:productId" element={<SingleProductDetails />} />
         <Route path="/productsAdmin" element={<AllProducts/>}></Route>
       </Routes>
