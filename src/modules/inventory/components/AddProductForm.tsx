@@ -18,7 +18,6 @@ const AddProductForm=()=>{
     componentsImages: yup.array().min(1, "must be at least 1").max(5, "must be at most 5").required('please select an image')
 });
 
-
   const { register, handleSubmit, setValue, formState: { errors } } =
   useForm<IProduct>({ resolver:  yupResolver(productSchema) });
     const dispatch=useDispatch();
