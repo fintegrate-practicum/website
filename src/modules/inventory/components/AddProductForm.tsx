@@ -26,7 +26,7 @@ const AddProductForm = () => {
 
     const productSchema = yup.object().shape({
 <<<<<<< HEAD
-        name: yup.string().required("Name is a required field").min(3, "Name must be at least 3 characters").max(20, "Name must be at most 20 characters"),
+      
         description: yup.string().required("Description is a required field"),
         packageCost: yup.number().typeError("Package cost must be a number").required("Package cost is a required field").min(0, "Package cost must be positive"),
         totalPrice: yup.number().typeError("Total price must be a number").required("Total price is a required field").min(1, "Total price must be positive"),
