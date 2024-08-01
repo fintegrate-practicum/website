@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, CardContent, CardActions, Typography, Button } from '@mui/material';
+import { Card, CardContent, CardActions, Typography } from '@mui/material';
+import Button from '../../../../common/components/Button/Button'
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import { IProduct } from '../../interfaces/IProduct';
 import { IComponent } from '../../interfaces/IComponent';
@@ -37,7 +38,7 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
         )}
       </CardContent>
       <CardActions>
-        <Button variant="contained" color="primary">
+        <Button >
           Add to Cart
         </Button>
       </CardActions>
