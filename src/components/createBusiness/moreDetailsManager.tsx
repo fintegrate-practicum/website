@@ -3,7 +3,7 @@ import { updateBusiness } from '../../Redux/businessSlice';
 import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 import FormWrapper from '../../stories/FormWrapper';
 import { FieldValues } from 'react-hook-form';
-import { BusinessSize} from '../../classes/Bussiness';
+import { BusinessSize} from '../../classes/Business';
 
 export default function MoreDetailsManager(): JSX.Element {
     const companyNumber = useAppSelector((state) => state.businessSlice.business.companyNumber);
