@@ -11,9 +11,9 @@ import SidebarUserDetails from './SidebarUserDetails';
 const auth0_audience = import.meta.env.VITE_AUTH0_AUDIENCE as string;
 const auth0_domain = import.meta.env.VITE_AUTH0_DOMAIN as string;
 
-const Profile: React.FC = () => {
+const Profile: React.FC = () => {  
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
-  const [userMetadata, setUserMetadata] = useState<any>(null);
+  const [userMetadata, setUserMetadata] = useState<any>(null); 
   const dispatch = useAppDispatch()
 
   function setCookie(name: string, value: string, days: number) {
@@ -52,7 +52,7 @@ const Profile: React.FC = () => {
             audience: auth0_audience,
             scope: "read:current_user",
           },
-
+          
         });
         const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
         const metadataResponse = await fetch(userDetailsByIdUrl, {
@@ -61,7 +61,7 @@ const Profile: React.FC = () => {
           },
         });
         const user_metadata = await metadataResponse.json();
-        setUserMetadata(user_metadata);
+        setUserMetadata(user_metadata);        
         await dispatch(fetchUserById(user_metadata));
       } catch (e) {
         console.log((e as Error).message);
@@ -71,7 +71,7 @@ const Profile: React.FC = () => {
     if (user?.sub) {
       getUserMetadata();
     }
-  }, [getAccessTokenSilently, user?.sub, dispatch]);
+  }, [getAccessTokenSilently, user?.sub,dispatch]);
 
   if (isLoading) {
     return <div>Loading ...</div>;
@@ -79,14 +79,14 @@ const Profile: React.FC = () => {
 
   const profileAvatar = () => {
     let emailUser = '';
-    if (userMetadata) {
+    if(userMetadata){
       emailUser = userMetadata.email;
     }
     return {
       sx: {
         bgcolor: 'red',
-        position: 'relative',
-        width: 37,
+        position: 'relative', 
+        width: 37, 
         height: 37
       },
       children: emailUser ? `${emailUser.split('')[0][0]}${emailUser.split('')[1][0]}` : ''
@@ -106,14 +106,14 @@ const Profile: React.FC = () => {
   return (
     <>
       {isAuthenticated && (
-        <Box
-          position="absolute"
-          top={18}
-          right={18}
+        <Box 
+          position="absolute" 
+          top={18} 
+          right={18} 
           onClick={handleClick}
-          sx={{ cursor: 'pointer' }}
+          sx={{ cursor: 'pointer' }} 
         >
-          <Avatar {...profileAvatar()} src={userMetadata?.picture || ''} />
+          <Avatar {...profileAvatar()} src={userMetadata?.picture || ''} />    
         </Box>
       )}
       <SidebarUserDetails
@@ -123,8 +123,7 @@ const Profile: React.FC = () => {
         anchorEl={anchorEl}
         handleClose={handleClose}
       />
-      <Button
-       href="/CreateBusiness/BaseDetailsManager" isLink={true}>הרשמה של עסק</Button>
+        <Button href="/CreateBusiness/BaseDetailsManager" isLink={true}>הרשמה של עסק</Button>
     </>
   );
 };
