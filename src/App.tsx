@@ -12,14 +12,13 @@ import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
 import Inventory from './modules/inventory/Inventory';
 import Login from './components/Login/login';
 import Orders from './modules/orders/App';
+import Header from './components/Header/Header';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(() => import('./components/createBusiness/baseDetailsManager'));
 const LazyEmailVerification = React.lazy(() => import('./components/createBusiness/emailVerification'));
 const LazyMoreDetailsManager = React.lazy(() => import('./components/createBusiness/moreDetailsManager'));
 const LazyClient = React.lazy(() => import('./components/client/Client'));
-
-
 
 const App = () => {
   const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser);
@@ -29,13 +28,12 @@ const App = () => {
 
   useEffect(() => {
     if (currentUser) {
-      const type = currentUser.employeeDetails.role.type
+      const type = currentUser.employeeDetails.role.type;
       setTypeUser(type);
     }
   }, [currentUser]);
 
   const ErrorToastRoute = () => {
-
     useEffect(() => {
       if (location.pathname !== lastInvalidPath) {
         showErrorToast('הדף שאת/ה מחפש/ת אינו נמצא route-הכנס/י ב http://localhost:0000/link/**של עסק linkUID**');
@@ -50,18 +48,17 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
+        <Header />
         <Client />
         <ErrorToast />
         <Routes>
-          <Route path="inventory/*" element={<Inventory />} />
-          <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
+          <Route path="/inventory/*" element={<Inventory />} />
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
           <Route path="/CreateBusiness/BaseDetailsManager" element={<Suspense fallback="Loading..."><LazyBaseDetailsManager /></Suspense>} />
           <Route path="/CreateBusiness/EmailVerification" element={<Suspense fallback="Loading..."><LazyEmailVerification /></Suspense>} />
           <Route path="/CreateBusiness/MoreDetailsManager" element={<Suspense fallback="Loading..."><LazyMoreDetailsManager /></Suspense>} />
           <Route path="/link/:linkUID" element={<Suspense fallback="Loading..."><LazyClient /></Suspense>} >
-            <Route path="inventory/*" element={<Inventory />} />
-            <Route path="orders/*" element={<Orders />} />
+            <Route path="orders" element={<Orders />} />
           </Route>
         </Routes>
         {isRootPath && (
@@ -69,18 +66,15 @@ const App = () => {
             {typeUser !== 'manager' && typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (
               <Client />
             ) : typeUser === 'manager' || typeUser === 'admin' ? (
-              <>
-                <MainRouter />
-              </>
+              <MainRouter />
             ) : (
-              //
               <Login />
-              // <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
             )}
           </>
         )}
       </Provider>
     </ThemeProvider>
   );
-}
+};
+
 export default App;

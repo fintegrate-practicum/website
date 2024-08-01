@@ -6,10 +6,8 @@ import { useAppSelector } from '../../app/hooks';
 const SingleProductDetails = () => {
   const products = useAppSelector((state) => state.product?.data || []);
   const productId = useParams().productId;
-  const product = products.find((p: { id: string | undefined; }) => p.id === productId);
-
-  // Optional chaining and nullish coalescing operators used here
-  const { name, totalPrice, description, productComponents, isOnSale } = product ?? {};
+  const product = products.find(p => p.id == productId);
+  const { name, totalPrice, description, productComponents, isOnSale } = product || {};
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', p: 2 }}>
@@ -21,8 +19,26 @@ const SingleProductDetails = () => {
           <Typography variant="h6">
             {description}
           </Typography>
+      <Card sx={{ maxWidth: 800, width: '100%', p: 3 }}>
+        <CardContent>
+          <Typography variant="h4" component="div">
+            {name}
+          </Typography>
+          <Typography variant="h6">
+            {description}
+          </Typography>
           {productComponents}
           {isOnSale}
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            Price: {totalPrice} <AttachMoneyOutlinedIcon fontSize='small' />
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button variant="contained" color="primary">
+            Add to Cart
+          </Button>
+        </CardActions>
+      </Card>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             Price: {totalPrice} <AttachMoneyOutlinedIcon fontSize='small' />
           </Typography>

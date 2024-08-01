@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,6 +10,7 @@ import { addItem, getItemById, updateItem } from '../Api-Requests/genericRequest
 import './ComponentForm.css';
 import { Checkbox, FormControlLabel } from "@mui/material";
 import { useParams } from "react-router-dom";
+
 const notSaleAloneSchema = yup.object().shape({
     name: yup.string().required("Name is a required field").min(3, "Name must be at least 3 characters").max(20, "Name must be at most 20 characters"),
     componentBuyPrice: yup.number().required("Purchase price is a required field").positive("Price must be a positive number"),
@@ -20,6 +21,8 @@ const notSaleAloneSchema = yup.object().shape({
     componentColor: yup.string().optional(),
     componentSize: yup.string().optional(),
 });
+
+
 const saleAloneSchema = yup.object().shape({
     name: yup.string().required("Name is a required field").min(3, "Name must be at least 3 characters").max(20, "Name must be at most 20 characters"),
     componentBuyPrice: yup.number().required("Purchase price is a required field").positive("Price must be a positive number"),
@@ -35,7 +38,9 @@ const saleAloneSchema = yup.object().shape({
     componentColor: yup.string().nullable().notRequired(),
     componentSize: yup.string().nullable().notRequired(),
 });
+
 export const ComponentForm = () => {
+
     const { componentId } = useParams<{ componentId: string }>();
     const [component, setComponent] = useState<IComponent | any>(null);
     const [isAloneChecked, setIsAloneChecked] = useState(component?.isSoldSeparately || false);
@@ -44,15 +49,15 @@ export const ComponentForm = () => {
         resolver: yupResolver(isAloneChecked ? saleAloneSchema : notSaleAloneSchema),
         defaultValues: component || {}
     });
+    
     useEffect(() => {
         const fetchComponent = async () => {
             if (componentId) {
                 try {
                     const fetchedComponent = await getItemById<any>(`api/inventory/component`, componentId);
-                    delete fetchedComponent.data._id;
-                    delete fetchedComponent.data.__v;
-                    setComponent(fetchedComponent);
-                    reset(fetchedComponent.data);
+                    const { _id, __v, ...dataToUpdate } = fetchedComponent.data;
+                    setComponent(dataToUpdate);
+                    reset(dataToUpdate);
                 } catch (error) {
                     console.error('Error fetching component:', error);
                 }
@@ -60,6 +65,7 @@ export const ComponentForm = () => {
         };
         fetchComponent();
     }, [componentId, reset]);
+
     const save = async (data: IComponent) => {
         try {
             data.addingComponentDate = new Date();
@@ -76,9 +82,11 @@ export const ComponentForm = () => {
             console.error(error);
         }
     };
+
     const handleIsAloneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setIsAloneChecked(event.target.checked);
     };
+
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         // const files = event.target.files;
         // if (files) {
@@ -91,6 +99,7 @@ export const ComponentForm = () => {
             setValue("images", images);
         }
     };
+
     return (
         <form onSubmit={handleSubmit(save)} noValidate autoComplete="on">
             <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
@@ -197,8 +206,9 @@ export const ComponentForm = () => {
                             value={watch("totalPrice") || ""}
                         />
                     </Box>
+
                     <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
-                        <input type="file" multiple onChange={handleImageChange}  />
+                        <input type="file" multiple onChange={handleImageChange} />
                         {errors.images && <p>{errors.images.message}</p>}
                     </Box>
                 </>

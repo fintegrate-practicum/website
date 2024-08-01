@@ -9,8 +9,8 @@ export interface IProduct {
     adminId: string;
     isActive: boolean;
     isOnSale: boolean;
-    salePercentage: number;
+    salePercentage?: number;
     stockQuantity: number;
     businessId: string;
     componentStatus: string;
-  }
+}

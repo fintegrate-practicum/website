@@ -16,28 +16,44 @@ const Profile: React.FC = () => {
   const [userMetadata, setUserMetadata] = useState<any>(null); 
   const dispatch = useAppDispatch()
 
-  function setCookie(name:string, value:string, days:number) {
+  function setCookie(name: string, value: string, days: number) {
+    
     let expires = "";
     if (days) {
         const date = new Date();
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-       expires = `; expires=${date.toUTCString()}`;
-      }
+        expires = `; expires=${date.toUTCString()}`;
+    }
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
   }
-  useEffect(() => {  
-      
+  function getCookie(cookieName: string) {
+    const nameEQ = cookieName + "=";
+    const cookieArray = document.cookie.split(';');
+
+    for (const elementFromCookie of cookieArray) {
+        const trimmedCookie = elementFromCookie.trim();
+        if (trimmedCookie.startsWith(nameEQ)) {
+            return trimmedCookie.substring(nameEQ.length);
+        }
+    }
+
+    return null;
+}
+
+
+  setCookie("user_id", user?.sub as string, 30);
+  useEffect(() => {
     const getUserMetadata = async () => {
       const domain = auth0_domain;
       try {
-        const accessToken = await getAccessTokenSilently({      
+        const accessToken = await getAccessTokenSilently({
           authorizationParams: {
+            userId:getCookie("user_id"),
             audience: auth0_audience,
             scope: "read:current_user",
           },
           
         });
-        setCookie("accessToken",accessToken,7)
         const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
         const metadataResponse = await fetch(userDetailsByIdUrl, {
           headers: {
@@ -46,7 +62,7 @@ const Profile: React.FC = () => {
         });
         const user_metadata = await metadataResponse.json();
         setUserMetadata(user_metadata);        
-        dispatch(fetchUserById(user_metadata?.user_id));        
+        await dispatch(fetchUserById(user_metadata));
       } catch (e) {
         console.log((e as Error).message);
       }
