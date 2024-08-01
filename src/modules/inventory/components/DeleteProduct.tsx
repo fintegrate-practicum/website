@@ -15,7 +15,7 @@ import { IconButton } from '@mui/material';
 const DeleteProduct = ({ item }: any) => {
 
     const [open, setOpen] = React.useState(false);
-    let dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     const handleClickOpen = () => {
         setOpen(true);
