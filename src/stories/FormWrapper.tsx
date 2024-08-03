@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm, FieldValues } from 'react-hook-form';
-import { Box, Button, TextField, Typography, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { Box, Button, TextField, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import Typography from '../common/components/Typography/Typography';
 
 interface Field {
   name: string;

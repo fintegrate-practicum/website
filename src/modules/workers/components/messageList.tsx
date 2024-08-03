@@ -1,11 +1,12 @@
 
 import React, { useState } from 'react';
-import { List, ListItem, ListItemText, Paper, Typography, CssBaseline } from '@mui/material';
+import { List, ListItem, ListItemText, Paper, CssBaseline } from '@mui/material';
 import { Box } from '@mui/system';
 import PropTypes from 'prop-types';
 import Message from '../classes/message'
+import Typography from '../../../common/components/Typography/Typography';
 
-const MessageList = ({ messages }: { messages: Message[] }) => {
+const MessageList = ( { messages }: { messages: Message[] }) => {
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
 
   const handleClick = (message: Message) => {
@@ -40,7 +41,8 @@ const MessageList = ({ messages }: { messages: Message[] }) => {
           <Paper elevation={3} sx={{ padding: 2 }}>
             <Typography variant="h5">{selectedMessage.message_content}</Typography>
             <Typography variant="subtitle1" color="textSecondary">
-              Received from: {selectedMessage.sender_id} at {selectedMessage.date_time.toLocaleString()}
+              Received from:
+              aSADFSGDF {selectedMessage.sender_id} at {selectedMessage.date_time.toLocaleString()}
             </Typography>
           </Paper>
         ) : (
