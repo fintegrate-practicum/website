@@ -10,7 +10,7 @@ interface TypographyProps {
     gutterBottom?: boolean;
     paragraph?: boolean;
     align?:string;
-    color?: "primary"|"secondary" | "success"  | "textSecondary" | "error";
+    color?: "primary"|"secondary" | "success"  | "textSecondary" | "error" | "black";
     style?: React.CSSProperties;
 
 }

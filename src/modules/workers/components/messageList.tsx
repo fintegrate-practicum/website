@@ -41,8 +41,7 @@ const MessageList = ( { messages }: { messages: Message[] }) => {
           <Paper elevation={3} sx={{ padding: 2 }}>
             <Typography variant="h5">{selectedMessage.message_content}</Typography>
             <Typography variant="subtitle1" color="textSecondary">
-              Received from:
-              aSADFSGDF {selectedMessage.sender_id} at {selectedMessage.date_time.toLocaleString()}
+              Received from:{selectedMessage.sender_id} at {selectedMessage.date_time.toLocaleString()}
             </Typography>
           </Paper>
         ) : (

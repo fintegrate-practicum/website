@@ -26,9 +26,7 @@ interface WorkerPageProps {
     employee: employee;
 }
 
-const WorkerPage: React.FC<WorkerPageProps> = (
-    // props
-) => {
+const WorkerPage: React.FC<WorkerPageProps> = (props) => {
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
@@ -49,8 +47,7 @@ const WorkerPage: React.FC<WorkerPageProps> = (
 
             <Grid style={{ display: 'flex', flexWrap: 'wrap', width: '80%', margin: 'auto', flexDirection: 'column' }} id="all">
                 <Grid style={{ textAlign: 'left', margin: 'none' }} >
-                    <Typography>Name:Esty
-                        {/* {props.user.userName}  */}
+                    <Typography>Name:{props.user.userName} 
                         </Typography>
                 </Grid>
 
@@ -64,18 +61,14 @@ const WorkerPage: React.FC<WorkerPageProps> = (
                                 primary="Personal Information:"
                                 secondary={
                                     <Typography
-                                        sx={{ display: 'inline' }}
                                         component="span"
                                         variant="body2"
-                                        color="text.primary"
-                                    > dateOfBirth: Esty
-                                    {/* {props.user.userName} */}
+                                        color="black"
+                                    > dateOfBirth {props.user.userName}
                                         <br />
-                                        mobile: sdfg
-                                        {/* {props.user.mobile} */}
+                                        mobile:{props.user.mobile}
                                         <br />
-                                        status: wer
-                                        {/* {props.user.status} */}
+                                        status:{props.user.status}
                                     </Typography>
                                 }
                             />
