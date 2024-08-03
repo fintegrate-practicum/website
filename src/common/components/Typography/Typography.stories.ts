@@ -14,20 +14,19 @@ export default meta;
 type Story = StoryObj<typeof Typography>;
 
 const baseProps = {
-    variant: "h1",
+    variant: "h2",
     children: "Typography",
     component: "h2",
     gutterBottom: true,
     paragraph: true,
     align: 'center',
     color: theme.palette.secondary.light,
-    fontSize: "large",
     fontFamily: '"Segoe UI"',
-    fontWeight: "bold"
+    fontWeight: "bold"   
 
 };
 
-export const fullColor: Story = {
+export const Header: Story = {
     args: {
         ...baseProps,
        
@@ -35,25 +34,32 @@ export const fullColor: Story = {
     },
 };
 
-export const empty: Story = {
+export const Button: Story = {
     args: {
         ...baseProps,
-        align: 'right',
+        variant: "button",
         color: theme.palette.info.main,
-        fontSize: "medium",
-        fontFamily: '-apple-system'
 
     },
 };
 
-export const link: Story = {
+export const CommonText: Story = {
     args: {
         ...baseProps,
-        align: 'left',
         variant: "body1",
-        fontSize: "small",
-        fontFamily: 'sans-serif',
         color: theme.palette.primary.light,
+
+
+    },
+};
+
+export const subTitle: Story = {
+    args: {
+        ...baseProps,
+        variant: "subtitle1",
+       
+      
+      
 
 
     },
