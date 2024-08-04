@@ -29,6 +29,7 @@ export default function AddTaskBtn() {
   const handleClose = () => {
    
     const task: Task = {
+      _id: new Types.ObjectId(), 
       businessId,
       managerId,
       taskName,
@@ -38,7 +39,7 @@ export default function AddTaskBtn() {
       urgency,
       status: TaskStatus.ToDo,
       completionDate: new Date(0),
-      directLink: "http://localhost:4001/api#/Workers/WorkersController_create"
+      directLink: "http://localhost:4001/api#/Workers/WorkersController_create",
     };
     dispatch(createTask(task));
     setOpen(false);
