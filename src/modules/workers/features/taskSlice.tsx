@@ -4,6 +4,7 @@ import task from "../classes/task";
 import {  UpdateTaskEmployeeDTO } from "../dto/updateTaskEmployeeDto";
 import { UpdateTaskManagerDTO } from "../dto/updateTaskManagerDto";
 import { RootState } from "../../../Redux/store";
+import { Types } from "mongoose";
 
 interface EditTaskArgs {
   taskId: string;
@@ -17,6 +18,7 @@ const businessId = import.meta.env.VITE_BUSINESSID;
 const response = await axios.get(`${baseUrl}/tasks/manager/${businessId}/${managerId}`);
 const { data = {} } = response.data;
 
+
 const taskSlice = createSlice({
   name: "tasks",
   initialState: data,
@@ -25,6 +27,9 @@ const taskSlice = createSlice({
 
 export const { } = taskSlice.actions;
 export const selectTasks = (state: RootState) => state.taskSlice.tasks;
+export const selectTaskById = (state: RootState, id: Types.ObjectId) =>
+  state.taskSlice.tasks.find((task: task) => task._id.equals(id));
+
 export default taskSlice.reducer;
 
 export const createTask = createAsyncThunk('',async (_task: task) => {
