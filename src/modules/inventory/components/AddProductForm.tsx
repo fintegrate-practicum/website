@@ -47,7 +47,7 @@ const AddProductForm = () => {
         componentStatus: yup.string().required("componentStatus is a required field").min(3, "componentStatus must be at least 3 characters").max(15, "componentStatus must be at most 15 characters"),
     });
     const { register, handleSubmit, setValue, formState: { errors }, reset, watch } = useForm<IProduct>({
-        // resolver: yupResolver(productSchema)
+          resolver: yupResolver(productSchema)
 
     }); 
     useEffect(() => {
