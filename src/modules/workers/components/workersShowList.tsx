@@ -3,12 +3,12 @@ import GenericList from "../../../components/generic/genericList";
 import { useAppSelector } from "../../../Redux/hooks";
 import ItemDetailToWorker from "./itemDetailToWorker";
 import React, { useState } from "react";
-import Button from "@mui/material/Button";
+import Button from "../../../common/components/Button/Button";
 import { RootState } from "../../../Redux/store";
 
 const WorkersShowList = () => {
 
-  const employees = useAppSelector((state: RootState) => state.employeeSlice.employees);
+  // const employees = useAppSelector((state: RootState) => state.employeeSlice.employees);
 
   const [startIndex, setStartIndex] = useState<number>(0);
   const itemsPerPage = 10;
@@ -18,19 +18,19 @@ const WorkersShowList = () => {
   const showLessData = () => {
     setStartIndex(Math.max(0, startIndex - itemsPerPage));
   };
-  const paginatedEmployees = employees.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
-  const hasNextPage = startIndex + itemsPerPage < employees.length;
+  // const paginatedEmployees = employees.slice(
+  //   startIndex,
+  //   startIndex + itemsPerPage
+  // );
+  // const hasNextPage = startIndex + itemsPerPage < employees.length;
   const hasPreviousPage = startIndex - itemsPerPage >= 0;
 
   return (
     <>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
-        <GenericList
+        {/* <GenericList
           title={"workers list"}
-          list={paginatedEmployees}
+          // list={paginatedEmployees}
           column={[
             "userId",
             "code",
@@ -41,23 +41,19 @@ const WorkersShowList = () => {
             "details",
           ]}
           desing={ItemDetailToWorker}
-        />
+        /> */}
       </div>
       <Button
         component="label"
-        role={undefined}
-        variant="contained"
         tabIndex={-1}
         // startIcon={<CloudUploadIcon />}
         onClick={showMoreData}
-        disabled={!hasNextPage}
+        // disabled={!hasNextPage}
       >
         הבא
       </Button>
       <Button
         component="label"
-        role={undefined}
-        variant="contained"
         tabIndex={-1}
         // startIcon={<CloudUploadIcon />}
         onClick={showLessData}

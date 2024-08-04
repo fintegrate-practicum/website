@@ -1,25 +1,26 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box, Typography, Grid, Paper } from '@mui/material';
+import { TextField,  Box, Typography, Grid, Paper } from '@mui/material';
+import Button from '../../../common/components/Button/Button';
 import { useAppDispatch, useAppSelector } from '../../../Redux/hooks';
 import { editEmployee } from '../features/employeeSlice';
 
 const UpdateEmployeeDetails: React.FC = () => {
-  const currentEmployee = useAppSelector((state) => state.employeeSlice.currentEmployee);
+  // const currentEmployee = useAppSelector((state) => state.employeeSlice.currentEmployee);
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useAppDispatch();
 
-  const [formData, setFormData] = useState({
-    nameEmployee: currentEmployee.nameEmployee || '',
-    roleType: currentEmployee.role.type || '',
-    roleDescription: currentEmployee.role.description || '',
-  });
+  // const [formData, setFormData] = useState({
+  //   nameEmployee: currentEmployee.nameEmployee || '',
+  //   roleType: currentEmployee.role.type || '',
+  //   roleDescription: currentEmployee.role.description || '',
+  // });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setFormData({
+  //     ...formData,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -27,15 +28,15 @@ const UpdateEmployeeDetails: React.FC = () => {
 
   const handleSaveClick = () => {
     setIsEditing(false);
-    const updatedEmployee = {
-      ...currentEmployee,
-      role: {
-        ...currentEmployee.role,
-        type: formData.roleType,
-        description: formData.roleDescription,
-      },
-    };
-    dispatch(editEmployee(updatedEmployee));
+    // const updatedEmployee = {
+    //   ...currentEmployee,
+    //   role: {
+    //     ...currentEmployee.role,
+    //     type: formData.roleType,
+    //     description: formData.roleDescription,
+    //   },
+    // };
+    // dispatch(editEmployee(updatedEmployee));
   };
 
   return (
@@ -50,8 +51,8 @@ const UpdateEmployeeDetails: React.FC = () => {
               fullWidth
               label="Name"
               name="nameEmployee"
-              value={formData.nameEmployee}
-              onChange={handleChange}
+              // value={formData.nameEmployee}
+              // onChange={handleChange}
               disabled={!isEditing}
               variant="outlined"
               margin="normal"
@@ -63,8 +64,8 @@ const UpdateEmployeeDetails: React.FC = () => {
               fullWidth
               label="Role Type"
               name="roleType"
-              value={formData.roleType}
-              onChange={handleChange}
+              // value={formData.roleType}
+              // onChange={handleChange}
               disabled={!isEditing}
               variant="outlined"
               margin="normal"
@@ -76,8 +77,8 @@ const UpdateEmployeeDetails: React.FC = () => {
               fullWidth
               label="Role Description"
               name="roleDescription"
-              value={formData.roleDescription}
-              onChange={handleChange}
+              // value={formData.roleDescription}
+              // onChange={handleChange}
               disabled={!isEditing}
               variant="outlined"
               margin="normal"
@@ -87,11 +88,11 @@ const UpdateEmployeeDetails: React.FC = () => {
         </Grid>
         <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
           {isEditing ? (
-            <Button variant="contained" color="primary" onClick={handleSaveClick}>
+            <Button  onClick={handleSaveClick}>
               Save
             </Button>
           ) : (
-            <Button variant="contained" color="primary" onClick={handleEditClick}>
+            <Button  onClick={handleEditClick}>
               Edit
             </Button>
           )}
