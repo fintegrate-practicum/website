@@ -1,15 +1,16 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useForm } from 'react-hook-form';
+import React, {useEffect, useMemo, useState} from "react";
+import {Resolver, useForm} from 'react-hook-form';
 import * as yup from 'yup';
-import { yupResolver } from "@hookform/resolvers/yup";
-import { IComponent } from '../interfaces/IComponent';
+import {yupResolver} from "@hookform/resolvers/yup";
+import {IComponent} from '../interfaces/IComponent';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '../../../common/components/Button/Button'
-import { addItem, getItemById, updateItem } from '../Api-Requests/genericRequests';
+import {addItem, getItemById, updateItem} from '../Api-Requests/genericRequests';
 import './ComponentForm.css';
-import { Checkbox, FormControlLabel } from "@mui/material";
-import { useParams } from "react-router-dom";
+import {Checkbox, FormControlLabel} from "@mui/material";
+import {useParams} from "react-router-dom";
+import {IProduct} from "../interfaces/IProduct.ts";
 
 const notSaleAloneSchema = yup.object().shape({
     name: yup.string().required("Name is a required field").min(3, "Name must be at least 3 characters").max(20, "Name must be at most 20 characters"),
@@ -20,7 +21,7 @@ const notSaleAloneSchema = yup.object().shape({
     isSoldSeparately: yup.boolean().required(),
     componentColor: yup.string().optional(),
     componentSize: yup.string().optional(),
-});
+}) as unknown as yup.ObjectSchema<IComponent>;
 
 
 const saleAloneSchema = yup.object().shape({
@@ -37,7 +38,7 @@ const saleAloneSchema = yup.object().shape({
     salePercentage: yup.number().required("Sale percentage is a required field").min(0, "Percentage must be positive"),
     componentColor: yup.string().nullable().notRequired(),
     componentSize: yup.string().nullable().notRequired(),
-});
+}) as unknown as yup.ObjectSchema<IComponent>;
 
 export const ComponentForm = () => {
 
@@ -48,10 +49,10 @@ export const ComponentForm = () => {
     const schema = useMemo(() => isAloneChecked ? saleAloneSchema : notSaleAloneSchema, [isAloneChecked]);
 
     const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<IComponent>({
-        resolver: yupResolver(isAloneChecked ? saleAloneSchema : notSaleAloneSchema),
+        resolver: yupResolver(schema) as unknown as Resolver<IComponent>,
         defaultValues: component || {}
     });
-    
+
     useEffect(() => {
         const fetchComponent = async () => {
             if (componentId) {
