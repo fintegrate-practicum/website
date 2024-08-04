@@ -3,7 +3,7 @@ export interface IOrder extends Item {
     user: string,
     products: string [],
     deliveryMethod: string,
-    destinationAddress: {
+    destinationAddress:{ 
       city: string,
       street: string,
       numBuild: number,

@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { IProduct } from '../inventory/interfaces/IProduct';
 import { getItemById } from '../inventory/Api-Requests/genericRequests';
 import { getAllItems } from './Api-Requests/genericRequests';
+import { IOrder } from './interfaces/IOrder';
 
 const theme = createTheme({
     palette: {
@@ -19,7 +20,7 @@ const theme = createTheme({
 
 export default function AllOrders() {
     const { businessCode } = useParams<{ businessCode: string }>();
-    const [orders, setOrders] = useState<any[]>([]);
+    const [orders, setOrders] = useState<IOrder[]>([]);
     const [products, setProducts] = useState<{ [key: string]: IProduct }>({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -30,7 +31,7 @@ export default function AllOrders() {
 
     const getOrders = async () => {
         try {
-            const res = await getAllItems<any[]>(`orders/${businessCode}`);
+            const res = await getAllItems<IOrder[]>(`orders/${businessCode}`);
             setOrders(res.data);
             fetchProducts(res.data); 
         } catch (err) {
@@ -38,7 +39,7 @@ export default function AllOrders() {
         }
     };
 
-    const fetchProducts = async (orders: any[]) => {
+    const fetchProducts = async (orders: IOrder[]) => {
         try {
             const productIds = Array.from(new Set(orders.flatMap(order => order.products)));
             const productPromises = productIds.map(id => getItemById<IProduct>(`api/inventory/product`, id));
@@ -118,7 +119,7 @@ export default function AllOrders() {
                             <Grid item xs={12}>
                                 <Typography variant="h6" color="secondary">Products</Typography>
                                 <List>
-                                    {order.products.map((productId: string, productIndex: number) => {
+                                    {order.products.map((productId: string) => {
                                         const product = products[productId];
                                         return product ? (
                                             <ListItem key={productId} style={{ padding: '10px 0' }}>
