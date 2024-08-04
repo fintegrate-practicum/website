@@ -10,7 +10,6 @@ import {  Route, Routes, useLocation } from 'react-router-dom';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
 import Inventory from './modules/inventory/Inventory';
-
 import  Login from './components/Login/login';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
@@ -18,7 +17,7 @@ const LazyBaseDetailsManager = React.lazy(() => import('./components/createBusin
 const LazyEmailVerification = React.lazy(() => import('./components/createBusiness/emailVerification'));
 const LazyMoreDetailsManager = React.lazy(() => import('./components/createBusiness/moreDetailsManager'));
 const LazyClient = React.lazy(() => import('./components/client/Client'));
-
+const LazySetting = React.lazy(() => import('../src/components/Setting/Category'));
 
 
 const App = () => {
@@ -60,6 +59,7 @@ const App = () => {
           <Route path="/CreateBusiness/EmailVerification" element={<Suspense fallback="Loading..."><LazyEmailVerification /></Suspense>} />
           <Route path="/CreateBusiness/MoreDetailsManager" element={<Suspense fallback="Loading..."><LazyMoreDetailsManager /></Suspense>} />
           <Route path="/link/:linkUID" element={<Suspense fallback="Loading..."><LazyClient /></Suspense>} />
+          <Route path="/setting" element={<Suspense fallback="Loading..."><LazySetting /></Suspense>} />
         </Routes>
         {isRootPath && (
           <>

@@ -4,11 +4,11 @@ import TextField from '@mui/material/TextField';
 import { styled } from '@mui/system';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { updateBusiness } from '../../Redux/businessSlice';
-import { useAppDispatch ,useAppSelector} from '../../Redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 import { BusinessSize } from '../../classes/Business';
 
 export default function MoreDetailsManager(): JSX.Element {
-    const companyNumber=useAppSelector((state)=>state.businessSlice.business.companyNumber)
+    const companyNumber = useAppSelector((state) => state.businessSlice.business.companyNumber)
 
     const dispatch = useAppDispatch()
 
@@ -18,8 +18,8 @@ export default function MoreDetailsManager(): JSX.Element {
 
     const [logo, setLogo] = useState<string>();
 
-    const [businessSize, setBusinessSize] = useState<BusinessSize| ''>(BusinessSize.Public);
-    const [industryType, setIndustryType] = useState<string>('');    
+    const [businessSize, setBusinessSize] = useState<BusinessSize | ''>(BusinessSize.Public);
+    const [industryType, setIndustryType] = useState<string>('');
 
     const handleBusinessDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         setDescription(event.target.value);
@@ -44,20 +44,22 @@ export default function MoreDetailsManager(): JSX.Element {
     });
 
     const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];        
-        
+        const file = event.target.files?.[0];
+
         if (file) {
-            const reader = new FileReader();            
-            reader.onloadend = () => {                
+            const reader = new FileReader();
+            console.log(reader);
+            reader.onloadend = () => {
+                console.log(reader.result, "");
                 if (typeof reader.result === 'string') {
                     setLogo(reader.result);
                 }
             };
             reader.readAsDataURL(file);
         }
-    }; 
-    
-    const newData = { description, phone, address, businessSize ,industryType,logo: logo?.replace(/^data:image\/png;base64,/, '')};
+    };
+
+    const newData = { description, phone, address, businessSize, industryType, logo: logo?.replace(/^data:image\/png;base64,/, '') };
 
     return (
         <Box
@@ -86,7 +88,7 @@ export default function MoreDetailsManager(): JSX.Element {
                 </Select>
             </FormControl></div>
 
-           <div><FormControl fullWidth>
+            <div><FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">industry Type</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
@@ -95,11 +97,11 @@ export default function MoreDetailsManager(): JSX.Element {
                     label="business Size"
                     onChange={handleIndustryTypeChange}
                 >
-                        <MenuItem value={'service provider'}>service provider</MenuItem>      
-                        <MenuItem value={'gives a product'}>gives a product</MenuItem>                    
-              
+                    <MenuItem value={'service provider'}>service provider</MenuItem>
+                    <MenuItem value={'gives a product'}>gives a product</MenuItem>
+
                 </Select>
-            </FormControl></div> 
+            </FormControl></div>
 
             <Stack direction="row" spacing={2}>
 
@@ -116,7 +118,7 @@ export default function MoreDetailsManager(): JSX.Element {
                         Upload Logo
                     </Button>
                 </label>
-                <StyledInput id="logo-input" type="file" accept="logo/*" onChange={handleLogoChange}/>              
+                <StyledInput id="logo-input" type="file" accept="logo/*" onChange={handleLogoChange} />
             </div>
 
             <Button variant="contained" color="success" onClick={() => {
