@@ -20,14 +20,6 @@ const SingleProductDetails = () => {
           <Typography variant="h6">
             {description}
           </Typography>
-      <Card sx={{ maxWidth: 800, width: '100%', p: 3 }}>
-        <CardContent>
-          <Typography variant="h4" component="div">
-            {name}
-          </Typography>
-          <Typography variant="h6">
-            {description}
-          </Typography>
           {productComponents}
           {isOnSale}
           <Typography  color="textSecondary">
@@ -40,18 +32,10 @@ const SingleProductDetails = () => {
           </Button>
         </CardActions>
       </Card>
-          <Typography color="textSecondary">
-            Price: {totalPrice} <AttachMoneyOutlinedIcon fontSize='small' />
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button variant="contained" color="primary">
-            Add to Cart
-          </Button>
-        </CardActions>
-      </Card>
+
     </Box>
   );
 };
 
 export default SingleProductDetails;
+
