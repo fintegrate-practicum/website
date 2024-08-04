@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import GenericList from "../../../../components/generic/genericList";
 import Task from "../../classes/task";
 import { useAppSelector } from "../../../../Redux/hooks";
+import SingleTask from "./singleTask"; // יש לייבא את קומפוננטת SingleTask
 
 interface ShowTaskListProps {
   filteredTasks: Task[];
@@ -28,6 +29,7 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({ filteredTasks, setFiltered
           list={filteredTasks}
           column={["taskName", "targetDate", "theUrgencyOfTheTask"]}
           desing={null}
+          DialogComponent={SingleTask} 
         />
       </div>
     </>
