@@ -16,7 +16,7 @@ const employeeSlice = createSlice({
 })
 
 export const { } = employeeSlice.actions;
-export const selectEmployees = (state :RootState) => state.employeeSlice.employees
+// export const selectEmployees = (state :RootState) => state.
 export default employeeSlice.reducer;
 
 export const addEmployee = createAsyncThunk('', async (_employee: employee) => {

@@ -15,11 +15,11 @@ import { fetchMessages } from '../../modules/workers/features/messageSlice';
 const WorkersTopNav = () => {
 
   const location = useLocation();
-  const tasks = useAppSelector((state) => state.taskSlice);
+  // const tasks = useAppSelector((state) => state.taskSlice);
   const messages = useAppSelector((state) => state.messageSlice.messages);
   const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails);
   const dispatch = useAppDispatch();
-  const [filteredTasks, setFilteredTasks] = useState<Task[]>(tasks);
+  // const [filteredTasks, setFilteredTasks] = useState<Task[]>(tasks);
 
   const [value, setValue] = useState(location.pathname.slice(8));
 
@@ -47,7 +47,7 @@ const WorkersTopNav = () => {
           </TabList>
         </Box>
         <TabPanel value="details"><WorkerPage user={new User} employee={new employee} /></TabPanel>
-        <TabPanel value="tasks"><TasksShowList filteredTasks={tasks} setFilteredTasks={setFilteredTasks} /></TabPanel>
+        {/* <TabPanel value="tasks"><TasksShowList filteredTasks={tasks} setFilteredTasks={setFilteredTasks} /></TabPanel> */}
         <TabPanel value="messages"><MessageList messages={messages} /></TabPanel>
       </TabContext>
     </Box>

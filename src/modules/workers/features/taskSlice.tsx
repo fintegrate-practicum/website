@@ -24,7 +24,6 @@ const taskSlice = createSlice({
 })
 
 export const { } = taskSlice.actions;
-export const selectTasks = (state: RootState) => state.taskSlice.tasks;
 export default taskSlice.reducer;
 
 export const createTask = createAsyncThunk('',async (_task: task) => {
