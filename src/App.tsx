@@ -12,6 +12,7 @@ import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
 import Inventory from './modules/inventory/Inventory';
 import Login from './components/Login/login';
 import Orders from './modules/orders/App';
+import Setting from '../src/components/Setting/Category';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(() => import('./components/createBusiness/baseDetailsManager'));
@@ -56,7 +57,8 @@ const App = () => {
           <Route path="/CreateBusiness/EmailVerification" element={<Suspense fallback="Loading..."><LazyEmailVerification /></Suspense>} />
           <Route path="/CreateBusiness/MoreDetailsManager" element={<Suspense fallback="Loading..."><LazyMoreDetailsManager /></Suspense>} />
           <Route path="/link/:linkUID" element={<Suspense fallback="Loading..."><LazyClient /></Suspense>} >
-            <Route path="orders" element={<Orders />} />
+          <Route path="setting" element={<Setting />} />
+          <Route path="orders" element={<Orders />} />
           </Route>
         </Routes>
         {isRootPath && (
@@ -68,7 +70,6 @@ const App = () => {
             ) : (
               <Login />
               //
-              <Login />
               // <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
             )}
           </>
