@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { IComponent } from '../interfaces/IComponent';
 import TextField from '../../../common/component/TextField/TextField';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import Button from '../../../common/components/Button/Button'
 import { addItem, getItemById, updateItem } from '../Api-Requests/genericRequests';
 import './ComponentForm.css';
 import { Checkbox, FormControlLabel } from "@mui/material";

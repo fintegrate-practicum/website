@@ -3,7 +3,7 @@ import GenericList from "../../../components/generic/genericList";
 import { useAppSelector } from "../../../Redux/hooks";
 import ItemDetailToWorker from "./itemDetailToWorker";
 import React, { useState } from "react";
-import Button from "@mui/material/Button";
+import Button from "../../../common/components/Button/Button";
 import { RootState } from "../../../Redux/store";
 
 const WorkersShowList = () => {
@@ -45,8 +45,6 @@ const WorkersShowList = () => {
       </div>
       <Button
         component="label"
-        role={undefined}
-        variant="contained"
         tabIndex={-1}
         // startIcon={<CloudUploadIcon />}
         onClick={showMoreData}
@@ -56,8 +54,6 @@ const WorkersShowList = () => {
       </Button>
       <Button
         component="label"
-        role={undefined}
-        variant="contained"
         tabIndex={-1}
         // startIcon={<CloudUploadIcon />}
         onClick={showLessData}

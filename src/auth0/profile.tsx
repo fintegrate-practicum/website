@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
-import { Link } from 'react-router-dom';
+import Button from '../common/components/Button/Button'
 import { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -62,7 +62,7 @@ const Profile: React.FC = () => {
         });
         const user_metadata = await metadataResponse.json();
         setUserMetadata(user_metadata);        
-        dispatch(fetchUserById(user_metadata?.user_id));        
+        await dispatch(fetchUserById(user_metadata));
       } catch (e) {
         console.log((e as Error).message);
       }
@@ -123,7 +123,7 @@ const Profile: React.FC = () => {
         anchorEl={anchorEl}
         handleClose={handleClose}
       />
-        <Link to="/CreateBusiness/BaseDetailsManager">הרשמה של עסק</Link>
+        <Button href="/CreateBusiness/BaseDetailsManager" isLink={true}>הרשמה של עסק</Button>
     </>
   );
 };

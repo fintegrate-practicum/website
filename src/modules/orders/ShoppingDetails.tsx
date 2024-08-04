@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup"
 import Box from '@mui/material/Box';
 import TextField from '../../common/component/TextField/TextField';
-import { Button } from '@mui/material';
+import  Button  from '../../common/components/Button/Button';
 import "./ShoppingDetails.css";
 import { addItem } from './Api-Requests/genericRequests';
 
@@ -96,4 +96,3 @@ const ShoppingDetails = () => {
 }
 
 export default ShoppingDetails;
-

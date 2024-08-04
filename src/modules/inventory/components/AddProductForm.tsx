@@ -5,7 +5,7 @@ import { IComponent } from "../interfaces/IComponent";
 import TextField from '../../../common/component/TextField/TextField';
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
-import Button from '@mui/material/Button';
+import Button from '../../../common/components/Button/Button'
 import Box from '@mui/material/Box';
 import { addItem, getAllItems, getItemById, updateItem } from "../Api-Requests/genericRequests";
 import React, { useEffect, useState } from "react";
@@ -306,7 +306,7 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                 </Grid>
 
                 <Grid item xs={12} sm={12}>
-                    <Button variant="contained" component="label" fullWidth>
+                    <Button  component="label" fullWidth>
                         Upload Images
                         <input
                             type="file"
@@ -320,7 +320,7 @@ const AddProductForm: React.FC<Props> = ({ product }) => {
                 </Grid>
 
                 <Grid item xs={12} sm={12}>
-                    <Button type="submit" variant="contained" color="primary" fullWidth>
+                    <Button type="submit"  fullWidth>
                         {product ? "Update Product" : "Add Product"}
                     </Button>
                 </Grid>

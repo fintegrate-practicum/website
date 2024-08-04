@@ -24,8 +24,8 @@ export interface HeaderProps {
   // const user = useSelector((state: RootState) => state.user.currentUser);
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{ width: '100%' }}>
+    <Box sx={{ flexGrow: 1  }}>
+      <AppBar position="static" sx={{ width: '100%' }}>
         <Toolbar>
         <img src="/logo.png" alt="Logo" style={{ width: "15%" }} />
 
