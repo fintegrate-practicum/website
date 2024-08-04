@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from 'react-hook-form';
-import { useDispatch } from "react-redux";
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { IComponent } from '../interfaces/IComponent';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import { addItem, getAllItems, updateItem } from '../Api-Requests/genericRequests';
+import Button from '../../../common/components/Button/Button'
+import { addItem, getItemById, updateItem } from '../Api-Requests/genericRequests';
 import './ComponentForm.css';
 import { Checkbox, FormControlLabel } from "@mui/material";
-import { getProducts } from "../features/product/productSlice";
+import { useParams } from "react-router-dom";
 
 const notSaleAloneSchema = yup.object().shape({
     name: yup.string().required("Name is a required field").min(3, "Name must be at least 3 characters").max(20, "Name must be at most 20 characters"),
@@ -18,19 +17,18 @@ const notSaleAloneSchema = yup.object().shape({
     minQuantity: yup.number().required("Minimum quantity is a required field").positive("Quantity must be a positive number"),
     stockQuantity: yup.number().required("Stock is a required field").positive("Stock must be a positive number"),
     isActive: yup.boolean().required(),
-    adminId: yup.string().required(),
     isSoldSeparately: yup.boolean().required(),
     componentColor: yup.string().optional(),
     componentSize: yup.string().optional(),
-    businessId: yup.string().required(),
 });
+
+
 const saleAloneSchema = yup.object().shape({
     name: yup.string().required("Name is a required field").min(3, "Name must be at least 3 characters").max(20, "Name must be at most 20 characters"),
     componentBuyPrice: yup.number().required("Purchase price is a required field").positive("Price must be a positive number"),
     minQuantity: yup.number().required("Minimum quantity is a required field").positive("Quantity must be a positive number"),
     stockQuantity: yup.number().required("Stock is a required field").positive("Stock must be a positive number"),
     isActive: yup.boolean().required(),
-    adminId: yup.string().required(),
     isSoldSeparately: yup.boolean().required(),
     description: yup.string().required("Description is a required field"),
     totalPrice: yup.number().required("Sale price is a required field").positive("Price must be a positive number"),
@@ -39,50 +37,58 @@ const saleAloneSchema = yup.object().shape({
     salePercentage: yup.number().required("Sale percentage is a required field").min(0, "Percentage must be positive"),
     componentColor: yup.string().nullable().notRequired(),
     componentSize: yup.string().nullable().notRequired(),
-    businessId: yup.string().required(),
 });
 
-interface ComponentFormProps {
-    initialData?: IComponent;
-}
+export const ComponentForm = () => {
 
-export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => {
-
-    const dispatch = useDispatch();
-    const [isAloneChecked, setIsAloneChecked] = useState(initialData?.isSoldSeparately || false);
+    const { componentId } = useParams<{ componentId: string }>();
+    const [component, setComponent] = useState<IComponent | any>(null);
+    const [isAloneChecked, setIsAloneChecked] = useState(component?.isSoldSeparately || false);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+    const schema = useMemo(() => isAloneChecked ? saleAloneSchema : notSaleAloneSchema, [isAloneChecked]);
 
-    const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<IComponent>({
+    const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<IComponent>({
         resolver: yupResolver(isAloneChecked ? saleAloneSchema : notSaleAloneSchema),
-        defaultValues: initialData || {}
+        defaultValues: component || {}
     });
-
+    
     useEffect(() => {
-        if (initialData) {
-            reset(initialData);
-        }
-    }, [initialData, reset]);
+        const fetchComponent = async () => {
+            if (componentId) {
+                try {
+                    const fetchedComponent = await getItemById<any>(`api/inventory/component`, componentId);
+                    const { _id, __v, ...dataToUpdate } = fetchedComponent.data;
+                    setComponent(dataToUpdate);
+                    reset(dataToUpdate);
+                } catch (error) {
+                    console.error('Error fetching component:', error);
+                }
+            }
+        };
+        fetchComponent();
+    }, [componentId, reset]);
 
     const save = async (data: IComponent) => {
-        console.log("submit");
         try {
             data.addingComponentDate = new Date();
-            if (initialData) {
-                const response = await updateItem<IComponent>(`api/inventory/component`, initialData.id, data);
+            data.businessId = "here will be the business id";
+            data.adminId = "here will be the admin id";
+            if (component && componentId) {
+                const response = await updateItem<IComponent>(`api/inventory/component`, componentId, data);
                 console.log('Component updated successfully:', response.data);
-                // dispatch(updateComponent(data));
             } else {
                 const response = await addItem<IComponent>('api/inventory/component', data);
                 console.log('Component added successfully:', response.data);
-                // dispatch(addComponent(data));
             }
         } catch (error) {
             console.error(error);
         }
     };
+
     const handleIsAloneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setIsAloneChecked(event.target.checked);
     };
+
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         // const files = event.target.files;
         // if (files) {
@@ -95,6 +101,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
             setValue("images", images);
         }
     };
+
     return (
         <form onSubmit={handleSubmit(save)} noValidate autoComplete="on">
             <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
@@ -105,6 +112,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                     variant="outlined"
                     helperText={errors.name?.message}
                     {...register("name")}
+                    value={watch("name") || ""}
                 />
             </Box>
 
@@ -117,6 +125,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                     variant="outlined"
                     helperText={errors.componentBuyPrice?.message}
                     {...register("componentBuyPrice")}
+                    value={watch("componentBuyPrice") || ""}
                 />
             </Box>
 
@@ -129,6 +138,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                     variant="outlined"
                     helperText={errors.minQuantity?.message}
                     {...register("minQuantity")}
+                    value={watch("minQuantity") || ""}
                 />
             </Box>
 
@@ -141,6 +151,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                     variant="outlined"
                     helperText={errors.stockQuantity?.message}
                     {...register("stockQuantity")}
+                    value={watch("stockQuantity") || ""}
                 />
             </Box>
 
@@ -152,6 +163,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                     variant="outlined"
                     helperText={errors.componentColor?.message}
                     {...register("componentColor")}
+                    value={watch("componentColor") || ""}
                 />
             </Box>
 
@@ -163,28 +175,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                     variant="outlined"
                     helperText={errors.componentSize?.message}
                     {...register("componentSize")}
-                />
-            </Box>
-
-            <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
-                <TextField
-                    error={!!errors.adminId}
-                    id="outlined-basic"
-                    label="Admin ID"
-                    variant="outlined"
-                    helperText={errors.adminId?.message}
-                    {...register("adminId")}
-                />
-            </Box>
-
-            <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
-                <TextField
-                    error={!!errors.businessId}
-                    id="outlined-basic"
-                    label="Business ID"
-                    variant="outlined"
-                    helperText={errors.businessId?.message}
-                    {...register("businessId")}
+                    value={watch("componentSize") || ""}
                 />
             </Box>
 
@@ -209,6 +200,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                             variant="outlined"
                             helperText={errors.description?.message}
                             {...register("description")}
+                            value={watch("description") || ""}
                         />
                     </Box>
 
@@ -217,20 +209,18 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                             type="number"
                             error={!!errors.totalPrice}
                             id="outlined-basic"
-                            label="Sale Price"
+                            label="total price"
                             variant="outlined"
                             helperText={errors.totalPrice?.message}
                             {...register("totalPrice")}
+                            value={watch("totalPrice") || ""}
                         />
                     </Box>
 
-                    <label>Images</label>
-                    <input
-                        type="file"
-                        multiple
-                        onChange={handleImageChange}
-                    />
-                    {errors.images && <p>{errors.images.message}</p>}
+                    <Box className='itemInput' sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}>
+                        <input type="file" multiple onChange={handleImageChange} />
+                        {errors.images && <p>{errors.images.message}</p>}
+                    </Box>
                 </>
             )}
 
@@ -263,6 +253,7 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
                             variant="outlined"
                             helperText={errors.salePercentage?.message}
                             {...register("salePercentage")}
+                            value={watch("salePercentage") || ""}
                         />
                     </Box>
                 </>
