@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Box, Button, Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
+import Button from '../../common/components/Button/Button'
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/system';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { updateBusiness } from '../../Redux/businessSlice';
 import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
+<<<<<<< HEAD
 import { BusinessSize } from '../../classes/Business';
 
 export default function MoreDetailsManager(): JSX.Element {
@@ -49,14 +51,29 @@ export default function MoreDetailsManager(): JSX.Element {
         if (file) {
             const reader = new FileReader();
             console.log(reader);
+=======
+import FormWrapper from '../../stories/FormWrapper';
+import { FieldValues } from 'react-hook-form';
+import { BusinessSize} from '../../classes/Business';
+
+export default function MoreDetailsManager(): JSX.Element {
+    const companyNumber = useAppSelector((state) => state.businessSlice.business.companyNumber);
+    const dispatch = useAppDispatch();
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, setValue: any) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+>>>>>>> 150b0a5c82f7592c6aa34597c2cdc8cf4039649c
             reader.onloadend = () => {
                 console.log(reader.result, "");
                 if (typeof reader.result === 'string') {
-                    setLogo(reader.result);
+                    setValue('logo', reader.result, { shouldValidate: true });
                 }
             };
             reader.readAsDataURL(file);
         }
+<<<<<<< HEAD
     };
 
     const newData = { description, phone, address, businessSize, industryType, logo: logo?.replace(/^data:image\/png;base64,/, '') };
@@ -125,11 +142,53 @@ export default function MoreDetailsManager(): JSX.Element {
                 dispatch(updateBusiness({ companyNumber, newData }));
             }}> Submit</Button>
         </Box>
+=======
+    }
+
+    const onSubmit = (values: FieldValues) => {
+        const newData = {
+            description: values.description,
+            phone: values.phone,
+            address: values.address,
+            businessSize: values.businessSize,
+            industryType: values.industryType,
+            logo: typeof values.logo === 'string' ? values.logo.replace(/^data:image\/[a-z]+;base64,/, '') : undefined,
+        };
+        console.log(newData, "newData'");
+        console.log(values, "values'");
+
+        dispatch(updateBusiness({ companyNumber, newData }));
+    };
+
+    const fields = [
+        { name: 'description', label: 'Description', type: 'text' },
+        { name: 'phone', label: 'Phone', type: 'text' },
+        { name: 'address', label: 'Address', type: 'text' },
+        {
+            name: 'businessSize',
+            label: 'Business Size',
+            type: 'select',
+            options: Object.values(BusinessSize),
+        },
+        {
+            name: 'industryType',
+            label: 'Industry Type',
+            type: 'select',
+            options: ['service provider', 'gives a product'],
+        },
+        {
+            name: 'logo',
+            label: 'Logo',
+            type: 'file',
+            onChange: (e: React.ChangeEvent<HTMLInputElement>, setValue: any) => handleFileChange(e, setValue),
+        },
+    ];
+
+    return (
+        <FormWrapper onSubmit={onSubmit} fields={fields} />
+>>>>>>> 150b0a5c82f7592c6aa34597c2cdc8cf4039649c
     );
 }
-
-
-
 
 
 

@@ -17,12 +17,10 @@ const Store = configureStore({
         employeeSlice,
         taskSlice,
         messageSlice,
-        product: productSlice,
+        product : productSlice,
         component: componentSlice,
         provider: providerSlice
-
-    },
-  
+    }, 
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: false,

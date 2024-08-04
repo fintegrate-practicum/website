@@ -1,6 +1,6 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import React from 'react';
-import Button from '@mui/material/Button';
+import Button from '../../../common/components/Button/Button'
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -11,8 +11,9 @@ import { useDispatch } from 'react-redux';
 import { deleteProduct as deleteProductFromState} from '../features/product/productSlice';
 
 
-
-const DeleteProduct = ({item}:any) => {
+const DeleteProduct = (
+    {item}:any
+) => {
 
     const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch();
@@ -62,8 +63,9 @@ const DeleteProduct = ({item}:any) => {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>cancel</Button>
+                <Button variant="text" onClick={handleClose}>cancel</Button>
                 <Button
+                   variant="text"
                     onClick={deleteProduct}
                     autoFocus>
                     delete

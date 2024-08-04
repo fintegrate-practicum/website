@@ -6,13 +6,13 @@ import {
     Avatar,
     Typography,
     Grid,
-    Button,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle
 } from '@mui/material';
+import Button from '../../../common/components/Button/Button';
 import Stack from '@mui/material/Stack';
 import Badge from '@mui/material/Badge';
 import MailIcon from '@mui/icons-material/Mail';
@@ -75,7 +75,7 @@ const WorkerPage: React.FC<WorkerPageProps> = (props) => {
                         </Grid>
                     </ListItem>
                 </List>
-                <Button variant="contained" color="primary" onClick={handleClickOpen}>
+                <Button  onClick={handleClickOpen}>
                     לעריכה
                 </Button>
 
@@ -88,7 +88,7 @@ const WorkerPage: React.FC<WorkerPageProps> = (props) => {
                         <UpdateEmployeeDetails />
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleClose} color="primary">
+                        <Button onClick={handleClose} >
                             בטל
                         </Button>
                     </DialogActions>
