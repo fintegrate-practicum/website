@@ -1,5 +1,4 @@
 {
-
   "name": "vite-project",
   "private": true,
   "version": "0.0.0",
@@ -12,7 +11,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "vitest",
-   "test:once": "vitest run",
+    "test:once": "vitest run",
     "prepare": "husky install"
   },
   "lint-staged": {

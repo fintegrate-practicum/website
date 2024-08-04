@@ -1,6 +1,6 @@
 import React from 'react';
 import { StoryFn, Meta } from '@storybook/react';
-import FormWrapper from './FormWrapper';
+import FormWrapper, { FormWrapperProps } from './FormWrapper';
 import { FieldValues } from 'react-hook-form';
 
 export default {
@@ -8,9 +8,7 @@ export default {
   component: FormWrapper,
 } as Meta;
 
-const Template: StoryFn = (args) => <FormWrapper fields={[]} onSubmit={function (data: FieldValues): void {
-  throw new Error('Function not implemented.');
-} } {...args} />;
+const Template: StoryFn<FormWrapperProps> = (args) => <FormWrapper {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

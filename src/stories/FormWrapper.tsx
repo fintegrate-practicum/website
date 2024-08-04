@@ -10,7 +10,7 @@ interface Field {
   options?: string[]; // For select and other custom inputs
 }
 
-interface FormWrapperProps {
+export interface FormWrapperProps {
   fields: Field[];
   onSubmit: (data: FieldValues) => void;
 }
@@ -65,7 +65,7 @@ const FormWrapper: React.FC<FormWrapperProps> = ({ fields, onSubmit }) => {
               onChange={(e) => handleFileChange(e, field.name)}
             />
           ) : null}
-          {errors[field.name] && <Typography color="error"></Typography>}
+          {errors[field.name] && <Typography color="error">{errors[field.name]?.message?.toString()}</Typography>}
         </div>
       ))}
       <Button variant="contained" color="success" type="submit">
