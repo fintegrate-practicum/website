@@ -30,7 +30,7 @@ echo "$FILES" | xargs git add
 echo "$STAGED_FILES" | xargs git add
 
 exit $?
-npm test
+npm test:once
 FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
 [ -z "$FILES" ] && exit 0
 

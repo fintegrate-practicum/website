@@ -53,10 +53,10 @@ export const ComponentForm: React.FC<ComponentFormProps> = ({ initialData }) => 
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
     const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<IComponent>({
-        resolver: yupResolver(isAloneChecked ? saleAloneSchema : notSaleAloneSchema),
+        resolver: yupResolver<IComponent>(isAloneChecked ? saleAloneSchema as any: notSaleAloneSchema) as any,
         defaultValues: initialData || {}
     });
-
+    
     useEffect(() => {
         if (initialData) {
             reset(initialData);
