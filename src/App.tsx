@@ -21,7 +21,7 @@ const LazyMoreDetailsManager = React.lazy(() => import('./components/createBusin
 const LazyClient = React.lazy(() => import('./components/client/Client'));
 
 const App = () => {
-  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser);
+  const currentUser = useAppSelector((state) => state.currentUserSlice);
   const [typeUser, setTypeUser] = useState<any | null>(null);
   const [lastInvalidPath, setLastInvalidPath] = useState<string | null>(null);
   const location = useLocation();
