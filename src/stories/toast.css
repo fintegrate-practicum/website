@@ -1,0 +1,49 @@
+/* toast.css */
+.toastContainer {
+    position: fixed; /* Keep the position fixed */
+    top: 20px; /* Adjusted top position for a better view */
+    right: 20px; /* Position from the right */
+    z-index: 1500; /* Ensure it is above other content */
+    max-width: 300px; /* Limit the width of the toast */
+    width: 100%; /* Ensure responsiveness */
+}
+
+.toastAlert {
+    border-radius: 8px; /* Rounded corners */
+    padding: 12px 18px; /* Balanced padding */
+    font-size: 14px; /* Slightly smaller font size */
+    font-weight: 500; /* Medium font weight */
+    color: #333; /* Dark text color for contrast */
+    display: flex; /* Align items horizontally */
+    align-items: center; /* Center items vertically */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transitions */
+    backdrop-filter: blur(5px); /* Slight blur effect */
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    border: 1px solid; /* Add border */
+}
+
+.toastAlert:hover {
+    transform: scale(1.03); /* Slightly scale up on hover */
+}
+
+.toastIcon {
+    margin-right: 10px; /* Space between icon and text */
+    font-size: 20px; /* Balanced icon size */
+}
+
+.toastSuccess {
+    border-color: #4caf50; /* Green border for success */
+}
+
+.toastInfo {
+    border-color: #2196f3; /* Blue border for info */
+}
+
+.toastWarning {
+    border-color: #ff9800; /* Orange border for warning */
+}
+
+.toastError {
+    border-color: #f44336; /* Red border for error */
+}
