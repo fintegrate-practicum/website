@@ -14,7 +14,7 @@ const SingleProductDetails = () => {
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', p: 2 }}>
       <Card sx={{ maxWidth: 800, width: '100%', p: 3 }}>
         <CardContent>
-          <Typography variant="h4" component="div" paragraph={false}>
+          <Typography variant="h4" component="div" >
             {name}
          
           </Typography>

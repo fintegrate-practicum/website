@@ -53,7 +53,7 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
 
   return (
     <div className='shoppingBag-container'>
-      <Typography paragraph={true} variant='h5'> סל קניות </Typography>
+      <Typography  variant='h5'> סל קניות </Typography>
       {bag.length === 0 ? (
         <Typography> סל הקניות שלך ריק </Typography>
       ) : (

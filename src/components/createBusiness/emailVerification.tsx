@@ -29,7 +29,7 @@ const EmailVerification = () => {
     return (
         <Container maxWidth="sm">
             <form onSubmit={handleSubmit(onSubmit)}>
-                <Typography variant="h5" gutterBottom paragraph={false} >
+                <Typography variant="h5" gutterBottom>
                     sent you a code by email.
                 </Typography>
                 <TextField

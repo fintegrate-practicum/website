@@ -16,11 +16,11 @@ import { IComponent } from '../../interfaces/IComponent';
         title={component.name}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div" paragraph={false}>
+        <Typography gutterBottom variant="h5" component="div" >
        
           {component.name}
         </Typography>
-        <Typography gutterBottom variant="body1" component="div" paragraph={false}>
+        <Typography gutterBottom variant="body1" component="div">
          price: { component.componentBuyPrice}
         </Typography>
         <Typography variant="body2" color="textSecondary">

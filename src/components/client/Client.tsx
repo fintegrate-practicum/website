@@ -79,7 +79,7 @@ export default function LazyClient() {
           textAlign: 'right'
         }}
       >
-        <Typography paragraph={false} variant="h5">פרטי העסק</Typography>
+        <Typography  variant="h5">פרטי העסק</Typography>
         <Box sx={{ mb: 2 }}>
           <Typography>{business.name}:שם העסק</Typography>
           <Typography>{business.companyNumber}  :מספר חברה</Typography>
@@ -89,7 +89,7 @@ export default function LazyClient() {
           <Typography>{business.owner} :בעל העסק</Typography>
           <Typography> {business.businessSize} :גודל העסק</Typography>
           <Typography> {business.industryType}  :תחום העסק</Typography>
-          <Typography paragraph={false}>
+          <Typography >
             {new Date(business.establishmentDate).toLocaleDateString()} :תאריך ייסוד
           </Typography>
         </Box>

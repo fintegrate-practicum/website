@@ -8,10 +8,11 @@ interface TypographyProps {
     children?: React.ReactNode;
     component?: string;
     gutterBottom?: boolean;
-    paragraph?: boolean;
+    // paragraph?: boolean;
     align?:string;
     color?: "primary"|"secondary" | "success"  | "textSecondary" | "error" | "black";
     style?: React.CSSProperties;
+    className?:string
 
 }
 
@@ -19,9 +20,9 @@ const Typography = (props: TypographyProps) => {
     const {
         variant="body1",
         children,
-        component='span',
+        component,
         gutterBottom = false,
-        paragraph=true,
+        // paragraph=true,
         align,
         color,
         style,
@@ -41,7 +42,7 @@ const Typography = (props: TypographyProps) => {
              
                     {children}
                 </MaterialTypography>
-                {paragraph &&<br />}
+                {/* {paragraph &&<br />} */}
                 </>
         
         );

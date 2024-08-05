@@ -67,7 +67,7 @@ const SmallShoppingBag = () => {
     <div className='shopping-bag-container'>
       {isVisible && (
         <>
-          <Typography >סל קניות</Typography>
+          <Typography className='shopping-bag-title'>סל קניות</Typography>
           <Table>
             <TableHead>
               <TableRow>
