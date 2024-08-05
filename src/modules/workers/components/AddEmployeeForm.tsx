@@ -4,8 +4,6 @@ import { addEmployee, getUserByEmail, getUserByJwt } from '../features/employeeS
 import { useAppDispatch } from '../../../Redux/hooks';
 import Employee from '../classes/employee';
 import { Types } from 'mongoose';
-// import workerInstance from '../../../auth0/WorkersInterceptors';
-// import User from '../classes/user';
 
 const AddEmployeeForm: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -22,7 +20,6 @@ const AddEmployeeForm: React.FC = () => {
     const fetchUserInfo = async () => {
         console.log('fetch user info')
         setUserInfo(getUserByJwt());
-        console.log(userInfo)
     }
 
     const handleSubmit = async (event: React.FormEvent) => {
@@ -62,6 +59,7 @@ const AddEmployeeForm: React.FC = () => {
                         console.log('לשלוח לauth כדי להגדיל את ההרשאות גישה')
                         await dispatch(addEmployee(newEmployee));
                         setEmployeeAdded(true);
+                        return;
                     }
                     if (auth0Employee.businessRoles[index].role == 'Employee') {
                         setExistingBusiness(true);
@@ -71,8 +69,6 @@ const AddEmployeeForm: React.FC = () => {
                     if (auth0Employee.businessRoles[index].role == 'Admin') {
                         setExistingBusiness(true);
                         console.log('מנהל כבר קיים במערכת')
-                        console.log('exist')
-                        console.log(existingBusiness)
                         return;
                     }
                 }
