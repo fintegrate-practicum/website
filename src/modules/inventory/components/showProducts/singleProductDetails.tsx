@@ -16,15 +16,15 @@ const SingleProductDetails = () => {
         <CardContent>
           <Typography variant="h4" component="div" paragraph={false}>
             {name}
-            Esr
+         
           </Typography>
           <Typography variant="h6">
-            rtyyy
+          
             {description}
           </Typography>
           {productComponents}
           {isOnSale}
-          aaaa
+   
           <Typography 
           color="textSecondary" component="div">
             Price: {totalPrice} <AttachMoneyOutlinedIcon fontSize='small' />
