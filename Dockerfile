@@ -1,4 +1,3 @@
-
 FROM node:lts-alpine
 
 # --- NETFREE CERT INTSALL ---
@@ -10,15 +9,12 @@ FROM node:lts-alpine
     # --- END NETFREE CERT INTSALL ---
 WORKDIR /app
 
-
 COPY package*.json ./
 
 RUN npm install
 
 COPY . . 
 
-
 EXPOSE 5173
-
 
 CMD [ "npm", "run","dev" ]
