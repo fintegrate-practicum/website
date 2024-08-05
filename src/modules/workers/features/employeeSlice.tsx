@@ -5,9 +5,10 @@ import axios from "axios";
 import employee from "../classes/employee";
 import workerInstance from "../../../auth0/WorkersInterceptors";
 
+const baseUrl = import.meta.env.VITE_WORKERS_SERVICE_URL;
 const http = import.meta.env.WORKERS_SERVICE_URL;
 const businessId = import.meta.env.VITE_BUSINESSID;
-const res = await axios.get(http+`/workers?businessId=${businessId}`);
+const res = await axios.get(`${baseUrl}/workers?businessId=${businessId}`);
 const { data = {} } = res.data;
 
 const employeeSlice = createSlice({
@@ -31,7 +32,7 @@ export const addEmployee = createAsyncThunk('', async (_employee: employee) => {
 
 export const deleteEmployee = createAsyncThunk('', async (_num: number) => {
     try {
-        const response = await axios.delete(`${http}/workers/${_num}`)
+        const response = await axios.delete(`${baseUrl}/workers/${_num}`)
         return response.data
     } catch (error) {
         return error

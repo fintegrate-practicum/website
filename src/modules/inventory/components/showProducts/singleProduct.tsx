@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, CardContent, CardActions, Typography, Button } from '@mui/material';
+import { Card, CardContent, CardActions, Typography } from '@mui/material';
+import Button from '../../../../common/components/Button/Button'
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import { IProduct } from '../../interfaces/IProduct';
 import { IComponent } from '../../interfaces/IComponent';
@@ -15,7 +16,10 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
   };
 
   return (
-    <Card sx={{ maxWidth: 400 }}>
+    <Card sx={{ width: 200, maxWidth: '100%', boxShadow: 'lg', margin: 2 }}>
+      {product.images && product.images.map((image, index) => (
+        <img src={image} alt="product" key={index} />
+      ))}
       <CardContent>
         {isProduct(product) ? (
           <Link key={product.id} to={`${location.pathname}/${product.id}`} style={{ textDecoration: 'none' }}>
@@ -34,7 +38,7 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
         )}
       </CardContent>
       <CardActions>
-        <Button variant="contained" color="primary">
+        <Button >
           Add to Cart
         </Button>
       </CardActions>
