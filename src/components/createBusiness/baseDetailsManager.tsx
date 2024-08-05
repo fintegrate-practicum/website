@@ -72,6 +72,6 @@ const fields = [
     },
   },
 ];
-return <FormWrapper onSubmit={onSubmit} fields={fields} />;
+return <FormWrapper onSubmit={onSubmit} fields={fields}  formWidth='medium'/>;
 }
 

@@ -63,7 +63,7 @@ export default function MoreDetailsManager(): JSX.Element {
     ];
 
     return (
-        <FormWrapper onSubmit={onSubmit} fields={fields} />
+        <FormWrapper onSubmit={onSubmit} fields={fields} formWidth='medium'/>
     );
 }
 

@@ -1,28 +1,55 @@
-
-
 /* form.css */
-form {
+
+.form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  max-width: 600px;
   margin: 0 auto;
   padding: 1rem;
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: max-width 0.3s ease;
 }
 
-form div {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+.form-short {
+  max-width: 200px;
 }
 
-form button {
-  align-self: flex-end;
+.form-medium {
+  max-width: 500px;
+}
+
+.form-long {
+  max-width: 1000px;
 }
 
 .form-group {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.custom-file-upload {
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.custom-file-upload:hover {
+  background-color: #0056b3;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+/* Add margin to the top of the form */
+.form-margin-top {
+  margin-top: 2rem;
 }
