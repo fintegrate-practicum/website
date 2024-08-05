@@ -1,4 +1,4 @@
-import Button from '@mui/material/Button';
+import Button from '../../../../common/components/Button/Button';
 import { deleteTask } from '../../features/taskSlice';
 import { useAppDispatch } from '../../../../Redux/hooks';
 
@@ -11,7 +11,7 @@ const DeleteTask = (props: {
     dispatch(deleteTask(props.taskId));
   };
   return (
-    <Button variant="outlined"  onClick={handleDelete}>
+    <Button variant='outlined' onClick={handleDelete} >
       Delete
     </Button>  
   );

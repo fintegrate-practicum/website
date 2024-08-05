@@ -10,8 +10,9 @@ import {  Route, Routes, useLocation } from 'react-router-dom';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
 import Inventory from './modules/inventory/Inventory';
-
-import  Login from './components/Login/login';
+import Login from './components/Login/login';
+import Orders from './modules/orders/App';
+import Header from './components/Header/Header';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(() => import('./components/createBusiness/baseDetailsManager'));
@@ -50,11 +51,12 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
-      <Client />
+      <Header />
+        <Client />
         <ErrorToast />
         <Routes>
-          <Route path="/Inventory/*" element={<Inventory />} />
-          <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
+          <Route path="/inventory/*" element={<Inventory />} />
+
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
           <Route path="/CreateBusiness/BaseDetailsManager" element={<Suspense fallback="Loading..."><LazyBaseDetailsManager /></Suspense>} />
           <Route path="/CreateBusiness/EmailVerification" element={<Suspense fallback="Loading..."><LazyEmailVerification /></Suspense>} />
@@ -70,9 +72,7 @@ const App = () => {
                 <MainRouter />
               </>
             ) : (
-              //
-              <Login/>
-              // <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
+              <Login />
             )}
           </>
         )}

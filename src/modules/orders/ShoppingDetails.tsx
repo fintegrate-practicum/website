@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup"
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { Button } from '@mui/material';
+import  Button  from '../../common/components/Button/Button';
 import "./ShoppingDetails.css";
 import { addItem } from './Api-Requests/genericRequests';
 
@@ -26,7 +26,7 @@ const ShoppingDetails = () => {
 
     const saveDetails = async (data: Record<string, any>) => {
         try {
-            let response = await addItem("orders", data);
+            const response = await addItem("orders", data);
             alert("ההזמנה נשמרה בהצלחה");
             console.log(response);
         } catch (err) {
@@ -96,4 +96,3 @@ const ShoppingDetails = () => {
 }
 
 export default ShoppingDetails;
-
