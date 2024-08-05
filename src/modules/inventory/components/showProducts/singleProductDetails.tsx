@@ -14,15 +14,18 @@ const SingleProductDetails = () => {
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', p: 2 }}>
       <Card sx={{ maxWidth: 800, width: '100%', p: 3 }}>
         <CardContent>
-          <Typography variant="h4" component="div" >
+          <Typography variant="h4" component="div" paragraph={false}>
             {name}
+            Esr
           </Typography>
-          <Typography variant="h6" component="div">
+          <Typography variant="h6">
+            rtyyy
             {description}
           </Typography>
           {productComponents}
           {isOnSale}
-          <Typography paragraph={true}
+          aaaa
+          <Typography 
           color="textSecondary" component="div">
             Price: {totalPrice} <AttachMoneyOutlinedIcon fontSize='small' />
           </Typography>
