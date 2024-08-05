@@ -7,7 +7,7 @@ interface ButtonProps {
     onClick?: () => void;
     href?: string;
     isLink?: boolean;
-    color?: "primary"|"secondary" | "success";
+    color?: "primary"|"secondary" | "success"|"info";
     component?:"button" | "label" | "span" ;
     type?: 'button' | 'submit' | 'reset' | 'span';
     disabled?:boolean;
