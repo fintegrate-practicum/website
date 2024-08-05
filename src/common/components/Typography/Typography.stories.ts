@@ -5,7 +5,7 @@ import Typography from './Typography';
 
 
 const meta = {
-    component: Typography,
+    component: Typography ,
     tags: ['autodocs'],
 } as Meta<typeof Typography>;
 
@@ -16,12 +16,10 @@ type Story = StoryObj<typeof Typography>;
 const baseProps = {
     variant: "h2",
     children: "Typography",
-    component: "h2",
+    component: "div",
     gutterBottom: true,
-    paragraph: true,
     align: 'center',
-    color: theme.palette.secondary.light,
-    fontFamily: '"Segoe UI"',
+    color: "primary",
     fontWeight: "bold"   
 
 };
@@ -33,21 +31,11 @@ export const Header: Story = {
 
     },
 };
-
-export const Button: Story = {
-    args: {
-        ...baseProps,
-        variant: "button",
-        color: theme.palette.info.main,
-
-    },
-};
-
 export const CommonText: Story = {
     args: {
         ...baseProps,
         variant: "body1",
-        color: theme.palette.primary.light,
+        color: "secondary",
 
 
     },
@@ -57,6 +45,7 @@ export const subTitle: Story = {
     args: {
         ...baseProps,
         variant: "subtitle1",
+        color: "success",
        
       
       

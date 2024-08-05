@@ -2,13 +2,13 @@ import MaterialTypography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import React from 'react';
 import theme from '../../../Theme';
+import { ThemeProvider } from '@emotion/react';
 
 interface TypographyProps {
-    variant?: "h1"|"h4"|"h5"|"h6"|"subtitle1" |"body1" | "body2" | "button";
+    variant?: "h1"|"h4"|"h5"|"h6"|"subtitle1" |"body1" | "body2" ;
     children?: React.ReactNode;
     component?: string;
     gutterBottom?: boolean;
-    // paragraph?: boolean;
     align?:string;
     color?: "primary"|"secondary" | "success"  | "textSecondary" | "error" | "black";
     style?: React.CSSProperties;
@@ -22,7 +22,6 @@ const Typography = (props: TypographyProps) => {
         children,
         component,
         gutterBottom = false,
-        // paragraph=true,
         align,
         color,
         style,
@@ -32,6 +31,7 @@ const Typography = (props: TypographyProps) => {
    
         return (
             <>
+            <ThemeProvider theme={theme}>
                 <MaterialTypography 
                 gutterBottom={gutterBottom}
                 variant={variant}
@@ -39,10 +39,9 @@ const Typography = (props: TypographyProps) => {
                 align={align}
                 color={color}
                 style={style}>
-             
                     {children}
                 </MaterialTypography>
-                {/* {paragraph &&<br />} */}
+                </ThemeProvider>
                 </>
         
         );
