@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useForm, FieldValues } from 'react-hook-form';
-import { Box, Button, TextField, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
-import Typography from '../common/components/Typography/Typography';
+import { Box, Button, TextField, Typography, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 
 interface Field {
   name: string;
@@ -11,7 +10,7 @@ interface Field {
   options?: string[]; // For select and other custom inputs
 }
 
-interface FormWrapperProps {
+export interface FormWrapperProps {
   fields: Field[];
   onSubmit: (data: FieldValues) => void;
 }
@@ -66,7 +65,7 @@ const FormWrapper: React.FC<FormWrapperProps> = ({ fields, onSubmit }) => {
               onChange={(e) => handleFileChange(e, field.name)}
             />
           ) : null}
-          {errors[field.name] && <Typography color="error">{errors[field.name].message}</Typography>}
+          {errors[field.name] && <Typography color="error">{errors[field.name]?.message?.toString()}</Typography>}
         </div>
       ))}
       <Button variant="contained" color="success" type="submit">
