@@ -72,19 +72,20 @@ const AllProducts = () => {
         const product = params.row as IProduct;
         if (!product?.productComponents?.length) {
           return 'No Components';
-        }
+        } 
         return (
           <Tooltip title="Components" arrow>
             <span>
               {product.productComponents.map((componentId, index) => (
-                <span key={index}>
-                  {componentMap[componentId] || 'Unknown Component'},
+                <span key={componentId}>
+                  {componentMap[componentId] || 'Unknown Component'}
+                  {index < product.productComponents.length - 1 && ', '}
                 </span>
               ))}
             </span>
           </Tooltip>
         );
-      },
+      },   
     },
     {
       field: 'actions',

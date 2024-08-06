@@ -29,7 +29,7 @@ const DeleteProduct = ({ item }: { item: IProduct }) => {
 
     const deleteProduct = async () => {
         try {
-            await deleteItem("product", item.id);
+            await deleteItem("api/inventory/product", item.id);
             toast.done("Product deleted successfully");
             dispatch(deleteProductFromState(item.id));
         }
