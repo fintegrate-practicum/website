@@ -7,48 +7,52 @@ import { vi } from 'vitest';
 import menuItem from '../components/menu/types';
 
 const items: menuItem[] = [
-  { name: 'home', nameToView: 'Home', icon: iconsMaterial.Home, route: '/' },
-  { name: 'about', nameToView: 'About', icon: iconsMaterial.Info, route: '/about' },
+	{ name: 'home', nameToView: 'Home', icon: iconsMaterial.Home, route: '/' },
+	{
+		name: 'about',
+		nameToView: 'About',
+		icon: iconsMaterial.Info,
+		route: '/about',
+	},
 ];
 
 const setCurrentMenu = vi.fn();
 
 const renderSideMenu = () =>
-  render(
-    <BrowserRouter>
-      <SideMenu  items = {items} setCurrentMenu = {setCurrentMenu} />
-    </BrowserRouter>
-  );
+	render(
+		<BrowserRouter>
+			<SideMenu items={items} setCurrentMenu={setCurrentMenu} />
+		</BrowserRouter>,
+	);
 
 test('A properly rendered component', () => {
-  renderSideMenu();
-  expect(screen.getByRole('navigation')).toBeInTheDocument();
+	renderSideMenu();
+	expect(screen.getByRole('navigation')).toBeInTheDocument();
 });
 
 test('Opening and closing the menu', () => {
-  renderSideMenu();
+	renderSideMenu();
 
-  const menuButton = screen.getAllByRole('button')[0];
+	const menuButton = screen.getAllByRole('button')[0];
 
-  fireEvent.click(menuButton);
-  expect(screen.getByText('Home')).toBeVisible();
-  expect(screen.getByText('About')).toBeVisible();
+	fireEvent.click(menuButton);
+	expect(screen.getByText('Home')).toBeVisible();
+	expect(screen.getByText('About')).toBeVisible();
 
-  fireEvent.click(menuButton);
-  expect(screen.queryByText('Home')).not.toBeVisible();
-  expect(screen.queryByText('About')).not.toBeVisible();
+	fireEvent.click(menuButton);
+	expect(screen.queryByText('Home')).not.toBeVisible();
+	expect(screen.queryByText('About')).not.toBeVisible();
 });
 
 test('Clicking on a menu item', () => {
-  renderSideMenu();
+	renderSideMenu();
 
-  const menuButton = screen.getAllByRole('button')[0];
+	const menuButton = screen.getAllByRole('button')[0];
 
-  fireEvent.click(menuButton);
+	fireEvent.click(menuButton);
 
-  const homeMenuItem = screen.getByText('Home');
-  fireEvent.click(homeMenuItem);
+	const homeMenuItem = screen.getByText('Home');
+	fireEvent.click(homeMenuItem);
 
-  expect(setCurrentMenu).toHaveBeenCalledWith(items[0]);
+	expect(setCurrentMenu).toHaveBeenCalledWith(items[0]);
 });
-

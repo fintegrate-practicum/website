@@ -1,9 +1,9 @@
-import { TaskStatus } from "../classes/enum/taskStatus.enum";
+import { TaskStatus } from '../classes/enum/taskStatus.enum';
 
-export interface UpdateTaskManagerDTO{
-    description: string;
-    taskName:string;
-    status: TaskStatus;
-    targetDate:Date;
-    employee:string[];
+export interface UpdateTaskManagerDTO {
+	description: string;
+	taskName: string;
+	status: TaskStatus;
+	targetDate: Date;
+	employee: string[];
 }

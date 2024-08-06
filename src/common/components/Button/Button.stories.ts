@@ -4,8 +4,8 @@ import theme from '../../../Theme';
 import Button from './Button';
 
 const meta = {
-    component: Button,
-    tags: ['autodocs'],
+	component: Button,
+	tags: ['autodocs'],
 } as Meta<typeof Button>;
 
 export default meta;
@@ -13,15 +13,15 @@ export default meta;
 type Story = StoryObj<typeof Button>;
 
 const baseProps: React.ComponentProps<typeof Button> = {
-    disabled: false,
-    color: "secondary",
-    isLink: false,
-    children: "Button",
-    tabIndex: 1,
-    component: "button",
-    size: "small",
-    variant: "contained",
-    onClick: action('onClick'),
+	disabled: false,
+	color: 'secondary',
+	isLink: false,
+	children: 'Button',
+	tabIndex: 1,
+	component: 'button',
+	size: 'small',
+	variant: 'contained',
+	onClick: action('onClick'),
 };
 
 // export const fullColor: Story = {
@@ -31,23 +31,22 @@ const baseProps: React.ComponentProps<typeof Button> = {
 // };
 
 export const empty: Story = {
-    args: {
-        ...baseProps,
-        onClick: () => {
-            window.location.href = 'https://www.example.com';
-        },
-        variant: "outlined",
-
-    },
+	args: {
+		...baseProps,
+		onClick: () => {
+			window.location.href = 'https://www.example.com';
+		},
+		variant: 'outlined',
+	},
 };
 
 export const link: Story = {
-    args: {
-        ...baseProps,
-        style: {
-            backgroundColor: "white",
-        },
-        isLink: true,
-        href: "https://chat.yishreylev.net/"
-    },
+	args: {
+		...baseProps,
+		style: {
+			backgroundColor: 'white',
+		},
+		isLink: true,
+		href: 'https://chat.yishreylev.net/',
+	},
 };

@@ -1,6 +1,6 @@
 export enum statuses {
-    Married,
-    divorcee,
-    widower,
-    Bachelor
+	Married,
+	divorcee,
+	widower,
+	Bachelor,
 }

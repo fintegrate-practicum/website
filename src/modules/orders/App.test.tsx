@@ -10,6 +10,6 @@ import { BrowserRouter } from 'react-router-dom';
 //   const linkElement = screen.getByText(/learn react/i);
 //   expect(linkElement).toBeInTheDocument();
 // });
-test('draft test',()=>{
-  expect(8).toBe(8);
-})
+test('draft test', () => {
+	expect(8).toBe(8);
+});

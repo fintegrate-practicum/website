@@ -4,84 +4,86 @@ import SingleProduct from './singleProduct';
 import { IProduct } from '../../interfaces/IProduct';
 import { IComponent } from '../../interfaces/IComponent';
 import { getAllItems } from '../../Api-Requests/genericRequests';
-import { useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getProducts } from '../../features/product/productSlice';
 import { getAllComponents } from '../../features/component/componentSlice';
-import Button from "../../../../common/components/Button/Button";
+import Button from '../../../../common/components/Button/Button';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { useAppSelector } from "../../app/hooks";
+import { useAppSelector } from '../../app/hooks';
 import { Link } from 'react-router-dom';
 
 export default function ShowProducts() {
-  const dispatch = useDispatch();
-  const [startIndex, setStartIndex] = useState(0);
-  const itemsPerPage = 10;
-  const products = useAppSelector((state) => state.product?.data || []);
-  const components = useAppSelector((state) => state.component?.data || []);
-  const listProducts = [...products,...components];
+	const dispatch = useDispatch();
+	const [startIndex, setStartIndex] = useState(0);
+	const itemsPerPage = 10;
+	const products = useAppSelector((state) => state.product?.data || []);
+	const components = useAppSelector((state) => state.component?.data || []);
+	const listProducts = [...products, ...components];
 
-  
-  const getAllProducts = async () => {
-    try {
-      const res = await getAllItems<IProduct[]>('inventory/product');   
-      dispatch(getProducts(res.data));
-    }
-    catch (err) {
-      console.log(err);
-    }
-  }
+	const getAllProducts = async () => {
+		try {
+			const res = await getAllItems<IProduct[]>('inventory/product');
+			dispatch(getProducts(res.data));
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
-  const getComponents = async () => {
-    try {
-      const res = await getAllItems<IComponent[]>('inventory/component');
-      dispatch(getAllComponents(res.data));
-    }
-    catch (err) {
-      console.log(err);
-    }
-  }
+	const getComponents = async () => {
+		try {
+			const res = await getAllItems<IComponent[]>('inventory/component');
+			dispatch(getAllComponents(res.data));
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
-  useEffect(() => {
-    getAllProducts()
-    getComponents();
-  }, []);
+	useEffect(() => {
+		getAllProducts();
+		getComponents();
+	}, []);
 
-  const paginatedProducts = listProducts.slice(startIndex, startIndex + itemsPerPage);
-  const hasNextPage = startIndex + itemsPerPage < paginatedProducts.length;
-  const hasPreviousPage = startIndex - itemsPerPage >= 0;
+	const paginatedProducts = listProducts.slice(
+		startIndex,
+		startIndex + itemsPerPage,
+	);
+	const hasNextPage = startIndex + itemsPerPage < paginatedProducts.length;
+	const hasPreviousPage = startIndex - itemsPerPage >= 0;
 
-  const showMoreProductsData = () => {
-    setStartIndex(startIndex + itemsPerPage);
-  };
-  const showLessProductsData = () => {
-    setStartIndex(Math.max(0, startIndex - itemsPerPage));
-  };
- 
-  return (
-    <Grid sx={{ flexGrow: 1 }} container spacing={2} direction="column">
-      <Grid container justifyContent="center">
-        {paginatedProducts.map((product: IProduct | IComponent) => (
-          <SingleProduct key={product.id} product={product}/>
-        ))}
-      </Grid>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Button  component="label"  tabIndex={-1}
-          onClick={showLessProductsData}
-          disabled={!hasPreviousPage}
-        >
-          <ArrowBackIosIcon />
-        </Button>
-        <Button
-          component="label"
-          variant="contained"
-          tabIndex={-1}
-          onClick={showMoreProductsData}
-          disabled={!hasNextPage}
-        >
-          <ArrowForwardIosIcon />
-        </Button>
-      </div>
-    </Grid>
-  );
+	const showMoreProductsData = () => {
+		setStartIndex(startIndex + itemsPerPage);
+	};
+	const showLessProductsData = () => {
+		setStartIndex(Math.max(0, startIndex - itemsPerPage));
+	};
+
+	return (
+		<Grid sx={{ flexGrow: 1 }} container spacing={2} direction='column'>
+			<Grid container justifyContent='center'>
+				{paginatedProducts.map((product: IProduct | IComponent) => (
+					<SingleProduct key={product.id} product={product} />
+				))}
+			</Grid>
+			<div style={{ display: 'flex', justifyContent: 'center' }}>
+				<Button
+					component='label'
+					tabIndex={-1}
+					onClick={showLessProductsData}
+					disabled={!hasPreviousPage}
+				>
+					<ArrowBackIosIcon />
+				</Button>
+				<Button
+					component='label'
+					variant='contained'
+					tabIndex={-1}
+					onClick={showMoreProductsData}
+					disabled={!hasNextPage}
+				>
+					<ArrowForwardIosIcon />
+				</Button>
+			</div>
+		</Grid>
+	);
 }

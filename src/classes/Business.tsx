@@ -1,27 +1,26 @@
 export enum BusinessSize {
-    Private = 'Private',
-    Public = 'public',
-    International = 'International',
-    Global = 'global'
+	Private = 'Private',
+	Public = 'public',
+	International = 'International',
+	Global = 'global',
 }
 
 class Business {
-    companyNumber!:string
-    description!: string;
-    name!: string;
-    email!: string;
-    logo!: string;
-    phone!: string;
-    address!: {
-        city: string;
-        street: string;
-        num: number;
-    };
-    businessSize!: BusinessSize;
-    industryType!: string;
-    establishmentDate!: string;
-    code!: string;
+	companyNumber!: string;
+	description!: string;
+	name!: string;
+	email!: string;
+	logo!: string;
+	phone!: string;
+	address!: {
+		city: string;
+		street: string;
+		num: number;
+	};
+	businessSize!: BusinessSize;
+	industryType!: string;
+	establishmentDate!: string;
+	code!: string;
 }
 
-export default Business 
-
+export default Business;
