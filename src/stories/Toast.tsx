@@ -1,7 +1,6 @@
 import React from 'react';
 import { Snackbar, Alert, IconButton } from '@mui/material';
 import { CheckCircle as CheckCircleIcon, Info as InfoIcon, Warning as WarningIcon, Error as ErrorIcon, Close as CloseIcon } from '@mui/icons-material';
-import './toast.css';
 
 interface ToastProps {
   message: string;
