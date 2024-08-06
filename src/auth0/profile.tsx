@@ -4,25 +4,30 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import { useAppDispatch } from '../Redux/hooks';
+import { useAppDispatch, useJwtFromCookie } from '../Redux/hooks';
 import { fetchUserById } from '../Redux/currentUserSlice';
 import SidebarUserDetails from './SidebarUserDetails';
+import { useDispatch } from 'react-redux';
+import { getBasket } from '../modules/orders/features/basket/basketSlice';
+import httpService from '../modules/orders/Api-Requests/httpService';
+import { getAllItems } from '../modules/orders/Api-Requests/genericRequests';
+import { ICart } from '../modules/orders/interfaces/ICart';
 
 const auth0_audience = import.meta.env.VITE_AUTH0_AUDIENCE as string;
 const auth0_domain = import.meta.env.VITE_AUTH0_DOMAIN as string;
 
-const Profile: React.FC = () => {  
+const Profile: React.FC = () => {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
-  const [userMetadata, setUserMetadata] = useState<any>(null); 
+  const [userMetadata, setUserMetadata] = useState<any>(null);
   const dispatch = useAppDispatch()
 
   function setCookie(name: string, value: string, days: number) {
-    
+
     let expires = "";
     if (days) {
-        const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = `; expires=${date.toUTCString()}`;
+      const date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = `; expires=${date.toUTCString()}`;
     }
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
   }
@@ -31,28 +36,29 @@ const Profile: React.FC = () => {
     const cookieArray = document.cookie.split(';');
 
     for (const elementFromCookie of cookieArray) {
-        const trimmedCookie = elementFromCookie.trim();
-        if (trimmedCookie.startsWith(nameEQ)) {
-            return trimmedCookie.substring(nameEQ.length);
-        }
+      const trimmedCookie = elementFromCookie.trim();
+      if (trimmedCookie.startsWith(nameEQ)) {
+        return trimmedCookie.substring(nameEQ.length);
+      }
     }
 
     return null;
-}
+  }
 
 
   setCookie("user_id", user?.sub as string, 30);
   useEffect(() => {
+
     const getUserMetadata = async () => {
       const domain = auth0_domain;
       try {
         const accessToken = await getAccessTokenSilently({
           authorizationParams: {
-            userId:getCookie("user_id"),
+            userId: getCookie("user_id"),
             audience: auth0_audience,
             scope: "read:current_user",
           },
-          
+
         });
         const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
         const metadataResponse = await fetch(userDetailsByIdUrl, {
@@ -61,17 +67,33 @@ const Profile: React.FC = () => {
           },
         });
         const user_metadata = await metadataResponse.json();
-        setUserMetadata(user_metadata);        
+        setUserMetadata(user_metadata);
         await dispatch(fetchUserById(user_metadata));
       } catch (e) {
         console.log((e as Error).message);
       }
     };
+    const getSavedCartForUser = async () => {
+      const userId = useJwtFromCookie('user_id')?.split('|')[1]
+      //אמור להשלף מהרידקס ברגע שיטפלו בזה
+      const buissnes_code = "615123456"
+
+      try {
+        const response = await getAllItems<ICart[]>(`cart/${buissnes_code}/${userId}`)
+
+        console.log('getSavedCartForUser');
+        console.log(response.data);  // הנחה שה- httpService מחזיר את האובייקט בתגובה
+        dispatch(getBasket(response.data))
+      } catch (error) {
+        console.error('Error fetching cart data:', error);
+      }
+    }
 
     if (user?.sub) {
       getUserMetadata();
+      getSavedCartForUser();
     }
-  }, [getAccessTokenSilently, user?.sub,dispatch]);
+  }, [getAccessTokenSilently, user?.sub, dispatch]);
 
   if (isLoading) {
     return <div>Loading ...</div>;
@@ -79,14 +101,14 @@ const Profile: React.FC = () => {
 
   const profileAvatar = () => {
     let emailUser = '';
-    if(userMetadata){
+    if (userMetadata) {
       emailUser = userMetadata.email;
     }
     return {
       sx: {
         bgcolor: 'red',
-        position: 'relative', 
-        width: 37, 
+        position: 'relative',
+        width: 37,
         height: 37
       },
       children: emailUser ? `${emailUser.split('')[0][0]}${emailUser.split('')[1][0]}` : ''
@@ -106,14 +128,14 @@ const Profile: React.FC = () => {
   return (
     <>
       {isAuthenticated && (
-        <Box 
-          position="absolute" 
-          top={18} 
-          right={18} 
+        <Box
+          position="absolute"
+          top={18}
+          right={18}
           onClick={handleClick}
-          sx={{ cursor: 'pointer' }} 
+          sx={{ cursor: 'pointer' }}
         >
-          <Avatar {...profileAvatar()} src={userMetadata?.picture || ''} />    
+          <Avatar {...profileAvatar()} src={userMetadata?.picture || ''} />
         </Box>
       )}
       <SidebarUserDetails
@@ -123,7 +145,7 @@ const Profile: React.FC = () => {
         anchorEl={anchorEl}
         handleClose={handleClose}
       />
-        <Link to="/CreateBusiness/BaseDetailsManager">הרשמה של עסק</Link>
+      <Link to="/CreateBusiness/BaseDetailsManager">הרשמה של עסק</Link>
     </>
   );
 };
