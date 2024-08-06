@@ -4,12 +4,12 @@ import {
 	ListItem,
 	ListItemText,
 	Paper,
-	Typography,
 	CssBaseline,
 } from '@mui/material';
 import { Box } from '@mui/system';
 import PropTypes from 'prop-types';
 import Message from '../classes/message';
+import Typography from '../../../common/components/Typography/Typography';
 
 const MessageList = ({ messages }: { messages: Message[] }) => {
 	const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
@@ -48,7 +48,7 @@ const MessageList = ({ messages }: { messages: Message[] }) => {
 							{selectedMessage.message_content}
 						</Typography>
 						<Typography variant='subtitle1' color='textSecondary'>
-							Received from: {selectedMessage.sender_id} at{' '}
+							Received from:{selectedMessage.sender_id} at{' '}
 							{selectedMessage.date_time.toLocaleString()}
 						</Typography>
 					</Paper>

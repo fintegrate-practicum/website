@@ -3,7 +3,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '../../../../common/components/Button/Button';
-import Typography from '@mui/material/Typography';
+import Typography from '../../../../common/components/Typography/Typography';
 import { IComponent } from '../../interfaces/IComponent';
 
 const SingleComponent: React.FunctionComponent<{ component: IComponent }> = ({
@@ -24,7 +24,7 @@ const SingleComponent: React.FunctionComponent<{ component: IComponent }> = ({
 					<Typography gutterBottom variant='body1' component='div'>
 						price: {component.componentBuyPrice}
 					</Typography>
-					<Typography variant='body2' color='text.secondary'>
+					<Typography variant='body2' color='textSecondary'>
 						{component.description}
 					</Typography>
 				</CardContent>

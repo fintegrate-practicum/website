@@ -2,7 +2,7 @@ import * as React from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
+import Typography from '../../common/components/Typography/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { List, ListItem, ListItemText } from '@mui/material';
 import MySetting, { MySettingProps } from './MySetting';
@@ -45,7 +45,7 @@ export function AddSubCategory(SubCategoryProp: CategoryProps) {
 						aria-controls='panel4bh-content'
 						id='panel4bh-header'
 					>
-						<Typography sx={{ width: '60vw', flexShrink: 0 }}>
+						<Typography style={{ width: '60vw', flexShrink: 0 }}>
 							{SubCategoryProp?.CategoryItem.CategoryName}
 						</Typography>
 					</AccordionSummary>

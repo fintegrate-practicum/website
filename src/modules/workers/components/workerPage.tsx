@@ -4,7 +4,6 @@ import {
 	ListItemText,
 	ListItemAvatar,
 	Avatar,
-	Typography,
 	Grid,
 	Dialog,
 	DialogActions,
@@ -13,6 +12,7 @@ import {
 	DialogTitle,
 } from '@mui/material';
 import Button from '../../../common/components/Button/Button';
+import Typography from '../../../common/components/Typography/Typography';
 import Stack from '@mui/material/Stack';
 import Badge from '@mui/material/Badge';
 import MailIcon from '@mui/icons-material/Mail';
@@ -66,7 +66,7 @@ const WorkerPage: React.FC<WorkerPageProps> = (props) => {
 				id='all'
 			>
 				<Grid style={{ textAlign: 'left', margin: 'none' }}>
-					<Typography>Name:{props.user.userName} </Typography>
+					<Typography>Name:{props.user.userName}</Typography>
 				</Grid>
 
 				<List
@@ -88,18 +88,13 @@ const WorkerPage: React.FC<WorkerPageProps> = (props) => {
 							<ListItemText
 								primary='Personal Information:'
 								secondary={
-									<Typography
-										sx={{ display: 'inline' }}
-										component='span'
-										variant='body2'
-										color='text.primary'
-									>
+									<Typography component='span' variant='body2' color='black'>
 										{' '}
-										dateOfBirth: {props.user.userName}
+										dateOfBirth {props.user.userName}
 										<br />
-										mobile: {props.user.mobile}
+										mobile:{props.user.mobile}
 										<br />
-										status: {props.user.status}
+										status:{props.user.status}
 									</Typography>
 								}
 							/>

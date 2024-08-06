@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { TextField, Box, Typography, Grid, Paper } from '@mui/material';
+import { TextField, Box, Grid, Paper } from '@mui/material';
+import Typography from '../../../common/components/Typography/Typography';
 import Button from '../../../common/components/Button/Button';
 import { useAppDispatch, useAppSelector } from '../../../Redux/hooks';
 import { editEmployee } from '../features/employeeSlice';

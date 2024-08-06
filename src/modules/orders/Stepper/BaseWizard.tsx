@@ -1,8 +1,13 @@
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
+<<<<<<< HEAD
 import Typography from '@mui/material/Typography';
 import Button from '../../../common/components/Button/Button';
+=======
+import Typography from '../../../common/components/Typography/Typography';
+import Button from '../../../common/components/Button/Button'
+>>>>>>> f8b73226242f36f204d36727c38172d2ad2806b7
 import { useState } from 'react';
 import { Box, Modal } from '@mui/material';
 

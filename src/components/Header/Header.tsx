@@ -2,7 +2,7 @@ import { FC, ReactElement } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
+import Typography from '../../common/components/Typography/Typography';
 import IconButton from '@mui/material/IconButton';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -30,7 +30,7 @@ const Header: FC<HeaderProps> = ({
 				<Toolbar>
 					<img src='/logo.png' alt='Logo' style={{ width: '15%' }} />
 
-					<Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+					<Typography variant='h6' component='div' style={{ flexGrow: 1 }}>
 						{serviceName || 'Send service name in props'}
 					</Typography>
 
