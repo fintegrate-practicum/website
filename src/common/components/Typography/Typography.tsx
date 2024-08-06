@@ -4,12 +4,15 @@ import React from 'react';
 import theme from '../../../Theme';
 import { ThemeProvider } from '@emotion/react';
 
+type ElementType<T extends React.ElementType> =
+  T extends keyof JSX.IntrinsicElements ? T : React.ComponentType<any>;
+
 interface TypographyProps {
-    variant?: "h1"|"h4"|"h5"|"h6"|"subtitle1" |"body1" | "body2" ;
+    variant?: "h1"|"h4"|"h5"|"h6"|"h2"|"subtitle1" |"body1" | "body2" ;
     children?: React.ReactNode;
-    component?: string;
+    component?: React.ElementType<any>;
     gutterBottom?: boolean;
-    align?:string;
+    align?:"center" | "left" | "right" | "inherit" ;
     color?: "primary"|"secondary" | "success"  | "textSecondary" | "error" | "black";
     style?: React.CSSProperties;
     className?:string
@@ -20,7 +23,7 @@ const Typography = (props: TypographyProps) => {
     const {
         variant="body1",
         children,
-        component,
+        component= "div",
         gutterBottom = false,
         align,
         color,
@@ -31,7 +34,7 @@ const Typography = (props: TypographyProps) => {
    
         return (
             <>
-            <ThemeProvider theme={theme}>
+            {/* <ThemeProvider theme={theme}> */}
                 <MaterialTypography 
                 gutterBottom={gutterBottom}
                 variant={variant}
@@ -41,7 +44,7 @@ const Typography = (props: TypographyProps) => {
                 style={style}>
                     {children}
                 </MaterialTypography>
-                </ThemeProvider>
+                {/* </ThemeProvider> */}
                 </>
         
         );

@@ -14,12 +14,8 @@ export default meta;
 type Story = StoryObj<typeof Typography>;
 
 const baseProps = {
-    variant: "h2",
     children: "Typography",
-    component: "div",
     gutterBottom: true,
-    align: 'center',
-    color: "primary",
     fontWeight: "bold"   
 
 };
@@ -27,6 +23,10 @@ const baseProps = {
 export const Header: Story = {
     args: {
         ...baseProps,
+        variant: "h2",
+        color: "primary",
+        align: "center",
+        component: "div" as React.ElementType<any>,
        
 
     },
@@ -36,6 +36,8 @@ export const CommonText: Story = {
         ...baseProps,
         variant: "body1",
         color: "secondary",
+        align: "left",
+        component: "div" as React.ElementType<any>,
 
 
     },
@@ -46,6 +48,8 @@ export const subTitle: Story = {
         ...baseProps,
         variant: "subtitle1",
         color: "success",
+        align: "right",
+        component: "div" as React.ElementType<any>,
        
       
       

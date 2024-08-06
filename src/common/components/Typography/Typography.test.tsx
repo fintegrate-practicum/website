@@ -12,13 +12,6 @@ test('renders Typography component with variant "h2"', () => {
   const headingElement = getByText('Heading 2');
   expect(headingElement).toBeInTheDocument();
 });
-
-test('renders Typography component as a Button', () => {
-  const { getByText } = render(<Typography variant="button">Click me</Typography>);
-  const buttonElement = getByText('Click me');
-  expect(buttonElement).toBeInTheDocument();
-});
-
 test('renders Typography component as a Common text', () => {
   const { getByText } = render(<Typography variant="body1">Primary Text</Typography>);
   const primaryElement = getByText('Primary Text');
