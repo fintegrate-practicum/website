@@ -8,7 +8,9 @@ export default {
   component: FormWrapper,
 } as Meta;
 
-const Template: StoryFn = (args) => <FormWrapper {...args} />;
+const Template: StoryFn = (args) => <FormWrapper fields={[]} onSubmit={function (data: FieldValues): void {
+  throw new Error('Function not implemented.');
+} } {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

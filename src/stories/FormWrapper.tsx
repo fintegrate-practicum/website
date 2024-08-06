@@ -65,14 +65,18 @@ const FormWrapper: React.FC<FormWrapperProps> = ({ fields, onSubmit }) => {
               onChange={(e) => handleFileChange(e, field.name)}
             />
           ) : null}
-          {errors[field.name] && <Typography color="error">{errors[field.name].message}</Typography>}
+          {errors[field.name] && (
+            <Typography color="error">
+              {errors[field.name]?.message?.toString()}
+            </Typography>
+          )}
         </div>
       ))}
       <Button variant="contained" color="success" type="submit">
         Submit
       </Button>
     </Box>
-  );  
+  );
 };
 
 export default FormWrapper;

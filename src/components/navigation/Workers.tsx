@@ -17,7 +17,7 @@ const WorkersTopNav = () => {
   const location = useLocation();
   const tasks = useAppSelector((state) => state.taskSlice);
   const messages = useAppSelector((state) => state.messageSlice.messages);
-  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails);
+  const currentUser = useAppSelector((state) => state.currentUserSlice.employeeDetails);
   const dispatch = useAppDispatch();
   const [filteredTasks, setFilteredTasks] = useState<Task[]>(tasks);
 

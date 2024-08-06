@@ -16,7 +16,7 @@ import { statuses } from '../modules/workers/classes/enum/statuses.enum';
 const statusArray = Object.keys(statuses).filter(key => isNaN(Number(key)));
 
 const EditProfile: React.FC = () => {
-  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser);
+  const currentUser = useAppSelector((state) => state.currentUserSlice);
   const [isEditing, setIsEditing] = useState(false);
   const [auth0_user_id, setAuth0_user_id] = useState(currentUser.userDetails.auth0_user_id);
   const [status, setStatus] = useState(String(currentUser.userDetails.status));
