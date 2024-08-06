@@ -26,22 +26,24 @@ export default function AllOrders() {
     const [error, setError] = useState<string | null>(null);
 
     if (!businessCode) {
-        return <div>אין קוד עסק</div>
+        return <div>אין קוד עסק</div>;
     }
 
     const getOrders = async () => {
         try {
             const res = await getAllItems<IOrder[]>(`orders/${businessCode}`);
             setOrders(res.data);
-            fetchProducts(res.data); 
+            fetchProducts(res.data);
         } catch (err) {
             console.log(err);
+            setError('Error fetching orders');
+            setLoading(false);
         }
     };
 
     const fetchProducts = async (orders: IOrder[]) => {
         try {
-            const productIds = Array.from(new Set(orders.flatMap(order => order.products)));
+            const productIds = Array.from(new Set(orders.flatMap(order => order.products.map(p => p.id))));
             const productPromises = productIds.map(id => getItemById<IProduct>(`api/inventory/product`, id));
             const productResults = await Promise.all(productPromises);
             const productsMap = productResults.reduce((acc, product) => {
@@ -56,6 +58,17 @@ export default function AllOrders() {
             setLoading(false);
         }
     };
+
+    //כשיעבוד השלפית משתמש לפי ID לממש את זה
+    // const fetchUser = async (userId : string)=>{
+    //     try{
+
+            
+    //     }
+    //     catch{
+
+    //     }
+    // }
 
     useEffect(() => {
         getOrders();
@@ -96,33 +109,47 @@ export default function AllOrders() {
                     <Paper key={index} style={{ margin: '20px 0', padding: '20px', backgroundColor: '#f4f4f4' }}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} md={6}>
-                                <Typography variant="h6" color="secondary">User: {order.user}</Typography>
+                                <Typography variant="h6" color="secondary">UserId: {order.userId}</Typography>
                                 <Typography variant="body1" color="primary">
                                     Business Code: {order.businessCode}
                                 </Typography>
                                 <Typography variant="body1" color="primary">
                                     Setting Manager: {order.settingManeger}
                                 </Typography>
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <Typography variant="h6" color="secondary">Destination Address</Typography>
                                 <Typography variant="body1" color="primary">
-                                    City: {order.destinationAddress.city}
-                                </Typography>
-                                <Typography variant="body1" color="primary">
-                                    Street: {order.destinationAddress.street}
-                                </Typography>
-                                <Typography variant="body1" color="primary">
-                                    Building Number: {order.destinationAddress.numBuild}
+                                    Delivery Method: {order.deliveryMethod}
                                 </Typography>
                             </Grid>
+                            {order.deliveryMethod === 'delivery' && (
+                                <Grid item xs={12} md={6}>
+                                    <Typography variant="h6" color="secondary">Destination Address</Typography>
+                                    <Typography variant="body1" color="primary">
+                                        City: {order.destinationAddress.city}
+                                    </Typography>
+                                    <Typography variant="body1" color="primary">
+                                        Street: {order.destinationAddress.street}
+                                    </Typography>
+                                    <Typography variant="body1" color="primary">
+                                        Building Number: {order.destinationAddress.numBuild}
+                                    </Typography>
+                                    <Typography variant="body1" color="primary">
+                                        Apartment Number: {order.destinationAddress.apartmentNumber}
+                                    </Typography>
+                                    <Typography variant="body1" color="primary">
+                                        Floor: {order.destinationAddress.floor}
+                                    </Typography>
+                                    <Typography variant="body1" color="primary">
+                                        Last Name: {order.destinationAddress.lastName}
+                                    </Typography>
+                                </Grid>
+                            )}
                             <Grid item xs={12}>
                                 <Typography variant="h6" color="secondary">Products</Typography>
                                 <List>
-                                    {order.products.map((productId: string) => {
-                                        const product = products[productId];
+                                    {order.products.map(({ id, qty }) => {
+                                        const product = products[id];
                                         return product ? (
-                                            <ListItem key={productId} style={{ padding: '10px 0' }}>
+                                            <ListItem key={id} style={{ padding: '10px 0' }}>
                                                 <Card style={{ width: '100%', backgroundColor: '#fafafa', display: 'flex', alignItems: 'center' }}>
                                                     <CardMedia
                                                         component="img"
@@ -140,6 +167,9 @@ export default function AllOrders() {
                                                         <Typography variant="body1" color="warning">
                                                             Price: ${product.totalPrice}
                                                         </Typography>
+                                                        <Typography variant="body1" color="primary">
+                                                            Quantity: {qty}
+                                                        </Typography>
                                                         {product.isOnSale && (
                                                             <Typography variant="body1" color="error">
                                                                 Sale: {product.salePercentage}%
@@ -149,9 +179,9 @@ export default function AllOrders() {
                                                 </Card>
                                             </ListItem>
                                         ) : (
-                                            <ListItem key={productId}>
+                                            <ListItem key={id}>
                                                 <Typography variant="body1" color="error">
-                                                    Product ID: {productId}
+                                                    Product details unavailable
                                                 </Typography>
                                             </ListItem>
                                         );
