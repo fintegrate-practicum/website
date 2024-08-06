@@ -25,10 +25,6 @@ const WorkersTopNav = () => {
 
   useEffect(() => {
     setValue(location.pathname.slice(8));
-
-    if (currentUser && currentUser.code) {
-      dispatch(fetchMessages(currentUser.code));
-    }
   }, [currentUser, dispatch]);
 
 

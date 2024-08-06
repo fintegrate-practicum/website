@@ -24,9 +24,7 @@ const EditProfile: React.FC = () => {
 
   const [formData, setFormData] = useState({
     email: currentUser.userDetails.userEmail || '',
-    city: currentUser.userDetails.address.city || '',
     name: currentUser.userDetails.userName || '',
-    phone: currentUser.userDetails.mobile || '',
     role: currentUser.employeeDetails.role.type || '',
   });
 
@@ -49,19 +47,14 @@ const EditProfile: React.FC = () => {
     setIsEditing(false);
     const updatedCurrentUser = {
       employee: {
-        ...currentUser.employeeDetails,
+        ...currentUser,
         role: { ...currentUser.employeeDetails.role, type: formData.role },
       },
       user: {
         ...currentUser.userDetails,
         userEmail: formData.email,
         userName: formData.name,
-        mobile: formData.phone,
         status: status,
-        address: {
-          ...currentUser.userDetails.address,
-          city: formData.city
-        }
       }
     };
     const newData = {
@@ -124,7 +117,6 @@ const EditProfile: React.FC = () => {
               fullWidth
               label="Phone"
               name="phone"
-              value={formData.phone}
               onChange={handleChange}
               disabled={!isEditing}
               variant="outlined"
@@ -137,7 +129,6 @@ const EditProfile: React.FC = () => {
               fullWidth
               label="Address"
               name="city"
-              value={formData.city}
               onChange={handleChange}
               disabled={!isEditing}
               variant="outlined"
