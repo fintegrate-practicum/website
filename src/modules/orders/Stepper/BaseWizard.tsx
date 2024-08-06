@@ -1,8 +1,8 @@
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
-import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
+import Typography from '../../../common/components/Typography/Typography';
+import Button from '../../../common/components/Button/Button'
 import { useState } from 'react';
 import { Box, Modal } from '@mui/material';
 
@@ -36,7 +36,7 @@ const BaseWizard = () => {
     };
 
     return <div>
-        <Button variant="contained" onClick={handleOpen}>
+        <Button variant="outlined" onClick={handleOpen}>
             Open Wizard
         </Button>
         <Modal open={open}
@@ -65,12 +65,12 @@ const BaseWizard = () => {
                 <Button
                     onClick={handleBack}
                     disabled={activeStep === 0}
-                    variant='contained'
+                    variant='text'
                     style={{ textTransform: 'none', margin: '10px' }} > Back
                 </Button>
                 <Button
                     onClick={handleNext}
-                    variant='contained'
+                    variant='text'
                     style={{ textTransform: 'none' }}> {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                 </Button>
             </Box>

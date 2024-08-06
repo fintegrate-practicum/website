@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box, Typography, Grid, Paper } from '@mui/material';
+import { TextField, Box, Grid, Paper } from '@mui/material';
+import Typography from '../common/components/Typography/Typography'
+import Button from '../common/components/Button/Button'
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -180,11 +182,11 @@ const EditProfile: React.FC = () => {
         </Grid>
         <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
           {isEditing ? (
-            <Button variant="contained" color="primary" onClick={handleSaveClick}>
-              Save
+            <Button  onClick={handleSaveClick}>
+              save
             </Button>
           ) : (
-            <Button variant="contained" color="primary" onClick={handleEditClick}>
+            <Button  onClick={handleEditClick}>
               Edit
             </Button>
           )}
