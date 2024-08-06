@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Box, Tab } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import WorkerPage from '../../modules/workers/components/workerPage';
@@ -11,9 +11,10 @@ import { useEffect, useState } from 'react';
 import Task from '../../modules/workers/classes/task';
 import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 import { fetchMessages } from '../../modules/workers/features/messageSlice';
+import { useTranslation } from 'react-i18next'; // Assuming you are using react-i18next for translations
 
 const WorkersTopNav = () => {
-
+  const { t } = useTranslation();
   const location = useLocation();
   const tasks = useAppSelector((state) => state.taskSlice);
   const messages = useAppSelector((state) => state.messageSlice.messages);
@@ -31,7 +32,6 @@ const WorkersTopNav = () => {
     }
   }, [currentUser, dispatch]);
 
-
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -41,9 +41,9 @@ const WorkersTopNav = () => {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="workers tabs">
-            <Tab label="details" value="details" href='details' />
-            <Tab label="tasks" value="tasks" href='tasks' />
-            <Tab label="messages" value="messages" href='messages' />
+            <Tab label={t('detailsTab')} value="details" href='details' />
+            <Tab label={t('tasksTab')} value="tasks" href='tasks' />
+            <Tab label={t('messagesTab')} value="messages" href='messages' />
           </TabList>
         </Box>
         <TabPanel value="details"><WorkerPage user={new User} employee={new employee} /></TabPanel>
@@ -54,4 +54,4 @@ const WorkersTopNav = () => {
   );
 }
 
-export default WorkersTopNav
+export default WorkersTopNav;

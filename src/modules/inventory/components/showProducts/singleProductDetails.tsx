@@ -2,9 +2,11 @@ import { Card, CardContent, CardActions, Typography, Button, Box } from '@mui/ma
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../app/hooks';
+import { useTranslation } from 'react-i18next';
 
 const SingleProductDetails = () => {
   const products = useAppSelector((state) => state.product?.data || []);
+  const { t } = useTranslation();
   const productId = useParams().productId;
   const product = products.find(p => p.id == productId);
   const { name, totalPrice, description, productComponents, isOnSale } = product || {};
@@ -22,12 +24,12 @@ const SingleProductDetails = () => {
           {productComponents}
           {isOnSale}
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            Price: {totalPrice} <AttachMoneyOutlinedIcon fontSize='small' />
+          {t("Price")}: {totalPrice} <AttachMoneyOutlinedIcon fontSize='small' />
           </Typography>
         </CardContent>
         <CardActions>
           <Button variant="contained" color="primary">
-            Add to Cart
+          {t("Add to Cart")}
           </Button>
         </CardActions>
       </Card>

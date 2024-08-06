@@ -4,13 +4,13 @@ import MailIcon from '@mui/icons-material/Mail';
 import CallIcon from '@mui/icons-material/Call';
 import AddIcon from '@mui/icons-material/Add';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-
-
+import { useTranslation } from 'react-i18next';
 
 interface SidebarWorkerDetailsProps {
 }
 
 export default function SidebarWorkerDetails(props: SidebarWorkerDetailsProps) {
+    const { t } = useTranslation();
     const [state, setState] = React.useState(false);
     const ANCHOR = 'right';
 
@@ -26,41 +26,41 @@ export default function SidebarWorkerDetails(props: SidebarWorkerDetailsProps) {
             <div>
 
                 <React.Fragment key='right'>
-                    <Button onClick={toggleDrawer(true)} sx={{ 'auto': 200 }}>details</Button>
+                    <Button onClick={toggleDrawer(true)} sx={{ 'auto': 200 }}>{t('details')}</Button>
                     <Drawer anchor={ANCHOR} open={state} onClose={toggleDrawer(false)}>
                         <Box sx={{ 'auto': 250, pointerEvents: 'none' }} role="presentation" >
                             <List>
-                                <MenuItem   >
-                                    <Button >
+                                <MenuItem>
+                                    <Button>
                                         <Icon sx={{
                                             padding: "12px ", paddingTop: "2px"
                                         }}>
                                             <AccountBoxIcon /></Icon>
-                                        name
+                                        {t('Name')}
                                     </Button>
                                 </MenuItem>
-                                <MenuItem >
+                                <MenuItem>
                                     <Button>
                                         <Icon sx={{
                                             padding: "12px", paddingTop: "2px",
                                         }}><CallIcon /></Icon>
-                                        phone
+                                        {t('Phone')}
                                     </Button>
                                 </MenuItem>
-                                <MenuItem >
+                                <MenuItem>
                                     <Button>
                                         <Icon sx={{
                                             padding: "12px", paddingTop: "2px"
                                         }}><MailIcon /></Icon>
-                                        email
+                                        {t('Email')}
                                     </Button>
                                 </MenuItem>
-                                <MenuItem sx={{pointerEvents: 'auto' ,border:0}} >
-                                    <Button >
+                                <MenuItem sx={{ pointerEvents: 'auto', border: 0 }}>
+                                    <Button>
                                         <Icon sx={{
                                             padding: "12px", paddingTop: "2px"
                                         }}> <AddIcon /></Icon>
-                                        details
+                                        {t('Details')}
                                     </Button>
                                 </MenuItem>
                                 <Divider />

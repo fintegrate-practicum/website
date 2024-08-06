@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 import { checkEmailVerificationCode } from '../../Redux/businessSlice';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-
+import {useTranslation} from "react-i18next"
 const EmailVerification = () => {
 
     const {        
@@ -25,14 +25,16 @@ const EmailVerification = () => {
         
     };
 
+    const { t } = useTranslation();
+
     return (
         <Container maxWidth="sm">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Typography variant="h5" gutterBottom>
-                    sent you a code by email.
+                    {t('Sent you a code by email.')}
                 </Typography>
                 <TextField
-                    label="code"
+                    label={t('Code')}
                     variant="outlined"
                     fullWidth
                     value={code}
@@ -40,7 +42,7 @@ const EmailVerification = () => {
                     style={{ marginBottom: '1rem' }}
                 />
                 <Stack direction="row" spacing={2}>
-                    <Button  color="success"   type='submit'>submit</Button>
+                    <Button color="success" type='submit'>{t('Submit')}</Button>
                 </Stack>
             </form>
         </Container>

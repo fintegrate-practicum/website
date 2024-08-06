@@ -4,6 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableRow, Typography, TextField
 import Button from '../../../common/components/Button/Button'
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useTranslation } from "react-i18next";
 
 interface BagItem {
   image: string;
@@ -15,9 +16,9 @@ interface BagItem {
   amount: number;
 }
 
-
 const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
-  const [bag, setBag] = useState<BagItem[]>(initialBag||[]);
+  const { t } = useTranslation();
+  const [bag, setBag] = useState<BagItem[]>(initialBag || []);
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
   };
 
   const handleRemove = (index: number) => {
-    if (window.confirm('האם ברצונך להסיר את המוצר?')) {
+    if (window.confirm(t("Are you sure you want to remove this product?"))) {
       const newBag = bag.filter((_, i) => i !== index);
       setBag(newBag);
     }
@@ -52,17 +53,17 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
 
   return (
     <div className='shoppingBag-container'>
-      <Typography paragraph={true} variant='h5'> סל קניות </Typography>
+      <Typography paragraph={true} variant='h5'> {t("Shopping Bag")} </Typography>
       {bag.length === 0 ? (
-        <Typography> סל הקניות שלך ריק </Typography>
+        <Typography> {t("Your shopping bag is empty")} </Typography>
       ) : (
         <>
           <Table className='shoppingBag' style={{ direction: 'rtl' }}>
             <TableHead>
               <TableRow>
-                <TableCell align='right'> שם המוצר </TableCell>
-                <TableCell align='right'> כמות </TableCell>
-                <TableCell align='right'> מחיר </TableCell>
+                <TableCell align='right'> {t("Product Name")} </TableCell>
+                <TableCell align='right'> {t("Amount")} </TableCell>
+                <TableCell align='right'> {t("Price")} </TableCell>
                 <TableCell align='right'> . </TableCell>
               </TableRow>
             </TableHead>
@@ -84,7 +85,7 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
                   </TableCell>
                   <TableCell align='right'>
                     <IconButton
-                      aria-label='הסרת המוצר'
+                      aria-label={t("Remove Product")}
                       onClick={() => handleRemove(index)}
                     >
                       <DeleteForever />
@@ -94,7 +95,7 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
               ))}
             </TableBody>
             <TableCell colSpan={3} className='total_line'>
-              סכום לתשלום {total.toFixed(2)} ₪
+              {t("Total to pay")} {total.toFixed(2)} ₪
             </TableCell>
           </Table>
           <Button
@@ -103,7 +104,7 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
             style={{ textTransform: 'none' }}
             size='large'
           >
-            לתשלום
+            {t("Pay")}
           </Button>
         </>
       )}

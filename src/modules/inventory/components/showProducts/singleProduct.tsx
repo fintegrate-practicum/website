@@ -5,12 +5,13 @@ import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import { IProduct } from '../../interfaces/IProduct';
 import { IComponent } from '../../interfaces/IComponent';
 import { Link} from 'react-router-dom';
-
+import { useTranslation } from 'react-i18next';
 interface Props {
   product: IProduct | IComponent;
 }
 
 const SingleProduct: React.FC<Props> = ({ product }) => {
+  const { t } = useTranslation();
   const isProduct = (obj: any): obj is IProduct => {
     return (obj as IProduct).name !== undefined;
   };
@@ -28,7 +29,7 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
             </Typography>
             
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              Price: {product.totalPrice} <AttachMoneyOutlinedIcon fontSize='small' />
+             {t("Price")} : {product.totalPrice} <AttachMoneyOutlinedIcon fontSize='small' />
             </Typography>
           </Link>
         ) : (
@@ -39,7 +40,7 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
       </CardContent>
       <CardActions>
         <Button >
-          Add to Cart
+         {t("Add to Cart") }
         </Button>
       </CardActions>
     </Card>

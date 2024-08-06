@@ -214,12 +214,3 @@ export const ctgr: CategoryProps[] = [
     }
   }
 ];
-
-
-
-
-
-
-
-
-

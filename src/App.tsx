@@ -6,13 +6,14 @@ import theme from './Theme';
 import Client from './components/client/Client';
 import MainRouter from './components/router/MainRouter';
 import React, { Suspense, useEffect, useState } from 'react';
-import {  Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
 import Inventory from './modules/inventory/Inventory';
 import Login from './components/Login/login';
-import Orders from './modules/orders/App';
 import Header from './components/Header/Header';
+import LanguageSwitcher from './components/LanguageSwitcher.tsx/LanguageSwitcher';
+import {useTranslation} from 'react-i18next'
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(() => import('./components/createBusiness/baseDetailsManager'));
@@ -23,6 +24,7 @@ const LazyClient = React.lazy(() => import('./components/client/Client'));
 
 
 const App = () => {
+  const { t } = useTranslation();
   const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser);
   const [typeUser, setTypeUser] = useState<any | null>(null);
   const [lastInvalidPath, setLastInvalidPath] = useState<string | null>(null);
@@ -36,7 +38,7 @@ const App = () => {
   }, [currentUser]);
 
   const ErrorToastRoute = () => {
-    
+
     useEffect(() => {
       if (location.pathname !== lastInvalidPath) {
         showErrorToast('הדף שאת/ה מחפש/ת אינו נמצא route-הכנס/י ב http://localhost:0000/link/**של עסק linkUID**');
@@ -51,17 +53,17 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
-      <Header />
+        <Header />
+        <LanguageSwitcher />
         <Client />
         <ErrorToast />
         <Routes>
           <Route path="/inventory/*" element={<Inventory />} />
-
-          <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
-          <Route path="/CreateBusiness/BaseDetailsManager" element={<Suspense fallback="Loading..."><LazyBaseDetailsManager /></Suspense>} />
-          <Route path="/CreateBusiness/EmailVerification" element={<Suspense fallback="Loading..."><LazyEmailVerification /></Suspense>} />
-          <Route path="/CreateBusiness/MoreDetailsManager" element={<Suspense fallback="Loading..."><LazyMoreDetailsManager /></Suspense>} />
-          <Route path="/link/:linkUID" element={<Suspense fallback="Loading..."><LazyClient /></Suspense>} />
+          <Route path="/editProfile" element={<Suspense fallback={t('Loading...')}><LazyEditProfile /></Suspense>} />
+          <Route path="/CreateBusiness/BaseDetailsManager" element={<Suspense fallback={t('Loading...')}><LazyBaseDetailsManager /></Suspense>} />
+          <Route path="/CreateBusiness/EmailVerification" element={<Suspense fallback={t('Loading...')}><LazyEmailVerification /></Suspense>} />
+          <Route path="/CreateBusiness/MoreDetailsManager" element={<Suspense fallback={t('Loading...')}><LazyMoreDetailsManager /></Suspense>} />
+          <Route path="/link/:linkUID" element={<Suspense fallback={t('Loading...')}><LazyClient /></Suspense>} />
         </Routes>
         {isRootPath && (
           <>

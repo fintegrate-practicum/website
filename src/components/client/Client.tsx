@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, Outlet } from 'react-router-dom';
 import { showErrorToast } from "../generic/errorMassage";
-
+import {useTranslation} from 'react-i18next'
 interface Business {
   id: string;
   companyNumber: string;
@@ -67,37 +67,39 @@ export default function LazyClient() {
     return null;
   }
 
+  const { t } = useTranslation();
+
   return (
-    <>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '50vh',
-          flexDirection: 'column',
-          textAlign: 'right'
-        }}
-      >
-        <Typography variant="h5">פרטי העסק</Typography>
-        <Box sx={{ mb: 2 }}>
-          <Typography>{business.name} :שם העסק</Typography>
-          <Typography>{business.companyNumber} :מספר חברה</Typography>
-          <Typography>{business.description} :תיאור</Typography>
-          <Typography>{business.email} :אימייל</Typography>
-          <Typography>{business.phone} :טלפון</Typography>
-          <Typography>{business.owner} :בעל העסק</Typography>
-          <Typography>{business.businessSize} :גודל העסק</Typography>
-          <Typography>{business.industryType} :תחום העסק</Typography>
-          <Typography>
-            {new Date(business.establishmentDate).toLocaleDateString()} :תאריך ייסוד
-          </Typography>
-        </Box>
-        <Stack spacing={2} direction="row">
-          <Button >צור הזמנה</Button>
-        </Stack>
-      </Box>
-      <Outlet />
-    </>
+      <>
+          <Box
+              sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '50vh',
+                  flexDirection: 'column',
+                  textAlign: 'right'
+              }}
+          >
+              <Typography variant="h5">{t('Business Details')}</Typography>
+              <Box sx={{ mb: 2 }}>
+                  <Typography>{business.name} : {t('Business Name')}</Typography>
+                  <Typography>{business.companyNumber} : {t('Company Number')}</Typography>
+                  <Typography>{business.description} : {t('Description')}</Typography>
+                  <Typography>{business.email} : {t('Email')}</Typography>
+                  <Typography>{business.phone} : {t('Phone')}</Typography>
+                  <Typography>{business.owner} : {t('Owner')}</Typography>
+                  <Typography>{business.businessSize} : {t('Business Size')}</Typography>
+                  <Typography>{business.industryType} : {t('Industry Type')}</Typography>
+                  <Typography>
+                      {new Date(business.establishmentDate).toLocaleDateString()} : {t('Establishment Date')}
+                  </Typography>
+              </Box>
+              <Stack spacing={2} direction="row">
+                  <Button>{t('Create Order')}</Button>
+              </Stack>
+          </Box>
+          <Outlet />
+      </>
   );
 }

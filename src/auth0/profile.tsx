@@ -7,17 +7,18 @@ import Box from '@mui/material/Box';
 import { useAppDispatch } from '../Redux/hooks';
 import { fetchUserById } from '../Redux/currentUserSlice';
 import SidebarUserDetails from './SidebarUserDetails';
+import { useTranslation } from 'react-i18next';
 
 const auth0_audience = import.meta.env.VITE_AUTH0_AUDIENCE as string;
 const auth0_domain = import.meta.env.VITE_AUTH0_DOMAIN as string;
 
 const Profile: React.FC = () => {  
+  const { t } = useTranslation();
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [userMetadata, setUserMetadata] = useState<any>(null); 
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   function setCookie(name: string, value: string, days: number) {
-    
     let expires = "";
     if (days) {
         const date = new Date();
@@ -26,6 +27,7 @@ const Profile: React.FC = () => {
     }
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
   }
+
   function getCookie(cookieName: string) {
     const nameEQ = cookieName + "=";
     const cookieArray = document.cookie.split(';');
@@ -38,21 +40,20 @@ const Profile: React.FC = () => {
     }
 
     return null;
-}
-
+  }
 
   setCookie("user_id", user?.sub as string, 30);
+
   useEffect(() => {
     const getUserMetadata = async () => {
       const domain = auth0_domain;
       try {
         const accessToken = await getAccessTokenSilently({
           authorizationParams: {
-            userId:getCookie("user_id"),
+            userId: getCookie("user_id"),
             audience: auth0_audience,
             scope: "read:current_user",
           },
-          
         });
         const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
         const metadataResponse = await fetch(userDetailsByIdUrl, {
@@ -71,10 +72,10 @@ const Profile: React.FC = () => {
     if (user?.sub) {
       getUserMetadata();
     }
-  }, [getAccessTokenSilently, user?.sub,dispatch]);
+  }, [getAccessTokenSilently, user?.sub, dispatch]);
 
   if (isLoading) {
-    return <div>Loading ...</div>;
+    return <div>{t('Loading ...')}</div>;
   }
 
   const profileAvatar = () => {
@@ -123,7 +124,7 @@ const Profile: React.FC = () => {
         anchorEl={anchorEl}
         handleClose={handleClose}
       />
-        <Button href="/CreateBusiness/BaseDetailsManager" isLink={true}>הרשמה של עסק</Button>
+      <Button href="/CreateBusiness/BaseDetailsManager" isLink={true}>{t('Register a business')}</Button>
     </>
   );
 };

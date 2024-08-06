@@ -1,11 +1,12 @@
-
 import React, { useState } from 'react';
 import { List, ListItem, ListItemText, Paper, Typography, CssBaseline } from '@mui/material';
 import { Box } from '@mui/system';
 import PropTypes from 'prop-types';
-import Message from '../classes/message'
+import Message from '../classes/message';
+import { useTranslation } from 'react-i18next';
 
 const MessageList = ({ messages }: { messages: Message[] }) => {
+  const { t } = useTranslation();
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
 
   const handleClick = (message: Message) => {
@@ -29,7 +30,7 @@ const MessageList = ({ messages }: { messages: Message[] }) => {
             >
               <ListItemText
                 primary={message.message_content}
-                secondary={`Received from: ${message.sender_id} at ${message.date_time.toLocaleString()}`}
+                secondary={`${t('Received from')}: ${message.sender_id} at ${message.date_time.toLocaleString()}`}
               />
             </ListItem>
           ))}
@@ -40,12 +41,12 @@ const MessageList = ({ messages }: { messages: Message[] }) => {
           <Paper elevation={3} sx={{ padding: 2 }}>
             <Typography variant="h5">{selectedMessage.message_content}</Typography>
             <Typography variant="subtitle1" color="textSecondary">
-              Received from: {selectedMessage.sender_id} at {selectedMessage.date_time.toLocaleString()}
+              {t('Received from')}: {selectedMessage.sender_id} at {selectedMessage.date_time.toLocaleString()}
             </Typography>
           </Paper>
         ) : (
           <Typography variant="h6" color="textSecondary">
-            Select a message to read
+            {t('Select a message to read')}
           </Typography>
         )}
       </Box>

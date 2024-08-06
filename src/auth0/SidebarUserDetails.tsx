@@ -5,7 +5,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useAuth0 } from "@auth0/auth0-react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 interface SidebarUserDetailsProps {
     email: string | undefined;
@@ -15,14 +16,17 @@ interface SidebarUserDetailsProps {
     handleClose: () => void;
 }
 
-const SidebarUserDetails: React.FC<SidebarUserDetailsProps> = ({ email, nickname, anchorEl, handleClose }) => {    
+const SidebarUserDetails: React.FC<SidebarUserDetailsProps> = ({ email, nickname, anchorEl, handleClose }) => {
     const { logout } = useAuth0();
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
+    const { t } = useTranslation();
     const open = Boolean(anchorEl);
     const id = open ? 'profile-popover' : undefined;
-    const handleClickProfile = () => {   
-        navigate('/editProfile'); 
+
+    const handleClickProfile = () => {
+        navigate('/editProfile');
     }
+
     return (
         <Popover
             id={id}
@@ -57,7 +61,7 @@ const SidebarUserDetails: React.FC<SidebarUserDetailsProps> = ({ email, nickname
                         <ListItemIcon>
                             <ManageAccountsIcon />
                         </ListItemIcon>
-                        <ListItemText primary='Profile' />
+                        <ListItemText primary={t('Profile')} />
                     </ListItem>
                     <ListItem>
                         <ListItemIcon>
@@ -71,11 +75,11 @@ const SidebarUserDetails: React.FC<SidebarUserDetailsProps> = ({ email, nickname
                     <ListItemIcon>
                         <LogoutIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Log out" />
+                    <ListItemText primary={t('Log out')} />
                 </ListItem>
             </Box>
         </Popover>
     );
 };
 
-export default SidebarUserDetails
+export default SidebarUserDetails;

@@ -3,8 +3,10 @@ import { TextField,  Box, Typography, Grid, Paper } from '@mui/material';
 import Button from '../../../common/components/Button/Button';
 import { useAppDispatch, useAppSelector } from '../../../Redux/hooks';
 import { editEmployee } from '../features/employeeSlice';
+import { useTranslation } from 'react-i18next';
 
 const UpdateEmployeeDetails: React.FC = () => {
+  const { t } = useTranslation();
   const currentEmployee = useAppSelector((state) => state.employeeSlice.currentEmployee);
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useAppDispatch();
@@ -43,13 +45,13 @@ const UpdateEmployeeDetails: React.FC = () => {
     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
       <Paper sx={{ p: 4, maxWidth: 600, width: '100%' }}>
         <Typography variant="h4" gutterBottom>
-          Edit Employee Profile
+          {t('Edit Employee Profile')}
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              label="Name"
+              label={t('Name')}
               name="nameEmployee"
               value={formData.nameEmployee}
               onChange={handleChange}
@@ -62,7 +64,7 @@ const UpdateEmployeeDetails: React.FC = () => {
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              label="Role Type"
+              label={t('Role Type')}
               name="roleType"
               value={formData.roleType}
               onChange={handleChange}
@@ -75,7 +77,7 @@ const UpdateEmployeeDetails: React.FC = () => {
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              label="Role Description"
+              label={t('Role Description')}
               name="roleDescription"
               value={formData.roleDescription}
               onChange={handleChange}
@@ -88,12 +90,12 @@ const UpdateEmployeeDetails: React.FC = () => {
         </Grid>
         <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
           {isEditing ? (
-            <Button  onClick={handleSaveClick}>
-              Save
+            <Button onClick={handleSaveClick}>
+              {t('Save')}
             </Button>
           ) : (
-            <Button  onClick={handleEditClick}>
-              Edit
+            <Button onClick={handleEditClick}>
+              {t('Edit')}
             </Button>
           )}
         </Box>

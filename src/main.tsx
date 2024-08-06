@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { Auth0Provider } from '@auth0/auth0-react';
 import { Provider } from 'react-redux';
 import Store from './Redux/store';
-
+import '../i18n'
 const rootElement = document.getElementById('root') as HTMLElement;
 
 const auth0_domain = import.meta.env.VITE_AUTH0_DOMAIN;
