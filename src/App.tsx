@@ -31,6 +31,8 @@ const App = () => {
 	const currentUser = useAppSelector(
 		(state) => state.currentUserSlice.CurrentUser,
 	);
+	console.log('hello');
+
 	const [typeUser, setTypeUser] = useState<any | null>(null);
 	const [lastInvalidPath, setLastInvalidPath] = useState<string | null>(null);
 	const location = useLocation();
