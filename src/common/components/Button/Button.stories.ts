@@ -14,13 +14,8 @@ type Story = StoryObj<typeof Button>;
 
 const baseProps = {
     disabled:false,
-    color: "secondary",
     isLink: false,
     children: "Button",
-    tabIndex:1,
-    component:"button",
-    size:"small",
-    variant:"contained",
     onClick: action('onClick'),
 };
 
@@ -37,15 +32,15 @@ export const empty: Story = {
             window.location.href = 'https://www.example.com';
         },
         variant:"outlined",
-      
+        color: "secondary", 
     },
 };
 
 export const link: Story = {
     args: {
         ...baseProps,
-        backgroundColor: "white",
+        color: "info",
         isLink: true, 
-        href:"https://chat.yishreylev.net/"
+        href:"https://chat.yishreylev.net/",
     },
 };
