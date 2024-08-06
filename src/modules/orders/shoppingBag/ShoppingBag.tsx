@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './shoppingBag.css';
-<<<<<<< HEAD
 import {
 	Table,
 	TableBody,
 	TableCell,
 	TableHead,
 	TableRow,
-	Typography,
 	TextField,
 	IconButton,
 } from '@mui/material';
-import Button from '../../../common/components/Button/Button';
-=======
-import { Table, TableBody, TableCell, TableHead, TableRow, TextField, IconButton } from '@mui/material';
 import Typography from '../../../common/components/Typography/Typography';
-import Button from '../../../common/components/Button/Button'
->>>>>>> f8b73226242f36f204d36727c38172d2ad2806b7
+import Button from '../../../common/components/Button/Button';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
@@ -64,13 +58,9 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
 		}
 	};
 
-<<<<<<< HEAD
 	return (
 		<div className='shoppingBag-container'>
-			<Typography paragraph={true} variant='h5'>
-				{' '}
-				סל קניות{' '}
-			</Typography>
+			<Typography variant='h5'> סל קניות </Typography>
 			{bag.length === 0 ? (
 				<Typography> סל הקניות שלך ריק </Typography>
 			) : (
@@ -130,67 +120,6 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
 			)}
 		</div>
 	);
-=======
-  return (
-    <div className='shoppingBag-container'>
-      <Typography  variant='h5'> סל קניות </Typography>
-      {bag.length === 0 ? (
-        <Typography> סל הקניות שלך ריק </Typography>
-      ) : (
-        <>
-          <Table className='shoppingBag' style={{ direction: 'rtl' }}>
-            <TableHead>
-              <TableRow>
-                <TableCell align='right'> שם המוצר </TableCell>
-                <TableCell align='right'> כמות </TableCell>
-                <TableCell align='right'> מחיר </TableCell>
-                <TableCell align='right'> . </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {bag.map((row, index) => (
-                <TableRow key={row.name}>
-                  <TableCell align='right'>
-                    {row.name} <img src={row.image} width='80px' alt={row.name} />
-                  </TableCell>
-                  <TableCell align='right'>
-                    <TextField
-                      type='number'
-                      value={row.amount}
-                      onChange={(e) => handleAmountChange(index, Number(e.target.value))}
-                    />
-                  </TableCell>
-                  <TableCell align='right'>
-                    {(row.price * row.amount).toFixed(2)} ₪
-                  </TableCell>
-                  <TableCell align='right'>
-                    <IconButton
-                      aria-label='הסרת המוצר'
-                      onClick={() => handleRemove(index)}
-                    >
-                      <DeleteForever />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-            <TableCell colSpan={3} className='total_line'>
-              סכום לתשלום {total.toFixed(2)} ₪
-            </TableCell>
-          </Table>
-          <Button
-            onClick={() => alert('payment button was clicked')}
-            startIcon={<ArrowBackIosIcon />}
-            style={{ textTransform: 'none' }}
-            size='large'
-          >
-            לתשלום
-          </Button>
-        </>
-      )}
-    </div>
-  );
->>>>>>> f8b73226242f36f204d36727c38172d2ad2806b7
 };
 
 export default ShoppingBag;

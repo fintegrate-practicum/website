@@ -2,7 +2,6 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import ShoppingBag from './ShoppingBag';
 import { vi } from 'vitest';
-
 describe('ShoppingCart component', () => {
 	// it('renders the component with initial items', () => {
 	//   render(<ShoppingBag />);
