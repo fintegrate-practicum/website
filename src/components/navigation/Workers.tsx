@@ -22,12 +22,11 @@ const WorkersTopNav = () => {
   const [filteredTasks, setFilteredTasks] = useState<Task[]>(tasks);
 
   const [value, setValue] = useState(location.pathname.slice(8));
-
   useEffect(() => {
     setValue(location.pathname.slice(8));
 
     if (currentUser && currentUser.code) {
-      dispatch(fetchMessages(currentUser.code));
+      dispatch(fetchMessages(currentUser.id_user));
     }
   }, [currentUser, dispatch]);
 
@@ -41,9 +40,9 @@ const WorkersTopNav = () => {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="workers tabs">
-            <Tab label="details" value="details" href='details' />
-            <Tab label="tasks" value="tasks" href='tasks' />
-            <Tab label="messages" value="messages" href='messages' />
+            <Tab label="פרטים" value="details" />
+            <Tab label="משימות" value="tasks" />
+            <Tab label="הודעות" value="messages" />
           </TabList>
         </Box>
         <TabPanel value="details"><WorkerPage user={new User} employee={new employee} /></TabPanel>

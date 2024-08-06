@@ -1,9 +1,10 @@
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import { ComponentType } from 'react';
+import DateFormat from './DateFormat';
 
 interface Item {
-  [key: string]: any;
+    [key: string]: any;
 }
 
 const Item = (props: {
@@ -23,7 +24,7 @@ const Item = (props: {
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
                 {
                     column.map((c) => (
-                        <TableCell key={c} align="left">{item[c]}</TableCell>
+                        <TableCell key={c} align="right">{c === "targetDate" ? <DateFormat isoDate={item[c]} /> : item[c]}</TableCell>
                     ))
                 }
             </TableRow>

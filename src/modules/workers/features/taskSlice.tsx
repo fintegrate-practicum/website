@@ -14,7 +14,7 @@ interface EditTaskArgs {
 const http = import.meta.env.VITE_HTTP;
 const managerId = import.meta.env.VITE_MANAGERID;
 const businessId = import.meta.env.VITE_BUSINESSID;
-const response = await axios.get(`${http}/tasks/manager/${businessId}/${managerId}`);
+const response = await axios.get(`http://localhost:4006/tasks/employee/${businessId}/${managerId}`/*currentUser*/);
 const { data = {} } = response.data;
 
 const taskSlice = createSlice({
@@ -23,7 +23,6 @@ const taskSlice = createSlice({
   reducers: {}
 })
 
-export const { } = taskSlice.actions;
 export const selectTasks = (state: RootState) => state.taskSlice.tasks;
 export default taskSlice.reducer;
 

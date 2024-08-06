@@ -24,9 +24,9 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({ filteredTasks, setFiltered
     <>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         <GenericList
-          title={"tasks list"}
+          title={"רשימת משימות"}
           list={filteredTasks}
-          column={["taskName", "targetDate", "theUrgencyOfTheTask"]}
+          column={["taskName", "targetDate", "urgency"]}
           desing={null}
         />
       </div>

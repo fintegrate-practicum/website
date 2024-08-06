@@ -7,7 +7,7 @@ import workerInstance from "../../../auth0/WorkersInterceptors";
 
 const http = import.meta.env.WORKERS_SERVICE_URL;
 const businessId = import.meta.env.VITE_BUSINESSID;
-const res = await axios.get(http+`/workers?businessId=${businessId}`);
+const res = await axios.get(http + `/workers?businessId=${businessId}`);
 const { data = {} } = res.data;
 
 const employeeSlice = createSlice({
@@ -16,7 +16,7 @@ const employeeSlice = createSlice({
     reducers: {}
 })
 
-export const selectEmployees = (state :RootState) => state.employeeSlice.employees
+export const selectEmployees = (state: RootState) => state.employeeSlice.employees
 export default employeeSlice.reducer;
 
 export const addEmployee = createAsyncThunk('', async (_employee: employee) => {
@@ -49,7 +49,6 @@ export const editEmployee = createAsyncThunk('', async (_employee: employee) => 
 
 export const getUserByEmail = createAsyncThunk('', async (email: string) => {
     try {
-        console.log('employee slice get email 1',email)
         const response = await workerInstance.get(`/user/email/${email}`)
         console.log(response)
         console.log(response.data)
@@ -66,5 +65,15 @@ export const getUserByJwt = createAsyncThunk('', async () => {
         return response.data;
     } catch (error) {
         console.error('Error fetching user info:', error);
+    }
+});
+
+export const getUserById = createAsyncThunk('', async (id: string) => {
+    console.log('get user by id')
+    try {
+        const response = await axios.get(`http://localhost:4006/user/${id}`)
+        return response.data.data;
+    } catch (error) {
+        return error
     }
 });
