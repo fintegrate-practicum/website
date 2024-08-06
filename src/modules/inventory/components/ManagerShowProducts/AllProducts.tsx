@@ -2,8 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import Button from '@mui/material/Button';
 import { IProduct } from '../../interfaces/IProduct';
 import { IComponent } from '../../interfaces/IComponent';
 import { useDispatch } from 'react-redux';
@@ -14,6 +13,7 @@ import { getAllComponents } from '../../features/component/componentSlice';
 import { useNavigate } from 'react-router-dom';
 import DeleteProduct from '../DeleteProduct';
 import DeleteComponent from '../DeleteComponent';
+import { Edit } from '@mui/icons-material/';
 
 const AllProducts = () => {
   const dispatch = useDispatch();
@@ -106,7 +106,7 @@ const AllProducts = () => {
               }}
               style={{ marginRight: '8px' }}
             >
-              <FontAwesomeIcon icon={faEdit} />
+              <Edit/>
             </IconButton>
             {'productComponents' in item ? (
               <DeleteProduct item={item as IProduct} />
@@ -125,6 +125,23 @@ const AllProducts = () => {
 
   return (
     <div style={{ height: 400, width: '100%' }}>
+      <div style={{ marginBottom: '16px' }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => navigate('/inventory/productForm')}
+          style={{ marginRight: '8px' }}
+        >
+          Add Product
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => navigate('/inventory/componentForm')}
+        >
+          Add Component
+        </Button>
+      </div>
       <DataGrid
         rows={allRows}
         columns={columns}

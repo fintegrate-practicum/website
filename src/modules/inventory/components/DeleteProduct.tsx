@@ -10,9 +10,11 @@ import { deleteItem } from '../Api-Requests/genericRequests';
 import { useDispatch } from 'react-redux';
 import { deleteProduct as deleteProductFromState } from '../features/product/productSlice';
 import { IconButton } from '@mui/material';
+import { IProduct } from '../interfaces/IProduct';
+import { toast, ToastContainer } from 'react-toastify';
 
 
-const DeleteProduct = ({ item }: any) => {
+const DeleteProduct = ({ item }: { item: IProduct }) => {
 
     const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch();
@@ -27,14 +29,14 @@ const DeleteProduct = ({ item }: any) => {
 
     const deleteProduct = async () => {
         try {
-            let response = await deleteItem("product", item.id);
-            alert("המחיקה בוצעה בהצלחה")
-            console.log(response);
+            await deleteItem("product", item.id);
+            toast.done("Product deleted successfully");
+            dispatch(deleteProductFromState(item.id));
         }
         catch (err) {
             console.log(err);
+            toast.error("Failed to delete product");
         }
-        dispatch(deleteProductFromState(item.id))
         setOpen(false);
     }
 
@@ -51,23 +53,25 @@ const DeleteProduct = ({ item }: any) => {
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
-                {"Are you sure you want to delete this product?"}
+                "Are you sure you want to delete this product?"
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    Product code to delete:{item.id}
+                    Product to delete:{item.name}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
                 <Button variant="text" onClick={handleClose}>cancel</Button>
                 <Button
-                   variant="text"
+                    variant="text"
                     onClick={deleteProduct}
                     autoFocus>
                     delete
                 </Button>
             </DialogActions>
         </Dialog>
+
+        <ToastContainer />
 
     </>);
 }
