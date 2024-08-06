@@ -5,29 +5,18 @@ import { showErrorToast } from "../components/generic/errorMassage";
 import { EmployeeRole } from "../modules/workers/classes/employeeRole";
 import { statuses } from "../modules/workers/classes/enum/statuses.enum";
 
-interface Address {
-  city: string;
-  street: string;
-  num: number;
-}
 interface UserDetails {
   userName: string;
   userEmail: string;
   auth0_user_id: string;
   registeredAt: string;
   lastLogin: string;
-  mobile: string;
   status: statuses;
-  dateOfBirth: string;
-  address: Address;
   data?: any;
 }
 interface EmployeeDetails {
   id_user: string;
   businessId: string;
-  code: string;
-  createdBy: string;
-  updatedBy: string;
   role: EmployeeRole;
   nameEmployee: string;
 }
@@ -39,9 +28,6 @@ const initialState: CurrentUser = {
   employeeDetails: {
     id_user: '',
     businessId: '',
-    code: '',
-    createdBy: '',
-    updatedBy: '',
     role: new EmployeeRole('', true, ''),
     nameEmployee: '',
   },
@@ -51,14 +37,7 @@ const initialState: CurrentUser = {
     auth0_user_id: '',
     registeredAt: '',
     lastLogin: '',
-    mobile: '',
     status: statuses.Married,
-    dateOfBirth: '',
-    address: {
-      city: '',
-      street: '',
-      num: 0
-    },
     data: {}
   }
 };
@@ -74,28 +53,18 @@ export const fetchUserById = createAsyncThunk(
       const res = data.data;
       const mappedData: CurrentUser = {
         employeeDetails: {
-          id_user: data._id || '',
-          businessId: res.businessRoles && res.businessRoles.length > 0 ? res.businessRoles[0].businessId : '',
-          code: '', 
-          createdBy: '',
-          updatedBy: '', 
+          id_user: data._id,
+          businessId: res.businessRoles && res.businessRoles.length > 0 ? res.businessRoles[0].businessId,
           role: new EmployeeRole(res.businessRoles[0].role, true, ''), 
-          nameEmployee: res.userName || '',
+          nameEmployee: res.userName,
         },
         userDetails: {
-          userName: res.userName || '',
-          userEmail: res.userEmail || '',
-          auth0_user_id: res.auth0_user_id || '',
-          registeredAt: res.registeredAt || '',
-          lastLogin: data.lastLogin || '',
-          mobile: '', 
+          userName: res.userName,
+          userEmail: res.userEmail,
+          auth0_user_id: res.auth0_user_id,
+          registeredAt: res.registeredAt,
+          lastLogin: data.lastLogin,
           status: statuses.Married, 
-          dateOfBirth: '', 
-          address: {
-            city: '', 
-            street: '', 
-            num: 0, 
-          },
           data: {}
         }
       };
