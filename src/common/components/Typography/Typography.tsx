@@ -2,7 +2,6 @@ import MaterialTypography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import React from 'react';
 import theme from '../../../Theme';
-import { ThemeProvider } from '@emotion/react';
 
 type ElementType<T extends React.ElementType> =
   T extends keyof JSX.IntrinsicElements ? T : React.ComponentType<any>;
@@ -34,7 +33,6 @@ const Typography = (props: TypographyProps) => {
    
         return (
             <>
-            {/* <ThemeProvider theme={theme}> */}
                 <MaterialTypography 
                 gutterBottom={gutterBottom}
                 variant={variant}
@@ -44,7 +42,6 @@ const Typography = (props: TypographyProps) => {
                 style={style}>
                     {children}
                 </MaterialTypography>
-                {/* </ThemeProvider> */}
                 </>
         
         );
