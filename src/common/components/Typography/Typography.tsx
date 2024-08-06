@@ -1,7 +1,7 @@
 import MaterialTypography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import React from 'react';
-import theme from '../../../Theme';
+
 
 type ElementType<T extends React.ElementType> =
   T extends keyof JSX.IntrinsicElements ? T : React.ComponentType<any>;
