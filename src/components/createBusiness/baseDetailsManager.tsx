@@ -6,8 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import FormWrapper from '../../stories/FormWrapper';
 import { FieldValues } from 'react-hook-form';
 import { BusinessSize } from '../../classes/Business';
+import { useTranslation } from 'react-i18next';
 
 export default function BaseDetailsManager(): JSX.Element {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -37,7 +39,7 @@ export default function BaseDetailsManager(): JSX.Element {
 const fields = [
   {
     name: 'companyNumber',
-    label: 'Company Number',
+    label: t('Company Number'),
     type: 'text',
     validation: {
       required: 'Company number is required',
@@ -49,25 +51,25 @@ const fields = [
   },
   {
     name: 'name',
-    label: 'Business Name',
+    label: t('Business Name'),
     type: 'text',
     validation: {
-      required: 'Business name is required',
+      required: t("Business name is required"),
       pattern: {
         value: /^[A-Z]{2,30}$/i,
-        message: 'Business name must contain more than 2 and less than 30 characters',
+        message: t('Business name must contain more than 2 and less than 30 characters'),
       },
     },
   },
   {
     name: 'email',
-    label: 'Business Email',
+    label: t('Business Email'),
     type: 'email',
     validation: {
-      required: 'Email is required',
+      required: t('Email is required'),
       pattern: {
         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-        message: 'Invalid email address',
+        message: t('Invalid email address'),
       },
     },
   },

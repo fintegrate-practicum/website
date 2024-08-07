@@ -11,11 +11,14 @@ import { useAppDispatch } from "../../../../Redux/hooks";
 import { Types } from "mongoose";
 import Task from "../../classes/task";
 import { TaskStatus } from "../../classes/enum/taskStatus.enum";
+import { useTranslation } from 'react-i18next';
+
 
 export default function AddTaskBtn() {
+  const { t } = useTranslation();
   const [open, setOpen] = React.useState(false);
   const businessId = new Types.ObjectId(import.meta.env.VITE_BUSINESSID);
-  const managerId =   import.meta.env.VITE_MANAGERID?import.meta.env.VITE_MANAGERID  : 'companyName';
+  const managerId = import.meta.env.VITE_MANAGERID ? import.meta.env.VITE_MANAGERID : 'companyName';
   const [taskName, setTaskName] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [targetDate, setTargetDate] = React.useState(new Date(0));
@@ -27,7 +30,7 @@ export default function AddTaskBtn() {
   };
 
   const handleClose = () => {
-   
+
     const task: Task = {
       businessId,
       managerId,
@@ -60,14 +63,15 @@ export default function AddTaskBtn() {
         console.warn(`Invalid ObjectId: ${trimmed}`);
         return null;
       })
-          .filter(item => item!==null) as Types.ObjectId[];
+      .filter(item => item !== null) as Types.ObjectId[];
 
-      setEmployee(employeeArray);
+    setEmployee(employeeArray);
   };
+
   return (
     <React.Fragment>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Add new Task
+        {t('Add new Task')}
       </Button>
       <Dialog
         open={open}
@@ -80,11 +84,10 @@ export default function AddTaskBtn() {
           },
         }}
       >
-        <DialogTitle> Add new Task</DialogTitle>
+        <DialogTitle>{t('Add new Task')}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To add a new task, please enter the data here. We will send updates
-            to employees.
+            {t('To add a new task, please enter the data here. We will send updates to employees.')}
           </DialogContentText>
           <TextField
             onChange={(e) => setTaskName(e.target.value)}
@@ -93,7 +96,7 @@ export default function AddTaskBtn() {
             margin="dense"
             id="task_name"
             name="task_name"
-            label="Task Name"
+            label={t('Task Name')}
             type="text"
             fullWidth
             variant="standard"
@@ -105,7 +108,7 @@ export default function AddTaskBtn() {
             margin="dense"
             id="description"
             name="description"
-            label="Description"
+            label={t('Description')}
             type="text"
             fullWidth
             variant="standard"
@@ -118,7 +121,7 @@ export default function AddTaskBtn() {
             margin="dense"
             id="target_date"
             name="Target Date"
-            label="Target Date"
+            label={t('Target Date')}
             type="date"
             fullWidth
             variant="standard"
@@ -131,7 +134,7 @@ export default function AddTaskBtn() {
             margin="dense"
             id="employee"
             name="employee"
-            label="Employee"
+            label={t('Employee')}
             type="text"
             fullWidth
             variant="standard"
@@ -143,15 +146,15 @@ export default function AddTaskBtn() {
             margin="dense"
             id="urgency"
             name="Urgency"
-            label="Urgency"
+            label={t('Urgency')}
             type="number"
             fullWidth
             variant="standard"
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Save</Button>
+          <Button onClick={handleClose}>{t('Cancel')}</Button>
+          <Button type="submit">{t('Save')}</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

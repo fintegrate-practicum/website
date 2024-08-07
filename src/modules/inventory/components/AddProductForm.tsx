@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from "react";
-import {SubmitHandler, useForm} from "react-hook-form";
-import {useDispatch, useSelector} from "react-redux";
-import {IProduct} from "../interfaces/IProduct";
-import {IComponent} from "../interfaces/IComponent";
+import React, { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { IProduct } from "../interfaces/IProduct";
+import { IComponent } from "../interfaces/IComponent";
 import TextField from '@mui/material/TextField';
 import * as yup from 'yup';
-import {yupResolver} from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import Button from '../../../common/components/Button/Button'
 import Box from '@mui/material/Box';
-import {useParams} from "react-router-dom";
-import {addItem, getAllItems, getItemById, updateItem} from "../Api-Requests/genericRequests";
+import { useParams } from "react-router-dom";
+import { addItem, getAllItems, getItemById, updateItem } from "../Api-Requests/genericRequests";
 import {
     Checkbox,
     Chip,
@@ -22,8 +22,9 @@ import {
     Select,
     SelectChangeEvent
 } from "@mui/material";
-import {RootState} from "../../../Redux/store";
-import {getAllComponents} from "../features/component/componentSlice";
+import { RootState } from "../../../Redux/store";
+import { getAllComponents } from "../features/component/componentSlice";
+import { useTranslation } from 'react-i18next';
 
 const productSchema = yup.object().shape({
     name: yup.string().required("name is a required field").min(3, "name must be at least 3 characters").max(20, "name must be at most 20 characters"),
@@ -41,7 +42,7 @@ const productSchema = yup.object().shape({
             then: (schema) => schema
                 .typeError("Sale percentage must be a number").min(0, "Sale percentage must be at least 0").max(100, "Sale percentage must be at most 100")
                 .required("Sale percentage is a required field"), otherwise: (schema) => schema
-                .notRequired()
+                    .notRequired()
         }),
     stockQuantity: yup.number().typeError("stockQuantity must be a number").required("stockQuantity is a required field").min(0, "stock cannot be negative"),
     businessId: yup.string().required("Business ID is required"),
@@ -50,6 +51,7 @@ const productSchema = yup.object().shape({
 
 const AddProductForm = () => {
     const { productId } = useParams<{ productId: string }>();
+    const { t } = useTranslation();
     const [product, setProduct] = useState<IProduct | any>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [components, setComponents] = useState<IComponent[]>([]);
@@ -61,7 +63,6 @@ const AddProductForm = () => {
         resolver: yupResolver(productSchema),
         defaultValues: product || {}
     });
-    
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -72,7 +73,7 @@ const AddProductForm = () => {
                     setProduct(dataToUpdate);
                     reset(dataToUpdate);
                 } catch (error) {
-                    console.error('Error fetching product:', error);
+                    console.error(t('Error fetching product:'), error);
                 }
             }
         };
@@ -108,8 +109,8 @@ const AddProductForm = () => {
 
         const newData = {
             ...data,
-            businessId: "here will be the business id",
-            adminId: "here will be the admin id",
+            businessId: t("here will be the business id"),
+            adminId: t("here will be the admin id"),
             productComponents: componentIds,
             images: data.images
         };
@@ -127,22 +128,22 @@ const AddProductForm = () => {
         if (product && productId) {
             try {
                 const response = await updateItem<IProduct>(`api/inventory/product`, productId, newData);
-                console.log('Product updated successfully:', response.data);
+                console.log(t('Product updated successfully:'), response.data);
             } catch (error) {
-                console.error('Error updating product:', error);
+                console.error(t('Error updating product:'), error);
             }
         } else {
             try {
                 const response = await addItem<IProduct>('api/inventory/product', newData);
-                console.log('Product added successfully:', response.data);
+                console.log(t('Product added successfully:'), response.data);
             } catch (error) {
-                console.error('Error adding product:', error);
+                console.error(t('Error adding product:'), error);
             }
         }
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div>{t('Loading...')}</div>;
     }
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -316,7 +317,7 @@ const AddProductForm = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={12}>
-                    <Button  component="label" fullWidth>
+                    <Button component="label" fullWidth>
                         Upload Images
                         <input
                             type="file"
@@ -330,7 +331,7 @@ const AddProductForm = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={12}>
-                    <Button type="submit"  fullWidth>
+                    <Button type="submit" fullWidth>
                         {product ? "Update Product" : "Add Product"}
                     </Button>
                 </Grid>

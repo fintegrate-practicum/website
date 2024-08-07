@@ -1,13 +1,13 @@
-
 import GenericList from "../../../components/generic/genericList";
 import { useAppSelector } from "../../../Redux/hooks";
 import ItemDetailToWorker from "./itemDetailToWorker";
 import React, { useState } from "react";
 import Button from "../../../common/components/Button/Button";
 import { RootState } from "../../../Redux/store";
+import { useTranslation } from 'react-i18next';
 
 const WorkersShowList = () => {
-
+  const { t } = useTranslation();
   const employees = useAppSelector((state: RootState) => state.employeeSlice.employees);
 
   const [startIndex, setStartIndex] = useState<number>(0);
@@ -29,16 +29,16 @@ const WorkersShowList = () => {
     <>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         <GenericList
-          title={"workers list"}
+          title={t('workers list')}
           list={paginatedEmployees}
           column={[
-            "userId",
-            "code",
-            "createdBy",
-            "updatedBy",
-            "roleId",
-            "position",
-            "details",
+            t('userId'),
+            t('code'),
+            t('createdBy'),
+            t('updatedBy'),
+            t('roleId'),
+            t('position'),
+            t('details'),
           ]}
           desing={ItemDetailToWorker}
         />
@@ -46,20 +46,18 @@ const WorkersShowList = () => {
       <Button
         component="label"
         tabIndex={-1}
-        // startIcon={<CloudUploadIcon />}
         onClick={showMoreData}
         disabled={!hasNextPage}
       >
-        הבא
+        {t('Next')}
       </Button>
       <Button
         component="label"
         tabIndex={-1}
-        // startIcon={<CloudUploadIcon />}
         onClick={showLessData}
         disabled={!hasPreviousPage}
       >
-        הקודם
+        {t('Previous')}
       </Button>
     </>
   );

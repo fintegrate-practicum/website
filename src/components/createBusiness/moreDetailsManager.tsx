@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 import FormWrapper from '../../stories/FormWrapper';
 import { FieldValues } from 'react-hook-form';
 import { BusinessSize} from '../../classes/Business';
+import { useTranslation } from 'react-i18next';
 
 export default function MoreDetailsManager(): JSX.Element {
     const companyNumber = useAppSelector((state) => state.businessSlice.business.companyNumber);
@@ -43,25 +44,27 @@ export default function MoreDetailsManager(): JSX.Element {
         dispatch(updateBusiness({ companyNumber, newData }));
     };
 
+    const { t } = useTranslation();
+
     const fields = [
-        { name: 'description', label: 'Description', type: 'text' },
-        { name: 'phone', label: 'Phone', type: 'text' },
-        { name: 'address', label: 'Address', type: 'text' },
+        { name: 'description', label: t('Description'), type: 'text' },
+        { name: 'phone', label: t('Phone'), type: 'text' },
+        { name: 'address', label: t('Address'), type: 'text' },
         {
             name: 'businessSize',
-            label: 'Business Size',
+            label: t('Business Size'),
             type: 'select',
             options: Object.values(BusinessSize),
         },
         {
             name: 'industryType',
-            label: 'Industry Type',
+            label: t('Industry Type'),
             type: 'select',
             options: ['service provider', 'gives a product'],
         },
         {
             name: 'logo',
-            label: 'Logo',
+            label: t('Logo'),
             type: 'file',
             onChange: (e: React.ChangeEvent<HTMLInputElement>, setValue: any) => handleFileChange(e, setValue),
         },
@@ -71,6 +74,3 @@ export default function MoreDetailsManager(): JSX.Element {
         <FormWrapper onSubmit={onSubmit} fields={fields} />
     );
 }
-
-
-

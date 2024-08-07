@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import GenericList from "../../../../components/generic/genericList";
 import Task from "../../classes/task";
 import { useAppSelector } from "../../../../Redux/hooks";
+import { useTranslation } from 'react-i18next';
 
 interface ShowTaskListProps {
   filteredTasks: Task[];
@@ -9,6 +10,7 @@ interface ShowTaskListProps {
 }
 
 const TasksShowList: React.FC<ShowTaskListProps> = ({ filteredTasks, setFilteredTasks }) => {
+  const { t } = useTranslation();
   const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails);
 
   useEffect(() => {
@@ -24,9 +26,9 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({ filteredTasks, setFiltered
     <>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         <GenericList
-          title={"tasks list"}
+          title={t('tasks list')}
           list={filteredTasks}
-          column={["taskName", "targetDate", "theUrgencyOfTheTask"]}
+          column={[t('Task Name'), t('Target Date'), t('theUrgencyOfTheTask')]}
           desing={null}
         />
       </div>

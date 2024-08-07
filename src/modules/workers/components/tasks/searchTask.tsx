@@ -4,6 +4,7 @@ import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Task from '../../classes/task';
+import { useTranslation } from 'react-i18next';
 
 interface SearchTaskProps {
   tasks: Task[];
@@ -11,6 +12,7 @@ interface SearchTaskProps {
 }
 
 const SearchTask: React.FC<SearchTaskProps> = ({ tasks, setFilteredTasks }) => {
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearch = () => {
@@ -30,7 +32,7 @@ const SearchTask: React.FC<SearchTaskProps> = ({ tasks, setFilteredTasks }) => {
       >
         <InputBase
           sx={{ ml: 1, flex: 1 }}
-          placeholder="Search"
+          placeholder={t('Search')}
           inputProps={{ 'aria-label': 'search' }}
           value={searchTerm}
           onChange={(e) => {
@@ -44,7 +46,7 @@ const SearchTask: React.FC<SearchTaskProps> = ({ tasks, setFilteredTasks }) => {
         </IconButton>
       </Paper>
     </>
-
   );
-}
+};
+
 export default SearchTask;

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 import { useJwtFromCookie } from '../Redux/hooks';
-
+import { useTranslation } from 'react-i18next';
  
 
 const workerInstance = axios.create({
@@ -11,8 +11,9 @@ const workerInstance = axios.create({
 workerInstance.interceptors.request.use(
   config => {
     const token=useJwtFromCookie('accessToken')
+    const { t } = useTranslation();
     if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+        config.headers.Authorization = `${t('Bearer')} ${token}`;
     }
     
     return config;
