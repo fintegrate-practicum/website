@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import "./smallShoppingBag.css";
-import { Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import Typography from '../../../common/components/Typography/Typography'
+import { Table, TableBody, TableCell, TableHead, TableRow} from '@mui/material';
 
 const bag = [
 

@@ -70,4 +70,3 @@ const Button = (props: React.ComponentProps<typeof MaterialButton> & ButtonProps
 };
 
 export default Button;
-
