@@ -22,11 +22,12 @@ export default employeeSlice.reducer;
 
 export const addEmployee = createAsyncThunk('', async (_employee: employee) => {
     try {
+        console.log('add employee slice')
         const response = await workerInstance.post('/workers', _employee)
+        console.log('response', response)
         return response.data;
     } catch (error) {
-        console.log("error", error);
-        return error;
+        console.error("error", error);
     }
 });
 
@@ -35,7 +36,7 @@ export const deleteEmployee = createAsyncThunk('', async (_num: number) => {
         const response = await axios.delete(`${baseUrl}/workers/${_num}`)
         return response.data
     } catch (error) {
-        return error
+        console.error('error', error)
     }
 });
 
@@ -44,20 +45,16 @@ export const editEmployee = createAsyncThunk('', async (_employee: employee) => 
         const response = await axios.put(`${http}/workers/${_employee.userId}`, _employee)
         return response.data
     } catch (error) {
-        return error
+        console.error('error', error)
     }
 });
 
 export const getUserByEmail = createAsyncThunk('', async (email: string) => {
     try {
-        console.log('employee slice get email 1',email)
         const response = await workerInstance.get(`/user/email/${email}`)
-        console.log(response)
-        console.log(response.data)
-
         return response.data
     } catch (error) {
-        return error
+        console.error('error', error)
     }
 });
 

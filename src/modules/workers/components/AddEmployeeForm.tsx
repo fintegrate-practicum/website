@@ -4,35 +4,33 @@ import { addEmployee, getUserByEmail, getUserByJwt } from '../features/employeeS
 import { useAppDispatch } from '../../../Redux/hooks';
 import Employee from '../classes/employee';
 import { Types } from 'mongoose';
+import { Controller, useForm } from 'react-hook-form';
 
 const AddEmployeeForm: React.FC = () => {
     const dispatch = useAppDispatch();
-    const [nameEmployee, setNameEmployee] = useState('');
-    const [type, setType] = useState('');
-    const [description, setDescription] = useState('');
-    const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState(false);
     const [existingBusiness, setExistingBusiness] = useState(false);
     const [employeeAdded, setEmployeeAdded] = useState(false);
-
     const [userInfo, setUserInfo] = useState<any>();
 
+    const { control, handleSubmit, watch } = useForm();
+    const type = watch('role.type');
+    const description = watch('role.description');
+    const nameEmployee = watch('nameEmployee');
+    const email = watch('email');
+
     const fetchUserInfo = async () => {
-        console.log('fetch user info')
-        setUserInfo(getUserByJwt());
+        setUserInfo(await getUserByJwt());
     }
 
-    const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
-
+    const onSubmit = async () => {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|COM|net|org|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$/;
         if (!emailRegex.test(email)) {
             setEmailError(true);
             return;
         }
-        fetchUserInfo();
-        console.log('user info')
-        console.log(userInfo);
+        await fetchUserInfo();
+
         const newEmployee: Employee = {
             userId: '-1',
             businessId: new Types.ObjectId(/*שליפה של המזהה עסק מתוך ה URL*/'668ff1e5041b3614da40f0d5') || new Types.ObjectId('668ff1e5041b3614da40f0d5'),
@@ -42,45 +40,42 @@ const AddEmployeeForm: React.FC = () => {
             nameEmployee: nameEmployee,
             role: { type: type, active: false, description: description },
         };
-        console.log('new employee')
-        console.log(newEmployee)
+
         const employee = await dispatch(getUserByEmail(email));
-        console.log(employee)
-        const auth0Employee = employee.payload.data;
-        if (!auth0Employee) {
+        if (employee.payload == undefined) {
             console.log('משתמש לא קיים - לשלוח ל auth');
             await dispatch(addEmployee(newEmployee));
             setEmployeeAdded(true);
         }
-        else
+        else {
+            const auth0Employee = employee.payload.data;
             for (let index = 0; index < auth0Employee.businessRoles.length; index++) {
                 if (auth0Employee.businessRoles[index].businessId === newEmployee.businessId.toString()) {
-                    if (auth0Employee.businessRoles[index].role == 'Client') {
+                    if (auth0Employee.businessRoles[index].role == 'client') {
                         console.log('לשלוח לauth כדי להגדיל את ההרשאות גישה')
                         await dispatch(addEmployee(newEmployee));
                         setEmployeeAdded(true);
                         return;
                     }
-                    if (auth0Employee.businessRoles[index].role == 'Employee') {
+                    if (auth0Employee.businessRoles[index].role == 'employee') {
                         setExistingBusiness(true);
                         console.log('עובד כבר קיים במערכת')
                         return;
                     }
-                    if (auth0Employee.businessRoles[index].role == 'Admin') {
+                    if (auth0Employee.businessRoles[index].role == 'admin') {
                         setExistingBusiness(true);
                         console.log('מנהל כבר קיים במערכת')
                         return;
                     }
                 }
             }
-        if (!existingBusiness) {
-            console.log('שליחה ל auth  להוספת עסק ועידכון הסטטוס')
-            await dispatch(addEmployee(newEmployee));
-            setEmployeeAdded(true);
+            if (!existingBusiness) {
+                console.log('שליחה ל auth  להוספת עסק ועידכון הסטטוס')
+                await dispatch(addEmployee(newEmployee));
+                setEmployeeAdded(true);
+            }
+            setEmailError(false);
         }
-        console.log('exist')
-        console.log(existingBusiness)
-        setEmailError(false);
     };
 
     return (
@@ -101,57 +96,74 @@ const AddEmployeeForm: React.FC = () => {
                 <Typography variant="h4" component="h1" gutterBottom>
                     הוספת עובד חדש
                 </Typography>
-                <Box component="form" onSubmit={handleSubmit}>
-                    <TextField
-                        sx={{ marginBottom: '1rem' }}
-                        fullWidth
-                        label="שם העובד"
+                <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+                    <Controller
                         name="nameEmployee"
-                        value={nameEmployee}
-                        onChange={(e) => setNameEmployee(e.target.value)}
-                        variant="outlined"
-                        required
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <TextField
+                                sx={{ marginBottom: '1rem' }}
+                                fullWidth
+                                label="שם העובד"
+                                variant="outlined"
+                                required
+                                {...field}
+                            />
+                        )}
                     />
-
-                    <TextField
-                        sx={{ marginBottom: '1rem' }}
-                        fullWidth
-                        select
-                        label="תפקיד"
+                    <Controller
                         name="role.type"
-                        value={type}
-                        onChange={(e) => setType(e.target.value)}
-                        variant="outlined"
-                        required
-                    >
-                        <MenuItem value="admin">מנהל צוות</MenuItem>
-                        <MenuItem value="employee">עובד</MenuItem>
-                    </TextField>
-
-                    <TextField
-                        sx={{ marginBottom: '1rem' }}
-                        fullWidth
-                        label="תיאור תפקיד"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <TextField
+                                sx={{ marginBottom: '1rem' }}
+                                fullWidth
+                                select
+                                label="תפקיד"
+                                variant="outlined"
+                                required
+                                {...field}
+                            >
+                                <MenuItem value="admin">מנהל צוות</MenuItem>
+                                <MenuItem value="employee">עובד</MenuItem>
+                            </TextField>
+                        )}
+                    />
+                    <Controller
                         name="role.description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        variant="outlined"
-                        required
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <TextField
+                                sx={{ marginBottom: '1rem' }}
+                                fullWidth
+                                label="תיאור תפקיד"
+                                variant="outlined"
+                                required
+                                {...field}
+                            />
+                        )}
                     />
 
-                    <TextField
-                        sx={{ marginBottom: '1rem' }}
-                        fullWidth
-                        label="אימייל"
+                    <Controller
                         name="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        variant="outlined"
-                        required
-                        error={emailError}
-                        helperText={emailError ? 'כתובת אימייל לא תקינה' : ''}
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <TextField
+                                sx={{ marginBottom: '1rem' }}
+                                fullWidth
+                                label="אימייל"
+                                variant="outlined"
+                                required
+                                error={emailError}
+                                helperText={emailError ? 'כתובת אימייל לא תקינה' : ''}
+                                {...field}
+                            />
+                        )}
                     />
-
                     <Button
                         sx={{ marginTop: '1rem' }}
                         type="submit"
