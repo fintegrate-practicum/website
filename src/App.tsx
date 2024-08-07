@@ -14,6 +14,10 @@ import MoreDetailsManager from './components/createBusiness/moreDetailsManager';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
 
+const LazyBaseDetailsManager = React.lazy(() => import('./components/createBusiness/baseDetailsManager'));
+const LazyEmailVerification = React.lazy(() => import('./components/createBusiness/emailVerification'));
+const LazyMoreDetailsManager = React.lazy(() => import('./components/createBusiness/moreDetailsManager'));
+const LazyClient = React.lazy(() => import('./components/client/Client'));
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 
 const App = () => {
@@ -66,16 +70,18 @@ const App = () => {
         </Routes>
         {isRootPath && (
           <>
-            {typeUser !== 'manager' && typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (
+            {typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (
               <Client />
-            ) : typeUser === 'manager' || typeUser === 'admin' ? (
+            ) : typeUser === 'admin' ? (
               <>
                 <MainRouter />
+                <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
               </>
             ) : (
-              <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
+                <Login/>
             )}
           </>
+
         )}
       </Provider>
     </ThemeProvider>
