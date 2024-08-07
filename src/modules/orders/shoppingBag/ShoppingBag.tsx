@@ -30,9 +30,9 @@ const ShoppingBag: React.FC<{  }> = () => {
 
   const handleRemove =async (index: string) => {
     if (window.confirm('האם ברצונך להסיר את המוצר?')) {
-      dispatch(deleteFromBasket(index));
       try {
         await deleteItem<ICart>('cart',index)
+        dispatch(deleteFromBasket(index));
       } catch (error) {
         
       }
@@ -55,9 +55,9 @@ const ShoppingBag: React.FC<{  }> = () => {
           metadata: updatedMetadata
         };
   
-        dispatch(updateBasket(updatedProduct));
         try {
           await updateItem<ICart>('cart',index,updatedProduct)
+          dispatch(updateBasket(updatedProduct));
         } catch (error) {
           
         }
