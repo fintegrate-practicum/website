@@ -28,7 +28,7 @@ const DeleteComponent = ({ item }: { item: IComponent }) => {
 
     const deleteComponent = async () => {
         try {
-            await deleteItem("component", item.id);
+            await deleteItem("api/inventory/component", item.id);
             toast.done("Component deleted successfully");
             dispatch(deleteComponentFromState(item.id));
         } catch (err) {
