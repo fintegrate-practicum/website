@@ -53,6 +53,7 @@ const MainRouter = () => {
         route: '../orders',
         component: '../../modules/orders/showOrders/ALLOrders'
       },
+      //הכנה לinventory  צריך לסדר ניתוב רק כשהקומפוננטה תהיה מוכנה
       {
         name: 'inventory',
         nameToView: 'Inventory',
