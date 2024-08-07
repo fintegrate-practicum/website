@@ -1,0 +1,17 @@
+{
+	"Edit Profile": "ערוך פרופיל",
+	"Email": "דואר אלקטרוני",
+	"Name": "שם",
+	"Phone": "טלפון",
+	"Address": "כתובת",
+	"Status": "סטטוס",
+	"Role": "תפקיד",
+	"Copy": "העתק",
+	"login": "התחברות",
+	"Register a business": "הרשמה של עסק",
+	"Unauthorized": "לא מורשה",
+	"Error fetching data": "שגיאה בקריאת המידע",
+	"Bearer": "Bearer",
+	"Profile": "פרופיל",
+	"Log out": "התנתקות"
+}
