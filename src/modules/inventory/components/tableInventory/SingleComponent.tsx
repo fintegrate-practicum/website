@@ -3,10 +3,10 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '../../../../common/components/Button/Button';
-import Typography from '@mui/material/Typography';
+import Typography from '../../../../common/components/Typography/Typography';
 import { IComponent } from '../../interfaces/IComponent';
 
- const SingleComponent: React.FunctionComponent< {component:IComponent}> = ({ component }) => {
+ const SingleComponent: React.FunctionComponent< {component:IComponent}> = ( { component }) => {
   return (
     <>
     <Card sx={{ maxWidth: 345 }}>
@@ -16,13 +16,15 @@ import { IComponent } from '../../interfaces/IComponent';
         title={component.name}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
+        <Typography gutterBottom variant="h5" component="div" >
+       
           {component.name}
         </Typography>
         <Typography gutterBottom variant="body1" component="div">
          price: { component.componentBuyPrice}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="textSecondary">
+  
           {component.description}
         </Typography>
       </CardContent>
