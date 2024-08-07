@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import { IProduct } from '../../interfaces/IProduct';
@@ -14,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import DeleteProduct from '../DeleteProduct';
 import DeleteComponent from '../DeleteComponent';
 import { Edit } from '@mui/icons-material/';
+import ProductComponentsList from './ProductComponentsList';
 
 const AllProducts = () => {
   const dispatch = useDispatch();
@@ -49,13 +49,14 @@ const AllProducts = () => {
     }
   };
 
-  const componentMap: Record<string, string> = useMemo(
-    () => components.reduce((acc: Record<string, string>, component: IComponent) => {
-      acc[component.id] = component.name || 'Unknown';
-      return acc;
-    }, {}),
-    [components]
-  );
+  const navigateToUpdate = (item: IProduct | IComponent) => {
+    setSelectedItemId(item.id);
+    if ('productComponents' in item) {
+      navigate(`/inventory/productForm/${item.id}`);
+    } else {
+      navigate(`/inventory/componentForm/${item.id}`);
+    }
+  }
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -70,22 +71,13 @@ const AllProducts = () => {
       width: 220,
       renderCell: (params) => {
         const product = params.row as IProduct;
-        if (!product?.productComponents?.length) {
-          return 'No Components';
-        } 
         return (
-          <Tooltip title="Components" arrow>
-            <span>
-              {product.productComponents.map((componentId, index) => (
-                <span key={componentId}>
-                  {componentMap[componentId] || 'Unknown Component'}
-                  {index < product.productComponents.length - 1 && ', '}
-                </span>
-              ))}
-            </span>
-          </Tooltip>
+          <ProductComponentsList
+            componentIds={product.productComponents || []}
+            components={components}
+          />
         );
-      },   
+      },
     },
     {
       field: 'actions',
@@ -97,17 +89,10 @@ const AllProducts = () => {
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <IconButton
               color="primary"
-              onClick={() => {
-                setSelectedItemId(item.id);
-                if ('productComponents' in item) {
-                  navigate(`/inventory/productForm/${item.id}`);
-                } else {
-                  navigate(`/inventory/componentForm/${item.id}`);
-                }
-              }}
+              onClick={() => navigateToUpdate(item)}
               style={{ marginRight: '8px' }}
             >
-              <Edit/>
+              <Edit />
             </IconButton>
             {'productComponents' in item ? (
               <DeleteProduct item={item as IProduct} />
