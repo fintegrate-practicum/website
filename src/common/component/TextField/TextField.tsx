@@ -1,6 +1,5 @@
 import { TextField } from '@mui/material';
 import React from 'react';
-// import{} TextFieldfrom '@mui/material/TextField';
 interface TextFieldProps  {
   id?: string;
   variant?: "filled" | "outlined" | "standard";
@@ -25,15 +24,6 @@ interface TextFieldProps  {
     InputProps,
     sx,
   } = props;
-  // const CustomTextField = ({ id, variant = 'outlined', label, value, onChange, disabled = false, margin = 'normal', InputProps, sx }: CustomTextFieldProps) => {
-    // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //   onChange && onChange(event); // Call the onChange function passed from props
-    // };
-    // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //   if (onChange) {
-    //     onChange(event); // Call the onChange function passed from props
-    //   }
-    // };
   return (
     <TextField
       id={id}
