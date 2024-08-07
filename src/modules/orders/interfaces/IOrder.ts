@@ -1,6 +1,6 @@
 import Item from "../../../components/generic/item";
 export interface IOrder extends Item {
-
+  id: string;
   userId: string,
   products: { id: string, qty: number }[];
   deliveryMethod: string,

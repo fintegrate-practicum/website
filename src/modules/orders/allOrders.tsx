@@ -6,6 +6,9 @@ import { IProduct } from '../inventory/interfaces/IProduct';
 import { getItemById } from '../inventory/Api-Requests/genericRequests';
 import { getAllItems } from './Api-Requests/genericRequests';
 import { IOrder } from './interfaces/IOrder';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../app/hooks';
+import { getOrders } from './features/order/orderSlice';
 
 const theme = createTheme({
     palette: {
@@ -20,19 +23,20 @@ const theme = createTheme({
 
 export default function AllOrders() {
     const { businessCode } = useParams<{ businessCode: string }>();
-    const [orders, setOrders] = useState<IOrder[]>([]);
     const [products, setProducts] = useState<{ [key: string]: IProduct }>({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const dispatch = useDispatch();
+    const orders = useAppSelector((state) => state.order?.data || []);
 
     if (!businessCode) {
         return <div>אין קוד עסק</div>;
     }
 
-    const getOrders = async () => {
+    const getAllOrders = async () => {
         try {
             const res = await getAllItems<IOrder[]>(`orders/${businessCode}`);
-            setOrders(res.data);
+            dispatch(getOrders(res.data));
             fetchProducts(res.data);
         } catch (err) {
             console.log(err);
@@ -50,7 +54,7 @@ export default function AllOrders() {
                 acc[product.data.id] = product.data;
                 return acc;
             }, {} as { [key: string]: IProduct });
-            setProducts(productsMap);
+            setProducts(productsMap);            
         } catch (err) {
             console.error(err);
             setError('Error fetching products');
@@ -71,7 +75,7 @@ export default function AllOrders() {
     // }
 
     useEffect(() => {
-        getOrders();
+        getAllOrders();
     }, [businessCode]);
 
     if (loading) {

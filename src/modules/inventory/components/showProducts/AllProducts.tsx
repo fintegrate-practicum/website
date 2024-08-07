@@ -10,7 +10,7 @@ import { getAllComponents } from '../../features/component/componentSlice';
 import Button from "@mui/material/Button";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { useAppSelector } from "../../app/hooks";
+import { useAppSelector } from "../../../../app/hooks";
 
 export default function ShowProducts() {
   const dispatch = useDispatch();

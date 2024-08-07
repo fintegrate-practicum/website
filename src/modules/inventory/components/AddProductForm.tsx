@@ -10,7 +10,6 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { useParams } from "react-router-dom";
 import { addItem, getAllItems, getItemById, updateItem } from "../Api-Requests/genericRequests";
-import { getProducts } from "../features/product/productSlice";
 import { Chip, Grid, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, FormControl, FormControlLabel, Checkbox } from "@mui/material";
 import { RootState } from "../../../Redux/store";
 import { getAllComponents } from "../features/component/componentSlice";
@@ -33,7 +32,7 @@ const AddProductForm = () => {
         totalPrice: yup.number().typeError("totalPrice must be a number").required("totalPrice is a required field").min(1, "price must be positive"),
         adminId: yup.string().required("Admin ID is required"),
         isActive: yup.boolean().required("isActive is a required field"),
-        isOnSale: yup.boolean().required("isOnSale is a required field"),
+        isOnSale: yup.boolean().required("isOnSale is a required field"),    
         salePercentage: yup.number()
             .when('isOnSale', {
                 is: true,
