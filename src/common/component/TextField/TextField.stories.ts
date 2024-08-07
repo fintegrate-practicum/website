@@ -1,5 +1,6 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import TextField from './TextField';
 const meta: Meta<typeof TextField> = {
     component: TextField,
@@ -17,11 +18,11 @@ export const primary: Story = {
         variant: 'outlined',
         label: 'Example Label',
         value: '',
-        onChange: () => { },
         disabled: false,
         margin: 'normal',
         InputProps: {},
         sx: { mt: 2 },
+        onChange: action('onChange'),
     },
 };
 
