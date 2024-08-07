@@ -73,7 +73,7 @@ const Profile: React.FC = () => {
         console.log((e as Error).message);
       }
     };
-    const getSavedCartForUser = async () => {
+    const getSavedCartsForUser = async () => {
       const userId = useJwtFromCookie('user_id')?.split('|')[1]
       
       //אמור להשלף מהרידקס ברגע שיטפלו בזה
@@ -89,7 +89,7 @@ const Profile: React.FC = () => {
 
     if (user?.sub) {
       getUserMetadata();
-      getSavedCartForUser();
+      getSavedCartsForUser();
     }
   }, [getAccessTokenSilently, user?.sub, dispatch]);
 
