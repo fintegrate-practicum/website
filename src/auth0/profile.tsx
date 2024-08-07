@@ -75,14 +75,12 @@ const Profile: React.FC = () => {
     };
     const getSavedCartForUser = async () => {
       const userId = useJwtFromCookie('user_id')?.split('|')[1]
+      
       //אמור להשלף מהרידקס ברגע שיטפלו בזה
       const buissnes_code = "615123456"
 
       try {
         const response = await getAllItems<ICart[]>(`cart/${buissnes_code}/${userId}`)
-
-        console.log('getSavedCartForUser');
-        console.log(response.data);  // הנחה שה- httpService מחזיר את האובייקט בתגובה
         dispatch(getBasket(response.data))
       } catch (error) {
         console.error('Error fetching cart data:', error);
