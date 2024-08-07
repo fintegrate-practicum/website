@@ -120,10 +120,6 @@ const AllProducts = () => {
     },
   ];
 
-  const handleRowSelectionChange = (selection: any) => {
-    setSelectedRows(selection.rows.map((row: any) => row.id));
-  };
-
   return (
     <div style={{ height: 400, width: '100%' }}>
       <div style={{ marginBottom: '16px' }}>
@@ -146,7 +142,6 @@ const AllProducts = () => {
       <DataGrid
         rows={allRows}
         columns={columns}
-        onRowSelectionModelChange={handleRowSelectionChange}
         initialState={{
           pagination: {
             paginationModel: { page: 0, pageSize: 5 },
