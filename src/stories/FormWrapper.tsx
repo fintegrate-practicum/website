@@ -7,10 +7,10 @@ interface Field {
   label: string;
   type: string;
   validation?: any;
-  options?: string[]; // For select and other custom inputs
+  options?: string[]; 
 }
 
-interface FormWrapperProps {
+export interface FormWrapperProps {
   fields: Field[];
   onSubmit: (data: FieldValues) => void;
 }

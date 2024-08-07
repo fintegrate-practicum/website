@@ -1,6 +1,6 @@
 import React from 'react';
 import { StoryFn, Meta } from '@storybook/react';
-import FormWrapper from './FormWrapper';
+import FormWrapper, { FormWrapperProps } from './FormWrapper';
 import { FieldValues } from 'react-hook-form';
 
 export default {
