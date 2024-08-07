@@ -17,7 +17,7 @@ const WorkersTopNav = () => {
   const location = useLocation();
   const tasks = useAppSelector((state) => state.taskSlice);
   const messages = useAppSelector((state) => state.messageSlice.messages);
-  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails);
+  const currentUser = useAppSelector((state) => state.currentUserSlice.employeeDetails);
   const dispatch = useAppDispatch();
   const [filteredTasks, setFilteredTasks] = useState<Task[]>(tasks);
 
@@ -25,10 +25,6 @@ const WorkersTopNav = () => {
 
   useEffect(() => {
     setValue(location.pathname.slice(8));
-
-    if (currentUser && currentUser.code) {
-      dispatch(fetchMessages(currentUser.code));
-    }
   }, [currentUser, dispatch]);
 
 

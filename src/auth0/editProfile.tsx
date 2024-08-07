@@ -18,7 +18,7 @@ import { statuses } from '../modules/workers/classes/enum/statuses.enum';
 const statusArray = Object.keys(statuses).filter(key => isNaN(Number(key)));
 
 const EditProfile: React.FC = () => {
-  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser);
+  const currentUser = useAppSelector((state) => state.currentUserSlice);
   const [isEditing, setIsEditing] = useState(false);
   const [auth0_user_id, setAuth0_user_id] = useState(currentUser.userDetails.auth0_user_id);
   const [status, setStatus] = useState(String(currentUser.userDetails.status));
@@ -26,9 +26,7 @@ const EditProfile: React.FC = () => {
 
   const [formData, setFormData] = useState({
     email: currentUser.userDetails.userEmail || '',
-    city: currentUser.userDetails.address.city || '',
     name: currentUser.userDetails.userName || '',
-    phone: currentUser.userDetails.mobile || '',
     role: currentUser.employeeDetails.role.type || '',
   });
 
@@ -58,12 +56,7 @@ const EditProfile: React.FC = () => {
         ...currentUser.userDetails,
         userEmail: formData.email,
         userName: formData.name,
-        mobile: formData.phone,
         status: status,
-        address: {
-          ...currentUser.userDetails.address,
-          city: formData.city
-        }
       }
     };
     const newData = {
@@ -126,7 +119,6 @@ const EditProfile: React.FC = () => {
               fullWidth
               label="Phone"
               name="phone"
-              value={formData.phone}
               onChange={handleChange}
               disabled={!isEditing}
               variant="outlined"
@@ -139,7 +131,6 @@ const EditProfile: React.FC = () => {
               fullWidth
               label="Address"
               name="city"
-              value={formData.city}
               onChange={handleChange}
               disabled={!isEditing}
               variant="outlined"

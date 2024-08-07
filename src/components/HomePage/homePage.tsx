@@ -4,7 +4,7 @@ import { useAppSelector } from '../../Redux/hooks';
 
 const HomePage = () => {
 
-    const userName = useAppSelector((state) => state.currentUserSlice.CurrentUser.userDetails.userName);
+    const userName = useAppSelector((state) => state.currentUserSlice.userDetails.userName);
 
     return (
         <div className="App">
