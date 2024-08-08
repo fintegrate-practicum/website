@@ -18,7 +18,7 @@ const statusArray = Object.keys(statuses).filter((key) => isNaN(Number(key)));
 const EditProfile: React.FC = () => {
 	const currentUser = useAppSelector((state) => state.currentUserSlice);
 	const [isEditing, setIsEditing] = useState(false);
-	const [auth0_user_id] = useState(currentUser.userDetails.auth0_user_id);
+	const auth0_user_id = currentUser.userDetails.auth0_user_id;
 	const [status, setStatus] = useState(String(currentUser.userDetails.status));
 	const dispatch = useAppDispatch();
 
