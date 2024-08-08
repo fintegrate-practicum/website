@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import './shoppingBag.css';
 import { Table, TableBody, TableCell, TableHead, TableRow, TextField, IconButton } from '@mui/material';
 import Typography from '../../../common/components/Typography/Typography';
-import Button from '../../../common/components/Button/Button'
+import Button from '../../../common/components/Button/Button';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import Toast from '../../../stories/Toast';
 
 interface BagItem {
   image: string;
@@ -16,10 +17,12 @@ interface BagItem {
   amount: number;
 }
 
-
 const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
-  const [bag, setBag] = useState<BagItem[]>(initialBag||[]);
+  const [bag, setBag] = useState<BagItem[]>(initialBag || []);
   const [total, setTotal] = useState<number>(0);
+  const [toastOpen, setToastOpen] = useState<boolean>(false);
+  const [toastMessage, setToastMessage] = useState<string>('');
+  const [toastSeverity, setToastSeverity] = useState<'success' | 'info' | 'warning' | 'error'>('info');
 
   useEffect(() => {
     calculateTotal();
@@ -34,6 +37,9 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
     if (window.confirm('האם ברצונך להסיר את המוצר?')) {
       const newBag = bag.filter((_, i) => i !== index);
       setBag(newBag);
+      setToastMessage('המוצר הוסר מהסל');
+      setToastSeverity('info');
+      setToastOpen(true);
     }
   };
 
@@ -51,9 +57,15 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
     }
   };
 
+  const handlePaymentClick = () => {
+    setToastMessage('לחצן התשלום נלחץ');
+    setToastSeverity('success');
+    setToastOpen(true);
+  };
+
   return (
     <div className='shoppingBag-container'>
-      <Typography  variant='h5'> סל קניות </Typography>
+      <Typography variant='h5'> סל קניות </Typography>
       {bag.length === 0 ? (
         <Typography> סל הקניות שלך ריק </Typography>
       ) : (
@@ -99,7 +111,7 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
             </TableCell>
           </Table>
           <Button
-            onClick={() => alert('payment button was clicked')}
+            onClick={handlePaymentClick}
             startIcon={<ArrowBackIosIcon />}
             style={{ textTransform: 'none' }}
             size='large'
@@ -108,6 +120,12 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
           </Button>
         </>
       )}
+      <Toast
+        message={toastMessage}
+        severity={toastSeverity}
+        open={toastOpen}
+        onClose={() => setToastOpen(false)}
+      />
     </div>
   );
 };

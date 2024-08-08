@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import businessSlice from './businessSlice'
+import businessSlice from './businessSlice';
 import currentUserSlice from "./currentUserSlice";
 import productSlice from "../modules/inventory/features/product/productSlice";
 import componentSlice from "../modules/inventory/features/component/componentSlice";
@@ -9,15 +9,15 @@ import employeeSlice from "../modules/workers/features/employeeSlice";
 import taskSlice from "../modules/workers/features/taskSlice";
 import messageSlice from "../modules/workers/features/messageSlice";
 
-const Store = configureStore({
+const store = configureStore({
     reducer: {
-        businessSlice,
-        currentUserSlice,
+        business: businessSlice,
+        currentUser: currentUserSlice,
         user: userSlice.reducer,
-        employeeSlice,
-        taskSlice,
-        messageSlice,
-        product : productSlice,
+        employee: employeeSlice,
+        task: taskSlice,
+        message: messageSlice,
+        product: productSlice,
         component: componentSlice,
         provider: providerSlice
     }, 
@@ -25,8 +25,8 @@ const Store = configureStore({
         getDefaultMiddleware({
             serializableCheck: false,
         }),
-    },)
+});
 
-export type RootState = ReturnType<typeof Store.getState>
-export type AppDispatch = typeof Store.dispatch
-export default Store;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export default store;

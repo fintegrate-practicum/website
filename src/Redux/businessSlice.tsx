@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Business from '../classes/Business'
-
 import infraInstance from '../auth0/InfraInterceptors'
 
 const initialState = {
@@ -20,54 +19,68 @@ const initialState = {
         businessSize: " ",
         industryType: " ",
         establishmentDate: " "
+    },
+    toast: {
+        message: "",
+        severity: "info",
+        open: false
     }
-}
-
+};
 
 export const businessSlice = createSlice({
     name: 'business',
     initialState,
     reducers: {
-        saveBusiness: (state,actions) => { 
-            state.business.companyNumber=actions.payload.companyNumber
-            state.business.email=actions.payload.email            
-        },     
-    }
-});    
-
-export const createBusiness = createAsyncThunk('', async (_business:Business) => {    
-    try {              
-        const response = await infraInstance.post('/business', _business);                                 
-        return response
-    } catch (error: any) {
-        if (error.response.data.statusCode == 400)
-            alert(error.response.data.message);
-        return error
-    }
-});
-
-export const checkEmailVerificationCode = createAsyncThunk('', async (payload: {email: string|undefined, code: string}) => {    
-    try {
-        const response = await infraInstance.get(`/verification/validate`, {params: {email: payload.email, code: payload.code}})
-        return response
-    } catch (error: any) {
-        if(error.response.data.statusCode == 400)
-            alert(error.response.data.message);
-        return error
-    }
-});
-
-export const updateBusiness = createAsyncThunk('', async (payload: any) => {     
-    
-        const { companyNumber, newData } = payload;
-        try {           
-            const response = await infraInstance.put(`/business/${companyNumber}`, newData);
-            return response.data;
-        } catch (error) {
-            throw error;
+        saveBusiness: (state, action) => { 
+            state.business.companyNumber = action.payload.companyNumber;
+            state.business.email = action.payload.email;            
+        },
+        setToast: (state, action) => {
+            state.toast = action.payload;
+        },
+        clearToast: (state) => {
+            state.toast = {
+                message: "",
+                severity: "info",
+                open: false
+            };
         }
     }
-)
+});
 
-export const { saveBusiness} = businessSlice.actions;
+export const createBusiness = createAsyncThunk('business/createBusiness', async (_business: Business, { dispatch }) => {    
+    try {              
+        const response = await infraInstance.post('/business', _business);                                 
+        return response;
+    } catch (error: any) {
+        const message = error.response?.data?.message || 'שגיאה לא ידועה';
+        dispatch(setToast({ message, severity: 'error', open: true }));
+        throw error;
+    }
+});
+
+export const checkEmailVerificationCode = createAsyncThunk('business/checkEmailVerificationCode', async (payload: {email: string | undefined, code: string}, { dispatch }) => {    
+    try {
+        const response = await infraInstance.get(`/verification/validate`, { params: { email: payload.email, code: payload.code } });
+        return response;
+    } catch (error: any) {
+        const message = error.response?.data?.message || 'שגיאה לא ידועה';
+        dispatch(setToast({ message, severity: 'error', open: true }));
+        throw error;
+    }
+});
+
+export const updateBusiness = createAsyncThunk('business/updateBusiness', async (payload: any, { dispatch }) => {     
+    const { companyNumber, newData } = payload;
+    try {           
+        const response = await infraInstance.put(`/business/${companyNumber}`, newData);
+        return response.data;
+    } catch (error) {
+        const message = 'שגיאה בעת עדכון העסק';
+        dispatch(setToast({ message, severity: 'error', open: true }));
+        throw error;
+    }
+});
+
+export const { saveBusiness, setToast, clearToast } = businessSlice.actions;
 export default businessSlice.reducer;
