@@ -38,40 +38,54 @@ const initialState = {
 }
 
 export const fetchUserById = createAsyncThunk(
-  'user/fetchUserById',
-  async (userId: string, { dispatch }) => {
+  'fetchUserById',
+  async (paylod: any, { dispatch }) => {
     try {
-      const response = await workerInstance.get(`/user/${userId}`);
-      const data = response.data;   
-      dispatch(currentUserSlice.actions.setCurrentUser(data));      
+      const response = await workerInstance.get(`/user/${paylod.identities[0].user_id}`);
+      const data = response.data;
+      dispatch(currentUserSlice.actions.setCurrentUser(data));
       return data;
     } catch (error: any) {
+      if (error.code = "ERR_BAD_REQUEST") {
+        await dispatch(updateCurrentUserByJwt(paylod))
+      }
       showErrorToast(error.message);
     }
   }
 );
 
-export const updateCurrentUser = createAsyncThunk('', async (payload: any) => { 
-    const { auth0_user_id, updatedCurrentUser } = payload;
-    try {           
-        const response = await workerInstance.put(`/user/${auth0_user_id}`, updatedCurrentUser);
-        return response.data;
-    } catch (error:any) {
-      showErrorToast(error.message);
-    }
+export const updateCurrentUser = createAsyncThunk('', async (payload: any) => {
+  const { auth0_user_id, updatedCurrentUser } = payload;
+  try {
+    const response = await workerInstance.put(`/user/${auth0_user_id}`, updatedCurrentUser);
+    return response.data;
+  } catch (error: any) {
+    showErrorToast(error.message);
+  }
+
 }
 )
 
+export const updateCurrentUserByJwt = createAsyncThunk(
+  'updateCurrentUserByJwt',
+  async (payload: any) => {
+    try {
+      const response = await workerInstance.put('/user/jwt', payload,);
+      return response.data;
+    } catch (error: any) {
+      throw error
+    }
+  }
+)
 const currentUserSlice = createSlice({
   name: "CurrentUser",
   initialState,
   reducers: {
-    setCurrentUser(state, action) {   
-      state.CurrentUser = action.payload;          
+    setCurrentUser(state, action) {
+      state.CurrentUser = action.payload;
     },
   },
 });
 
 export const selectCurrentUser = (state: RootState) => state.currentUserSlice.CurrentUser;
 export default currentUserSlice.reducer;
-
