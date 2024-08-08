@@ -1,6 +1,6 @@
 import AllProducts from '../../components/tableInventory/AllProducts';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../../Redux/store';
+import{RootState} from '../../../../Redux/store';
 import { IProduct } from '../../interfaces/IProduct';
 import { IComponent } from '../../interfaces/IComponent';
 
