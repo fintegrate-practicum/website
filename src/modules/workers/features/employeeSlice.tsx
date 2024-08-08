@@ -5,7 +5,7 @@ import axios from "axios";
 import employee from "../classes/employee";
 import workerInstance from "../../../auth0/WorkersInterceptors";
 
-const http = import.meta.env.WORKERS_SERVICE_URL;
+const baseUrl = import.meta.env.VITE_WORKERS_SERVICE_URL;
 const businessId = import.meta.env.VITE_BUSINESSID;
 const res = await workerInstance.get(`/workers?businessId=${businessId}`);
 const { data = {} } = res.data;
@@ -66,7 +66,7 @@ export const getUserByJwt = createAsyncThunk('', async () => {
 
 export const getUserById = createAsyncThunk('', async (id: string) => {
     try {
-        const response = await axios.get(`${http}/user/${id}`)
+        const response = await axios.get(`${baseUrl}/user/${id}`)
         return response.data.data;
     } catch (error) {
         return error

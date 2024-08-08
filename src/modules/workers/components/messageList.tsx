@@ -7,7 +7,7 @@ import { getUserById } from '../features/employeeSlice';
 import { useAppDispatch } from '../../../Redux/hooks';
 import DateFormat from '../../../components/generic/DateFormat';
 
-const MessageList = ({ messages }: { messages: Message[] }) => {
+const MessageList = ( { messages }: { messages: Message[] }) => {
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
   const dispatch = useAppDispatch();
 
