@@ -52,9 +52,6 @@ export const fetchUserById = createAsyncThunk(
       dispatch(currentUserSlice.actions.setCurrentUser(data));
       return data;
     } catch (error: any) {
-      if (error.code = "ERR_BAD_REQUEST") {
-        await dispatch(updateCurrentUserByJwt(paylod))
-      }
       showErrorToast(error.message);
     }
   }
