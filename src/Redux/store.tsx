@@ -5,8 +5,8 @@ import productSlice from "../modules/inventory/features/product/productSlice";
 import componentSlice from "../modules/inventory/features/component/componentSlice";
 import providerSlice from "../modules/inventory/features/provider/providerSlice";
 import { userSlice } from "../modules/workers/features/reducer";
-// import employeeSlice from "../modules/workers/features/employeeSlice";
-// import taskSlice from "../modules/workers/features/taskSlice";
+import employeeSlice from "../modules/workers/features/employeeSlice";
+import taskSlice from "../modules/workers/features/taskSlice";
 import messageSlice from "../modules/workers/features/messageSlice";
 import orderSlice from "../modules/orders/features/order/orderSlice";
 
@@ -15,8 +15,8 @@ const Store = configureStore({
         businessSlice,
         currentUserSlice,
         user: userSlice.reducer,
-        // employeeSlice,
-        // taskSlice,
+        employeeSlice,
+        taskSlice,
         messageSlice,
         product : productSlice,
         component: componentSlice,
