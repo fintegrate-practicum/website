@@ -51,7 +51,7 @@ const EditProfile: React.FC = () => {
     const updatedCurrentUser = {
       employee: {
         ...currentUser.employeeDetails,
-        role: { ...currentUser.employeeDetails.role, type: getValues('role') }, // [הערה: שימוש ב־getValues כדי לקבל את הערך הנוכחי של role מהטופס]
+        role: { ...currentUser.employeeDetails.role, type: getValues('role') },
       },
       user: {
         ...currentUser.userDetails,
