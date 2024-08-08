@@ -5,7 +5,7 @@ interface TextFieldProps {
 	id?: string;
 	variant?: 'filled' | 'outlined' | 'standard';
 	label?: string;
-	value?: string;
+	value?: string | number;
 	onChange?: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>;
 	disabled?: boolean;
 	margin?: 'none' | 'dense' | 'normal';
