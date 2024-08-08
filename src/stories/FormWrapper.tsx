@@ -18,14 +18,16 @@ interface FormWrapperProps {
 
 const FormWrapper: React.FC<FormWrapperProps> = ({ fields, onSubmit, formWidth = 'medium' }) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [selectedImage, setSelectedImage] = useState<string | ArrayBuffer | null>(null);
+  const [selectedFile, setSelectedFile] = useState<string | ArrayBuffer | null>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setFileName(file.name);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setSelectedImage(reader.result);
+        setSelectedFile(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -87,13 +89,19 @@ const FormWrapper: React.FC<FormWrapperProps> = ({ fields, onSubmit, formWidth =
                 onChange={handleFileChange}
                 style={{ display: 'none' }}
               />
-              {selectedImage && (
+              {fileName && (
                 <Box mt={2}>
-                  <img
-                    src={selectedImage as string}
-                    alt="Preview"
-                    style={{ maxWidth: '20vw', maxHeight: '20vh', objectFit: 'contain' }}
-                  />
+                  {/* בדיקה אם הקובץ הוא תמונה, ואם כן, הצגת תצוגה מקדימה */}
+                  {selectedFile && fileName.match(/\.(jpg|jpeg|png|gif)$/) ? (
+                    <img
+                      src={selectedFile as string}
+                      alt="Preview"
+                      style={{ maxWidth: '20vw', maxHeight: '20vh', objectFit: 'contain' }}
+                    />
+                  ) : (
+                    // אם הקובץ אינו תמונה, הצגת שם הקובץ בלבד
+                    <Typography>{fileName}</Typography>
+                  )}
                 </Box>
               )}
             </>
