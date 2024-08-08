@@ -12,7 +12,6 @@ const providerSlice = createSlice({
     name: "provider",
     initialState,
     reducers: {
-
         deleteProvider:deleteItem,
         addProvider: addItem,
         getAllProviders:setData,

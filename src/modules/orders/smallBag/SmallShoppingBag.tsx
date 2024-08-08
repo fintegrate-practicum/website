@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import "./smallShoppingBag.css";
-import { Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import Typography from '../../../common/components/Typography/Typography'
+import { Table, TableBody, TableCell, TableHead, TableRow} from '@mui/material';
 
 const bag = [
 
@@ -51,7 +52,7 @@ const bag = [
 
 ];
 
-const MyTable = () => {
+const SmallShoppingBag = () => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -102,5 +103,5 @@ const MyTable = () => {
   );
 };
 
-export default MyTable;
+export default SmallShoppingBag;
 

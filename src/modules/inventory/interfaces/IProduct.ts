@@ -2,15 +2,15 @@ export interface IProduct {
     id: string;
     name: string;
     description: string;
-    componentsImages: string[];
+    images: string[];
     packageCost: number;
     productComponents: string[];
     totalPrice: number;
     adminId: string;
     isActive: boolean;
     isOnSale: boolean;
-    salePercentage: number;
+    salePercentage?: number;
     stockQuantity: number;
-    bussinesId: string;
+    businessId: string;
     componentStatus: string;
 }

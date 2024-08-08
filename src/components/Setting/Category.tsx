@@ -2,10 +2,10 @@ import * as React from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
+import Typography from '../../common/components/Typography/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { List, ListItem, ListItemText, MenuItem } from '@mui/material';
-import MySetting, { ComponentType, MySettingProps } from './MySetting';
+import { List, ListItem, ListItemText } from '@mui/material';
+import MySetting, {  MySettingProps } from './MySetting';
 import { ctgr } from './exampleData';
 //עיצוב ההגדרה
 const style = {
@@ -39,7 +39,7 @@ export function AddSubCategory(SubCategoryProp: CategoryProps) {
           expandIcon={<ExpandMoreIcon/>}
           aria-controls="panel4bh-content"
           id="panel4bh-header">
-          <Typography sx={{ width: '60vw', flexShrink: 0 }}>{SubCategoryProp?.CategoryItem.CategoryName}</Typography>
+          <Typography style={{ width: '60vw', flexShrink: 0 }}>{SubCategoryProp?.CategoryItem.CategoryName}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>

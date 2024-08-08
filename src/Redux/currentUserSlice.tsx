@@ -5,6 +5,7 @@ import { statuses } from "../modules/workers/classes/enum/statuses.enum";
 import { showErrorToast } from "../components/generic/errorMassage";
 import InfraInstance from "../auth0/InfraInterceptors";
 
+
 const initialState = {
   CurrentUser: {
     employeeDetails: {
@@ -15,7 +16,6 @@ const initialState = {
         updatedBy: '',
         role: new EmployeeRole('', true, "hhgg"),
         nameEmployee: '',
-      
     },
     userDetails: {
         userName: '',
@@ -48,9 +48,13 @@ export const fetchUserById = createAsyncThunk(
       {
          await dispatch(updateCurrentUserByJwt(paylod))
       }
+
       dispatch(currentUserSlice.actions.setCurrentUser(data));
       return data;
     } catch (error: any) {
+      if (error.code = "ERR_BAD_REQUEST") {
+        await dispatch(updateCurrentUserByJwt(paylod))
+      }
       showErrorToast(error.message);
     }
   }
@@ -64,14 +68,14 @@ export const updateCurrentUser = createAsyncThunk('', async (payload: any) => {
   } catch (error: any) {
     showErrorToast(error.message);
   }
-}
-)
+
 
 export const updateCurrentUserByJwt = createAsyncThunk(
   'updateCurrentUserByJwt',
   async (payload: any) => {
     try {
       const response = await InfraInstance.put('/user/jwt', payload,);
+
       return response.data;
     } catch (error: any) {
       throw error
@@ -82,12 +86,11 @@ const currentUserSlice = createSlice({
   name: "CurrentUser",
   initialState,
   reducers: {
-    setCurrentUser(state, action) {   
-      state.CurrentUser = action.payload;          
+    setCurrentUser(state, action) {
+      state.CurrentUser = action.payload;
     },
   },
 });
 
 export const selectCurrentUser = (state: RootState) => state.currentUserSlice.CurrentUser;
 export default currentUserSlice.reducer;
-
