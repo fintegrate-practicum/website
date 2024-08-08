@@ -25,7 +25,7 @@ const EditTask = (
   targetDate: Date;
   employee: string[];
 }) => {
-  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails);  
+  const currentUser = useAppSelector((state) => state.currentUserSlice.employeeDetails);  
   React.useEffect(() => {
 
   }, [currentUser]);
