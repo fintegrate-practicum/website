@@ -81,8 +81,52 @@ const componentMap: {
   [ComponentType.Input]: 'input',
 };
 
+
+
+//פונקציה שלא בשימוש שהיתה קיימת 
+// function validateChildrenType(type: ComponentType, children: any): boolean {
+//   switch (type) {
+//     case ComponentType.Button:
+//     case ComponentType.FloatingActionButton:
+//       return typeof children === 'string';
+//     case ComponentType.ButtonGroup:
+//       return (
+//         Array.isArray(children) &&
+//         children.every(
+//           (child) =>
+//             typeof child === 'object' &&
+//             'key' in child &&
+//             'value' in child
+//         )
+//       );
+//     case ComponentType.RadioGroup:
+//       return (
+//         Array.isArray(children) &&
+//         children.every(
+//           (child) =>
+//             typeof child === 'object' &&
+//             'value' in child &&
+//             'label' in child
+//         )
+//       );
+//     case ComponentType.Select:
+//       return (
+//         Array.isArray(children) &&
+//         children.every(
+//           (child) =>
+//             typeof child === 'object' &&
+//             'key' in child &&
+//             'value' in child &&
+//             'text' in child
+//         )
+//       );
+
+//     default:
+//       return !children;
+//   }
+// }
+
 const MySetting: FC<MySettingProps> = (props) => {
-  console.log("MySetting");
 
   const { setting } = props;
 
