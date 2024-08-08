@@ -82,50 +82,6 @@ const componentMap: {
 };
 
 
-
-//פונקציה שלא בשימוש שהיתה קיימת 
-// function validateChildrenType(type: ComponentType, children: any): boolean {
-//   switch (type) {
-//     case ComponentType.Button:
-//     case ComponentType.FloatingActionButton:
-//       return typeof children === 'string';
-//     case ComponentType.ButtonGroup:
-//       return (
-//         Array.isArray(children) &&
-//         children.every(
-//           (child) =>
-//             typeof child === 'object' &&
-//             'key' in child &&
-//             'value' in child
-//         )
-//       );
-//     case ComponentType.RadioGroup:
-//       return (
-//         Array.isArray(children) &&
-//         children.every(
-//           (child) =>
-//             typeof child === 'object' &&
-//             'value' in child &&
-//             'label' in child
-//         )
-//       );
-//     case ComponentType.Select:
-//       return (
-//         Array.isArray(children) &&
-//         children.every(
-//           (child) =>
-//             typeof child === 'object' &&
-//             'key' in child &&
-//             'value' in child &&
-//             'text' in child
-//         )
-//       );
-
-//     default:
-//       return !children;
-//   }
-// }
-
 const MySetting: FC<MySettingProps> = (props) => {
 
   const { setting } = props;
@@ -143,14 +99,14 @@ const MySetting: FC<MySettingProps> = (props) => {
   let children: ReactElement | ReactElement[] | undefined | any;
   if (setting.type === ComponentType.Select && Array.isArray(setting.children)) {
     children = (setting.children as CustomChild[]).map((child, index) => (
-      <MenuItem key={`${child.key || index}`} value={child.value || ''}>
+      <MenuItem key={index} value={child.value }>
         {child.text}
       </MenuItem>
     ));
   } else if (setting.type === ComponentType.RadioGroup && Array.isArray(setting.children)) {
     children = setting.children.map((child, index) => (
       <FormControlLabel
-        key={`${child.value}-${index}`}
+        key={index}
         value={child.value}
         control={<Radio />}
         label={child.label}
@@ -158,7 +114,7 @@ const MySetting: FC<MySettingProps> = (props) => {
     ));
   } else if (setting.type === ComponentType.ButtonGroup && Array.isArray(setting.children)) {
     children = setting.children.map((child, index) => (
-      <Button key={`${child.key}-${index}`} variant={setting.props?.variant}>
+      <Button key={index} variant={setting.props?.variant}>
         {child.value}
       </Button>
     ));

@@ -58,7 +58,7 @@ export function AddSubCategory(SubCategoryProp: CategoryProps) {
           {SubCategoryProp.CategoryItem.Settings && (
             <List aria-label="mailbox folders">
               {SubCategoryProp.CategoryItem.Settings.map((s, index) => (
-                <ListItem key={`${s.setting.settingDesc}-${index}`} sx={style}>
+                <ListItem key={index} sx={style}>
                   <ListItemText primary={s.setting.settingDesc} />
                   <MySetting setting={s.setting} />
                 </ListItem>
@@ -66,7 +66,7 @@ export function AddSubCategory(SubCategoryProp: CategoryProps) {
             </List>
           )}
           {SubCategoryProp?.CategoryItem.SubCategory?.map((sc, index) => (
-            <AddSubCategory key={`${sc.CategoryItem.CategoryName}-${index}`} {...sc} />
+            <AddSubCategory key={index} {...sc} />
           ))}
         </div>
       </AccordionDetails>
@@ -85,7 +85,7 @@ const Category: React.FC = () => {
   return (
     <>
       {serviceSettings?.map((item, index) => (
-        <AddSubCategory key={`${item.settings_json.CategoryItem.CategoryName}-${index}`} {...item.settings_json} />
+        <AddSubCategory key={item.service_id} {...item.settings_json} />
       ))}
     </>
   );
