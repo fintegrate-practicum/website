@@ -1,7 +1,7 @@
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
+import Button from '../../common/components/Button/Button'
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import Typography from '../../common/components/Typography/Typography'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, Outlet } from 'react-router-dom';
@@ -79,22 +79,22 @@ export default function LazyClient() {
           textAlign: 'right'
         }}
       >
-        <Typography variant="h5">פרטי העסק</Typography>
+        <Typography  variant="h5">פרטי העסק</Typography>
         <Box sx={{ mb: 2 }}>
-          <Typography>{business.name} :שם העסק</Typography>
-          <Typography>{business.companyNumber} :מספר חברה</Typography>
-          <Typography>{business.description} :תיאור</Typography>
-          <Typography>{business.email} :אימייל</Typography>
-          <Typography>{business.phone} :טלפון</Typography>
+          <Typography>{business.name}:שם העסק</Typography>
+          <Typography>{business.companyNumber}  :מספר חברה</Typography>
+          <Typography> {business.description}  :תיאור</Typography>
+          <Typography> {business.email}:אימייל</Typography>
+          <Typography> {business.phone}:טלפון</Typography>
           <Typography>{business.owner} :בעל העסק</Typography>
-          <Typography>{business.businessSize} :גודל העסק</Typography>
-          <Typography>{business.industryType} :תחום העסק</Typography>
-          <Typography>
+          <Typography> {business.businessSize} :גודל העסק</Typography>
+          <Typography> {business.industryType}  :תחום העסק</Typography>
+          <Typography >
             {new Date(business.establishmentDate).toLocaleDateString()} :תאריך ייסוד
           </Typography>
         </Box>
         <Stack spacing={2} direction="row">
-          <Button variant="contained">צור הזמנה</Button>
+          <Button >צור הזמנה</Button>
         </Stack>
       </Box>
       <Outlet />

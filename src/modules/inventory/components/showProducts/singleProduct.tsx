@@ -1,5 +1,7 @@
 import React from 'react';
-import { Card, CardContent, CardActions, Typography, Button } from '@mui/material';
+import { Card, CardContent, CardActions } from '@mui/material';
+import Typography from '../../../../common/components/Typography/Typography';
+import Button from '../../../../common/components/Button/Button'
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import { IProduct } from '../../interfaces/IProduct';
 import { IComponent } from '../../interfaces/IComponent';
@@ -26,7 +28,7 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
               {product.name}
             </Typography>
             
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            <Typography color="textSecondary">
               Price: {product.totalPrice} <AttachMoneyOutlinedIcon fontSize='small' />
             </Typography>
           </Link>
@@ -37,7 +39,7 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
         )}
       </CardContent>
       <CardActions>
-        <Button variant="contained" color="primary">
+        <Button >
           Add to Cart
         </Button>
       </CardActions>

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { IProduct } from "../interfaces/IProduct";
-import { IComponent } from "../interfaces/IComponent";
+import React, {useEffect, useState} from "react";
+import {SubmitHandler, useForm} from "react-hook-form";
+import {useDispatch, useSelector} from "react-redux";
+import {IProduct} from "../interfaces/IProduct";
+import {IComponent} from "../interfaces/IComponent";
 import TextField from '@mui/material/TextField';
 import * as yup from 'yup';
-import { yupResolver } from "@hookform/resolvers/yup";
-import Button from '@mui/material/Button';
+import {yupResolver} from "@hookform/resolvers/yup";
+import Button from '../../../common/components/Button/Button'
 import Box from '@mui/material/Box';
 import { useParams } from "react-router-dom";
 import { addItem, getAllItems, getItemById, updateItem } from "../Api-Requests/genericRequests";
@@ -51,7 +51,6 @@ const AddProductForm = () => {
         defaultValues: product || {}
     });
     
-
     useEffect(() => {
         const fetchProduct = async () => {
             if (productId) {
@@ -305,7 +304,7 @@ const AddProductForm = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={12}>
-                    <Button variant="contained" component="label" fullWidth>
+                    <Button  component="label" fullWidth>
                         Upload Images
                         <input
                             type="file"
@@ -319,7 +318,7 @@ const AddProductForm = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={12}>
-                    <Button type="submit" variant="contained" color="primary" fullWidth>
+                    <Button type="submit"  fullWidth>
                         {product ? "Update Product" : "Add Product"}
                     </Button>
                 </Grid>

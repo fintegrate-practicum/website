@@ -50,7 +50,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
-        <Header />
+      <Header />
         <Client />
         <ErrorToast />
         <Routes>

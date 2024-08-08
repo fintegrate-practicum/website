@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './shoppingBag.css';
-import { Table, TableBody, TableCell, TableHead, TableRow, Typography, TextField, IconButton, Button } from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableRow, TextField, IconButton } from '@mui/material';
+import Typography from '../../../common/components/Typography/Typography';
+import Button from '../../../common/components/Button/Button'
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
@@ -51,7 +53,7 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
 
   return (
     <div className='shoppingBag-container'>
-      <Typography paragraph={true} variant='h5'> סל קניות </Typography>
+      <Typography  variant='h5'> סל קניות </Typography>
       {bag.length === 0 ? (
         <Typography> סל הקניות שלך ריק </Typography>
       ) : (
@@ -98,7 +100,6 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
           </Table>
           <Button
             onClick={() => alert('payment button was clicked')}
-            variant='contained'
             startIcon={<ArrowBackIosIcon />}
             style={{ textTransform: 'none' }}
             size='large'

@@ -1,4 +1,5 @@
-import { Card, CardContent, CardActions, Typography, Button, Box } from '@mui/material';
+import { Card, CardContent, CardActions, Button, Box } from '@mui/material';
+import Typography from '../../../../common/components/Typography/Typography';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../../../app/hooks';
@@ -13,23 +14,19 @@ const SingleProductDetails = () => {
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', p: 2 }}>
       <Card sx={{ maxWidth: 800, width: '100%', p: 3 }}>
         <CardContent>
-          <Typography variant="h4" component="div">
+          <Typography variant="h4" component="div" >
             {name}
+         
           </Typography>
           <Typography variant="h6">
-            {description}
-          </Typography>
-      <Card sx={{ maxWidth: 800, width: '100%', p: 3 }}>
-        <CardContent>
-          <Typography variant="h4" component="div">
-            {name}
-          </Typography>
-          <Typography variant="h6">
+          
             {description}
           </Typography>
           {productComponents}
           {isOnSale}
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+   
+          <Typography 
+          color="textSecondary" component="div">
             Price: {totalPrice} <AttachMoneyOutlinedIcon fontSize='small' />
           </Typography>
         </CardContent>
@@ -39,16 +36,7 @@ const SingleProductDetails = () => {
           </Button>
         </CardActions>
       </Card>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            Price: {totalPrice} <AttachMoneyOutlinedIcon fontSize='small' />
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button variant="contained" color="primary">
-            Add to Cart
-          </Button>
-        </CardActions>
-      </Card>
+
     </Box>
   );
 };
