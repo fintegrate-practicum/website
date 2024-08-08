@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container, Paper, Grid, Typography, List, ListItem, Card, CardContent, CardMedia, CssBaseline, CircularProgress } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
@@ -9,21 +9,12 @@ import { IOrder } from './interfaces/IOrder';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../app/hooks';
 import { getOrders } from './features/order/orderSlice';
-
-const theme = createTheme({
-    palette: {
-        primary: { main: '#5e318c' },
-        secondary: { main: '#421a76' },
-        warning: { main: '#5a5c22' },
-        success: { main: '#e9bc00' },
-        error: { main: '#f4ac00' },
-    },
-    typography: { fontFamily: 'Arial, sans-serif' },
-});
+import theme from '../../Theme';
+import { IComponent } from '../inventory/interfaces/IComponent';
 
 export default function AllOrders() {
     const { businessCode } = useParams<{ businessCode: string }>();
-    const [products, setProducts] = useState<{ [key: string]: IProduct }>({});
+    const [products, setProducts] = useState<{ [key: string]: IProduct | IComponent }>({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const dispatch = useDispatch();
@@ -48,13 +39,26 @@ export default function AllOrders() {
     const fetchProducts = async (orders: IOrder[]) => {
         try {
             const productIds = Array.from(new Set(orders.flatMap(order => order.products.map(p => p.id))));
-            const productPromises = productIds.map(id => getItemById<IProduct>(`api/inventory/product`, id));
+
+            const fetchProductOrComponent = async (id: string) => {
+                try {
+                    const product = await getItemById<IProduct>(`api/inventory/product`, id);
+                    return product.data;
+                } catch (error) {
+                    const component = await getItemById<IComponent>(`api/inventory/component`, id);
+                    return component.data;
+                }
+            };
+
+            const productPromises = productIds.map(id => fetchProductOrComponent(id));
             const productResults = await Promise.all(productPromises);
+
             const productsMap = productResults.reduce((acc, product) => {
-                acc[product.data.id] = product.data;
+                acc[product.id] = product; // לוודא שהמפתח `id` נמצא בכל סוגי המוצרים/רכיבים
                 return acc;
-            }, {} as { [key: string]: IProduct });
-            setProducts(productsMap);            
+            }, {} as { [key: string]: IProduct | IComponent });
+
+            setProducts(productsMap);
         } catch (err) {
             console.error(err);
             setError('Error fetching products');
@@ -67,7 +71,7 @@ export default function AllOrders() {
     // const fetchUser = async (userId : string)=>{
     //     try{
 
-            
+
     //     }
     //     catch{
 
@@ -158,7 +162,7 @@ export default function AllOrders() {
                                                     <CardMedia
                                                         component="img"
                                                         style={{ width: 140 }}
-                                                        image={product.images[0]}
+                                                        image={product.images && product.images.length > 0 ? product.images[0] : undefined}
                                                         alt={product.name}
                                                     />
                                                     <CardContent style={{ flex: '1 0 auto' }}>
