@@ -35,28 +35,21 @@ const MainRouter = () => {
     },
 
   ];
-
+//currentUser-עובדים עליו עכשיו ויצטרכו לשנות אחרי כן
   if (currentUser.employeeDetails.role.type ==='admin') {//if the user is manager
     menuItems.push(
-    //   {הפניה מיותרת לדף הבית
-    //   name: 'manager',
-    //   nameToView: 'Manager',
-    //   icon: AdminPanelSettings,
-    //   route: '../Manager',
-    //   component: '../router/ManagerRouter'
-    // },
     //הכנה לorders  צריך לסדר ניתוב רק כשהקומפוננטה תהיה מוכנה
       {
-        name: 'orders',
-        nameToView: 'Orders',
+        name: 'allorders',
+        nameToView: 'ALLOrders',
         icon: Widgets,
         route: '../orders',
         component: '../../modules/orders/showOrders/ALLOrders'
       },
-      //הכנה לinventory  צריך לסדר ניתוב רק כשהקומפוננטה תהיה מוכנה
+    //הכנה ל inventory צריך לסדר ניתוב רק כשהקומפוננטה תהיה מוכנה
       {
-        name: 'inventory',
-        nameToView: 'Inventory',
+        name: 'allinventory',
+        nameToView: 'ALLInventory',
         icon: List,
         route: '../inventory',
         component: '../../modules/inventory/components/tableInventory/AllProducts'
