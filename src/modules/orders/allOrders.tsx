@@ -20,10 +20,6 @@ export default function AllOrders() {
     const dispatch = useDispatch();
     const orders = useAppSelector((state) => state.order?.data || []);
 
-    if (!businessCode) {
-        return <div>אין קוד עסק</div>;
-    }
-
     const getAllOrders = async () => {
         try {
             const res = await getAllItems<IOrder[]>(`orders/${businessCode}`);
@@ -106,6 +102,9 @@ export default function AllOrders() {
         );
     }
 
+   if (!businessCode) {
+        return <div>אין קוד עסק</div>;
+    }
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
