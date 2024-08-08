@@ -1,4 +1,4 @@
-import { ComponentType, MySettingProps } from './MySetting';
+import { ComponentType } from './MySetting';
 import { ServiceSettings } from './Category';
 
 const exampleData: ServiceSettings[] = [
