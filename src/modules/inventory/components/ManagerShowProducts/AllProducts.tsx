@@ -18,8 +18,6 @@ import ProductComponentsList from './ProductComponentsList';
 const AllProducts = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
-  const [selectedRows, setSelectedRows] = useState<string[]>([]);
 
   const products = useAppSelector((state) => state.product?.data || []);
   const components = useAppSelector((state) => state.component?.data || []);
@@ -50,7 +48,6 @@ const AllProducts = () => {
   };
 
   const navigateToUpdate = (item: IProduct | IComponent) => {
-    setSelectedItemId(item.id);
     if ('productComponents' in item) {
       navigate(`/inventory/productForm/${item.id}`);
     } else {
