@@ -1,160 +1,181 @@
-import React, { useState } from 'react';
-import { TextField, Box, Grid, Paper } from '@mui/material';
+import React from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import {
+  TextField,
+  Box,
+  Grid,
+  Paper,
+  InputAdornment,
+  IconButton,
+  Tooltip,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+} from '@mui/material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Typography from '../common/components/Typography/Typography';
 import Button from '../common/components/Button/Button';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import Tooltip from '@mui/material/Tooltip';
 import { useAppDispatch, useAppSelector } from '../Redux/hooks';
 import { updateCurrentUser } from '../Redux/currentUserSlice';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { statuses } from '../modules/workers/classes/enum/statuses.enum';
 
 const statusArray = Object.keys(statuses).filter((key) => isNaN(Number(key)));
+
 const EditProfile: React.FC = () => {
-	const currentUser = useAppSelector((state) => state.currentUserSlice);
-	const [isEditing, setIsEditing] = useState(false);
-	const auth0_user_id = currentUser.userDetails.auth0_user_id;
-	const [status, setStatus] = useState(String(currentUser.userDetails.status));
-	const dispatch = useAppDispatch();
+  const { control, setValue, getValues } = useForm({
+    defaultValues: {
+      email: '',
+      name: '',
+      role: '',
+      status: '',
+    },
+  });
+  const currentUser = useAppSelector((state) => state.currentUserSlice);
+  const [isEditing, setIsEditing] = React.useState(false);
+  const dispatch = useAppDispatch();
 
-	const [formData, setFormData] = useState({
-		email: currentUser.userDetails.userEmail || '',
-		name: currentUser.userDetails.userName || '',
-		role: currentUser.employeeDetails.role.type || '',
-	});
+  React.useEffect(() => {
+    setValue('email', currentUser.userDetails.userEmail || '');
+    setValue('name', currentUser.userDetails.userName || '');
+    setValue('role', currentUser.employeeDetails.role.type || '');
+    setValue('status', String(currentUser.userDetails.status));
+  }, [currentUser, setValue]);
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setFormData({
-			...formData,
-			[e.target.name]: e.target.value,
-		});
-	};
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
 
-	const handleChangeStatus = (event: SelectChangeEvent) => {
-		setStatus(event.target.value as string);
-	};
+  const handleSaveClick = () => {
+    setIsEditing(false);
+    const updatedCurrentUser = {
+      employee: {
+        ...currentUser.employeeDetails,
+        role: { ...currentUser.employeeDetails.role, type: getValues('role') }, // [הערה: שימוש ב־getValues כדי לקבל את הערך הנוכחי של role מהטופס]
+      },
+      user: {
+        ...currentUser.userDetails,
+        userEmail: getValues('email'),
+        userName: getValues('name'),
+        status: getValues('status'),
+      },
+    };
+    const newData = {
+      auth0_user_id: currentUser.userDetails.auth0_user_id,
+      updatedCurrentUser,
+    };
+    dispatch(updateCurrentUser(newData));
+  };
 
-	const handleEditClick = () => {
-		setIsEditing(true);
-	};
+  const handleCopy = () => {
+    navigator.clipboard.writeText(getValues('email'));
+  };
 
-	const handleSaveClick = () => {
-		setIsEditing(false);
-		const updatedCurrentUser = {
-			employee: {
-				...currentUser.employeeDetails,
-				role: { ...currentUser.employeeDetails.role, type: formData.role },
-			},
-			user: {
-				...currentUser.userDetails,
-				userEmail: formData.email,
-				userName: formData.name,
-				status: status,
-			},
-		};
-		const newData = {
-			auth0_user_id,
-			updatedCurrentUser,
-		};
-		dispatch(updateCurrentUser(newData));
-	};
-
-	const handleCopy = () => {
-		navigator.clipboard.writeText(formData.email);
-	};
-
-	return (
-		<Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
-			<Paper sx={{ p: 4, maxWidth: 600, width: '100%' }}>
-				<Typography variant='h4' gutterBottom>
-					Edit Profile
-				</Typography>
-				<Grid container spacing={2}>
-					<Grid item xs={12} sm={6}>
-						<TextField
-							fullWidth
-							label='Email'
-							name='email'
-							value={formData.email}
-							onChange={handleChange}
-							disabled={true}
-							variant='outlined'
-							margin='normal'
-							InputProps={{
-								endAdornment: (
-									<InputAdornment position='end'>
-										<Tooltip title='Copy'>
-											<IconButton onClick={handleCopy}>
-												<ContentCopyIcon />
-											</IconButton>
-										</Tooltip>
-									</InputAdornment>
-								),
-							}}
-							sx={{ mt: 2 }}
-						/>
-					</Grid>
-					<Grid item xs={12} sm={6}>
-						<TextField
-							fullWidth
-							label='Name'
-							name='name'
-							value={formData.name}
-							onChange={handleChange}
-							disabled={!isEditing}
-							variant='outlined'
-							margin='normal'
-							sx={{ mt: 2 }}
-						/>
-					</Grid>
-					<Grid item xs={12} sm={6}>
-						<FormControl fullWidth sx={{ mt: 2 }}>
-							<InputLabel id='demo-simple-select-label'>Status</InputLabel>
-							<Select
-								labelId='demo-simple-select-label'
-								id='demo-simple-select'
-								value={status}
-								label='status'
-								onChange={handleChangeStatus}
-								disabled={!isEditing}
-							>
-								{statusArray.map((statusOption, index) => (
-									<MenuItem key={index} value={statusOption}>
-										{statusOption}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
-					</Grid>
-					<Grid item xs={12} sm={6}>
-						<TextField
-							fullWidth
-							label='Role'
-							name='role'
-							value={formData.role}
-							onChange={handleChange}
-							disabled={!isEditing}
-							variant='outlined'
-							margin='normal'
-							sx={{ mt: 2 }}
-						/>
-					</Grid>
-				</Grid>
-				<Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
-					{isEditing ? (
-						<Button onClick={handleSaveClick}>save</Button>
-					) : (
-						<Button onClick={handleEditClick}>Edit</Button>
-					)}
-				</Box>
-			</Paper>
-		</Box>
-	);
+  return (
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
+      <Paper sx={{ p: 4, maxWidth: 600, width: '100%' }}>
+        <Typography variant='h4' gutterBottom>
+          Edit Profile
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <Controller
+              name='email'
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  label='Email'
+                  disabled
+                  variant='outlined'
+                  margin='normal'
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <Tooltip title='Copy'>
+                          <IconButton onClick={handleCopy}>
+                            <ContentCopyIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{ mt: 2 }}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Controller
+              name='name'
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  label='Name'
+                  disabled={!isEditing}
+                  variant='outlined'
+                  margin='normal'
+                  sx={{ mt: 2 }}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Controller
+              name='status'
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth sx={{ mt: 2 }}>
+                  <InputLabel id='status-select-label'>Status</InputLabel>
+                  <Select
+                    {...field}
+                    labelId='status-select-label'
+                    id='status-select'
+                    value={field.value}
+                    label='Status'
+                    disabled={!isEditing}
+                  >
+                    {statusArray.map((statusOption, index) => (
+                      <MenuItem key={index} value={statusOption}>
+                        {statusOption}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              )}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Controller
+              name='role'
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  label='Role'
+                  disabled={!isEditing}
+                  variant='outlined'
+                  margin='normal'
+                  sx={{ mt: 2 }}
+                />
+              )}
+            />
+          </Grid>
+        </Grid>
+        <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+          {isEditing ? (
+            <Button onClick={handleSaveClick}>Save</Button>
+          ) : (
+            <Button onClick={handleEditClick}>Edit</Button>
+          )}
+        </Box>
+      </Paper>
+    </Box>
+  );
 };
 
 export default EditProfile;
