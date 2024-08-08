@@ -44,7 +44,8 @@ const AddProductForm = () => {
         stockQuantity: yup.number().typeError("stockQuantity must be a number").required("stockQuantity is a required field").min(0, "stock cannot be negative"),
         businessId: yup.string().required("Business ID is required"),
         componentStatus: yup.string().required("componentStatus is a required field").min(3, "componentStatus must be at least 3 characters").max(15, "componentStatus must be at most 15 characters"),
-    });
+    }) as unknown as yup.ObjectSchema<IProduct>;
+
 
     const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<IProduct>({
         resolver: yupResolver(productSchema),
