@@ -6,17 +6,18 @@ import DateFormat from './DateFormat';
 interface Item {
     [key: string]: any;
 }
+interface Column {
+    name: string;
+    header: string;
+    type?: 'date' | 'text';
+}
+interface ItemProps {
+    item: Item;
+    column: Column[];
+    Desing: ComponentType<{ item: Item, column: Column[] }> | null;
+}
 
-const Item = (props: {
-    item: Item,
-    column: string[],
-    Desing: ComponentType<{
-        item: Item,
-        column: string[]
-    }> | null
-}) => {
-    const { item, column, Desing } = props;
-
+const Item = ({ item, column, Desing }: ItemProps) => {
     return (
         <>
         {            
@@ -24,7 +25,7 @@ const Item = (props: {
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
                 {
                     column.map((c) => (
-                        <TableCell key={c} align="right">{c === "targetDate" ? <DateFormat isoDate={item[c]} /> : item[c]}</TableCell>
+                        <TableCell key={c.name} align="right">{c.type === 'date' ? <DateFormat isoDate={item[c.name]} /> : item[c.name]}</TableCell>
                     ))
                 }
             </TableRow>

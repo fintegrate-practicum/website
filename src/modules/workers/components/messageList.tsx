@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { List, ListItem, ListItemText, Paper, Typography, CssBaseline } from '@mui/material';
 import { Box } from '@mui/system';
 import PropTypes from 'prop-types';
@@ -15,7 +15,6 @@ const MessageList = ({ messages }: { messages: Message[] }) => {
     setSelectedMessage(message);
     message.read_status = true; 
   };
-  const [existMessages, setexistMessages] = useState(true)
   const [userNames, setUserNames] = useState<{ [key: string]: string }>({});
 
   const getUser = async (id: string): Promise<string> => {
@@ -23,16 +22,15 @@ const MessageList = ({ messages }: { messages: Message[] }) => {
     return user.payload.userName;
   };
 
-  useEffect(() => {
-    if (!Array.isArray(messages)) {
+  const existMessages = useMemo(() => {
+    if (!Array.isArray(messages) || messages.length === 0) {
       console.error("Expected 'messages' to be an array but got:", messages);
-      setexistMessages(false);
-    } else if (messages.length === 0) {
-      setexistMessages(false);
-    } else {
-      setexistMessages(true);
+      return false;
     }
+    return true;
+  }, [messages]);
 
+  useEffect(() => {
     messages.forEach(async (msg) => {
       if (!userNames[msg.sender_id]) {
         const userName = await getUser(msg.sender_id);
@@ -41,7 +39,7 @@ const MessageList = ({ messages }: { messages: Message[] }) => {
         }
       }
     });
-  }, [messages]);
+  }, [messages, userNames]);
 
   return (
     <Box display="flex" height="100vh">
@@ -93,7 +91,6 @@ const MessageList = ({ messages }: { messages: Message[] }) => {
   );
 };
 
-// Define PropTypes (optional)
 MessageList.propTypes = {
   messages: PropTypes.arrayOf(PropTypes.instanceOf(Message)).isRequired,
 };

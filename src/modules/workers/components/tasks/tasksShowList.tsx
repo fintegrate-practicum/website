@@ -19,14 +19,18 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({ filteredTasks, setFiltered
       setFilteredTasks(updatedFilteredTasks);
     }
   }, [currentUser, filteredTasks, setFilteredTasks]);
-
+  
   return (
     <>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         <GenericList
           title={"רשימת משימות"}
           list={filteredTasks}
-          column={["taskName", "targetDate", "urgency"]}
+          column={[
+            { name: "taskName", header: "שם המשימה", type: 'text'},
+            { name: "targetDate", header: "תאריך יעד",type: 'date'},
+            { name: "urgency", header: "דחיפות", type:'text' }
+          ]}
           desing={null}
         />
       </div>

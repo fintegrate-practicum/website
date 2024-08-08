@@ -5,26 +5,31 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Item from "./item";
-import { ComponentType, useEffect, useState } from 'react';
+import { ComponentType, useMemo } from 'react';
+
+interface column{
+    name:string;
+    header:string;
+    type?: 'date' | 'text';
+}
 
 const GenericList = (props: {
     title: string,
     list: object[],
-    column: string[],
+    column: column[],
     desing: ComponentType<{
         item: object,
-        column: string[]
+        column: column[]
     }> | null}) => {
 
     const {title, list, column, desing} = props
-    const [existList, setExistList] = useState(true);
 
-    useEffect(() => {
-        if (!Array.isArray(list) || list.length == 0) {
+    const existList = useMemo(() => {
+        if (!Array.isArray(list) || list.length === 0) {
             console.error("Expected 'list' to be an array but got:", list);
-            setExistList(false);
+            return false;
         } else {
-            setExistList(true);
+            return true;
         }
     }, [list]);
 
@@ -37,7 +42,7 @@ const GenericList = (props: {
                     <TableRow>
                         {
                             column.map((c,i)=>{
-                                return(<TableCell key={i} align="right" sx={{fontWeight: "bold"}}>{c==="taskName"?'שם המשימה:':(c==="targetDate"?'תאריך יעד:':(c==='urgency'?'דחיפות:':c))}</TableCell>)
+                                return(<TableCell key={i} align="right" sx={{fontWeight: "bold"}}>{c.header}</TableCell>)
                             })
                         }
                     </TableRow>
