@@ -14,15 +14,6 @@ import { Chip, Grid, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEv
 import { RootState } from "../../../Redux/store";
 import { getAllComponents } from "../features/component/componentSlice";
 
-const AddProductForm = () => {
-    const { productId } = useParams<{ productId: string }>();
-    const [product, setProduct] = useState<IProduct | any>(null);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [components, setComponents] = useState<IComponent[]>([]);
-    const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-    const dispatch = useDispatch();
-    const componentState = useSelector((state: RootState) => state.component);
-
     const productSchema = yup.object().shape({
         name: yup.string().required("name is a required field").min(3, "name must be at least 3 characters").max(20, "name must be at most 20 characters"),
         description: yup.string().required("productDescription is a required field"),
@@ -46,6 +37,14 @@ const AddProductForm = () => {
         componentStatus: yup.string().required("componentStatus is a required field").min(3, "componentStatus must be at least 3 characters").max(15, "componentStatus must be at most 15 characters"),
     }) as unknown as yup.ObjectSchema<IProduct>;
 
+const AddProductForm = () => {
+    const { productId } = useParams<{ productId: string }>();
+    const [product, setProduct] = useState<IProduct | any>(null);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [components, setComponents] = useState<IComponent[]>([]);
+    const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+    const dispatch = useDispatch();
+    const componentState = useSelector((state: RootState) => state.component);
 
     const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<IProduct>({
         resolver: yupResolver(productSchema),
