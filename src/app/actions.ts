@@ -1,5 +1,4 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-import { IProduct } from "../modules/inventory/interfaces/IProduct";
 
 export interface Item {
   id?: string;
@@ -29,15 +28,6 @@ export const setData = <T extends Item>(state: State<T>, action: PayloadAction<T
     data: action.payload,
   };
 };
-
-export const getData = <T extends{[key: string]: IProduct}>(state: State<T>, action: PayloadAction<T>) => {
-  return {
-    ...state,
-    data: action.payload,
-  };
-};
-
-
 
 export const updateItem = <T extends Item>(state: State<T>, action: PayloadAction<T>) => {
   const updatedState = { ...state };
