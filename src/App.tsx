@@ -50,8 +50,7 @@ const App = () => {
         <Client />
         <ErrorToast />
         <Routes>
-          <Route path="inventory/*" element={<Inventory />} />
-
+          <Route path="/inventory/*" element={<Inventory />} />
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
           <Route path="/CreateBusiness/BaseDetailsManager" element={<Suspense fallback="Loading..."><LazyBaseDetailsManager /></Suspense>} />
           <Route path="/CreateBusiness/EmailVerification" element={<Suspense fallback="Loading..."><LazyEmailVerification /></Suspense>} />
