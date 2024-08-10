@@ -9,6 +9,7 @@ import { userSlice } from "../modules/workers/features/reducer";
 // import employeeSlice from "../modules/workers/features/employeeSlice";
 // import taskSlice from "../modules/workers/features/taskSlice";
 import messageSlice from "../modules/workers/features/messageSlice";
+import orderSlice from "../modules/orders/features/order/orderSlice";
 
 const Store = configureStore({
     reducer: {
@@ -21,7 +22,8 @@ const Store = configureStore({
         messageSlice,
         product : productSlice,
         component: componentSlice,
-        provider: providerSlice
+        provider: providerSlice,
+        order: orderSlice
     }, 
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

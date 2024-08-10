@@ -13,6 +13,8 @@ import Inventory from './modules/inventory/Inventory';
 import Login from './components/Login/login';
 import Orders from './modules/orders/App';
 import Header from './components/Header/Header';
+import AllOrders from './modules/orders/allOrders';
+
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(() => import('./components/createBusiness/baseDetailsManager'));
@@ -53,7 +55,7 @@ const App = () => {
         <ErrorToast />
         <Routes>
           <Route path="/inventory/*" element={<Inventory />} />
-
+          <Route path="/allOrders/:businessCode?" element={<AllOrders />} />
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
           <Route path="/CreateBusiness/BaseDetailsManager" element={<Suspense fallback="Loading..."><LazyBaseDetailsManager /></Suspense>} />
           <Route path="/CreateBusiness/EmailVerification" element={<Suspense fallback="Loading..."><LazyEmailVerification /></Suspense>} />
