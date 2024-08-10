@@ -4,6 +4,10 @@ import workerInstance from "../auth0/WorkersInterceptors";
 import { showErrorToast } from "../components/generic/errorMassage";
 import { EmployeeRole } from "../modules/workers/classes/employeeRole";
 import { statuses } from "../modules/workers/classes/enum/statuses.enum";
+import { showErrorToast } from "../components/generic/errorMassage";
+import InfraInstance from "../auth0/InfraInterceptors";
+
+
 
 interface UserDetails {
   userName: string;
@@ -45,7 +49,7 @@ export const fetchUserById = createAsyncThunk(
   'fetchUserById',
   async (payload: any, { dispatch }) => {
     try {
-      const response = await workerInstance.get(`/user/${payload.identities[0].user_id}`);
+      const response = await InfraInstance.get(`/user/${payload.identities[0].user_id}`);
       const data = response.data;
       if (data.data == null) {
         await dispatch(updateCurrentUserByJwt(payload));
@@ -76,23 +80,25 @@ export const fetchUserById = createAsyncThunk(
     }
   }
 );
+
 export const updateCurrentUser = createAsyncThunk(
   'updateCurrentUser',
   async (payload: any) => {
     const { auth0_user_id, updatedCurrentUser } = payload;
     try {
-      const response = await workerInstance.put(`/user/${auth0_user_id}`, updatedCurrentUser);
+      const response = await InfraInstance.put(`/user/${auth0_user_id}`, updatedCurrentUser);
       return response.data;
     } catch (error: any) {
       showErrorToast(error.message);
     }
   }
 );
+        
 export const updateCurrentUserByJwt = createAsyncThunk(
   'updateCurrentUserByJwt',
   async (payload: any) => {
     try {
-      const response = await workerInstance.put('/user/jwt', payload);
+      const response = await InfraInstance.put('/user/jwt', payload,);
       return response.data;
     } catch (error: any) {
       throw error;
@@ -108,5 +114,6 @@ const currentUserSlice = createSlice({
     },
   },
 });
+
 export const selectCurrentUser = (state: RootState) => state.currentUserSlice;
 export default currentUserSlice.reducer;
