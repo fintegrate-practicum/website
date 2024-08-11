@@ -5,10 +5,9 @@ import axios from 'axios';
 import employee from '../classes/employee';
 
 const baseUrl = import.meta.env.VITE_WORKERS_SERVICE_URL;
-const businessId = import.meta.env.VITE_BUSINESSID;
 export const fetchEmployees = createAsyncThunk(
   'employees/fetchEmployees',
-  async () => {
+  async (businessId) => {
     const response = await axios.get(
       `${baseUrl}/workers?businessId=${businessId}`,
     );

@@ -12,15 +12,15 @@ interface EditTaskArgs {
 }
 
 const baseUrl = import.meta.env.VITE_WORKERS_SERVICE_URL;
-const managerId = import.meta.env.VITE_MANAGERID;
-const businessId = import.meta.env.VITE_BUSINESSID;
-
-export const fetchTasks = createAsyncThunk('tasks/fetchTasks', async () => {
-  const response = await axios.get(
-    `${baseUrl}/tasks/manager/${businessId}/${managerId}`,
-  );
-  return response.data;
-});
+export const fetchTasks = createAsyncThunk(
+  'tasks/fetchTasks',
+  async (businessId, managerId) => {
+    const response = await axios.get(
+      `${baseUrl}/tasks/manager/${businessId}/${managerId}`,
+    );
+    return response.data;
+  },
+);
 
 const taskSlice = createSlice({
   name: 'tasks',
