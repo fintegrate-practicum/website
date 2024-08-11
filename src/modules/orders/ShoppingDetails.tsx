@@ -3,32 +3,70 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 import * as yup from 'yup';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup"
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import  Button  from '../../common/components/Button/Button';
+import { Button, Card, Grid, Typography } from '@mui/material';
 import "./ShoppingDetails.css";
-import { addItem } from './Api-Requests/genericRequests';
+import { addItem, getAllItems } from './Api-Requests/genericRequests';
+import { useAppSelector, useJwtFromCookie } from '../../Redux/hooks';
+import { ICart } from './interfaces/ICart';
+import { useDispatch } from 'react-redux';
+import { getBasket } from './features/basket/basketSlice';
+
+interface Props {
+    amount: number;
+}
+
+const ShoppingDetails: React.FC<Props> = ({ amount }) => {
+
+    const userId = useJwtFromCookie('user_id')?.split('|')[1];
+    const token = useJwtFromCookie('accessToken') || undefined;
+    const Cart = useAppSelector((state) => state.cart?.data || []);
+    const [selectedOption, setSelectedOption] = useState<string>('');
+    const dispatch = useDispatch();
 
 
+    const productsCart = Cart.map(c => ({
+        id: c.product.id,
+        qty: c.Quantity,
+    }));
 
+    const getAllCart = async () => {
+        try {
+            const res = await getAllItems<ICart[]>(`cart/business123/${userId}`, token);
+            dispatch(getBasket(res.data));
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
 
-const ShoppingDetails = () => {
-
-    const [selectedOption, setSelectedOption] = useState('');
-
-    const handleChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
+    const handleChange = (e: { target: { value: string; }; }) => {
         setSelectedOption(e.target.value);
     };
 
+    useEffect(() => {
+        getAllCart();
+    }, []);
+
     const saveDetails = async (data: Record<string, any>) => {
         try {
-            let response = await addItem("orders", data);
+            const newData = {
+                destinationAddress: {
+                    ...data
+                },
+                user: userId,
+                products: productsCart,
+                businessCode: 'business123',
+                settingManeger: 1,
+                deliveryMethod: selectedOption,
+            }
+            await addItem("orders", newData);
+            reset()
             alert("ההזמנה נשמרה בהצלחה");
-            console.log(response);
         } catch (err) {
             console.log(err);
             alert("הייתה שגיאה בשמירת ההזמנה");
@@ -37,62 +75,98 @@ const ShoppingDetails = () => {
 
 
     const backForm = yup.object().shape({
-        city: yup.string().required('שדה זה הינו חובה'),
-        street: yup.string().required('שדה זה הינו חובה'),
-        buildingNumber: yup.number().typeError('הכנס מספר בנין').positive('הכנס מספר בנין'),
-        floor: yup.number().typeError('הכנס קומה').positive('הכנס קומה'),
-        apartmentNumber: yup.number().typeError('הכנס מספר דירה').positive('הכנס מספר דירה'),
-        lastName: yup.string().required('שדה זה הינו חובה'),
-
+        city: yup.string().when((selectedOption) => {
+            return selectedOption.toString() === 'delivery' ? yup.string().required('city is a required field') : yup.string();
+        }),
+        street: yup.string().when((selectedOption) => {
+            return selectedOption.toString() === 'delivery' ? yup.string().required('street is a required field') : yup.string()
+        }),
+        numBuild: yup.number().when((selectedOption) => {
+            return selectedOption.toString() === 'delivery' ? yup.number().required('numBuild is a required field') : yup.number()
+        }),
+        floor: yup.number().when((selectedOption) => {
+            return selectedOption.toString() === 'delivery' ? yup.number().required('floor is a required field') : yup.number()
+        }),
+        apartmentNumber: yup.number().when((selectedOption) => {
+            return selectedOption.toString() === 'delivery' ? yup.number().required('apartmentNumber is a required field') : yup.number()
+        }),
+        lastName: yup.string().when((selectedOption) => {
+            return selectedOption.toString() === 'delivery' ? yup.string().required('lastName is a required field') : yup.string()
+        }),
     });
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(backForm),
+
+
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({
+        resolver: yupResolver(backForm)
     });
 
     return (
-        <form onSubmit={handleSubmit(saveDetails)}>
-            <FormControl >
-                <h3>איך תרצה לאסוף את המשלוח</h3>
-                <RadioGroup
-                    row
-                    aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="row-radio-buttons-group"
-                    onChange={handleChange}
-                >
-                    <FormControlLabel value="shipping" control={<Radio />} label="משלוח" />
-                    <FormControlLabel value="selfCollection" control={<Radio />} label="איסוף עצמי" />
-                </RadioGroup>
-                {selectedOption === "shipping" &&
-                    (<Box
-                        // component="form"
-                        sx={{
-                            '& > :not(style)': { m: 1, width: '25ch', display: 'block' },
-                        }}
-                        // noValidate
-                        // autoComplete="off"
-                    >
-                        <TextField id="filled-basic" fullWidth label="עיר" variant="filled"  {...register("city")} />
-                        {errors.city && <p>{errors.city.message}</p>}
-                        <TextField id="filled-basic" fullWidth label="רחוב" variant="filled" {...register("street")} />
-                        {errors.street && <p>{errors.street.message}</p>}
-                        <TextField id="filled-basic" fullWidth label="מספר בנין" variant="filled" type='number' {...register("buildingNumber")} />
-                        {errors.buildingNumber && <p>{errors.buildingNumber.message}</p>}
-                        <TextField id="filled-basic" fullWidth label="קומה" variant="filled" type='number' {...register("floor")} />
-                        {errors.floor && <p>{errors.floor.message}</p>}
-                        <TextField id="filled-basic" fullWidth label="מספר בית" variant="filled" type='number' {...register("apartmentNumber")} />
-                        {errors.apartmentNumber && <p>{errors.apartmentNumber.message}</p>}
-                        <TextField id="filled-basic" fullWidth label="משפחה" variant="filled" {...register("lastName")} />
-                        {errors.lastName && <p>{errors.lastName.message}</p>}
-                        <Button type="submit" variant="contained" color="primary">
-                            שמור פרטים
-                        </Button>
-                    </Box>)
-                }
+        <Grid sx={{ flexGrow: 1 }} container spacing={2} direction="column" alignItems="center">
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+                {productsCart.length > 0 && Cart.map((cart) => (
+                    <Card sx={{ width: 200, maxWidth: '100%', boxShadow: 'lg', margin: 2 }}>
+                        <Typography>
+                            name: {cart.product.name}
+                        </Typography>
+                        <Typography>
+                            Quantity: {cart.Quantity}
+                        </Typography>
+                        <Typography>
+                            Price: {cart.product.packageCost}
+                        </Typography>
+                    </Card>
+                ))}
+            </Box>
 
-            </FormControl>
-        </form>
+            <Typography variant="h5">
+                הסכום לתשלום: {amount}
+            </Typography>
+
+            <form onSubmit={handleSubmit(saveDetails)}>
+                <FormControl >
+                    <Typography >איך תרצה לאסוף את המשלוח</Typography>
+                    <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        onChange={handleChange}
+                        sx={{ justifyContent: 'center' }}
+                    >
+                        <FormControlLabel value="delivery" control={<Radio />} label="משלוח" />
+                        <FormControlLabel value="selfCollection" control={<Radio />} label="איסוף עצמי" />
+                    </RadioGroup>
+                    {selectedOption === "delivery" &&
+                        (<Box sx={{ '& > :not(style)': { m: 1, width: '25ch', display: 'block' }, }}>
+                            <TextField id="filled-basic" fullWidth label="עיר" variant="filled" {...register("city")} />
+                            {errors.city && <p>{errors.city.message}</p>}
+
+                            <TextField id="filled-basic" fullWidth label="רחוב" variant="filled" {...register("street")} />
+                            {errors.street && <p>{errors.street.message}</p>}
+                            <TextField id="filled-basic" fullWidth label="מספר בנין" variant="filled" type='number' {...register("numBuild")} />
+                            {errors.numBuild && <p>{errors.numBuild.message}</p>}
+
+                            <TextField id="filled-basic" fullWidth label="קומה" variant="filled" type='number' {...register("floor")} />
+                            {errors.floor && <p>{errors.floor.message}</p>}
+
+                            <TextField id="filled-basic" fullWidth label="מספר דירה" variant="filled" type='number' {...register("apartmentNumber")} />
+                            {errors.apartmentNumber && <p>{errors.apartmentNumber.message}</p>}
+
+                            <TextField id="filled-basic" fullWidth label="שם משפחה" variant="filled" {...register("lastName")} />
+                            {errors.lastName && <p>{errors.lastName.message}</p>}
+
+                        </Box>)
+                    }
+                    <Button type="submit" variant="contained" color="primary" fullWidth>
+                        שמור פרטים
+                    </Button>
+
+                </FormControl>
+            </form>
+        </Grid >
+
     );
 }
+
 
 export default ShoppingDetails;
