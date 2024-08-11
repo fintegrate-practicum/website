@@ -29,16 +29,16 @@ const WorkersShowList = () => {
     <>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         <GenericList
-          title={t('workers list')}
+          title={t('workers.workers list')}
           list={paginatedEmployees}
           column={[
-            t('userId'),
-            t('code'),
-            t('createdBy'),
-            t('updatedBy'),
-            t('roleId'),
-            t('position'),
-            t('details'),
+            t('workers.userId'),
+            t('workers.code'),
+            t('workers.createdBy'),
+            t('workers.updatedBy'),
+            t('workers.roleId'),
+            t('workers.position'),
+            t('workers.details'),
           ]}
           desing={ItemDetailToWorker}
         />
@@ -49,7 +49,7 @@ const WorkersShowList = () => {
         onClick={showMoreData}
         disabled={!hasNextPage}
       >
-        {t('Next')}
+        {t('workers.Next')}
       </Button>
       <Button
         component="label"
@@ -57,7 +57,7 @@ const WorkersShowList = () => {
         onClick={showLessData}
         disabled={!hasPreviousPage}
       >
-        {t('Previous')}
+        {t('workers.Previous')}
       </Button>
     </>
   );

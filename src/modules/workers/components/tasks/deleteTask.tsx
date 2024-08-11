@@ -12,7 +12,7 @@ const {t}=useTranslation();
   };
   return (
     <Button variant='outlined' onClick={handleDelete} >
-      {t("Delete")}
+      {t("common.Delete")}
     </Button>  
   );
 };

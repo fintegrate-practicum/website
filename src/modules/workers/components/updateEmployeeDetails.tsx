@@ -48,13 +48,13 @@ const UpdateEmployeeDetails: React.FC = () => {
 		<Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
 			<Paper sx={{ p: 4, maxWidth: 600, width: '100%' }}>
 				<Typography variant='h4' gutterBottom>
-					{t('Edit Employee Profile')}
+					{t('workers.Edit Employee Profile')}
 				</Typography>
 				<Grid container spacing={2}>
 					<Grid item xs={12} sm={6}>
 						<TextField
 							fullWidth
-							label={t('Name')}
+							label={t('workers.Name')}
 							name='nameEmployee'
 							value={formData.nameEmployee}
 							onChange={handleChange}
@@ -67,7 +67,7 @@ const UpdateEmployeeDetails: React.FC = () => {
 					<Grid item xs={12} sm={6}>
 						<TextField
 							fullWidth
-							label={t('Role Type')}
+							label={t('workers.Role Type')}
 							name='roleType'
 							value={formData.roleType}
 							onChange={handleChange}
@@ -80,7 +80,7 @@ const UpdateEmployeeDetails: React.FC = () => {
 					<Grid item xs={12} sm={6}>
 						<TextField
 							fullWidth
-							label={t('Role Description')}
+							label={t('workers.Role Description')}
 							name='roleDescription'
 							value={formData.roleDescription}
 							onChange={handleChange}
@@ -93,9 +93,9 @@ const UpdateEmployeeDetails: React.FC = () => {
 				</Grid>
 				<Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
 					{isEditing ? (
-						<Button onClick={handleSaveClick}>{t('Save')}</Button>
+						<Button onClick={handleSaveClick}>{t('common.Save')}</Button>
 					) : (
-						<Button onClick={handleEditClick}>{t('Edit')}</Button>
+						<Button onClick={handleEditClick}>{t('common.Edit')}</Button>
 					)}
 				</Box>
 			</Paper>

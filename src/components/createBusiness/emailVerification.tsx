@@ -28,10 +28,10 @@ const EmailVerification = () => {
 		<Container maxWidth='sm'>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Typography variant='h5' gutterBottom>
-					{t('Sent you a code by email.')}
+					{t('website.Sent you a code by email.')}
 				</Typography>
 				<TextField
-					label={t('Code')}
+					label={t('website.Code')}
 					variant='outlined'
 					fullWidth
 					value={code}
@@ -40,7 +40,7 @@ const EmailVerification = () => {
 				/>
 				<Stack direction='row' spacing={2}>
 					<Button color='success' type='submit'>
-						{t('Submit')}
+						{t('website.Submit')}
 					</Button>
 				</Stack>
 			</form>

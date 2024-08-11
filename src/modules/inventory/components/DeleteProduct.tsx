@@ -30,7 +30,7 @@ const DeleteProduct = (
     const deleteProduct = async () => {
         try {
             const response = await deleteItem("product", item.id); 
-            alert(t("The deletion was successful"));
+            alert(t("inventory.The deletion was successful"));
             console.log(response);
         }
         catch (err) {
@@ -43,7 +43,7 @@ const DeleteProduct = (
     return (<>
 
         <Button variant="outlined" onClick={handleClickOpen} startIcon={<DeleteIcon />}>
-            {t("Delete")}
+            {t("common.Delete")}
         </Button>
 
         <Dialog
@@ -53,17 +53,17 @@ const DeleteProduct = (
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
-                {t("Are you sure you want to delete this product?")}
+                {t("inventory.Are you sure you want to delete this product?")}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    {t("Product code to delete:")}
+                    {t("inventory.Product code to delete:")}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button variant="text" onClick={handleClose}>{t("cancel")}</Button>
+                <Button variant="text" onClick={handleClose}>{t("common.cancel")}</Button>
                 <Button variant="text" onClick={deleteProduct} autoFocus>
-                    {t("delete")}
+                    {t("inventory.delete")}
                 </Button>
             </DialogActions>
         </Dialog>

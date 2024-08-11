@@ -69,7 +69,7 @@ const WorkerPage: React.FC<WorkerPageProps> = (props) => {
 			>
 				<Grid style={{ textAlign: 'left', margin: 'none' }}>
 					<Typography>
-						{t('Name')}: {props.user.userName}{' '}
+						{t('workers.Name')}: {props.user.userName}{' '}
 					</Typography>
 				</Grid>
 
@@ -90,36 +90,36 @@ const WorkerPage: React.FC<WorkerPageProps> = (props) => {
 							}}
 						>
 							<ListItemText
-								primary={t('Personal Information')}
+								primary={t('workers.Personal Information')}
 								secondary={
 									<Typography
 										component='span'
 										variant='body2'
 										color='text.primary'
 									>
-										{t('dateOfBirth')}: {props.user.userName}
+										{t('workers.dateOfBirth')}: {props.user.userName}
 										<br />
-										{t('mobile')}: {props.user.mobile}
+										{t('workers.mobile')}: {props.user.mobile}
 										<br />
-										{t('status')}: {props.user.status}
+										{t('workers.status')}: {props.user.status}
 									</Typography>
 								}
 							/>
 						</Grid>
 					</ListItem>
 				</List>
-				<Button onClick={handleClickOpen}>{t('Edit Details')}</Button>
+				<Button onClick={handleClickOpen}>{t('workers.Edit Details')}</Button>
 
 				<Dialog open={open} onClose={handleClose}>
-					<DialogTitle>{t('Edit Details')}</DialogTitle>
+					<DialogTitle>{t('workers.Edit Details')}</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
-							{t('Edit Changes in Your Details and Save')}
+							{t('workers.Edit Changes in Your Details and Save')}
 						</DialogContentText>
 						<UpdateEmployeeDetails />
 					</DialogContent>
 					<DialogActions>
-						<Button onClick={handleClose}>{t('Cancel')}</Button>
+						<Button onClick={handleClose}>{t('comoon.Cancel')}</Button>
 					</DialogActions>
 				</Dialog>
 			</Grid>

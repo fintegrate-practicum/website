@@ -47,24 +47,24 @@ export default function MoreDetailsManager(): JSX.Element {
     const { t } = useTranslation();
 
     const fields = [
-        { name: 'description', label: t('Description'), type: 'text' },
-        { name: 'phone', label: t('Phone'), type: 'text' },
-        { name: 'address', label: t('Address'), type: 'text' },
+        { name: 'description', label: t('website.Description'), type: 'text' },
+        { name: 'phone', label: t('website.Phone'), type: 'text' },
+        { name: 'address', label: t('website.Address'), type: 'text' },
         {
             name: 'businessSize',
-            label: t('Business Size'),
+            label: t('website.Business Size'),
             type: 'select',
             options: Object.values(BusinessSize),
         },
         {
             name: 'industryType',
-            label: t('Industry Type'),
+            label: t('website.Industry Type'),
             type: 'select',
             options: ['service provider', 'gives a product'],
         },
         {
             name: 'logo',
-            label: t('Logo'),
+            label: t('website.Logo'),
             type: 'file',
             onChange: (e: React.ChangeEvent<HTMLInputElement>, setValue: any) => handleFileChange(e, setValue),
         },

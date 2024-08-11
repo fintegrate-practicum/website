@@ -32,7 +32,7 @@ const SearchTask: React.FC<SearchTaskProps> = ({ tasks, setFilteredTasks }) => {
       >
         <InputBase
           sx={{ ml: 1, flex: 1 }}
-          placeholder={t('Search')}
+          placeholder={t('workers.Search')}
           inputProps={{ 'aria-label': 'search' }}
           value={searchTerm}
           onChange={(e) => {

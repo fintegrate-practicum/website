@@ -44,7 +44,7 @@ const BaseWizard = () => {
 	return (
 		<div>
 			<Button variant='outlined' onClick={handleOpen}>
-				{t('Open Wizard')}
+				{t('order.Open Wizard')}
 			</Button>
 			<Modal
 				open={open}
@@ -81,14 +81,14 @@ const BaseWizard = () => {
 						variant='text'
 						style={{ textTransform: 'none', margin: '10px' }}
 					>
-						{t('Back')}
+						{t('order.Back')}
 					</Button>
 					<Button
 						onClick={handleNext}
 						variant='text'
 						style={{ textTransform: 'none' }}
 					>
-						{activeStep === steps.length - 1 ? t('Finish') : t('Next')}
+						{activeStep === steps.length - 1 ? t('order.Finish') : t('order.Next')}
 					</Button>
 				</Box>
 			</Modal>

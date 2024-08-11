@@ -61,7 +61,7 @@ const SidebarUserDetails: React.FC<SidebarUserDetailsProps> = ({ email, nickname
                         <ListItemIcon>
                             <ManageAccountsIcon />
                         </ListItemIcon>
-                        <ListItemText primary={t('Profile')} />
+                        <ListItemText primary={t('auth0.Profile')} />
                     </ListItem>
                     <ListItem>
                         <ListItemIcon>
@@ -75,7 +75,7 @@ const SidebarUserDetails: React.FC<SidebarUserDetailsProps> = ({ email, nickname
                     <ListItemIcon>
                         <LogoutIcon />
                     </ListItemIcon>
-                    <ListItemText primary={t('Log out')} />
+                    <ListItemText primary={t('auth0.Log out')} />
                 </ListItem>
             </Box>
         </Popover>

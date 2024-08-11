@@ -37,7 +37,7 @@ const MessageList = ({ messages }: { messages: Message[] }) => {
 						>
 							<ListItemText
 								primary={message.message_content}
-								secondary={`${t('Received from')}: ${message.sender_id} at ${message.date_time.toLocaleString()}`}
+								secondary={`${t('workers.Received from')}: ${message.sender_id} at ${message.date_time.toLocaleString()}`}
 							/>
 						</ListItem>
 					))}
@@ -50,13 +50,13 @@ const MessageList = ({ messages }: { messages: Message[] }) => {
 							{selectedMessage.message_content}
 						</Typography>
 						<Typography variant='subtitle1' color='textSecondary'>
-							{t('Received from')}: {selectedMessage.sender_id} at{' '}
+							{t('workers.Received from')}: {selectedMessage.sender_id} at{' '}
 							{selectedMessage.date_time.toLocaleString()}
 						</Typography>
 					</Paper>
 				) : (
 					<Typography variant='h6' color='textSecondary'>
-						{t('Select a message to read')}
+						{t('workers.Select a message to read')}
 					</Typography>
 				)}
 			</Box>

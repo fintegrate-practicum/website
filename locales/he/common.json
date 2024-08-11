@@ -7,5 +7,7 @@
 	"Save": "שמור",
 	"Edit": "ערוך",
 	"Next": "הבא",
-	"Previous": "הקודם"
+	"Previous": "הקודם",
+	"loadingText": "טוען טקסט",
+	"Delete": "מחק"
 }

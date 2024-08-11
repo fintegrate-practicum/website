@@ -41,9 +41,9 @@ const WorkersTopNav = () => {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="workers tabs">
-            <Tab label={t('detailsTab')} value="details" href='details' />
-            <Tab label={t('tasksTab')} value="tasks" href='tasks' />
-            <Tab label={t('messagesTab')} value="messages" href='messages' />
+            <Tab label={t('workers.detailsTab')} value="details" href='details' />
+            <Tab label={t('workers.tasksTab')} value="tasks" href='tasks' />
+            <Tab label={t('workers.messagesTab')} value="messages" href='messages' />
           </TabList>
         </Box>
         <TabPanel value="details"><WorkerPage user={new User} employee={new employee} /></TabPanel>

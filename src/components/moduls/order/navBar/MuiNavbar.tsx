@@ -15,19 +15,19 @@ const Navbar = () => {
             <AppBar position="static" sx={{ backgroundColor: ['inherit'] }}  >
                 <Toolbar sx={{ display: 'flex', flexWrap: 'wrap' }}>
                     <Link to="/" style={{ textDecoration: 'none' }}>
-                        <Tab label={t('companyLogo')} sx={{ color: ['inherit'], fontSize: '20px' }} />
+                        <Tab label={t('order.companyLogo')} sx={{ color: ['inherit'], fontSize: '20px' }} />
                     </Link>
                     <Link to="/shoopingBag" style={{ textDecoration: 'none' }} >
-                        <Tab label={t('shoppingBag')} sx={{ color: ['inherit'], fontSize: '20px' }} />
+                        <Tab label={t('order.shoppingBag')} sx={{ color: ['inherit'], fontSize: '20px' }} />
                     </Link>
                     <Link to="/connection" style={{ textDecoration: 'none' }}>
-                        <Tab label={t('login')} sx={{ color: ['inherit'], fontSize: '20px' }} />
+                        <Tab label={t('order.login')} sx={{ color: ['inherit'], fontSize: '20px' }} />
                     </Link>
                     <Link to="/payment" style={{ textDecoration: 'none' }}>
-                        <Tab label={t('payment')} sx={{ color: ['inherit'], fontSize: '20px' }} />
+                        <Tab label={t('order.payment')} sx={{ color: ['inherit'], fontSize: '20px' }} />
                     </Link>
                     <Link to="/allMyOrders" style={{ textDecoration: 'none' }}>
-                        <Tab label={t('myOrders')} sx={{ color: ['inherit'], fontSize: '20px' }} />
+                        <Tab label={t('order.myOrders')} sx={{ color: ['inherit'], fontSize: '20px' }} />
                     </Link>
                 </Toolbar>
             </AppBar>

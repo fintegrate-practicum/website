@@ -43,7 +43,7 @@ const SortAndFilterTasks: React.FC<SearchTaskProps> = ({ filteredTasks, setFilte
     <>
       <FormControlLabel
         control={<Switch onChange={handleChangeChecked} name="jason" />}
-        label={t('Filter By')}
+        label={t('workers.workers.Filter By')}
       />
       <ToggleButtonGroup
         color="primary"
@@ -52,9 +52,9 @@ const SortAndFilterTasks: React.FC<SearchTaskProps> = ({ filteredTasks, setFilte
         onChange={handleChangeAlignment}
         aria-label="Platform"
       >
-        <ToggleButton value="Date">{t('Date')}</ToggleButton>
-        <ToggleButton value="Urgency">{t('Urgency')}</ToggleButton>
-        <ToggleButton value="Name">{t('Name')}</ToggleButton>
+        <ToggleButton value="Date">{t('workers.Date')}</ToggleButton>
+        <ToggleButton value="Urgency">{t('workers.Urgency')}</ToggleButton>
+        <ToggleButton value="Name">{t('workers.Name')}</ToggleButton>
       </ToggleButtonGroup>
     </>
   );

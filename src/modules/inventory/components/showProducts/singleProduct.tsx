@@ -35,7 +35,7 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
 						</Typography>
 
 						<Typography color='textSecondary'>
-							{t('Price')} : {product.totalPrice}{' '}
+							{t('inventory.Price')} : {product.totalPrice}{' '}
 							<AttachMoneyOutlinedIcon fontSize='small' />
 						</Typography>
 					</Link>
@@ -46,7 +46,7 @@ const SingleProduct: React.FC<Props> = ({ product }) => {
 				)}
 			</CardContent>
 			<CardActions>
-				<Button>{t('Add to Cart')}</Button>
+				<Button>{t('inventory.Add to Cart')}</Button>
 			</CardActions>
 		</Card>
 	);

@@ -32,13 +32,13 @@ const SingleProductDetails = () => {
 					{productComponents}
 					{isOnSale}
 					<Typography color='textSecondary'>
-						{t('Price')}: {totalPrice}{' '}
+						{t('inventory.Price')}: {totalPrice}{' '}
 						<AttachMoneyOutlinedIcon fontSize='small' />
 					</Typography>
 				</CardContent>
 				<CardActions>
 					<Button variant='contained' color='primary'>
-						{t('Add to Cart')}
+						{t('inventory.Add to Cart')}
 					</Button>
 				</CardActions>
 			</Card>

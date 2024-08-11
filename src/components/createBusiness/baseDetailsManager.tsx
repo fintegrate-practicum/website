@@ -39,7 +39,7 @@ export default function BaseDetailsManager(): JSX.Element {
 const fields = [
   {
     name: 'companyNumber',
-    label: t('Company Number'),
+    label: t('website.Company Number'),
     type: 'text',
     validation: {
       required: 'Company number is required',
@@ -51,25 +51,25 @@ const fields = [
   },
   {
     name: 'name',
-    label: t('Business Name'),
+    label: t('website.Business Name'),
     type: 'text',
     validation: {
       required: t("Business name is required"),
       pattern: {
         value: /^[A-Z]{2,30}$/i,
-        message: t('Business name must contain more than 2 and less than 30 characters'),
+        message: t('website.Business name must contain more than 2 and less than 30 characters'),
       },
     },
   },
   {
     name: 'email',
-    label: t('Business Email'),
+    label: t('website.Business Email'),
     type: 'email',
     validation: {
-      required: t('Email is required'),
+      required: t('website.Email is required'),
       pattern: {
         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-        message: t('Invalid email address'),
+        message: t('website.Invalid email address'),
       },
     },
   },

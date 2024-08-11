@@ -71,7 +71,7 @@ export default function AddTaskBtn() {
   return (
     <React.Fragment>
       <Button variant="outlined" onClick={handleClickOpen}>
-        {t('Add new Task')}
+        {t('workers.Add new Task')}
       </Button>
       <Dialog
         open={open}
@@ -84,10 +84,10 @@ export default function AddTaskBtn() {
           },
         }}
       >
-        <DialogTitle>{t('Add new Task')}</DialogTitle>
+        <DialogTitle>{t('workers.Add new Task')}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {t('To add a new task, please enter the data here. We will send updates to employees.')}
+            {t('workers.To add a new task, please enter the data here. We will send updates to employees.')}
           </DialogContentText>
           <TextField
             onChange={(e) => setTaskName(e.target.value)}
@@ -96,7 +96,7 @@ export default function AddTaskBtn() {
             margin="dense"
             id="task_name"
             name="task_name"
-            label={t('Task Name')}
+            label={t('workers.Task Name')}
             type="text"
             fullWidth
             variant="standard"
@@ -108,7 +108,7 @@ export default function AddTaskBtn() {
             margin="dense"
             id="description"
             name="description"
-            label={t('Description')}
+            label={t('workers.Description')}
             type="text"
             fullWidth
             variant="standard"
@@ -121,7 +121,7 @@ export default function AddTaskBtn() {
             margin="dense"
             id="target_date"
             name="Target Date"
-            label={t('Target Date')}
+            label={t('workers.Target Date')}
             type="date"
             fullWidth
             variant="standard"
@@ -134,7 +134,7 @@ export default function AddTaskBtn() {
             margin="dense"
             id="employee"
             name="employee"
-            label={t('Employee')}
+            label={t('workers.Employee')}
             type="text"
             fullWidth
             variant="standard"
@@ -146,15 +146,15 @@ export default function AddTaskBtn() {
             margin="dense"
             id="urgency"
             name="Urgency"
-            label={t('Urgency')}
+            label={t('workers.Urgency')}
             type="number"
             fullWidth
             variant="standard"
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>{t('Cancel')}</Button>
-          <Button type="submit">{t('Save')}</Button>
+          <Button onClick={handleClose}>{t('common.Cancel')}</Button>
+          <Button type="submit">{t('common.Save')}</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

@@ -7,5 +7,7 @@
 	"Save": "Save",
 	"Edit": "Edit",
 	"Next": "Next",
-	"Previous": "Previous"
+	"Previous": "Previous",
+	"loadingText": "loadingText",
+	"Delete": "Delete"
 }

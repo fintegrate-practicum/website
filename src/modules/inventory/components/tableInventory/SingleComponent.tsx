@@ -26,15 +26,15 @@ const SingleComponent: React.FunctionComponent<{ component: IComponent }> = ({
 						{component.name}
 					</Typography>
 					<Typography gutterBottom variant='body1' component='div'>
-						{t('price')}: {component.componentBuyPrice}
+						{t('inventory.price')}: {component.componentBuyPrice}
 					</Typography>
 					<Typography variant='body2' color='textSecondary'>
 						{component.description}
 					</Typography>
 				</CardContent>
 				<CardActions>
-					<Button size='small'>{t('share')}</Button>
-					<Button size='small'>{t('learnMore')}</Button>
+					<Button size='small'>{t('inventory.share')}</Button>
+					<Button size='small'>{t('inventory.learnMore')}</Button>
 				</CardActions>
 			</Card>
 		</>

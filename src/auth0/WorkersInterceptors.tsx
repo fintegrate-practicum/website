@@ -13,7 +13,7 @@ workerInstance.interceptors.request.use(
     const token=useJwtFromCookie('accessToken')
     const { t } = useTranslation();
     if (token) {
-        config.headers.Authorization = `${t('Bearer')} ${token}`;
+        config.headers.Authorization = `${t('auth0.Bearer')} ${token}`;
     }
     
     return config;

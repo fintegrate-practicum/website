@@ -26,7 +26,7 @@ export default function SidebarWorkerDetails(props: SidebarWorkerDetailsProps) {
             <div>
 
                 <React.Fragment key='right'>
-                    <Button onClick={toggleDrawer(true)} sx={{ 'auto': 200 }}>{t('details')}</Button>
+                    <Button onClick={toggleDrawer(true)} sx={{ 'auto': 200 }}>{t('workers.details')}</Button>
                     <Drawer anchor={ANCHOR} open={state} onClose={toggleDrawer(false)}>
                         <Box sx={{ 'auto': 250, pointerEvents: 'none' }} role="presentation" >
                             <List>
@@ -36,7 +36,7 @@ export default function SidebarWorkerDetails(props: SidebarWorkerDetailsProps) {
                                             padding: "12px ", paddingTop: "2px"
                                         }}>
                                             <AccountBoxIcon /></Icon>
-                                        {t('Name')}
+                                        {t('workers.Name')}
                                     </Button>
                                 </MenuItem>
                                 <MenuItem>
@@ -44,7 +44,7 @@ export default function SidebarWorkerDetails(props: SidebarWorkerDetailsProps) {
                                         <Icon sx={{
                                             padding: "12px", paddingTop: "2px",
                                         }}><CallIcon /></Icon>
-                                        {t('Phone')}
+                                        {t('workers.Phone')}
                                     </Button>
                                 </MenuItem>
                                 <MenuItem>
@@ -52,7 +52,7 @@ export default function SidebarWorkerDetails(props: SidebarWorkerDetailsProps) {
                                         <Icon sx={{
                                             padding: "12px", paddingTop: "2px"
                                         }}><MailIcon /></Icon>
-                                        {t('Email')}
+                                        {t('workers.Email')}
                                     </Button>
                                 </MenuItem>
                                 <MenuItem sx={{ pointerEvents: 'auto', border: 0 }}>
@@ -60,7 +60,7 @@ export default function SidebarWorkerDetails(props: SidebarWorkerDetailsProps) {
                                         <Icon sx={{
                                             padding: "12px", paddingTop: "2px"
                                         }}> <AddIcon /></Icon>
-                                        {t('Details')}
+                                        {t('workers.Details')}
                                     </Button>
                                 </MenuItem>
                                 <Divider />

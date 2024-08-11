@@ -60,7 +60,7 @@ const EditTask = (
   return (
     <React.Fragment>
       <Button variant="outlined" onClick={handleClickOpen}>
-        {t('edit task')}
+        {t('workers.edit task')}
       </Button>
       <Dialog
         open={open}
@@ -93,7 +93,7 @@ const EditTask = (
           },
         }}
       >
-        <DialogTitle>{t('edit task')}</DialogTitle>
+        <DialogTitle>{t('workers.edit task')}</DialogTitle>
         <DialogContent>
           {currentUser.role.type === 'manager' && (
             <>
@@ -105,7 +105,7 @@ const EditTask = (
                 margin="dense"
                 id="taskName"
                 name="taskName"
-                label={t('Task name')}
+                label={t('workers.Task name')}
                 type="text"
                 fullWidth
                 variant="standard"
@@ -118,7 +118,7 @@ const EditTask = (
                 margin="dense"
                 id="targetDate"
                 name="targetDate"
-                label={t('Target Date')}
+                label={t('workers.Target Date')}
                 type="date"
                 fullWidth
                 variant="standard"
@@ -131,7 +131,7 @@ const EditTask = (
                 margin="dense"
                 id="employee"
                 name="employee"
-                label={t('Employee')}
+                label={t('workers.Employee')}
                 type="text"
                 fullWidth
                 variant="standard"
@@ -142,17 +142,17 @@ const EditTask = (
           <br />
           <Box sx={{ minWidth: 100 }}>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">{t('status')}</InputLabel>
+              <InputLabel id="demo-simple-select-label">{t('workers.status')}</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={status.toString()}
-                label={t('status')}
+                label={t('workers.status')}
                 onChange={handleChange}
               >
-                <MenuItem value={TaskStatus.ToDo}>{t('ToDo')}</MenuItem>
-                <MenuItem value={TaskStatus.InProgress}>{t('InProgress')}</MenuItem>
-                <MenuItem value={TaskStatus.Completed}>{t('Completed')}</MenuItem>
+                <MenuItem value={TaskStatus.ToDo}>{t('workers.ToDo')}</MenuItem>
+                <MenuItem value={TaskStatus.InProgress}>{t('workers.InProgress')}</MenuItem>
+                <MenuItem value={TaskStatus.Completed}>{t('workers.Completed')}</MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -163,7 +163,7 @@ const EditTask = (
             margin="dense"
             id="description"
             name="description"
-            label={t('description task')}
+            label={t('workers.description task')}
             type="text"
             fullWidth
             variant="standard"
@@ -172,8 +172,8 @@ const EditTask = (
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>{t('Cancel')}</Button>
-          <Button type="submit">{t('Save')}</Button>
+          <Button onClick={handleClose}>{t('common.Cancel')}</Button>
+          <Button type="submit">{t('common.Save')}</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

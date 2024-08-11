@@ -75,7 +75,7 @@ const Profile: React.FC = () => {
   }, [getAccessTokenSilently, user?.sub, dispatch]);
 
   if (isLoading) {
-    return <div>{t('Loading ...')}</div>;
+    return <div>{t('auth0.Loading ...')}</div>;
   }
 
   const profileAvatar = () => {
@@ -124,7 +124,7 @@ const Profile: React.FC = () => {
         anchorEl={anchorEl}
         handleClose={handleClose}
       />
-      <Button href="/CreateBusiness/BaseDetailsManager" isLink={true}>{t('Register a business')}</Button>
+      <Button href="/CreateBusiness/BaseDetailsManager" isLink={true}>{t('auth0.Register a business')}</Button>
     </>
   );
 };

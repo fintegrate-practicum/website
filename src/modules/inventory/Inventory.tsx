@@ -10,7 +10,7 @@ function Inventory() {
   const { t } = useTranslation();
   return (
     <>
-      <h1>{t("Inventory")}</h1>
+      <h1>{t("inventory.Inventory")}</h1>
       <Routes>
         <Route path="/productForm/:productId?" element={<AddProductForm />} />
         <Route path="/componentForm/:componentId?" element={<ComponentForm />} />

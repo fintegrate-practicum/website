@@ -12,7 +12,6 @@ import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
 import Inventory from './modules/inventory/Inventory';
 import Login from './components/Login/login';
 import Header from './components/Header/Header';
-
 import {useTranslation} from 'react-i18next'
 import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher';
 
@@ -60,11 +59,11 @@ const App = () => {
         <ErrorToast />
         <Routes>
           <Route path="/inventory/*" element={<Inventory />} />
-          <Route path="/editProfile" element={<Suspense fallback={t('Loading...')}><LazyEditProfile /></Suspense>} />
-          <Route path="/CreateBusiness/BaseDetailsManager" element={<Suspense fallback={t('Loading...')}><LazyBaseDetailsManager /></Suspense>} />
-          <Route path="/CreateBusiness/EmailVerification" element={<Suspense fallback={t('Loading...')}><LazyEmailVerification /></Suspense>} />
-          <Route path="/CreateBusiness/MoreDetailsManager" element={<Suspense fallback={t('Loading...')}><LazyMoreDetailsManager /></Suspense>} />
-          <Route path="/link/:linkUID" element={<Suspense fallback={t('Loading...')}><LazyClient /></Suspense>} />
+          <Route path="/editProfile" element={<Suspense fallback={t('common.Loading...')}><LazyEditProfile /></Suspense>} />
+          <Route path="/CreateBusiness/BaseDetailsManager" element={<Suspense fallback={t('common.Loading...')}><LazyBaseDetailsManager /></Suspense>} />
+          <Route path="/CreateBusiness/EmailVerification" element={<Suspense fallback={t('common.Loading...')}><LazyEmailVerification /></Suspense>} />
+          <Route path="/CreateBusiness/MoreDetailsManager" element={<Suspense fallback={t('common.Loading...')}><LazyMoreDetailsManager /></Suspense>} />
+          <Route path="/link/:linkUID" element={<Suspense fallback={t('common.Loading...')}><LazyClient /></Suspense>} />
         </Routes>
         {isRootPath && (
           <>

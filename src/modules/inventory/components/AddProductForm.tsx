@@ -73,7 +73,7 @@ const AddProductForm = () => {
                     setProduct(dataToUpdate);
                     reset(dataToUpdate);
                 } catch (error) {
-                    console.error(t('Error fetching product:'), error);
+                    console.error(t('inventory.Error fetching product:'), error);
                 }
             }
         };
@@ -128,22 +128,22 @@ const AddProductForm = () => {
         if (product && productId) {
             try {
                 const response = await updateItem<IProduct>(`api/inventory/product`, productId, newData);
-                console.log(t('Product updated successfully:'), response.data);
+                console.log(t('inventory.Product updated successfully:'), response.data);
             } catch (error) {
-                console.error(t('Error updating product:'), error);
+                console.error(t('inventory.Error updating product:'), error);
             }
         } else {
             try {
                 const response = await addItem<IProduct>('api/inventory/product', newData);
-                console.log(t('Product added successfully:'), response.data);
+                console.log(t('inventory.Product added successfully:'), response.data);
             } catch (error) {
-                console.error(t('Error adding product:'), error);
+                console.error(t('inventory.Error adding product:'), error);
             }
         }
     };
 
     if (loading) {
-        return <div>{t('Loading...')}</div>;
+        return <div>{t('inventory.Loading...')}</div>;
     }
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {

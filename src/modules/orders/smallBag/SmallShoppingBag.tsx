@@ -62,14 +62,14 @@ const SmallShoppingBag = () => {
     <div className='shopping-bag-container'>
       {isVisible && (
         <>
-          <Typography className='shopping-bag-title'>{t("Shopping Bag")}</Typography>
+          <Typography className='shopping-bag-title'>{t("order.Shopping Bag")}</Typography>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>{t("Items")}</TableCell>
-                <TableCell>{t("Model")}</TableCell>
-                <TableCell>{t("Quantity")}</TableCell>
-                <TableCell>{t("Price")}</TableCell>
+                <TableCell>{t("order.Items")}</TableCell>
+                <TableCell>{t("order.Model")}</TableCell>
+                <TableCell>{t("order.Quantity")}</TableCell>
+                <TableCell>{t("order.Price")}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

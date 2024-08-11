@@ -79,13 +79,13 @@ const EditProfile: React.FC = () => {
 		<Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
 			<Paper sx={{ p: 4, maxWidth: 600, width: '100%' }}>
 				<Typography variant='h4' gutterBottom>
-					{t('Edit Profile')}
+					{t('auth0.Edit Profile')}
 				</Typography>
 				<Grid container spacing={2}>
 					<Grid item xs={12} sm={6}>
 						<TextField
 							fullWidth
-							label={t('Email')}
+							label={t('auth0.Email')}
 							name='email'
 							value={formData.email}
 							onChange={handleChange}
@@ -95,7 +95,7 @@ const EditProfile: React.FC = () => {
 							InputProps={{
 								endAdornment: (
 									<InputAdornment position='end'>
-										<Tooltip title={t('Copy')}>
+										<Tooltip title={t('auth0.Copy')}>
 											<IconButton onClick={handleCopy}>
 												<ContentCopyIcon />
 											</IconButton>
@@ -109,7 +109,7 @@ const EditProfile: React.FC = () => {
 					<Grid item xs={12} sm={6}>
 						<TextField
 							fullWidth
-							label={t('Name')}
+							label={t('auth0.Name')}
 							name='name'
 							value={formData.name}
 							onChange={handleChange}
@@ -122,7 +122,7 @@ const EditProfile: React.FC = () => {
 					<Grid item xs={12} sm={6}>
 						<TextField
 							fullWidth
-							label={t('Phone')}
+							label={t('auth0.Phone')}
 							name='phone'
 							value={formData.phone}
 							onChange={handleChange}
@@ -135,7 +135,7 @@ const EditProfile: React.FC = () => {
 					<Grid item xs={12} sm={6}>
 						<TextField
 							fullWidth
-							label={t('Address')}
+							label={t('auth0.Address')}
 							name='city'
 							value={formData.city}
 							onChange={handleChange}
@@ -148,13 +148,13 @@ const EditProfile: React.FC = () => {
 					<Grid item xs={12} sm={6}>
 						<FormControl fullWidth sx={{ mt: 2 }}>
 							<InputLabel id='demo-simple-select-label'>
-								{t('Status')}
+								{t('auth0.Status')}
 							</InputLabel>
 							<Select
 								labelId='demo-simple-select-label'
 								id='demo-simple-select'
 								value={status}
-								label={t('Status')}
+								label={t('auth0.Status')}
 								onChange={handleChangeStatus}
 								disabled={!isEditing}
 							>
@@ -169,7 +169,7 @@ const EditProfile: React.FC = () => {
 					<Grid item xs={12} sm={6}>
 						<TextField
 							fullWidth
-							label={t('Role')}
+							label={t('auth0.Role')}
 							name='role'
 							value={formData.role}
 							onChange={handleChange}
@@ -182,9 +182,9 @@ const EditProfile: React.FC = () => {
 				</Grid>
 				<Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
 					{isEditing ? (
-						<Button onClick={handleSaveClick}>{t('Save')}</Button>
+						<Button onClick={handleSaveClick}>{t('common.Save')}</Button>
 					) : (
-						<Button onClick={handleEditClick}>{t('Edit')}</Button>
+						<Button onClick={handleEditClick}>{t('common.Edit')}</Button>
 					)}
 				</Box>
 			</Paper>

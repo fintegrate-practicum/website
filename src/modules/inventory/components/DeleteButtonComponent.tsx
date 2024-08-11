@@ -13,7 +13,7 @@ const DeleteButton: React.FunctionComponent<{ componentDetails: IComponent }> = 
 
     const handleClickDelete = async () => {
         if (!componentDetails.id) {
-            console.error(t("Component ID is not defined"));
+            console.error(t("inventory.Component ID is not defined"));
             return;
         }
 
@@ -27,7 +27,7 @@ const DeleteButton: React.FunctionComponent<{ componentDetails: IComponent }> = 
 
     return (
         <>
-            <IconButton aria-label={t("delete component")} onClick={handleClickDelete}>
+            <IconButton aria-label={t("inventory.delete component")} onClick={handleClickDelete}>
                 <DeleteIcon />
             </IconButton>
         </>

@@ -10,7 +10,7 @@ const LazyRouter = ({ currentRoute }: { currentRoute: string }) => {
   const PageComponent = PageLoader(currentRoute);
 
   return (
-    <Suspense fallback={<div>{t('loadingText')}</div>}>
+    <Suspense fallback={<div>{t('common.loadingText')}</div>}>
       <PageComponent />
     </Suspense>
   );

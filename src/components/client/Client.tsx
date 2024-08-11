@@ -83,39 +83,39 @@ export default function LazyClient() {
 					textAlign: 'right',
 				}}
 			>
-				<Typography variant='h5'>{t('Business Details')}</Typography>
+				<Typography variant='h5'>{t('website.Business Details')}</Typography>
 				<Box sx={{ mb: 2 }}>
 					<Typography>
-						{business.name} : {t('Business Name')}
+						{business.name} : {t('website.Business Name')}
 					</Typography>
 					<Typography>
-						{business.companyNumber} : {t('Company Number')}
+						{business.companyNumber} : {t('website.Company Number')}
 					</Typography>
 					<Typography>
-						{business.description} : {t('Description')}
+						{business.description} : {t('website.Description')}
 					</Typography>
 					<Typography>
-						{business.email} : {t('Email')}
+						{business.email} : {t('website.Email')}
 					</Typography>
 					<Typography>
-						{business.phone} : {t('Phone')}
+						{business.phone} : {t('website.Phone')}
 					</Typography>
 					<Typography>
-						{business.owner} : {t('Owner')}
+						{business.owner} : {t('website.Owner')}
 					</Typography>
 					<Typography>
-						{business.businessSize} : {t('Business Size')}
+						{business.businessSize} : {t('website.Business Size')}
 					</Typography>
 					<Typography>
-						{business.industryType} : {t('Industry Type')}
+						{business.industryType} : {t('website.Industry Type')}
 					</Typography>
 					<Typography>
 						{new Date(business.establishmentDate).toLocaleDateString()} :{' '}
-						{t('Establishment Date')}
+						{t('website.Establishment Date')}
 					</Typography>
 				</Box>
 				<Stack spacing={2} direction='row'>
-					<Button>{t('Create Order')}</Button>
+					<Button>{t('website.Create Order')}</Button>
 				</Stack>
 			</Box>
 			<Outlet />
