@@ -5,7 +5,6 @@ import { EmployeeRole } from '../modules/workers/classes/employeeRole';
 import { statuses } from '../modules/workers/classes/enum/statuses.enum';
 import InfraInstance from '../auth0/InfraInterceptors';
 
-
 interface UserDetails {
   userName: string;
   userEmail: string;
@@ -15,16 +14,19 @@ interface UserDetails {
   status: statuses;
   data?: any;
 }
+
 interface EmployeeDetails {
   id_user: string;
   businessId: string;
   role: EmployeeRole;
   nameEmployee: string;
 }
+
 interface CurrentUser {
   employeeDetails: EmployeeDetails;
   userDetails: UserDetails;
 }
+
 const initialState: CurrentUser = {
   employeeDetails: {
     id_user: '',
@@ -42,13 +44,12 @@ const initialState: CurrentUser = {
     data: {},
   },
 };
+
 export const fetchUserById = createAsyncThunk(
   'fetchUserById',
   async (payload: any, { dispatch }) => {
     try {
-      const response = await InfraInstance.get(
-        `/user/${payload.identities[0].user_id}`,
-      );
+      const response = await InfraInstance.get(`/user/${payload.identities[0].user_id}`);
       const data = response.data;
       if (data.data == null) {
         await dispatch(updateCurrentUserByJwt(payload));
@@ -57,11 +58,11 @@ export const fetchUserById = createAsyncThunk(
         employeeDetails: {
           id_user: data._id,
           businessId:
-            res.businessRoles && res.businessRoles.length > 0
-              ? res.businessRoles[0].businessId
+            data.businessRoles && data.businessRoles.length > 0
+              ? data.businessRoles[0].businessId
               : '',
-          role: new EmployeeRole(res.businessRoles[0].role, true, ''),
-          nameEmployee: res.userName,
+          role: new EmployeeRole(data.businessRoles[0].role, true, ''),
+          nameEmployee: data.userName,
         },
         userDetails: {
           userName: data.userName,
@@ -70,15 +71,16 @@ export const fetchUserById = createAsyncThunk(
           registeredAt: data.registeredAt,
           lastLogin: data.lastLogin,
           status: statuses.Married,
-          data: {},
+          data: data.data,
         },
       };
       dispatch(currentUserSlice.actions.setCurrentUser(mappedData));
       return mappedData;
     } catch (error: any) {
       showErrorToast(error.message);
+      throw error;
     }
-  },
+  }
 );
 
 export const updateCurrentUser = createAsyncThunk(
@@ -93,6 +95,7 @@ export const updateCurrentUser = createAsyncThunk(
       return response.data;
     } catch (error: any) {
       showErrorToast(error.message);
+      throw error;
     }
   },
 );
@@ -104,10 +107,12 @@ export const updateCurrentUserByJwt = createAsyncThunk(
       const response = await InfraInstance.put('/user/jwt', payload);
       return response.data;
     } catch (error: any) {
+      showErrorToast(error.message);
       throw error;
     }
   },
 );
+
 const currentUserSlice = createSlice({
   name: 'currentUser',
   initialState,
