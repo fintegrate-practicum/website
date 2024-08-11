@@ -4,8 +4,8 @@ import theme from '../../../Theme';
 import Button from './Button';
 
 const meta = {
-    component: Button,
-    tags: ['autodocs'],
+  component: Button,
+  tags: ['autodocs'],
 } as Meta<typeof Button>;
 
 export default meta;
@@ -13,34 +13,34 @@ export default meta;
 type Story = StoryObj<typeof Button>;
 
 const baseProps = {
-    disabled:false,
-    isLink: false,
-    children: "Button",
-    onClick: action('onClick'),
+  disabled: false,
+  isLink: false,
+  children: 'Button',
+  onClick: action('onClick'),
 };
 
 export const fullColor: Story = {
-    args: {
-        ...baseProps,
-    },
+  args: {
+    ...baseProps,
+  },
 };
 
 export const empty: Story = {
-    args: {
-        ...baseProps,
-        onClick: () => {
-            window.location.href = 'https://www.example.com';
-        },
-        variant:"outlined",
-        color: "secondary", 
+  args: {
+    ...baseProps,
+    onClick: () => {
+      window.location.href = 'https://www.example.com';
     },
+    variant: 'outlined',
+    color: 'secondary',
+  },
 };
 
 export const link: Story = {
-    args: {
-        ...baseProps,
-        color: "info",
-        isLink: true, 
-        href:"https://chat.yishreylev.net/",
-    },
+  args: {
+    ...baseProps,
+    color: 'info',
+    isLink: true,
+    href: 'https://chat.yishreylev.net/',
+  },
 };

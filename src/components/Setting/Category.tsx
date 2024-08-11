@@ -22,7 +22,6 @@ const style = {
   textAlign: 'right',
 };
 
-
 export interface CategoryProps {
   CategoryItem: {
     CategoryName: string;
@@ -38,24 +37,28 @@ export interface ServiceSettings {
 
 export function AddSubCategory(SubCategoryProp: CategoryProps) {
   const [expanded, setExpanded] = React.useState<string | false>(false);
-  const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-    setExpanded(isExpanded ? panel : false);
-  };
+  const handleChange =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
   return (
-    <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
+    <Accordion
+      expanded={expanded === 'panel4'}
+      onChange={handleChange('panel4')}
+    >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel4bh-content"
-        id="panel4bh-header"
+        aria-controls='panel4bh-content'
+        id='panel4bh-header'
       >
         <Typography style={{ width: '60vw', flexShrink: 0 }}>
           {SubCategoryProp?.CategoryItem.CategoryName}
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <div> 
+        <div>
           {SubCategoryProp.CategoryItem.Settings && (
-            <List aria-label="mailbox folders">
+            <List aria-label='mailbox folders'>
               {SubCategoryProp.CategoryItem.Settings.map((s, index) => (
                 <ListItem key={index} sx={style}>
                   <ListItemText primary={s.setting.settingDesc} />
@@ -75,7 +78,9 @@ export function AddSubCategory(SubCategoryProp: CategoryProps) {
 
 const Category: React.FC = () => {
   const dispatch = useAppDispatch();
-  const serviceSettings: ServiceSettings[] = useAppSelector((state: RootState) => state.serviceSettingsSlice.settings);
+  const serviceSettings: ServiceSettings[] = useAppSelector(
+    (state: RootState) => state.serviceSettingsSlice.settings,
+  );
 
   useEffect(() => {
     dispatch(fetchServiceSettings());
