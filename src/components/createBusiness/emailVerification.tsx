@@ -1,5 +1,8 @@
 import { useState } from 'react';
-import { TextField, Typography, Container, Button, Stack } from '@mui/material';
+import TextField from '../../common/component/TextField/TextField';
+import { Container,Stack } from '@mui/material';
+import Typography from '../../common/components/Typography/Typography';
+import Button from '../../common/components/Button/Button'
 import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 import { checkEmailVerificationCode } from '../../Redux/businessSlice';
 import { useNavigate } from 'react-router-dom';
@@ -39,7 +42,7 @@ const EmailVerification = () => {
                     style={{ marginBottom: '1rem' }}
                 />
                 <Stack direction="row" spacing={2}>
-                    <Button variant="contained" color="success" type='submit'>submit</Button>
+                    <Button  color="success"   type='submit'>submit</Button>
                 </Stack>
             </form>
         </Container>
