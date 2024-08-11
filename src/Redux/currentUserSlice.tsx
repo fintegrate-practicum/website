@@ -5,7 +5,6 @@ import { EmployeeRole } from '../modules/workers/classes/employeeRole';
 import { statuses } from '../modules/workers/classes/enum/statuses.enum';
 import InfraInstance from '../auth0/InfraInterceptors';
 
-
 interface UserDetails {
   userName: string;
   userEmail: string;
