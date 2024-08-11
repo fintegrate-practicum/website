@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './shoppingBag.css';
-import { Table, TableBody, TableCell, TableHead, TableRow, TextField, IconButton } from '@mui/material';
-import Typography from '../../../common/components/Typography/Typography';
-import Button from '../../../common/components/Button/Button'
+import { Table, TableBody, TableCell, TableHead, TableRow, Typography, TextField, IconButton, Button } from '@mui/material';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { ICart } from '../interfaces/ICart';
@@ -12,10 +10,10 @@ import { deleteFromBasket, updateBasket } from '../features/basket/basketSlice';
 import { deleteItem, updateItem } from '../Api-Requests/genericRequests';
 
 
-const ShoppingBag: React.FC<{  }> = () => {
+const ShoppingBag: React.FC<{}> = () => {
   const [total, setTotal] = useState<number>(0);
-  const bag=useAppSelector((state) => state.basketSlice?.data || [])
-  const dispatch=useDispatch()
+  const bag = useAppSelector((state) => state.basketSlice?.data)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     calculateTotal();
@@ -23,43 +21,41 @@ const ShoppingBag: React.FC<{  }> = () => {
 
 
   const calculateTotal = () => {
-    let sum=0;
-    bag.forEach(product=>sum+=product.metadata.quantity*product.metadata.price)
+    let sum = 0;
+    bag.forEach(
+      product =>
+        sum += product.quantity * product.totalPrice
+    )
     setTotal(sum);
   };
 
-  const handleRemove =async (index: string) => {
+  const handleRemove = async (cart_id: string) => {
     if (window.confirm('האם ברצונך להסיר את המוצר?')) {
+      dispatch(deleteFromBasket(cart_id));
       try {
-        await deleteItem<ICart>('cart',index)
-        dispatch(deleteFromBasket(index));
+        await deleteItem<ICart>('cart', cart_id)
       } catch (error) {
-        
+
       }
     }
   };
 
-  const handleAmountChange = async (index: string, newAmount: number) => {
+  const handleAmountChange = async (cart_id: string, newAmount: number) => {
     if (newAmount === 0) {
-      handleRemove(index);
+      handleRemove(cart_id);
     } else {
-      const ProductToUpdate = bag.find(x => x.id === index);
+      const ProductToUpdate = bag.find(x => x.id === cart_id);
       if (ProductToUpdate !== undefined) {
-        const updatedMetadata = {
-          ...ProductToUpdate.metadata,
-          quantity: ProductToUpdate.metadata.quantity !== undefined ? newAmount : 0 // בדיקה אם quantity קיים
-        };
-  
         const updatedProduct = {
           ...ProductToUpdate,
-          metadata: updatedMetadata
+          quantity: newAmount 
         };
-  
+
+        dispatch(updateBasket(updatedProduct));
         try {
-          await updateItem<ICart>('cart',index,updatedProduct)
-          dispatch(updateBasket(updatedProduct));
+          await updateItem<ICart>('cart', cart_id, updatedProduct)
         } catch (error) {
-          
+
         }
 
       }
@@ -68,7 +64,7 @@ const ShoppingBag: React.FC<{  }> = () => {
 
   return (
     <div className='shoppingBag-container'>
-      <Typography  variant='h5'> סל קניות </Typography>
+      <Typography paragraph={true} variant='h5'> סל קניות </Typography>
       {bag.length === 0 ? (
         <Typography> סל הקניות שלך ריק </Typography>
       ) : (
@@ -85,19 +81,19 @@ const ShoppingBag: React.FC<{  }> = () => {
             </TableHead>
             <TableBody>
               {bag.map((row, index) => (
-                <TableRow key={row.name}>
+                <TableRow key={row.product.name}>
                   <TableCell align='right'>
                     {row.product.name} <img src={row.image} width='80px' alt={""} />
                   </TableCell>
                   <TableCell align='right'>
                     <TextField
                       type='number'
-                      value={row.metadata.quantity}
+                      value={row.quantity}
                       onChange={(e) => handleAmountChange(row.id, Number(e.target.value))}
                     />
                   </TableCell>
                   <TableCell align='right'>
-                    {row.metadata.price} ₪
+                    {row.totalPrice} ₪
                   </TableCell>
                   <TableCell align='right'>
                     {Object.entries(row.metadata).map(([key, value]) => (
@@ -123,7 +119,6 @@ const ShoppingBag: React.FC<{  }> = () => {
             onClick={() => alert('payment button was clicked')}
             variant='contained'
             endIcon={<ArrowBackIosIcon />}
-
             style={{ textTransform: 'none' }}
             size='large'
           >

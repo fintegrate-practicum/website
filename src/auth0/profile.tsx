@@ -9,7 +9,6 @@ import { fetchUserById } from '../Redux/currentUserSlice';
 import SidebarUserDetails from './SidebarUserDetails';
 import { useDispatch } from 'react-redux';
 import { getBasket } from '../modules/orders/features/basket/basketSlice';
-import httpService from '../modules/orders/Api-Requests/httpService';
 import { getAllItems } from '../modules/orders/Api-Requests/genericRequests';
 import { ICart } from '../modules/orders/interfaces/ICart';
 
