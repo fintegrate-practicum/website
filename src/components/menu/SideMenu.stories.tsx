@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import SideMenu from './SideMenu';
-// import * as iconsMaterial from '@mui/icons-material';
 import { MemoryRouter } from 'react-router-dom';
 import { Home, Person } from '@mui/icons-material';
 
@@ -23,13 +22,13 @@ export const Default: Story = {
   { name: 'home', nameToView: 'Home', icon: Home, route: '/home', component: 'HomeComponent' },
   { name: 'profile', nameToView: 'Profile', icon: Person, route: '/profile', component: 'ProfileComponent' },
     ],
-    setCurrentMenu: action('setCurrentMenu'), // הוספת האקשן ל-setCurrentMenu
+    setCurrentMenu: action('setCurrentMenu'), 
   },
 };
 
 export const EmptyMenu: Story = {
   args: {
     items: [],
-    setCurrentMenu: action('setCurrentMenu'), // הוספת האקשן ל-setCurrentMenu
+    setCurrentMenu: action('setCurrentMenu'), 
   },
 };

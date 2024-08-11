@@ -98,8 +98,6 @@ const SideMenu: FC<Props> = ({ items, setCurrentMenu }) => {
               <ListItemButton sx={{ px: 4 }} onClick={() => clickMenuItem(listItem)}>
                 <ListItemIcon>
                   <listItem.icon />
-                  {/* {React.createElement(listItem.icon)} */}
-
                 </ListItemIcon>
                 <ListItemText primary={listItem.nameToView} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
