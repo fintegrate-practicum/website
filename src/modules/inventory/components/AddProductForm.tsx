@@ -47,7 +47,7 @@ const AddProductForm = () => {
     const componentState = useSelector((state: RootState) => state.component);
 
     const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<IProduct>({
-        resolver: yupResolver(productSchema),
+        resolver: yupResolver(productSchema)as any,
         defaultValues: product || {}
     });
     

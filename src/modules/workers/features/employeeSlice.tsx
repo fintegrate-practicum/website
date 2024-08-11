@@ -19,11 +19,11 @@ const employeeSlice = createSlice({
     employees: [] as employee[],
     status: 'idle',
     error: null as string | null,
+    currentEmployee: null as employee | null,
   },
   reducers: {},
 });
 
-export const {} = employeeSlice.actions;
 export const selectEmployees = (state: RootState) =>
   state.employeeSlice.employees;
 export default employeeSlice.reducer;

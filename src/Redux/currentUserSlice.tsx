@@ -1,11 +1,9 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "./store";
-import workerInstance from "../auth0/WorkersInterceptors";
-import { showErrorToast } from "../components/generic/errorMassage";
-import { EmployeeRole } from "../modules/workers/classes/employeeRole";
-import { statuses } from "../modules/workers/classes/enum/statuses.enum";
-import InfraInstance from "../auth0/InfraInterceptors";
-
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from './store';
+import { showErrorToast } from '../components/generic/errorMassage';
+import { EmployeeRole } from '../modules/workers/classes/employeeRole';
+import { statuses } from '../modules/workers/classes/enum/statuses.enum';
+import InfraInstance from '../auth0/InfraInterceptors';
 
 
 interface UserDetails {
@@ -41,14 +39,16 @@ const initialState: CurrentUser = {
     registeredAt: '',
     lastLogin: '',
     status: statuses.Married,
-    data: {}
-  }
+    data: {},
+  },
 };
 export const fetchUserById = createAsyncThunk(
   'fetchUserById',
   async (payload: any, { dispatch }) => {
     try {
-      const response = await InfraInstance.get(`/user/${payload.identities[0].user_id}`);
+      const response = await InfraInstance.get(
+        `/user/${payload.identities[0].user_id}`,
+      );
       const data = response.data;
       if (data.data == null) {
         await dispatch(updateCurrentUserByJwt(payload));
@@ -56,9 +56,12 @@ export const fetchUserById = createAsyncThunk(
       const mappedData: CurrentUser = {
         employeeDetails: {
           id_user: data._id,
-          businessId: data.businessRoles && data.businessRoles.length > 0 ? data.businessRoles[0].businessId : '',
-          role: new EmployeeRole(data.businessRoles[0].role, true, ''),
-          nameEmployee: data.userName,
+          businessId:
+            res.businessRoles && res.businessRoles.length > 0
+              ? res.businessRoles[0].businessId
+              : '',
+          role: new EmployeeRole(res.businessRoles[0].role, true, ''),
+          nameEmployee: res.userName,
         },
         userDetails: {
           userName: data.userName,
@@ -67,15 +70,15 @@ export const fetchUserById = createAsyncThunk(
           registeredAt: data.registeredAt,
           lastLogin: data.lastLogin,
           status: statuses.Married,
-          data: {}
-        }
+          data: {},
+        },
       };
       dispatch(currentUserSlice.actions.setCurrentUser(mappedData));
       return mappedData;
     } catch (error: any) {
       showErrorToast(error.message);
     }
-  }
+  },
 );
 
 export const updateCurrentUser = createAsyncThunk(
@@ -83,12 +86,15 @@ export const updateCurrentUser = createAsyncThunk(
   async (payload: any) => {
     const { auth0_user_id, updatedCurrentUser } = payload;
     try {
-      const response = await InfraInstance.put(`/user/${auth0_user_id}`, updatedCurrentUser);
+      const response = await InfraInstance.put(
+        `/user/${auth0_user_id}`,
+        updatedCurrentUser,
+      );
       return response.data;
     } catch (error: any) {
       showErrorToast(error.message);
     }
-  }
+  },
 );
 
 export const updateCurrentUserByJwt = createAsyncThunk(
@@ -100,10 +106,10 @@ export const updateCurrentUserByJwt = createAsyncThunk(
     } catch (error: any) {
       throw error;
     }
-  }
+  },
 );
 const currentUserSlice = createSlice({
-  name: "currentUser",
+  name: 'currentUser',
   initialState,
   reducers: {
     setCurrentUser(state, action: PayloadAction<CurrentUser>) {
