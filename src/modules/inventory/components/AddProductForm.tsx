@@ -21,7 +21,6 @@ import { getAllComponents } from "../features/component/componentSlice";
         packageCost: yup.number().typeError("packageCost must be a number").required("packageCost is a required field").min(0, "package cost must be positive"),
         productComponents: yup.array().of(yup.string()).min(1, "Must select at least one component"),
         totalPrice: yup.number().typeError("totalPrice must be a number").required("totalPrice is a required field").min(1, "price must be positive"),
-        adminId: yup.string().required("Admin ID is required"),
         isActive: yup.boolean().required("isActive is a required field"),
         isOnSale: yup.boolean().required("isOnSale is a required field"),    
         salePercentage: yup.number()
@@ -33,7 +32,6 @@ import { getAllComponents } from "../features/component/componentSlice";
                         .notRequired()
             }),
         stockQuantity: yup.number().typeError("stockQuantity must be a number").required("stockQuantity is a required field").min(0, "stock cannot be negative"),
-        businessId: yup.string().required("Business ID is required"),
         componentStatus: yup.string().required("componentStatus is a required field").min(3, "componentStatus must be at least 3 characters").max(15, "componentStatus must be at most 15 characters"),
     }) as unknown as yup.ObjectSchema<IProduct>;
 
