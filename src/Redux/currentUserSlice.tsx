@@ -70,7 +70,7 @@ export const fetchUserById = createAsyncThunk(
           auth0_user_id: data.auth0_user_id,
           registeredAt: data.registeredAt,
           lastLogin: data.lastLogin,
-          status: statuses.Married, // Use actual status from data if available
+          status: statuses.Married,
           data: data.data,
         },
       };
@@ -122,7 +122,6 @@ const currentUserSlice = createSlice({
     },
   },
 });
-
 
 export const selectCurrentUser = (state: RootState) => state.currentUserSlice;
 export default currentUserSlice.reducer;
