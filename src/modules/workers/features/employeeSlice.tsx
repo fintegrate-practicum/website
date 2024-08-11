@@ -23,7 +23,7 @@ const employeeSlice = createSlice({
   reducers: {},
 });
 
-// export const {} = employeeSlice.actions;
+export const {} = employeeSlice.actions;
 export const selectEmployees = (state: RootState) =>
   state.employeeSlice.employees;
 export default employeeSlice.reducer;
