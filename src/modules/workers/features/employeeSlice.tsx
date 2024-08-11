@@ -7,7 +7,6 @@ import employee from "../classes/employee";
 const businessId = import.meta.env.VITE_BUSINESSID;
 const res = await axios.get(`${workerInstance}/workers?businessId=${businessId}`);
 const { data = {} } = res.data;
-
 const employeeSlice = createSlice({
     name: "employees",
     initialState: data,
