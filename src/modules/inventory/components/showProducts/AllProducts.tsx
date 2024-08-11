@@ -10,7 +10,7 @@ import { getAllComponents } from '../../features/component/componentSlice';
 import Button from "../../../../common/components/Button/Button";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { useAppSelector } from "../../app/hooks";
+import { useAppSelector } from "../../../../app/hooks";
 import { Link } from 'react-router-dom';
 
 export default function ShowProducts() {
@@ -21,7 +21,6 @@ export default function ShowProducts() {
   const components = useAppSelector((state) => state.component?.data || []);
   const listProducts = [...products,...components];
 
-  
   const getAllProducts = async () => {
     try {
       const res = await getAllItems<IProduct[]>('inventory/product');   
