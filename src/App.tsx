@@ -10,8 +10,10 @@ import {  Route, Routes, useLocation } from 'react-router-dom';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
 import Inventory from './modules/inventory/Inventory';
-
+// import SideMenu from './components/menu/SideMenu';
 import  Login from './components/Login/login';
+// import HomePage from './components/HomePage/homePage';
+
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(() => import('./components/createBusiness/baseDetailsManager'));
@@ -51,6 +53,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
       <Client />
+      {/* <SideMenu/> */}
         <ErrorToast />
         <Routes>
           <Route path="/Inventory/*" element={<Inventory />} />
@@ -61,6 +64,7 @@ const App = () => {
           <Route path="/CreateBusiness/MoreDetailsManager" element={<Suspense fallback="Loading..."><LazyMoreDetailsManager /></Suspense>} />
           <Route path="/link/:linkUID" element={<Suspense fallback="Loading..."><LazyClient /></Suspense>} />
         </Routes>
+
         {isRootPath && (
           <>
             {typeUser !== 'manager' && typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (

@@ -14,7 +14,8 @@ import { IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Divider from '@mui/material/Divider';
 import SidebarUserDetails from '../../auth0/SidebarUserDetails';
-// import menuItems from './types';
+import React from 'react';
+
 
 const drawerWidth = 150;
 
@@ -97,6 +98,8 @@ const SideMenu: FC<Props> = ({ items, setCurrentMenu }) => {
               <ListItemButton sx={{ px: 4 }} onClick={() => clickMenuItem(listItem)}>
                 <ListItemIcon>
                   <listItem.icon />
+                  {/* {React.createElement(listItem.icon)} */}
+
                 </ListItemIcon>
                 <ListItemText primary={listItem.nameToView} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
@@ -123,9 +126,9 @@ const SideMenu: FC<Props> = ({ items, setCurrentMenu }) => {
         </Drawer>
       </Box>
       <SidebarUserDetails 
-        email="user@example.com" 
-        nickname="User" 
-        user_id="123" 
+        nickname= {'John Doe' }
+        email= {'user@example.com'} 
+        user_id = {"auth0|123456789"}
         anchorEl={anchorEl} 
         handleClose={handleDrawerClose} 
       />

@@ -26,7 +26,7 @@ const Store = configureStore({
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: false,
-        }),
+        })
     },)
 
 export type RootState = ReturnType<typeof Store.getState>

@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import SideMenu from './SideMenu';
-import * as iconsMaterial from '@mui/icons-material';
+// import * as iconsMaterial from '@mui/icons-material';
 import { MemoryRouter } from 'react-router-dom';
+import { Home, Person } from '@mui/icons-material';
 
 const meta: Meta<typeof SideMenu> = {
   title: 'Components/SideMenu',
@@ -18,17 +20,24 @@ type Story = StoryObj<typeof SideMenu>;
 export const Default: Story = {
   args: {
     items: [
-      { name: 'home', nameToView: 'Home', icon: iconsMaterial.Home, route: '/home', component: 'HomeComponent' },
-      { name: 'profile', nameToView: 'Profile', icon: iconsMaterial.Person, route: '/profile', component: 'ProfileComponent' },
+//       { name: 'home', nameToView: 'Home', icon: <iconsMaterial.Home />, route: '/home', component: 'HomeComponent' },
+// { name: 'profile', nameToView: 'Profile', icon: <iconsMaterial.Person />, route: '/profile', component: 'ProfileComponent' },
+
+  { name: 'home', nameToView: 'Home', icon: Home, route: '/home', component: 'HomeComponent' },
+  { name: 'profile', nameToView: 'Profile', icon: Person, route: '/profile', component: 'ProfileComponent' },
+
+
+
+      // { name: 'home', nameToView: 'Home', icon: iconsMaterial.Home, route: '/home', component: 'HomeComponent' },
+      // { name: 'profile', nameToView: 'Profile', icon: iconsMaterial.Person, route: '/profile', component: 'ProfileComponent' },
     ],
-    setCurrentMenu: (currentMenu) => console.log(currentMenu),
+    setCurrentMenu: action('setCurrentMenu'), // הוספת האקשן ל-setCurrentMenu
   },
 };
 
 export const EmptyMenu: Story = {
   args: {
     items: [],
-    setCurrentMenu: (currentMenu) => console.log(currentMenu),
+    setCurrentMenu: action('setCurrentMenu'), // הוספת האקשן ל-setCurrentMenu
   },
 };
-

@@ -8,6 +8,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 
 
+
+
 interface SidebarUserDetailsProps {
     email: string | undefined;
     nickname: string | undefined;
@@ -16,13 +18,13 @@ interface SidebarUserDetailsProps {
     handleClose: () => void;
 }
 
-const SidebarUserDetails: React.FC<SidebarUserDetailsProps> = ({ email, nickname, anchorEl, handleClose }) => {    
+const SidebarUserDetails: React.FC<SidebarUserDetailsProps> = ({ email, nickname, anchorEl, handleClose }) => {
     const { logout } = useAuth0();
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
     const open = Boolean(anchorEl);
     const id = open ? 'profile-popover' : undefined;
-    const handleClickProfile = () => {   
-        navigate('/editProfile'); 
+    const handleClickProfile = () => {
+        navigate('/editProfile');
     }
     return (
         <Popover
@@ -52,7 +54,8 @@ const SidebarUserDetails: React.FC<SidebarUserDetailsProps> = ({ email, nickname
                         <ListItemIcon>
                             <AccountCircleIcon />
                         </ListItemIcon>
-                        <ListItemText primary={nickname} />
+                        {/* <ListItemText primary={nickname} /> */}
+                        <ListItemText primary={nickname } />
                     </ListItem>
                     <Divider />
                     <ListItem button onClick={handleClickProfile}>

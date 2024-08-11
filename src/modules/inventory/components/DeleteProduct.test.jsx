@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect, describe, it } from 'vitest';
-import { fireEvent, render, waitFor, screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import DeleteProduct from './DeleteProduct';
 import renderWithProviders from "./utils-for-tests.jsx"
 
