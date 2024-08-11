@@ -1,4 +1,5 @@
-export interface IProduct {
+import Item from "../../../components/generic/item";
+export interface IProduct extends Item{
     id: string;
     name: string;
     description: string;

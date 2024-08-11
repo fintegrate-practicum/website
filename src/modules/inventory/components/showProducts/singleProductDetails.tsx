@@ -2,7 +2,7 @@ import { Card, CardContent, CardActions, Button, Box } from '@mui/material';
 import Typography from '../../../../common/components/Typography/Typography';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import { useParams } from 'react-router-dom';
-import { useAppSelector } from '../../app/hooks';
+import { useAppSelector } from '../../../../app/hooks';
 
 const SingleProductDetails = () => {
   const products = useAppSelector((state) => state.product?.data || []);
