@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import businessSlice from './businessSlice';
-// import currentUserSlice from './currentUserSlice';
-import serviceSettingsSlice from './serviceSettingsSlice';
-// import productSlice from '../modules/inventory/features/product/productSlice';
+import currentUserSlice from './currentUserSlice';
+import serviceSettingsSlice from './serviceSettingsSlice'; 
+import productSlice from '../modules/inventory/features/product/productSlice';
 import componentSlice from '../modules/inventory/features/component/componentSlice';
 import providerSlice from '../modules/inventory/features/provider/providerSlice';
 import { userSlice } from '../modules/workers/features/reducer';
@@ -15,12 +15,12 @@ const Store = configureStore({
   reducer: {
     serviceSettingsSlice,
     businessSlice,
-    // currentUserSlice,
+    currentUserSlice,
     user: userSlice.reducer,
     employeeSlice,
     taskSlice,
     messageSlice,
-    // product: productSlice,
+    product: productSlice,
     component: componentSlice,
     provider: providerSlice,
     order: orderSlice,
