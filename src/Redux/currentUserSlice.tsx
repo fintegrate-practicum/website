@@ -57,11 +57,11 @@ export const fetchUserById = createAsyncThunk(
         employeeDetails: {
           id_user: data._id,
           businessId:
-            res.businessRoles && res.businessRoles.length > 0
-              ? res.businessRoles[0].businessId
+            data.businessRoles && data.businessRoles.length > 0
+              ? data.businessRoles[0].businessId
               : '',
-          role: new EmployeeRole(res.businessRoles[0].role, true, ''),
-          nameEmployee: res.userName,
+          role: new EmployeeRole(data.businessRoles[0].role, true, ''),
+          nameEmployee: data.userName,
         },
         userDetails: {
           userName: data.userName,
