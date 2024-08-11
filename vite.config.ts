@@ -14,15 +14,15 @@ export default defineConfig({
       emitError: false,
     }),
   ],
-  // server: {
-  //   watch: {
-  //     usePolling: true,
-  //     useFsEvents: false,
-  //   },
-  //   host: '0.0.0.0',
-  //   port: 5173,
-  //   hmr: true,
-  // },
+  server: {
+    watch: {
+      usePolling: true,
+      useFsEvents: false,
+    },
+    host: '0.0.0.0',
+    port: 5173,
+    hmr: true,
+  },
 
   test: {
     environment: 'jsdom',

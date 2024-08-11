@@ -5,7 +5,7 @@ import TasksShowList from "./tasksShowList";
 import { useAppSelector } from "../../../../Redux/hooks";
 
 const TaskPage = () => {
-    const tasks = useAppSelector((state) => state.taskSlice);
+    const tasks = useAppSelector((state) => state.taskSlice.tasks);
     const [filteredTasks, setFilteredTasks] = useState<Task[]>(tasks);
 
     return (

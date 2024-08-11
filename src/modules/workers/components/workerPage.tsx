@@ -99,5 +99,3 @@ const WorkerPage: React.FC<WorkerPageProps> = (props) => {
 };
 
 export default WorkerPage;
-
-

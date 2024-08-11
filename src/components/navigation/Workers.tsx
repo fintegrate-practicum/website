@@ -10,14 +10,13 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Task from '../../modules/workers/classes/task';
 import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
-import { fetchMessages } from '../../modules/workers/features/messageSlice';
 
 const WorkersTopNav = () => {
 
   const location = useLocation();
-  const tasks = useAppSelector((state) => state.taskSlice);
+  const tasks = useAppSelector((state) => state.taskSlice.tasks);
   const messages = useAppSelector((state) => state.messageSlice.messages);
-  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails);
+  const currentUser = useAppSelector((state) => state.currentUserSlice.employeeDetails);
   const dispatch = useAppDispatch();
   const [filteredTasks, setFilteredTasks] = useState<Task[]>(tasks);
 
@@ -25,10 +24,6 @@ const WorkersTopNav = () => {
 
   useEffect(() => {
     setValue(location.pathname.slice(8));
-
-    if (currentUser && currentUser.code) {
-      dispatch(fetchMessages(currentUser.code));
-    }
   }, [currentUser, dispatch]);
 
 

@@ -7,6 +7,6 @@ export interface ICart extends Item{
     product_id: string;
     product: IProduct;
     buissnes_code: string;
-    metadata: Record<string, any>;
+    metadata: Record<string, any>; 
 }
 
