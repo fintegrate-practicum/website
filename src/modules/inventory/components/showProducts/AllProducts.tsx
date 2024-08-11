@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Grid from '@mui/joy/Grid';
+import Grid from '@mui/material/Grid';
 import SingleProduct from './singleProduct';
 import { IProduct } from '../../interfaces/IProduct';
 import { IComponent } from '../../interfaces/IComponent';
@@ -10,7 +10,8 @@ import { getAllComponents } from '../../features/component/componentSlice';
 import Button from "@mui/material/Button";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { useAppSelector } from "../../app/hooks";
+import { useAppSelector } from "../../../../app/hooks";
+import { Link } from 'react-router-dom';
 
 export default function ShowProducts() {
   const dispatch = useDispatch();
