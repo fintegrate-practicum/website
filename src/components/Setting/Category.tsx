@@ -2,7 +2,7 @@ import * as React from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
+import Typography from '../../common/components/Typography/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { List, ListItem, ListItemText } from '@mui/material';
 import MySetting, { MySettingProps } from './MySetting';
@@ -41,7 +41,6 @@ export function AddSubCategory(SubCategoryProp: CategoryProps) {
   const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
   };
-
   return (
     <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
       <AccordionSummary
