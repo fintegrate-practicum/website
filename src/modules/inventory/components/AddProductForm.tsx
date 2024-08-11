@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from "react";
-import {SubmitHandler, useForm} from "react-hook-form";
-import {useDispatch, useSelector} from "react-redux";
-import {IProduct} from "../interfaces/IProduct";
-import {IComponent} from "../interfaces/IComponent";
+import React, { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { IProduct } from "../interfaces/IProduct";
+import { IComponent } from "../interfaces/IComponent";
 import TextField from '@mui/material/TextField';
 import * as yup from 'yup';
-import {yupResolver} from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import Button from '../../../common/components/Button/Button'
 import Box from '@mui/material/Box';
-import {useParams} from "react-router-dom";
-import {addItem, getAllItems, getItemById, updateItem} from "../Api-Requests/genericRequests";
+import { useParams } from "react-router-dom";
+import { addItem, getAllItems, getItemById, updateItem } from "../Api-Requests/genericRequests";
 import {
     Checkbox,
     Chip,
@@ -22,8 +22,8 @@ import {
     Select,
     SelectChangeEvent
 } from "@mui/material";
-import {RootState} from "../../../Redux/store";
-import {getAllComponents} from "../features/component/componentSlice";
+import { RootState } from "../../../Redux/store";
+import { getAllComponents } from "../features/component/componentSlice";
 
 const productSchema = yup.object().shape({
     name: yup.string().required("name is a required field").min(3, "name must be at least 3 characters").max(20, "name must be at most 20 characters"),
@@ -41,7 +41,7 @@ const productSchema = yup.object().shape({
             then: (schema) => schema
                 .typeError("Sale percentage must be a number").min(0, "Sale percentage must be at least 0").max(100, "Sale percentage must be at most 100")
                 .required("Sale percentage is a required field"), otherwise: (schema) => schema
-                .notRequired()
+                    .notRequired()
         }),
     stockQuantity: yup.number().typeError("stockQuantity must be a number").required("stockQuantity is a required field").min(0, "stock cannot be negative"),
     businessId: yup.string().required("Business ID is required"),
@@ -61,7 +61,7 @@ const AddProductForm = () => {
         resolver: yupResolver(productSchema),
         defaultValues: product || {}
     });
-    
+
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -90,8 +90,10 @@ const AddProductForm = () => {
     const getComponents = async () => {
         setLoading(true);
         try {
-            const res = await getAllItems<IComponent[]>('api/inventory/component');
-            dispatch(getAllComponents(res.data));
+            //יתקבל מהרידקס-זמני
+            const businessId = '123456789'
+
+            const res = await getAllItems<IComponent[]>(`api/inventory/component/businessId/${businessId}`); dispatch(getAllComponents(res.data));
             setComponents(res.data);
         } catch (err) {
             console.log(err);
@@ -316,7 +318,7 @@ const AddProductForm = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={12}>
-                    <Button  component="label" fullWidth>
+                    <Button component="label" fullWidth>
                         Upload Images
                         <input
                             type="file"
@@ -330,7 +332,7 @@ const AddProductForm = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={12}>
-                    <Button type="submit"  fullWidth>
+                    <Button type="submit" fullWidth>
                         {product ? "Update Product" : "Add Product"}
                     </Button>
                 </Grid>
