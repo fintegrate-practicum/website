@@ -5,6 +5,7 @@ import { EmployeeRole } from '../modules/workers/classes/employeeRole';
 import { statuses } from '../modules/workers/classes/enum/statuses.enum';
 import InfraInstance from '../auth0/InfraInterceptors';
 
+
 interface UserDetails {
   userName: string;
   userEmail: string;
@@ -52,7 +53,6 @@ export const fetchUserById = createAsyncThunk(
       if (data.data == null) {
         await dispatch(updateCurrentUserByJwt(payload));
       }
-      const res = data.data;
       const mappedData: CurrentUser = {
         employeeDetails: {
           id_user: data._id,
@@ -64,16 +64,15 @@ export const fetchUserById = createAsyncThunk(
           nameEmployee: res.userName,
         },
         userDetails: {
-          userName: res.userName,
-          userEmail: res.userEmail,
-          auth0_user_id: res.auth0_user_id,
-          registeredAt: res.registeredAt,
+          userName: data.userName,
+          userEmail: data.userEmail,
+          auth0_user_id: data.auth0_user_id,
+          registeredAt: data.registeredAt,
           lastLogin: data.lastLogin,
           status: statuses.Married,
           data: {},
         },
       };
-
       dispatch(currentUserSlice.actions.setCurrentUser(mappedData));
       return mappedData;
     } catch (error: any) {
