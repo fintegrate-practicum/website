@@ -46,9 +46,6 @@ const taskSlice = createSlice({
 });
 
 export const selectTasks = (state: RootState) => state.taskSlice.tasks;
-// export const selectTaskById = (state: RootState, id: Types.ObjectId) =>
-//   state.taskSlice.tasks.find((task: task) => task._id.equals(id));
-
 export default taskSlice.reducer;
 
 export const createTask = createAsyncThunk('', async (_task: task) => {
