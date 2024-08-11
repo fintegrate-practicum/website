@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
 import TextField from '../common/component/TextField/TextField';
-import { Box, Grid, Paper } from '@mui/material';
-import Typography from '../common/components/Typography/Typography'
-import Button from '../common/components/Button/Button'
+import {
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  Tooltip,
+} from '@mui/material';
+import Typography from '../common/components/Typography/Typography';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import Typography from '../common/components/Typography/Typography';
-import Button from '../common/components/Button/Button';
 import { useAppDispatch, useAppSelector } from '../Redux/hooks';
 import { updateCurrentUser } from '../Redux/currentUserSlice';
 import { statuses } from '../modules/workers/classes/enum/statuses.enum';
+import { Controller, useForm } from 'react-hook-form';
 
 const statusArray = Object.keys(statuses).filter((key) => isNaN(Number(key)));
 
