@@ -1,28 +1,44 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import task from '../classes/task';
 import { UpdateTaskEmployeeDTO } from '../dto/updateTaskEmployeeDto';
 import { UpdateTaskManagerDTO } from '../dto/updateTaskManagerDto';
 import { RootState } from '../../../Redux/store';
-
+import workerInstance from '../../../auth0/WorkersInterceptors';
+import Task from '../classes/task';
 interface EditTaskArgs {
   taskId: string;
   updateTask: UpdateTaskManagerDTO | UpdateTaskEmployeeDTO;
   employeeType: string;
 }
+interface TaskState {
+  tasks: Task[];
+}
 
-const baseUrl = import.meta.env.VITE_WORKERS_SERVICE_URL;
-const managerId = import.meta.env.VITE_MANAGERID;
-const businessId = import.meta.env.VITE_BUSINESSID;
-const response = await axios.get(
-  `${baseUrl}/tasks/employee/${businessId}/${managerId}` /*currentUser*/,
+const initialState: TaskState = {
+  tasks: [],
+};
+export const fetchTasks = createAsyncThunk(
+  'tasks/fetchTasks',
+  async (managerId, businessId) => {
+    const response = await workerInstance.get(
+      `/tasks/manager/${businessId}/${managerId}`,
+    );
+    return response.data;
+  },
 );
-const { data = {} } = response.data;
 
 const taskSlice = createSlice({
   name: 'tasks',
-  initialState: data,
+  initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(
+      fetchTasks.fulfilled,
+      (state, action: PayloadAction<Task[]>) => {
+        state.tasks = action.payload;
+      },
+    );
+  },
 });
 
 export const selectTasks = (state: RootState) => state.taskSlice.tasks;
@@ -30,7 +46,7 @@ export default taskSlice.reducer;
 
 export const createTask = createAsyncThunk('', async (_task: task) => {
   try {
-    const response = await axios.post(`${baseUrl}/tasks/manager/task`, _task);
+    const response = await workerInstance.post(`/tasks/manager/task`, _task);
     return response.data;
   } catch (error) {
     return error;
@@ -41,8 +57,8 @@ export const editTask = createAsyncThunk(
   '',
   async ({ taskId, updateTask, employeeType }: EditTaskArgs) => {
     try {
-      const response = await axios.put(
-        `${baseUrl}/tasks/task/${taskId}`,
+      const response = await workerInstance.put(
+        `/tasks/task/${taskId}`,
         updateTask,
         {
           headers: {
@@ -60,8 +76,8 @@ export const editTask = createAsyncThunk(
 
 export const deleteTask = createAsyncThunk('', async (taskId: string) => {
   try {
-    const response = await axios.delete(
-      `${baseUrl}/tasks/manager/task/${taskId}`,
+    const response = await workerInstance.delete(
+      `/tasks/manager/task/${taskId}`,
     );
     return response.data;
   } catch (error) {
