@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
 import task from '../classes/task';
 import { UpdateTaskEmployeeDTO } from '../dto/updateTaskEmployeeDto';
 import { UpdateTaskManagerDTO } from '../dto/updateTaskManagerDto';
 import { RootState } from '../../../Redux/store';
+import workerInstance from '../../../auth0/WorkersInterceptors';
 
 interface EditTaskArgs {
   taskId: string;
@@ -11,12 +11,11 @@ interface EditTaskArgs {
   employeeType: string;
 }
 
-const baseUrl = import.meta.env.VITE_WORKERS_SERVICE_URL;
 export const fetchTasks = createAsyncThunk(
   'tasks/fetchTasks',
-  async (businessId, managerId) => {
-    const response = await axios.get(
-      `${baseUrl}/tasks/manager/${businessId}/${managerId}`,
+  async (managerId, businessId) => {
+    const response = await workerInstance.get(
+      `/tasks/manager/${businessId}/${managerId}`,
     );
     return response.data;
   },
@@ -54,7 +53,7 @@ export default taskSlice.reducer;
 
 export const createTask = createAsyncThunk('', async (_task: task) => {
   try {
-    const response = await axios.post(`${baseUrl}/tasks/manager/task`, _task);
+    const response = await workerInstance.post(`/tasks/manager/task`, _task);
     return response.data;
   } catch (error) {
     return error;
@@ -65,8 +64,8 @@ export const editTask = createAsyncThunk(
   '',
   async ({ taskId, updateTask, employeeType }: EditTaskArgs) => {
     try {
-      const response = await axios.put(
-        `${baseUrl}/tasks/task/${taskId}`,
+      const response = await workerInstance.put(
+        `/tasks/task/${taskId}`,
         updateTask,
         {
           headers: {
@@ -84,8 +83,8 @@ export const editTask = createAsyncThunk(
 
 export const deleteTask = createAsyncThunk('', async (taskId: string) => {
   try {
-    const response = await axios.delete(
-      `${baseUrl}/tasks/manager/task/${taskId}`,
+    const response = await workerInstance.delete(
+      `/tasks/manager/task/${taskId}`,
     );
     return response.data;
   } catch (error) {
