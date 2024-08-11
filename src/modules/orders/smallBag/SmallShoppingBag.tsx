@@ -10,9 +10,9 @@ const bag = [
     name: 'casual dress',
     model: 'blue flowers',
     description: 'bla bla...',
-    price: 125.90,
+    price: 125.9,
     size: 4,
-    amount: 1
+    amount: 1,
   },
   {
     id: 2,
@@ -20,9 +20,9 @@ const bag = [
     name: 'casual dress',
     model: 'blue flowers',
     description: 'bla bla...',
-    price: 125.90,
+    price: 125.9,
     size: 6,
-    amount: 1
+    amount: 1,
   },
   {
     id: 3,
@@ -30,9 +30,9 @@ const bag = [
     name: 'snickers',
     model: 'red',
     description: 'bla bla...',
-    price: 89.90,
+    price: 89.9,
     size: 28,
-    amount: 1
+    amount: 1,
   },
   {
     id: 4,
@@ -40,7 +40,7 @@ const bag = [
     name: 'snickers',
     model: 'red',
     description: 'bla bla...',
-    price: 89.90,
+    price: 89.9,
     size: 28,
     amount: 1
   }
@@ -77,9 +77,13 @@ const SmallShoppingBag = () => {
                 <TableRow key={item.id}>
                   <div className='product-name'>
                     <TableCell>
-                      <div className="image-text-container">
-                        <img src={item.image} width="50px" className="product-image" />
-                        <span className="product-text">{item.name}</span>
+                      <div className='image-text-container'>
+                        <img
+                          src={item.image}
+                          width='50px'
+                          className='product-image'
+                        />
+                        <span className='product-text'>{item.name}</span>
                       </div>
                     </TableCell>
                   </div>

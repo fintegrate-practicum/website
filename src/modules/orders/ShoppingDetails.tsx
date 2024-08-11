@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import * as yup from 'yup';
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup"
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '../../common/components/Button/Button';
@@ -17,9 +17,11 @@ const ShoppingDetails = () => {
     const { t } = useTranslation();
     const [selectedOption, setSelectedOption] = useState('');
 
-    const handleChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-        setSelectedOption(e.target.value);
-    };
+  const handleChange = (e: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setSelectedOption(e.target.value);
+  };
 
     const saveDetails = async (data: Record<string, any>) => {
         try {
@@ -41,9 +43,13 @@ const ShoppingDetails = () => {
         lastName: yup.string().required(t("order.This field is required")),
     });
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(backForm),
-    });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(backForm),
+  });
 
     return (
         <form onSubmit={handleSubmit(saveDetails)}>
@@ -87,3 +93,4 @@ const ShoppingDetails = () => {
 }
 
 export default ShoppingDetails;
+

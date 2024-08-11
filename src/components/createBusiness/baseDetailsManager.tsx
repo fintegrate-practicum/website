@@ -1,4 +1,5 @@
-
+import TextField from '../../common/component/TextField/TextField';
+import Stack from '@mui/material/Stack';
 import React from 'react';
 import { useAppDispatch } from '../../Redux/hooks';
 import { createBusiness, saveBusiness } from '../../Redux/businessSlice';
@@ -14,27 +15,36 @@ export default function BaseDetailsManager(): JSX.Element {
   const navigate = useNavigate();
 
   const onSubmit = async (values: FieldValues) => {
-    const answer = await dispatch(createBusiness({
-      companyNumber: values.companyNumber, name: values.name, email: values.email,
-      description: '',
-      logo: '',
-      phone: '',
-      address: {
-        city: '',
-        street: '',
-        num: 0
-      },
-      businessSize: BusinessSize.Private,
-      industryType: '',
-      establishmentDate: '',
-      code: ''
-    }));
+    const answer = await dispatch(
+      createBusiness({
+        companyNumber: values.companyNumber,
+        name: values.name,
+        email: values.email,
+        description: '',
+        logo: '',
+        phone: '',
+        address: {
+          city: '',
+          street: '',
+          num: 0,
+        },
+        businessSize: BusinessSize.Private,
+        industryType: '',
+        establishmentDate: '',
+        code: '',
+      }),
+    );
 
     if (answer.payload.status == 201) {
-      dispatch(saveBusiness({ companyNumber: values.companyNumber, email: values.email }));
+      dispatch(
+        saveBusiness({
+          companyNumber: values.companyNumber,
+          email: values.email,
+        }),
+      );
       navigate('/CreateBusiness/EmailVerification');
     }
-};
+  };
 
 const fields = [
   {
@@ -76,4 +86,3 @@ const fields = [
 ];
 return <FormWrapper onSubmit={onSubmit} fields={fields} />;
 }
-

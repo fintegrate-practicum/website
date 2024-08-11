@@ -41,7 +41,7 @@ export default function AddTaskBtn() {
       urgency,
       status: TaskStatus.ToDo,
       completionDate: new Date(0),
-      directLink: "http://localhost:4001/api#/Workers/WorkersController_create"
+      directLink: 'http://localhost:4001/api#/Workers/WorkersController_create',
     };
     dispatch(createTask(task));
     setOpen(false);
@@ -54,7 +54,7 @@ export default function AddTaskBtn() {
   const handleEmployeeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const employeeArray = value
-      .split(",")
+      .split(',')
       .map((item) => {
         const trimmed = item.trim();
         if (Types.ObjectId.isValid(trimmed)) {
@@ -65,6 +65,7 @@ export default function AddTaskBtn() {
       })
       .filter(item => item !== null) as Types.ObjectId[];
 
+    setEmployee(employeeArray);
     setEmployee(employeeArray);
   };
 
@@ -77,7 +78,7 @@ export default function AddTaskBtn() {
         open={open}
         onClose={handleClose}
         PaperProps={{
-          component: "form",
+          component: 'form',
           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
             handleClose();
@@ -99,7 +100,7 @@ export default function AddTaskBtn() {
             label={t('workers.Task Name')}
             type="text"
             fullWidth
-            variant="standard"
+            variant='standard'
           />
           <TextField
             onChange={(e) => setDescription(e.target.value)}
@@ -111,11 +112,11 @@ export default function AddTaskBtn() {
             label={t('workers.Description')}
             type="text"
             fullWidth
-            variant="standard"
+            variant='standard'
           />
           <TextField
             onChange={handleDateChange}
-            value={targetDate.toISOString().split("T")[0]}
+            value={targetDate.toISOString().split('T')[0]}
             autoFocus
             required
             margin="dense"
@@ -124,11 +125,11 @@ export default function AddTaskBtn() {
             label={t('workers.Target Date')}
             type="date"
             fullWidth
-            variant="standard"
+            variant='standard'
           />
           <TextField
             onChange={handleEmployeeChange}
-            value={employee.join(", ")}
+            value={employee.join(', ')}
             autoFocus
             // required
             margin="dense"
@@ -137,7 +138,7 @@ export default function AddTaskBtn() {
             label={t('workers.Employee')}
             type="text"
             fullWidth
-            variant="standard"
+            variant='standard'
           />
           <TextField
             onChange={(e) => setUrgency(parseInt(e.target.value))}
@@ -149,7 +150,7 @@ export default function AddTaskBtn() {
             label={t('workers.Urgency')}
             type="number"
             fullWidth
-            variant="standard"
+            variant='standard'
           />
         </DialogContent>
         <DialogActions>

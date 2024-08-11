@@ -16,9 +16,11 @@ import { useTranslation } from 'react-i18next'; // Assuming you are using react-
 const WorkersTopNav = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const tasks = useAppSelector((state) => state.taskSlice);
+  const tasks = useAppSelector((state) => state.taskSlice.tasks);
   const messages = useAppSelector((state) => state.messageSlice.messages);
-  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails);
+  const currentUser = useAppSelector(
+    (state) => state.currentUserSlice.employeeDetails,
+  );
   const dispatch = useAppDispatch();
   const [filteredTasks, setFilteredTasks] = useState<Task[]>(tasks);
 
@@ -26,10 +28,6 @@ const WorkersTopNav = () => {
 
   useEffect(() => {
     setValue(location.pathname.slice(8));
-
-    if (currentUser && currentUser.code) {
-      dispatch(fetchMessages(currentUser.code));
-    }
   }, [currentUser, dispatch]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -46,12 +44,22 @@ const WorkersTopNav = () => {
             <Tab label={t('workers.messagesTab')} value="messages" href='messages' />
           </TabList>
         </Box>
-        <TabPanel value="details"><WorkerPage user={new User} employee={new employee} /></TabPanel>
-        <TabPanel value="tasks"><TasksShowList filteredTasks={tasks} setFilteredTasks={setFilteredTasks} /></TabPanel>
-        <TabPanel value="messages"><MessageList messages={messages} /></TabPanel>
+        <TabPanel value='details'>
+          <WorkerPage user={new User()} employee={new employee()} />
+        </TabPanel>
+        <TabPanel value='tasks'>
+          <TasksShowList
+            filteredTasks={tasks}
+            setFilteredTasks={setFilteredTasks}
+          />
+        </TabPanel>
+        <TabPanel value='messages'>
+          <MessageList messages={messages} />
+        </TabPanel>
       </TabContext>
     </Box>
   );
-}
+};
 
+export default WorkersTopNav;
 export default WorkersTopNav;

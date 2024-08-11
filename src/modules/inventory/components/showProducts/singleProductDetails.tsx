@@ -47,3 +47,4 @@ const SingleProductDetails = () => {
 };
 
 export default SingleProductDetails;
+

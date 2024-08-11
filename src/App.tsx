@@ -16,12 +16,16 @@ import {useTranslation} from 'react-i18next'
 import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
-const LazyBaseDetailsManager = React.lazy(() => import('./components/createBusiness/baseDetailsManager'));
-const LazyEmailVerification = React.lazy(() => import('./components/createBusiness/emailVerification'));
-const LazyMoreDetailsManager = React.lazy(() => import('./components/createBusiness/moreDetailsManager'));
+const LazyBaseDetailsManager = React.lazy(
+  () => import('./components/createBusiness/baseDetailsManager'),
+);
+const LazyEmailVerification = React.lazy(
+  () => import('./components/createBusiness/emailVerification'),
+);
+const LazyMoreDetailsManager = React.lazy(
+  () => import('./components/createBusiness/moreDetailsManager'),
+);
 const LazyClient = React.lazy(() => import('./components/client/Client'));
-
-
 
 const App = () => {
   const { t } = useTranslation();
@@ -32,7 +36,7 @@ const App = () => {
 
   useEffect(() => {
     if (currentUser) {
-      const type = currentUser.employeeDetails.role.type
+      const type = currentUser.employeeDetails.role.type;
       setTypeUser(type);
     }
   }, [currentUser]);
@@ -41,7 +45,9 @@ const App = () => {
 
     useEffect(() => {
       if (location.pathname !== lastInvalidPath) {
-        showErrorToast('הדף שאת/ה מחפש/ת אינו נמצא route-הכנס/י ב http://localhost:0000/link/**של עסק linkUID**');
+        showErrorToast(
+          'הדף שאת/ה מחפש/ת אינו נמצא route-הכנס/י ב http://localhost:0000/link/**של עסק linkUID**',
+        );
         setLastInvalidPath(location.pathname);
       }
     }, [location, lastInvalidPath]);
@@ -67,7 +73,11 @@ const App = () => {
         </Routes>
         {isRootPath && (
           <>
-            {typeUser !== 'manager' && typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (
+            {typeUser !== 'manager' &&
+            typeUser !== 'admin' &&
+            typeUser !== '' &&
+            typeUser !== undefined &&
+            typeUser !== null ? (
               <Client />
             ) : typeUser === 'manager' || typeUser === 'admin' ? (
               <>
@@ -81,5 +91,5 @@ const App = () => {
       </Provider>
     </ThemeProvider>
   );
-}
+};
 export default App;

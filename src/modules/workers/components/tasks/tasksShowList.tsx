@@ -14,7 +14,11 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({ filteredTasks, setFiltered
   const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails);
 
   useEffect(() => {
-    if (currentUser.role.type !== 'manager' && filteredTasks && filteredTasks.length > 0) {
+    if (
+      currentUser.role.type !== 'manager' &&
+      filteredTasks &&
+      filteredTasks.length > 0
+    ) {
       const updatedFilteredTasks = filteredTasks.filter((task) => {
         return task.employee.some((emp) => String(emp) === currentUser.id_user);
       });
@@ -24,7 +28,7 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({ filteredTasks, setFiltered
 
   return (
     <>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         <GenericList
           title={t('workers.tasks list')}
           list={filteredTasks}
@@ -37,3 +41,4 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({ filteredTasks, setFiltered
 };
 
 export default TasksShowList;
+
