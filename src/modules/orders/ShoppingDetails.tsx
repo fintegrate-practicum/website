@@ -44,7 +44,7 @@ const ShoppingDetails: React.FC<Props> = ({ amount }) => {
         }
     }
 
-    const handleChange = (e: { target: { value: string; }; }) => {
+    const handleChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
         setSelectedOption(e.target.value);
     };
 
