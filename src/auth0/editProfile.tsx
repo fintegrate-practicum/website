@@ -1,18 +1,10 @@
-import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import {
-  TextField,
-  Box,
-  Grid,
-  Paper,
-  InputAdornment,
-  IconButton,
-  Tooltip,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Select,
-} from '@mui/material';
+import React, { useState } from 'react';
+import TextField from '../common/component/TextField/TextField';
+import { Box, Grid, Paper } from '@mui/material';
+import Typography from '../common/components/Typography/Typography'
+import Button from '../common/components/Button/Button'
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Typography from '../common/components/Typography/Typography';
 import Button from '../common/components/Button/Button';
