@@ -12,7 +12,7 @@ import {
   CssBaseline,
   CircularProgress,
 } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
 import { IProduct } from '../inventory/interfaces/IProduct';
 import { getItemById } from '../inventory/Api-Requests/genericRequests';
@@ -23,6 +23,7 @@ import { useAppSelector } from '../../app/hooks';
 import { getOrders } from './features/order/orderSlice';
 import theme from '../../Theme';
 import { IComponent } from '../inventory/interfaces/IComponent';
+import { useTranslation } from 'react-i18next';
 
 export default function AllOrders() {
   const { businessCode } = useParams<{ businessCode: string }>();
@@ -33,6 +34,7 @@ export default function AllOrders() {
   const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
   const orders = useAppSelector((state) => state.order?.data || []);
+  const { t } = useTranslation();
 
   const getAllOrders = async () => {
     try {
@@ -41,7 +43,7 @@ export default function AllOrders() {
       fetchProducts(res.data);
     } catch (err) {
       console.log(err);
-      setError('Error fetching orders');
+      setError(t('order.errorFetchingOrders'));
       setLoading(false);
     }
   };
@@ -75,7 +77,7 @@ export default function AllOrders() {
 
       const productsMap = productResults.reduce(
         (acc, product) => {
-          acc[product.id] = product; // לוודא שהמפתח `id` נמצא בכל סוגי המוצרים/רכיבים
+          acc[product.id] = product;
           return acc;
         },
         {} as { [key: string]: IProduct | IComponent },
@@ -84,21 +86,11 @@ export default function AllOrders() {
       setProducts(productsMap);
     } catch (err) {
       console.error(err);
-      setError('Error fetching products');
+      setError(t('order.errorFetchingProducts'));
     } finally {
       setLoading(false);
     }
   };
-
-  //כשיעבוד השלפית משתמש לפי ID לממש את זה
-  // const fetchUser = async (userId : string)=>{
-  //     try{
-
-  //     }
-  //     catch{
-
-  //     }
-  // }
 
   useEffect(() => {
     getAllOrders();
@@ -129,14 +121,14 @@ export default function AllOrders() {
   }
 
   if (!businessCode) {
-    return <div>אין קוד עסק</div>;
+    return <div>{t('order.noBusinessCode')}</div>;
   }
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container>
         <Typography variant='h4' color='primary' gutterBottom>
-          All Orders
+          {t('order.allOrdersTitle')}
         </Typography>
         {orders.map((order, index) => (
           <Paper
@@ -150,46 +142,48 @@ export default function AllOrders() {
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <Typography variant='h6' color='secondary'>
-                  UserId: {order.userId}
+                  {t('order.userId')}: {order.userId}
                 </Typography>
                 <Typography variant='body1' color='primary'>
-                  Business Code: {order.businessCode}
+                  {t('order.businessCode')}: {order.businessCode}
                 </Typography>
                 <Typography variant='body1' color='primary'>
-                  Setting Manager: {order.settingManeger}
+                  {t('order.settingManager')}: {order.settingManeger}
                 </Typography>
                 <Typography variant='body1' color='primary'>
-                  Delivery Method: {order.deliveryMethod}
+                  {t('order.deliveryMethod')}: {order.deliveryMethod}
                 </Typography>
               </Grid>
               {order.deliveryMethod === 'delivery' && (
                 <Grid item xs={12} md={6}>
                   <Typography variant='h6' color='secondary'>
-                    Destination Address
+                    {t('order.destinationAddressTitle')}
                   </Typography>
                   <Typography variant='body1' color='primary'>
-                    City: {order.destinationAddress.city}
+                    {t('order.city')}: {order.destinationAddress.city}
                   </Typography>
                   <Typography variant='body1' color='primary'>
-                    Street: {order.destinationAddress.street}
+                    {t('order.street')}: {order.destinationAddress.street}
                   </Typography>
                   <Typography variant='body1' color='primary'>
-                    Building Number: {order.destinationAddress.numBuild}
+                    {t('order.buildingNumber')}:{' '}
+                    {order.destinationAddress.numBuild}
                   </Typography>
                   <Typography variant='body1' color='primary'>
-                    Apartment Number: {order.destinationAddress.apartmentNumber}
+                    {t('order.apartmentNumber')}:{' '}
+                    {order.destinationAddress.apartmentNumber}
                   </Typography>
                   <Typography variant='body1' color='primary'>
-                    Floor: {order.destinationAddress.floor}
+                    {t('order.floor')}: {order.destinationAddress.floor}
                   </Typography>
                   <Typography variant='body1' color='primary'>
-                    Last Name: {order.destinationAddress.lastName}
+                    {t('order.lastName')}: {order.destinationAddress.lastName}
                   </Typography>
                 </Grid>
               )}
               <Grid item xs={12}>
                 <Typography variant='h6' color='secondary'>
-                  Products
+                  {t('order.productsTitle')}
                 </Typography>
                 <List>
                   {order.products.map(({ id, qty }) => {
@@ -227,14 +221,14 @@ export default function AllOrders() {
                               {product.description}
                             </Typography>
                             <Typography variant='body1' color='warning'>
-                              Price: ${product.totalPrice}
+                              {t('order.price')}: ${product.totalPrice}
                             </Typography>
                             <Typography variant='body1' color='primary'>
-                              Quantity: {qty}
+                              {t('order.quantity')}: {qty}
                             </Typography>
                             {product.isOnSale && (
                               <Typography variant='body1' color='error'>
-                                Sale: {product.salePercentage}%
+                                {t('order.Sale')}: {product.salePercentage}%
                               </Typography>
                             )}
                           </CardContent>
@@ -243,7 +237,7 @@ export default function AllOrders() {
                     ) : (
                       <ListItem key={id}>
                         <Typography variant='body1' color='error'>
-                          Product details unavailable
+                          {t('order.Product details unavailable')}
                         </Typography>
                       </ListItem>
                     );
