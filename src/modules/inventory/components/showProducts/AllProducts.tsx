@@ -20,12 +20,11 @@ export default function ShowProducts() {
   const products = useAppSelector((state) => state.product?.data || []);
   const components = useAppSelector((state) => state.component?.data || []);
   const listProducts = [...products, ...components];
+        //יתקבל מהרידקס-זמני
+      const businessId = '123456789'
 
   const getAllProducts = async () => {
     try {
-      //יתקבל מהרידקס-זמני
-      const businessId = '123456789'
-
       const res = await getAllItems<IProduct[]>(`inventory/product/businessId/${businessId}`); dispatch(getProducts(res.data));
     }
     catch (err) {
@@ -35,9 +34,6 @@ export default function ShowProducts() {
 
   const getComponents = async () => {
     try {
-      //יתקבל מהרידקס-זמני
-      const businessId = '123456789'
-
       const res = await getAllItems<IComponent[]>(`api/inventory/component/businessId/${businessId}`); dispatch(getAllComponents(res.data));
     }
     catch (err) {
