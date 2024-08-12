@@ -27,7 +27,6 @@ const EditProfile: React.FC = () => {
   const { t } = useTranslation();
   const currentUser = useAppSelector((state) => state.currentUserSlice);
   const [isEditing, setIsEditing] = useState(false);
-  const [auth0_user_id] = useState(currentUser.userDetails.auth0_user_id);
   const [status, setStatus] = useState(String(currentUser.userDetails.status));
   const dispatch = useAppDispatch();
   const [formData, setFormData] = useState({
@@ -62,7 +61,7 @@ const EditProfile: React.FC = () => {
       },
     };
     const newData = {
-      auth0_user_id,
+      auth0_user_id: currentUser.userDetails.auth0_user_id,
       updatedCurrentUser,
     };
     dispatch(updateCurrentUser(newData));
