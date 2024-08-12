@@ -14,6 +14,7 @@ import Login from './components/Login/login';
 import Header from './components/Header/Header';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher';
+import AllOrders from './modules/orders/allOrders';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(
@@ -51,6 +52,7 @@ const App = () => {
         <ErrorToast />
         <Routes>
           <Route path='/inventory/*' element={<Inventory />} />
+          <Route path='/allOrders/:businessCode?' element={<AllOrders />} />
           <Route
             path='/editProfile'
             element={
