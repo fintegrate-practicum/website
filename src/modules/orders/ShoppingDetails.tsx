@@ -15,6 +15,7 @@ import { useAppSelector, useJwtFromCookie } from '../../Redux/hooks';
 import { ICart } from './interfaces/ICart';
 import { useDispatch } from 'react-redux';
 import { getBasket } from './features/basket/basketSlice';
+import { showErrorToast } from "../../components/generic/errorMassage";
 
 interface Props {
     amount: number;
@@ -69,7 +70,7 @@ const ShoppingDetails: React.FC<Props> = ({ amount }) => {
             alert("ההזמנה נשמרה בהצלחה");
         } catch (err) {
             console.log(err);
-            alert("הייתה שגיאה בשמירת ההזמנה");
+            showErrorToast("הייתה שגיאה בשמירת ההזמנה");
         }
     };
 
