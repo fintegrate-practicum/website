@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import GenericList from "../../../../components/generic/genericList";
-import Task from "../../classes/task";
-import { useAppSelector } from "../../../../Redux/hooks";
+import React, { useEffect } from 'react';
+import GenericList from '../../../../components/generic/genericList';
+import Task from '../../classes/task';
+import { useAppSelector } from '../../../../Redux/hooks';
 import { useTranslation } from 'react-i18next';
 
 interface ShowTaskListProps {
@@ -9,9 +9,14 @@ interface ShowTaskListProps {
   setFilteredTasks: React.Dispatch<React.SetStateAction<Task[]>>;
 }
 
-const TasksShowList: React.FC<ShowTaskListProps> = ({ filteredTasks, setFilteredTasks }) => {
+const TasksShowList: React.FC<ShowTaskListProps> = ({
+  filteredTasks,
+  setFilteredTasks,
+}) => {
   const { t } = useTranslation();
-  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails);
+  const currentUser = useAppSelector(
+    (state) => state.currentUserSlice.employeeDetails,
+  );
 
   useEffect(() => {
     if (
@@ -32,7 +37,11 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({ filteredTasks, setFiltered
         <GenericList
           title={t('workers.tasks list')}
           list={filteredTasks}
-          column={[t('workers.Task Name'), t('workers.Target Date'), t('workers.theUrgencyOfTheTask')]}
+          column={[
+            t('workers.Task Name'),
+            t('workers.Target Date'),
+            t('workers.theUrgencyOfTheTask'),
+          ]}
           desing={null}
         />
       </div>
@@ -41,4 +50,3 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({ filteredTasks, setFiltered
 };
 
 export default TasksShowList;
-

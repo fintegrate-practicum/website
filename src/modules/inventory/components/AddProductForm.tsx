@@ -1,84 +1,95 @@
-import React, { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { IProduct } from "../interfaces/IProduct";
-import { IComponent } from "../interfaces/IComponent";
+import React, { useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { IProduct } from '../interfaces/IProduct';
+import { IComponent } from '../interfaces/IComponent';
 import TextField from '@mui/material/TextField';
-import * as yup from 'yup';
-import { yupResolver } from "@hookform/resolvers/yup";
-import Button from '../../../common/components/Button/Button'
+// import * as yup from 'yup';
+// import { yupResolver } from "@hookform/resolvers/yup";
+import Button from '../../../common/components/Button/Button';
 import Box from '@mui/material/Box';
-import { useParams } from "react-router-dom";
-import { addItem, getAllItems, getItemById, updateItem } from "../Api-Requests/genericRequests";
+import { useParams } from 'react-router-dom';
 import {
-    Checkbox,
-    Chip,
-    FormControl,
-    FormControlLabel,
-    Grid,
-    InputLabel,
-    MenuItem,
-    OutlinedInput,
-    Select,
-    SelectChangeEvent
-} from "@mui/material";
-import { RootState } from "../../../Redux/store";
-import { getAllComponents } from "../features/component/componentSlice";
+  addItem,
+  getAllItems,
+  updateItem,
+} from '../Api-Requests/genericRequests';
+import {
+  Checkbox,
+  Chip,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  SelectChangeEvent,
+} from '@mui/material';
+import { RootState } from '../../../Redux/store';
+import { getAllComponents } from '../features/component/componentSlice';
 import { useTranslation } from 'react-i18next';
 
-const productSchema = yup.object().shape({
-    name: yup.string().required("name is a required field").min(3, "name must be at least 3 characters").max(20, "name must be at most 20 characters"),
-    description: yup.string().required("productDescription is a required field"),
-    images: yup.array().of(yup.string()).required("Images are required").min(1, "must be at least 1").max(5, "must be at most 5"),
-    packageCost: yup.number().typeError("packageCost must be a number").required("packageCost is a required field").min(0, "package cost must be positive"),
-    productComponents: yup.array().of(yup.string()).min(1, "Must select at least one component"),
-    totalPrice: yup.number().typeError("totalPrice must be a number").required("totalPrice is a required field").min(1, "price must be positive"),
-    adminId: yup.string().required("Admin ID is required"),
-    isActive: yup.boolean().required("isActive is a required field"),
-    isOnSale: yup.boolean().required("isOnSale is a required field"),
-    salePercentage: yup.number()
-        .when('isOnSale', {
-            is: true,
-            then: (schema) => schema
-                .typeError("Sale percentage must be a number").min(0, "Sale percentage must be at least 0").max(100, "Sale percentage must be at most 100")
-                .required("Sale percentage is a required field"), otherwise: (schema) => schema
-                    .notRequired()
-        }),
-    stockQuantity: yup.number().typeError("stockQuantity must be a number").required("stockQuantity is a required field").min(0, "stock cannot be negative"),
-    businessId: yup.string().required("Business ID is required"),
-    componentStatus: yup.string().required("componentStatus is a required field").min(3, "componentStatus must be at least 3 characters").max(15, "componentStatus must be at most 15 characters"),
-}) as unknown as yup.ObjectSchema<IProduct>;
+// const productSchema = yup.object().shape({
+//     name: yup.string().required("name is a required field").min(3, "name must be at least 3 characters").max(20, "name must be at most 20 characters"),
+//     description: yup.string().required("productDescription is a required field"),
+//     images: yup.array().of(yup.string()).required("Images are required").min(1, "must be at least 1").max(5, "must be at most 5"),
+//     packageCost: yup.number().typeError("packageCost must be a number").required("packageCost is a required field").min(0, "package cost must be positive"),
+//     productComponents: yup.array().of(yup.string()).min(1, "Must select at least one component"),
+//     totalPrice: yup.number().typeError("totalPrice must be a number").required("totalPrice is a required field").min(1, "price must be positive"),
+//     adminId: yup.string().required("Admin ID is required"),
+//     isActive: yup.boolean().required("isActive is a required field"),
+//     isOnSale: yup.boolean().required("isOnSale is a required field"),
+//     salePercentage: yup.number()
+//         .when('isOnSale', {
+//             is: true,
+//             then: (schema) => schema
+//                 .typeError("Sale percentage must be a number").min(0, "Sale percentage must be at least 0").max(100, "Sale percentage must be at most 100")
+//                 .required("Sale percentage is a required field"), otherwise: (schema) => schema
+//                     .notRequired()
+//         }),
+//     stockQuantity: yup.number().typeError("stockQuantity must be a number").required("stockQuantity is a required field").min(0, "stock cannot be negative"),
+//     businessId: yup.string().required("Business ID is required"),
+//     componentStatus: yup.string().required("componentStatus is a required field").min(3, "componentStatus must be at least 3 characters").max(15, "componentStatus must be at most 15 characters"),
+// }) as unknown as yup.ObjectSchema<IProduct>;
 
 const AddProductForm = () => {
-    const { productId } = useParams<{ productId: string }>();
-    const { t } = useTranslation();
-    const [product, setProduct] = useState<IProduct | any>(null);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [components, setComponents] = useState<IComponent[]>([]);
-    const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-    const dispatch = useDispatch();
-    const componentState = useSelector((state: RootState) => state.component);
+  const { productId } = useParams<{ productId: string }>();
+  const { t } = useTranslation();
+  const [product] = useState<IProduct>();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [components, setComponents] = useState<IComponent[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const dispatch = useDispatch();
+  const componentState = useSelector((state: RootState) => state.component);
 
-    const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<IProduct>({
-        resolver: yupResolver(productSchema),
-        defaultValues: product || {}
-    });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<IProduct>({
+    // resolver: yupResolver(productSchema),
+    defaultValues: product || {},
+  });
 
-    useEffect(() => {
-        const fetchProduct = async () => {
-            if (productId) {
-                try {
-                    const fetchedProduct = await getItemById<any>(`api/inventory/product`, productId);
-                    const { _id, __v, ...dataToUpdate } = fetchedProduct.data;
-                    setProduct(dataToUpdate);
-                    reset(dataToUpdate);
-                } catch (error) {
-                    console.error(t('inventory.Error fetching product:'), error);
-                }
-            }
-        };
-        fetchProduct();
-    }, [productId, reset]);
+  useEffect(() => {
+    const fetchProduct = async () => {
+      if (productId) {
+        try {
+          // const fetchedProduct = await getItemById<string>(`api/inventory/product`, productId);
+          // const { _id, __v, ...dataToUpdate } = fetchedProduct.data;
+          // setProduct(dataToUpdate);
+          // reset(dataToUpdate);
+        } catch (error) {
+          console.error(t('inventory.Error fetching product:'), error);
+        }
+      }
+    };
+    fetchProduct();
+  }, [productId, reset]);
 
   useEffect(() => {
     if (!componentState.data || componentState.data.length === 0) {
@@ -109,44 +120,54 @@ const AddProductForm = () => {
       })
       .filter((id): id is string => id !== null); // Filter out null values
 
-        const newData = {
-            ...data,
-            businessId: t("here will be the business id"),
-            adminId: t("here will be the admin id"),
-            productComponents: componentIds,
-            images: data.images
-        };
-        const formData = new FormData();
-        Object.entries(data).forEach(([key, value]) => {
-            if (Array.isArray(value)) {
-                value.forEach((item) => {
-                    formData.append(key, item);
-                });
-            } else {
-                formData.append(key, value.toString());
-            }
-        });
-
-        if (product && productId) {
-            try {
-                const response = await updateItem<IProduct>(`api/inventory/product`, productId, newData);
-                console.log(t('inventory.Product updated successfully:'), response.data);
-            } catch (error) {
-                console.error(t('inventory.Error updating product:'), error);
-            }
-        } else {
-            try {
-                const response = await addItem<IProduct>('api/inventory/product', newData);
-                console.log(t('inventory.Product added successfully:'), response.data);
-            } catch (error) {
-                console.error(t('inventory.Error adding product:'), error);
-            }
-        }
+    const newData = {
+      ...data,
+      businessId: t('here will be the business id'),
+      adminId: t('here will be the admin id'),
+      productComponents: componentIds,
+      images: data.images,
     };
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((item) => {
+          formData.append(key, item);
+        });
+      } else {
+        formData.append(key, value.toString());
+      }
+    });
 
-    if (loading) {
-        return <div>{t('inventory.Loading...')}</div>;
+    if (product && productId) {
+      try {
+        const response = await updateItem<IProduct>(
+          `api/inventory/product`,
+          productId,
+          newData,
+        );
+        console.log(
+          t('inventory.Product updated successfully:'),
+          response.data,
+        );
+      } catch (error) {
+        console.error(t('inventory.Error updating product:'), error);
+      }
+    } else {
+      try {
+        const response = await addItem<IProduct>(
+          'api/inventory/product',
+          newData,
+        );
+        console.log(t('inventory.Product added successfully:'), response.data);
+      } catch (error) {
+        console.error(t('inventory.Error adding product:'), error);
+      }
     }
+  };
+
+  if (loading) {
+    return <div>{t('inventory.Loading...')}</div>;
+  }
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -347,29 +368,30 @@ const AddProductForm = () => {
           )}
         </Grid>
 
-                <Grid item xs={12} sm={12}>
-                    <Button component="label" fullWidth>
-                        Upload Images
-                        <input
-                            type="file"
-                            hidden
-                            multiple
-                            accept="image/*"
-                            onChange={handleImageChange}
-                        />
-                    </Button>
-                    {errors.images && <p style={{ color: 'red' }}>{errors.images.message}</p>}
-                </Grid>
+        <Grid item xs={12} sm={12}>
+          <Button component='label' fullWidth>
+            Upload Images
+            <input
+              type='file'
+              hidden
+              multiple
+              accept='image/*'
+              onChange={handleImageChange}
+            />
+          </Button>
+          {errors.images && (
+            <p style={{ color: 'red' }}>{errors.images.message}</p>
+          )}
+        </Grid>
 
-                <Grid item xs={12} sm={12}>
-                    <Button type="submit" fullWidth>
-                        {product ? "Update Product" : "Add Product"}
-                    </Button>
-                </Grid>
-            </Grid>
-        </form>
-    );
-}
+        <Grid item xs={12} sm={12}>
+          <Button type='submit' fullWidth>
+            {product ? 'Update Product' : 'Add Product'}
+          </Button>
+        </Grid>
+      </Grid>
+    </form>
+  );
+};
 
 export default AddProductForm;
-
