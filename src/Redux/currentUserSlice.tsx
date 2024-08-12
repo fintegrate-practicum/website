@@ -14,16 +14,19 @@ interface UserDetails {
   status: statuses;
   data?: any;
 }
+
 interface EmployeeDetails {
   id_user: string;
   businessId: string;
   role: EmployeeRole;
   nameEmployee: string;
 }
+
 interface CurrentUser {
   employeeDetails: EmployeeDetails;
   userDetails: UserDetails;
 }
+
 const initialState: CurrentUser = {
   employeeDetails: {
     id_user: '',
@@ -41,13 +44,12 @@ const initialState: CurrentUser = {
     data: {},
   },
 };
+
 export const fetchUserById = createAsyncThunk(
   'fetchUserById',
   async (payload: any, { dispatch }) => {
     try {
-      const response = await InfraInstance.get(
-        `/user/${payload.identities[0].user_id}`,
-      );
+      const response = await InfraInstance.get(`/user/${payload.identities[0].user_id}`);
       const data = response.data;
       if (data.data == null) {
         await dispatch(updateCurrentUserByJwt(payload));
@@ -69,15 +71,16 @@ export const fetchUserById = createAsyncThunk(
           registeredAt: data.registeredAt,
           lastLogin: data.lastLogin,
           status: statuses.Married,
-          data: {},
+          data: data.data,
         },
       };
       dispatch(currentUserSlice.actions.setCurrentUser(mappedData));
       return mappedData;
     } catch (error: any) {
       showErrorToast(error.message);
+      throw error;
     }
-  },
+  }
 );
 
 export const updateCurrentUser = createAsyncThunk(
@@ -92,6 +95,7 @@ export const updateCurrentUser = createAsyncThunk(
       return response.data;
     } catch (error: any) {
       showErrorToast(error.message);
+      throw error;
     }
   },
 );
@@ -103,10 +107,12 @@ export const updateCurrentUserByJwt = createAsyncThunk(
       const response = await InfraInstance.put('/user/jwt', payload);
       return response.data;
     } catch (error: any) {
+      showErrorToast(error.message);
       throw error;
     }
   },
 );
+
 const currentUserSlice = createSlice({
   name: 'currentUser',
   initialState,
