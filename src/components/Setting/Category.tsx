@@ -6,10 +6,6 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { List, ListItem, ListItemText } from '@mui/material';
 import MySetting, { MySettingProps } from './MySetting';
-import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
-import { fetchServiceSettings } from '../../Redux/serviceSettingsSlice';
-import { RootState } from '../../Redux/store';
-import { useEffect } from 'react';
 
 const style = {
   p: 0,
@@ -32,11 +28,12 @@ export interface CategoryProps {
 }
 
 export interface ServiceSettings {
-  service_id: number;
-  settings_json: CategoryProps;
+  service_name: string;
+  settings_json: CategoryProps[];
 }
 
-export function AddSubCategory(SubCategoryProp: CategoryProps) {
+export default function AddSubCategory(SubCategoryProp: CategoryProps) {
+  console.log("SubCategoryProp",SubCategoryProp);
   const [expanded, setExpanded] = React.useState<string | false>(false);
   const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
@@ -74,21 +71,11 @@ export function AddSubCategory(SubCategoryProp: CategoryProps) {
   );
 }
 
-const Category: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const serviceSettings: ServiceSettings[] = useAppSelector((state: RootState) => state.serviceSettingsSlice.settings);
 
-  useEffect(() => {
-    dispatch(fetchServiceSettings());
-  }, []);
 
-  return (
-    <>
-      {serviceSettings?.map((item, index) => (
-        <AddSubCategory key={item.service_id} {...item.settings_json} />
-      ))}
-    </>
-  );
-};
 
-export default Category;
+
+
+
+
+
