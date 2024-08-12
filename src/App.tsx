@@ -15,6 +15,7 @@ import Orders from './modules/orders/App';
 import Header from './components/Header/Header';
 import AllOrders from './modules/orders/allOrders';
 import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(
@@ -48,6 +49,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
         <Header />
+        <LanguageSwitcher />
         <Client />
         <ErrorToast />
         <Routes>
