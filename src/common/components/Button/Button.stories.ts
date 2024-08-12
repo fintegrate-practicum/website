@@ -12,15 +12,10 @@ export default meta;
 
 type Story = StoryObj<typeof Button>;
 
-const baseProps: React.ComponentProps<typeof Button> = {
-    disabled: false,
-    color: "secondary",
+const baseProps = {
+    disabled:false,
     isLink: false,
     children: "Button",
-    tabIndex: 1,
-    component: "button",
-    size: "small",
-    variant: "contained",
     onClick: action('onClick'),
 };
 
@@ -36,18 +31,16 @@ export const empty: Story = {
         onClick: () => {
             window.location.href = 'https://www.example.com';
         },
-        variant: "outlined",
-
+        variant:"outlined",
+        color: "secondary", 
     },
 };
 
 export const link: Story = {
     args: {
         ...baseProps,
-        style: {
-            backgroundColor: "white",
-        },
-        isLink: true,
-        href: "https://chat.yishreylev.net/"
+        color: "info",
+        isLink: true, 
+        href:"https://chat.yishreylev.net/",
     },
 };

@@ -1,6 +1,6 @@
 import * as React from "react";
+import TextField from "../../../../common/component/TextField/TextField";
 import Button from "../../../../common/components/Button/Button";
-import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -25,7 +25,7 @@ const EditTask = (
   targetDate: Date;
   employee: string[];
 }) => {
-  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails);  
+  const currentUser = useAppSelector((state) => state.currentUserSlice.employeeDetails);  
   React.useEffect(() => {
 
   }, [currentUser]);
