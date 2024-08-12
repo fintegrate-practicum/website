@@ -83,7 +83,6 @@
     "eslint-plugin-storybook": "^0.8.0",
     "globals": "^15.1.0",
     "husky": "^8.0.0",
-    "i18next-scanner": "^4.5.0",
     "jsdom": "^24.0.0",
     "prettier": "3.2.5",
     "rollup": "^2.79.1",
