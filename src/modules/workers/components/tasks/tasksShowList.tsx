@@ -1,18 +1,27 @@
-import React, { useEffect } from "react";
-import GenericList from "../../../../components/generic/genericList";
-import Task from "../../classes/task";
-import { useAppSelector } from "../../../../Redux/hooks";
+import React, { useEffect } from 'react';
+import GenericList from '../../../../components/generic/genericList';
+import Task from '../../classes/task';
+import { useAppSelector } from '../../../../Redux/hooks';
 
 interface ShowTaskListProps {
   filteredTasks: Task[];
   setFilteredTasks: React.Dispatch<React.SetStateAction<Task[]>>;
 }
 
-const TasksShowList: React.FC<ShowTaskListProps> = ({ filteredTasks, setFilteredTasks }) => {
-  const currentUser = useAppSelector((state) => state.currentUserSlice.employeeDetails);
+const TasksShowList: React.FC<ShowTaskListProps> = ({
+  filteredTasks,
+  setFilteredTasks,
+}) => {
+  const currentUser = useAppSelector(
+    (state) => state.currentUserSlice.employeeDetails,
+  );
 
   useEffect(() => {
-    if (currentUser.role.type !== 'manager' && filteredTasks && filteredTasks.length > 0) {
+    if (
+      currentUser.role.type !== 'admin' &&
+      filteredTasks &&
+      filteredTasks.length > 0
+    ) {
       const updatedFilteredTasks = filteredTasks.filter((task) => {
         return task.employee.some((emp) => String(emp) === currentUser.id_user);
       });
@@ -22,11 +31,15 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({ filteredTasks, setFiltered
 
   return (
     <>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         <GenericList
-          title={"tasks list"}
+          title={'רשימת משימות'}
           list={filteredTasks}
-          column={["taskName", "targetDate", "theUrgencyOfTheTask"]}
+          column={[
+            { name: 'taskName', header: 'שם המשימה', type: 'text' },
+            { name: 'targetDate', header: 'תאריך יעד', type: 'date' },
+            { name: 'urgency', header: 'דחיפות', type: 'text' },
+          ]}
           desing={null}
         />
       </div>
