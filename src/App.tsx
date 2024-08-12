@@ -8,11 +8,11 @@ import MainRouter from './components/router/MainRouter';
 import React, { Suspense, useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { useAppSelector } from './Redux/hooks';
-// import ErrorToastfrom './components/generic/errorMassage';
 import Inventory from './modules/inventory/Inventory';
 import Login from './components/Login/login';
 import Orders from './modules/orders/App';
 import Header from './components/Header/Header';
+import AddEmployeeForm from './modules/workers/components/AddEmployeeForm';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(() => import('./components/createBusiness/baseDetailsManager'));
@@ -23,7 +23,6 @@ const LazyClient = React.lazy(() => import('./components/client/Client'));
 const App = () => {
   const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser);
   const [typeUser, setTypeUser] = useState<unknown | null>(null);
-  // const [lastInvalidPath, setLastInvalidPath] = useState<string | null>(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -33,16 +32,6 @@ const App = () => {
     }
   }, [currentUser]);
 
-  // const ErrorToastRoute = () => {
-  //   useEffect(() => {
-  //     if (location.pathname !== lastInvalidPath) {
-  //       showErrorToast('הדף שאת/ה מחפש/ת אינו נמצא route-הכנס/י ב http://localhost:0000/link/**של עסק linkUID**');
-  //       setLastInvalidPath(location.pathname);
-  //     }
-  //   }, [location, lastInvalidPath]);
-  //   return null;
-  // };
-
   const isRootPath = location.pathname === '/';
 
   return (
@@ -50,9 +39,9 @@ const App = () => {
       <Provider store={Store}>
       <Header />
         <Client />
-        {/* <ErrorToast /> */}
         <Routes>
           <Route path="/inventory/*" element={<Inventory />} />
+          <Route path="/AddEmployee" element={<AddEmployeeForm />} />
 
           <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
           <Route path="/CreateBusiness/BaseDetailsManager" element={<Suspense fallback="Loading..."><LazyBaseDetailsManager /></Suspense>} />

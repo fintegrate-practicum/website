@@ -4,31 +4,44 @@ import { addEmployee, getUserByEmail, getUserByJwt } from '../features/employeeS
 import { useAppDispatch } from '../../../Redux/hooks';
 import Employee from '../classes/employee';
 import { Types } from 'mongoose';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup'; 
+
+const schema = yup.object({
+    nameEmployee: yup.string().required('שם העובד הוא שדה חובה'),
+    role: yup.object({
+        type: yup.string().required('תפקיד הוא שדה חובה'),
+        description: yup.string().required('תיאור תפקיד הוא שדה חובה'),
+    }),
+    email: yup.string()
+        .required('אימייל הוא שדה חובה')
+        .email('כתובת אימייל לא תקינה').matches(
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net|org|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$/,
+            'כתובת אימייל לא תקינה'
+        ),
+}).required();
+
+type FormValues = yup.InferType<typeof schema>;
 
 const AddEmployeeForm: React.FC = () => {
     const dispatch = useAppDispatch();
-    const [emailError, setEmailError] = useState(false);
     const [existingBusiness, setExistingBusiness] = useState(false);
     const [employeeAdded, setEmployeeAdded] = useState(false);
     const [userInfo, setUserInfo] = useState<any>();
 
-    const { control, handleSubmit, watch } = useForm();
+    const { control, handleSubmit, watch,formState: { errors } } = useForm<FormValues>({resolver: yupResolver(schema), });
     const type = watch('role.type');
     const description = watch('role.description');
     const nameEmployee = watch('nameEmployee');
     const email = watch('email');
 
+    
     const fetchUserInfo = async () => {
         setUserInfo(await getUserByJwt());
     }
 
-    const onSubmit = async () => {
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|COM|net|org|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$/;
-        if (!emailRegex.test(email)) {
-            setEmailError(true);
-            return;
-        }
+    const onSubmit: SubmitHandler<FormValues> = async () => {
         await fetchUserInfo();
 
         const newEmployee: Employee = {
@@ -57,14 +70,9 @@ const AddEmployeeForm: React.FC = () => {
                         setEmployeeAdded(true);
                         return;
                     }
-                    if (auth0Employee.businessRoles[index].role == 'employee') {
+                    if (auth0Employee.businessRoles[index].role == 'employee' || auth0Employee.businessRoles[index].role == 'admin') {
                         setExistingBusiness(true);
                         console.log('עובד כבר קיים במערכת')
-                        return;
-                    }
-                    if (auth0Employee.businessRoles[index].role == 'admin') {
-                        setExistingBusiness(true);
-                        console.log('מנהל כבר קיים במערכת')
                         return;
                     }
                 }
@@ -74,7 +82,6 @@ const AddEmployeeForm: React.FC = () => {
                 await dispatch(addEmployee(newEmployee));
                 setEmployeeAdded(true);
             }
-            setEmailError(false);
         }
     };
 
@@ -107,7 +114,8 @@ const AddEmployeeForm: React.FC = () => {
                                 fullWidth
                                 label="שם העובד"
                                 variant="outlined"
-                                required
+                                error={!!errors.nameEmployee}
+                                helperText={errors.nameEmployee?.message||''}
                                 {...field}
                             />
                         )}
@@ -123,7 +131,8 @@ const AddEmployeeForm: React.FC = () => {
                                 select
                                 label="תפקיד"
                                 variant="outlined"
-                                required
+                                error={!!errors.role?.type}
+                                helperText={errors.role?.message || ''}
                                 {...field}
                             >
                                 <MenuItem value="admin">מנהל צוות</MenuItem>
@@ -141,7 +150,8 @@ const AddEmployeeForm: React.FC = () => {
                                 fullWidth
                                 label="תיאור תפקיד"
                                 variant="outlined"
-                                required
+                                error={!!errors.role?.description}
+                                helperText={errors.role?.description?.message || ''}
                                 {...field}
                             />
                         )}
@@ -151,15 +161,21 @@ const AddEmployeeForm: React.FC = () => {
                         name="email"
                         control={control}
                         defaultValue=""
+                        rules={{
+                            required: "אימייל הוא שדה חובה",
+                            pattern: {
+                                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net|org|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$/,
+                                message: "כתובת אימייל לא תקינה",
+                            }
+                        }}
                         render={({ field }) => (
                             <TextField
                                 sx={{ marginBottom: '1rem' }}
                                 fullWidth
                                 label="אימייל"
                                 variant="outlined"
-                                required
-                                error={emailError}
-                                helperText={emailError ? 'כתובת אימייל לא תקינה' : ''}
+                                error={!!errors.email}
+                                helperText={errors.email?.message || ''}
                                 {...field}
                             />
                         )}
