@@ -52,7 +52,7 @@ export default function PermanentDrawerRight() {
                     '& .MuiDrawer-paper': {
                         width: drawerWidth,
                         boxSizing: 'border-box',
-                        boxShadow: 'none', // מסיר את המסגרת
+                        boxShadow: 'none',
                     },
                 }}
                 variant="permanent"
