@@ -11,10 +11,10 @@ import { useAppSelector } from './Redux/hooks';
 import ErrorToast from './components/generic/errorMassage';
 import Inventory from './modules/inventory/Inventory';
 import Login from './components/Login/login';
+import Orders from './modules/orders/App';
 import Header from './components/Header/Header';
-import { useTranslation } from 'react-i18next';
-import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher';
 import AllOrders from './modules/orders/allOrders';
+import { useTranslation } from 'react-i18next';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(
@@ -30,8 +30,9 @@ const LazyClient = React.lazy(() => import('./components/client/Client'));
 
 const App = () => {
   const { t } = useTranslation();
+
   const currentUser = useAppSelector((state) => state.currentUserSlice);
-  const [typeUser, setTypeUser] = useState<string | null>();
+  const [typeUser, setTypeUser] = useState<string | null>(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -47,7 +48,6 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
         <Header />
-        <LanguageSwitcher />
         <Client />
         <ErrorToast />
         <Routes>
@@ -92,7 +92,9 @@ const App = () => {
                 <LazyClient />
               </Suspense>
             }
-          />
+          >
+            <Route path='orders' element={<Orders />} />
+          </Route>
         </Routes>
         {isRootPath && (
           <>
@@ -103,9 +105,7 @@ const App = () => {
             typeUser !== null ? (
               <Client />
             ) : typeUser === 'manager' || typeUser === 'admin' ? (
-              <>
-                <MainRouter />
-              </>
+              <MainRouter />
             ) : (
               <Login />
             )}
@@ -115,4 +115,5 @@ const App = () => {
     </ThemeProvider>
   );
 };
+
 export default App;
