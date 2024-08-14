@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { deleteItem,setData,addItem,updateItem, State } from "../../app/actions";
+import { deleteItem,setData,addItem,updateItem, State } from "../../../../app/actions";
 import { IComponent } from "../../interfaces/IComponent";
 
 const initialState:State<IComponent> = {

@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { TextField, Typography, Container, Stack } from '@mui/material';
+import TextField from '../../common/component/TextField/TextField';
+import { Container,Stack } from '@mui/material';
+import Typography from '../../common/components/Typography/Typography';
 import Button from '../../common/components/Button/Button'
 import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 import { checkEmailVerificationCode } from '../../Redux/businessSlice';

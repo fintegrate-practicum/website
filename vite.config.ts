@@ -23,6 +23,7 @@ export default defineConfig({
     port: 5173,
     hmr: true,
   },
+
   test: {
     environment: 'jsdom',
     globals: true,

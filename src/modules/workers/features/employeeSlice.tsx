@@ -77,5 +77,16 @@ export const getUserByEmail = createAsyncThunk('', async (email: string) => {
         return response.data
     } catch (error) {
         console.error('error', error)
+
     }
+  },
+);
+
+export const getUserById = createAsyncThunk('', async (id: string) => {
+  try {
+    const response = await workerInstance.get(`/user/${id}`);
+    return response.data.data;
+  } catch (error) {
+    return error;
+  }
 });
