@@ -7,7 +7,7 @@ import TableRow from '@mui/material/TableRow';
 import Item from './item';
 import { ComponentType, useMemo } from 'react';
 
-export interface column {
+export interface Column {
   name: string;
   header: string;
   type?: 'date' | 'text';
@@ -16,10 +16,10 @@ export interface column {
 const GenericList = (props: {
   title: string;
   list: object[];
-  column: column[];
+  column: Column[];
   desing: ComponentType<{
     item: object;
-    column: column[];
+    column: Column[];
   }> | null;
 }) => {
   const { title, list, column, desing } = props;

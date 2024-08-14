@@ -24,7 +24,6 @@ const WorkersTopNav = () => {
 
   const dispatch = useAppDispatch();
   const [filteredTasks, setFilteredTasks] = useState<Task[]>(tasks);
-  console.log(filteredTasks);
   const [value, setValue] = useState(location.pathname.slice(8));
 
   useEffect(() => {
@@ -59,7 +58,7 @@ const WorkersTopNav = () => {
         </TabPanel>
         <TabPanel value='tasks'>
           <TasksShowList
-            filteredTasks={tasks}
+            filteredTasks={filteredTasks}
             setFilteredTasks={setFilteredTasks}
           />
         </TabPanel>

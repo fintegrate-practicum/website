@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { RootState } from '../../../Redux/store';
 import message from '../classes/message';
+import workerInstance from '../../../auth0/WorkersInterceptors';
 
 interface MessageState {
   messages: message[];
@@ -10,14 +10,11 @@ interface MessageState {
 const initialState: MessageState = {
   messages: [],
 };
-const workersServiceUrl = import.meta.env.VITE_WORKERS_SERVICE_URL;
 
 export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
   async (employeeId: string) => {
-    const response = await axios.get(
-      `${workersServiceUrl}/message/${employeeId}`,
-    );
+    const response = await workerInstance.get(`/message/${employeeId}`);
     return response.data;
   },
 );
