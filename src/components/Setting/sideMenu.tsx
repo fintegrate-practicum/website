@@ -11,6 +11,7 @@ import { RootState } from '../../Redux/store';
 import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 import { fetchServiceNames, fetchServiceSettingsByServiceName } from '../../Redux/serviceSettingsSlice';
 import AddSubCategory, { ServiceSettings } from './Category';
+import theme from '../../Theme';
 
 const drawerWidth = 240;
 
@@ -29,7 +30,6 @@ export default function PermanentDrawerRight() {
             const fetchSettings = async () => {
                 try {
                     const resultAction = await dispatch(fetchServiceSettingsByServiceName(selectedServiceName)).unwrap();
-                    console.log(resultAction)
                     setServiceSettings(resultAction);
                 } catch (error) {
                     console.error("Failed to fetch service settings:", error);
@@ -52,7 +52,7 @@ export default function PermanentDrawerRight() {
                     '& .MuiDrawer-paper': {
                         width: drawerWidth,
                         boxSizing: 'border-box',
-                        boxShadow: 'none',
+                        boxShadow: 'none', // מסיר את המסגרת
                     },
                 }}
                 variant="permanent"
@@ -66,9 +66,9 @@ export default function PermanentDrawerRight() {
                             <ListItemButton
                                 onClick={() => handleListItemClick(serviceName)}
                                 sx={{
-                                    backgroundColor: selectedServiceName === serviceName ? '#f5f5f5' : 'inherit',
+                                    backgroundColor: selectedServiceName === serviceName ? theme.palette.secondary.light : 'inherit',
                                     '&:hover': {
-                                        backgroundColor: selectedServiceName === serviceName ? '#e0e0e0' : '#f5f5f5',
+                                        backgroundColor: theme.palette.secondary.dark,
                                     },
                                 }}
                             >
