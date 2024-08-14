@@ -10,8 +10,10 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Task from '../../modules/workers/classes/task';
 import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
+import { useTranslation } from 'react-i18next';
 
 const WorkersTopNav = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const tasks = useAppSelector((state) => state.taskSlice.tasks);
   const messages = useAppSelector((state) => state.messageSlice.messages);
@@ -37,9 +39,13 @@ const WorkersTopNav = () => {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label='workers tabs'>
-            <Tab label='details' value='details' href='details' />
-            <Tab label='tasks' value='tasks' href='tasks' />
-            <Tab label='messages' value='messages' href='messages' />
+            <Tab label={t('website.details')} value='details' href='details' />
+            <Tab label={t('website.tasks')} value='tasks' href='tasks' />
+            <Tab
+              label={t('website.messages')}
+              value='messages'
+              href='messages'
+            />
           </TabList>
         </Box>
         <TabPanel value='details'>
