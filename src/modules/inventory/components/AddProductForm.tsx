@@ -56,7 +56,7 @@ const AddProductForm = () => {
         const fetchProduct = async () => {
             if (productId) {
                 try {
-                    const fetchedProduct = await getItemById<any>(`inventory/product`, productId);
+                    const fetchedProduct = await getItemById<any>(`api/inventory/product`, productId);
                     const { _id, __v, ...dataToUpdate } = fetchedProduct.data;
                     setProduct(dataToUpdate);
                     reset(dataToUpdate);
@@ -79,7 +79,7 @@ const AddProductForm = () => {
     const getComponents = async () => {
         setLoading(true);
         try {
-            const res = await getAllItems<IComponent[]>(`inventory/component/businessId/${businessId}`);
+            const res = await getAllItems<IComponent[]>(`api/inventory/component/businessId/${businessId}`);
             dispatch(getAllComponents(res.data));
             setComponents(res.data);
         } catch (err) {
@@ -115,14 +115,14 @@ const AddProductForm = () => {
 
         if (product && productId) {
             try {
-                const response = await updateItem<IProduct>(`inventory/product`, productId, newData);
+                const response = await updateItem<IProduct>(`api/inventory/product`, productId, newData);
                 console.log('Product updated successfully:', response.data);
             } catch (error) {
                 console.error('Error updating product:', error);
             }
         } else {
             try {
-                const response = await addItem<IProduct>('inventory/product', newData);
+                const response = await addItem<IProduct>('api/inventory/product', newData);
                 console.log('Product added successfully:', response.data);
             } catch (error) {
                 console.error('Error adding product:', error);
