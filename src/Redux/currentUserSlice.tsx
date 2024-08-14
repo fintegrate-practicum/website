@@ -22,12 +22,10 @@ export interface EmployeeDetails {
   role: EmployeeRole;
   nameEmployee: string;
 }
-
 interface CurrentUser {
   employeeDetails: EmployeeDetails;
   userDetails: UserDetails;
 }
-
 const initialState: CurrentUser = {
   employeeDetails: {
     id_user: '',
@@ -46,7 +44,6 @@ const initialState: CurrentUser = {
     mobile: '',
   },
 };
-
 export const fetchUserById = createAsyncThunk(
   'fetchUserById',
   async (payload: any, { dispatch }) => {
@@ -87,7 +84,6 @@ export const fetchUserById = createAsyncThunk(
     }
   },
 );
-
 export const updateCurrentUser = createAsyncThunk(
   'updateCurrentUser',
   async (payload: any) => {
@@ -104,7 +100,6 @@ export const updateCurrentUser = createAsyncThunk(
     }
   },
 );
-
 export const updateCurrentUserByJwt = createAsyncThunk(
   'updateCurrentUserByJwt',
   async (payload: any) => {
@@ -117,7 +112,6 @@ export const updateCurrentUserByJwt = createAsyncThunk(
     }
   },
 );
-
 const currentUserSlice = createSlice({
   name: 'currentUser',
   initialState,
@@ -127,6 +121,5 @@ const currentUserSlice = createSlice({
     },
   },
 });
-
 export const selectCurrentUser = (state: RootState) => state.currentUserSlice;
 export default currentUserSlice.reducer;
