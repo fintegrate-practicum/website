@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, MenuItem, Box, Alert, AlertTitle } from '@mui/material';
-import { addEmployee, getUserByEmail, getUserByJwt } from '../features/employeeSlice';
-import { useAppDispatch } from '../../../Redux/hooks';
+import { addEmployee, getUserByEmail } from '../features/employeeSlice';
+import { useAppDispatch, useAppSelector } from '../../../Redux/hooks';
 import Employee from '../classes/employee';
 import { Types } from 'mongoose';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -28,28 +28,20 @@ const AddEmployeeForm: React.FC = () => {
     const dispatch = useAppDispatch();
     const [existingBusiness, setExistingBusiness] = useState(false);
     const [employeeAdded, setEmployeeAdded] = useState(false);
-    const [userInfo, setUserInfo] = useState<any>();
-
+    const currentEmployee = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails);
     const { control, handleSubmit, watch,formState: { errors } } = useForm<FormValues>({resolver: yupResolver(schema), });
     const type = watch('role.type');
     const description = watch('role.description');
     const nameEmployee = watch('nameEmployee');
     const email = watch('email');
 
-    
-    const fetchUserInfo = async () => {
-        setUserInfo(await getUserByJwt());
-    }
-
     const onSubmit: SubmitHandler<FormValues> = async () => {
-        await fetchUserInfo();
-
         const newEmployee: Employee = {
             userId: '-1',
-            businessId: new Types.ObjectId(/*שליפה של המזהה עסק מתוך ה URL*/'668ff1e5041b3614da40f0d5') || new Types.ObjectId('668ff1e5041b3614da40f0d5'),
+            businessId: new Types.ObjectId(currentEmployee.businessId),
             code: '',
-            createdBy: userInfo?.auth0_user_id || 'a',
-            updatedBy: userInfo?.auth0_user_id || 'a',
+            createdBy: currentEmployee.id_user,
+            updatedBy: currentEmployee.id_user,
             nameEmployee: nameEmployee,
             role: { type: type, active: false, description: description },
         };
