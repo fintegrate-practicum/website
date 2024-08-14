@@ -1,21 +1,34 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import task from '../classes/task';
 import { UpdateTaskEmployeeDTO } from '../dto/updateTaskEmployeeDto';
 import { UpdateTaskManagerDTO } from '../dto/updateTaskManagerDto';
 import { RootState } from '../../../Redux/store';
 import workerInstance from '../../../auth0/WorkersInterceptors';
+import Task from '../classes/task';
 
 interface EditTaskArgs {
   taskId: string;
   updateTask: UpdateTaskManagerDTO | UpdateTaskEmployeeDTO;
   employeeType: string;
 }
+interface TaskState {
+  tasks: Task[];
+}
+
+const initialState: TaskState = {
+  tasks: [],
+};
+
+interface FetchTasksArgs {
+  employeeId: string;
+  businessId: string;
+}
 
 export const fetchTasks = createAsyncThunk(
   'tasks/fetchTasks',
-  async (managerId, businessId) => {
+  async ({ employeeId, businessId }: FetchTasksArgs) => {
     const response = await workerInstance.get(
-      `/tasks/manager/${businessId}/${managerId}`,
+      `/tasks/employee/${businessId}/${employeeId}`,
     );
     return response.data;
   },
@@ -23,25 +36,15 @@ export const fetchTasks = createAsyncThunk(
 
 const taskSlice = createSlice({
   name: 'tasks',
-  initialState: {
-    tasks: [] as task[],
-    status: 'idle',
-    error: null as string | null,
-  },
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchTasks.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(fetchTasks.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+    builder.addCase(
+      fetchTasks.fulfilled,
+      (state, action: PayloadAction<Task[]>) => {
         state.tasks = action.payload;
-      })
-      .addCase(fetchTasks.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message || 'Failed to fetch tasks';
-      });
+      },
+    );
   },
 });
 
