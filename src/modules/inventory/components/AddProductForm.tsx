@@ -46,7 +46,7 @@ const AddProductForm = () => {
     const[businessId,setbusinessId]=useState('98765')
 
     const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<IProduct>({
-        resolver: yupResolver(productSchema as any),
+        resolver: yupResolver(productSchema)as any,
         defaultValues: product || {}
     });
    
