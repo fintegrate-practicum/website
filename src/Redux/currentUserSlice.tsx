@@ -4,7 +4,6 @@ import { showErrorToast } from '../components/generic/errorMassage';
 import { EmployeeRole } from '../modules/workers/classes/employeeRole';
 import { statuses } from '../modules/workers/classes/enum/statuses.enum';
 import InfraInstance from '../auth0/InfraInterceptors';
-
 interface UserDetails {
   userName: string;
   userEmail: string;
@@ -14,19 +13,16 @@ interface UserDetails {
   status: statuses;
   data?: any;
 }
-
 interface EmployeeDetails {
   id_user: string;
   businessId: string;
   role: EmployeeRole;
   nameEmployee: string;
 }
-
 interface CurrentUser {
   employeeDetails: EmployeeDetails;
   userDetails: UserDetails;
 }
-
 const initialState: CurrentUser = {
   employeeDetails: {
     id_user: '',
@@ -44,12 +40,13 @@ const initialState: CurrentUser = {
     data: {},
   },
 };
-
 export const fetchUserById = createAsyncThunk(
   'fetchUserById',
   async (payload: any, { dispatch }) => {
     try {
-      const response = await InfraInstance.get(`/user/${payload.identities[0].user_id}`);
+      const response = await InfraInstance.get(
+        `/user/${payload.identities[0].user_id}`,
+      );
       const data = response.data;
       if (data.data == null) {
         await dispatch(updateCurrentUserByJwt(payload));
@@ -80,9 +77,8 @@ export const fetchUserById = createAsyncThunk(
       showErrorToast(error.message);
       throw error;
     }
-  }
+  },
 );
-
 export const updateCurrentUser = createAsyncThunk(
   'updateCurrentUser',
   async (payload: any) => {
@@ -99,7 +95,6 @@ export const updateCurrentUser = createAsyncThunk(
     }
   },
 );
-
 export const updateCurrentUserByJwt = createAsyncThunk(
   'updateCurrentUserByJwt',
   async (payload: any) => {
@@ -112,7 +107,6 @@ export const updateCurrentUserByJwt = createAsyncThunk(
     }
   },
 );
-
 const currentUserSlice = createSlice({
   name: 'currentUser',
   initialState,
@@ -122,6 +116,5 @@ const currentUserSlice = createSlice({
     },
   },
 });
-
 export const selectCurrentUser = (state: RootState) => state.currentUserSlice;
 export default currentUserSlice.reducer;
