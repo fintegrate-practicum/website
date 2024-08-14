@@ -6,7 +6,7 @@ import { IComponent } from "../interfaces/IComponent";
 import TextField from '@mui/material/TextField';
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
-import Button from '@mui/material/Button';
+import Button from '../../../common/components/Button/Button'
 import Box from '@mui/material/Box';
 import { useParams } from "react-router-dom";
 import { addItem, getAllItems, getItemById, updateItem } from "../Api-Requests/genericRequests";
