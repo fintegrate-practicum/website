@@ -25,6 +25,7 @@ const WorkersTopNav = () => {
 
   useEffect(() => {
     setValue(location.pathname.slice(8));
+    console.log(filteredTasks);
   }, [currentUser, dispatch]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {

@@ -8,15 +8,15 @@ import { editEmployee } from '../features/employeeSlice';
 
 const UpdateEmployeeDetails: React.FC = () => {
   const currentEmployee = useAppSelector(
-    (state) => state.employeeSlice.employees[0],
+    (state) => state.employeeSlice.currentEmployee,
   );
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useAppDispatch();
 
   const [formData, setFormData] = useState({
-    nameEmployee: currentEmployee.nameEmployee || '',
-    roleType: currentEmployee.role.type || '',
-    roleDescription: currentEmployee.role.description || '',
+    nameEmployee: currentEmployee?.nameEmployee || '',
+    roleType: currentEmployee?.role?.type || '',
+    roleDescription: currentEmployee?.role?.description || '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,8 +29,11 @@ const UpdateEmployeeDetails: React.FC = () => {
   const handleEditClick = () => {
     setIsEditing(true);
   };
-
   const handleSaveClick = () => {
+    if (!currentEmployee) {
+      console.error('No employee selected for update.');
+      return;
+    }
     setIsEditing(false);
     const updatedEmployee = {
       ...currentEmployee,
@@ -40,6 +43,7 @@ const UpdateEmployeeDetails: React.FC = () => {
         description: formData.roleDescription,
       },
     };
+
     dispatch(editEmployee(updatedEmployee));
   };
 

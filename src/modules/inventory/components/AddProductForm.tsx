@@ -85,43 +85,33 @@ const productSchema = yup.object().shape({
 
 const AddProductForm = () => {
   const { productId } = useParams<{ productId: string }>();
-  const [product, setProduct] = useState<IProduct | any>(null);
+  const [product, setProduct] = useState<IProduct>();
   const [loading, setLoading] = useState<boolean>(false);
   const [components, setComponents] = useState<IComponent[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const dispatch = useDispatch();
   const componentState = useSelector((state: RootState) => state.component);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm<IProduct>({
-    resolver: yupResolver(productSchema) as any,
-    defaultValues: product || {},
-  });
-
-  useEffect(() => {
-    const fetchProduct = async () => {
-      if (productId) {
-        try {
-          const fetchedProduct = await getItemById<any>(
-            `api/inventory/product`,
-            productId,
-          );
-          const { _id, __v, ...dataToUpdate } = fetchedProduct.data;
-          setProduct(dataToUpdate);
-          reset(dataToUpdate);
-        } catch (error) {
-          console.error('Error fetching product:', error);
-        }
-      }
-    };
-    fetchProduct();
-  }, [productId, reset]);
+    const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<IProduct>({
+        resolver: yupResolver(productSchema) as any,
+        defaultValues: product || {}
+    });
+    
+    useEffect(() => {
+        const fetchProduct = async () => {
+            if (productId) {
+                try {
+                    const fetchedProduct = await getItemById<any>(`api/inventory/product`, productId);
+                    const {  ...dataToUpdate } = fetchedProduct.data;
+                    setProduct(dataToUpdate);
+                    reset(dataToUpdate);
+                } catch (error) {
+                    console.error('Error fetching product:', error);
+                }
+            }
+        };
+        fetchProduct();
+    }, [productId, reset]);
 
   useEffect(() => {
     if (!componentState.data || componentState.data.length === 0) {
