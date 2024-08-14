@@ -1,43 +1,60 @@
 import * as React from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
-import { Link } from 'react-router-dom';
+import Button from '../common/components/Button/Button'
 import { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import { useAppDispatch } from '../Redux/hooks';
 import { fetchUserById } from '../Redux/currentUserSlice';
 import SidebarUserDetails from './SidebarUserDetails';
+import { useTranslation } from 'react-i18next';
 
 const auth0_audience = import.meta.env.VITE_AUTH0_AUDIENCE as string;
 const auth0_domain = import.meta.env.VITE_AUTH0_DOMAIN as string;
 
 const Profile: React.FC = () => {  
+  const { t } = useTranslation();
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [userMetadata, setUserMetadata] = useState<any>(null); 
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
-  function setCookie(name:string, value:string, days:number) {
+  function setCookie(name: string, value: string, days: number) {
     let expires = "";
     if (days) {
         const date = new Date();
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-       expires = `; expires=${date.toUTCString()}`;
-      }
+        expires = `; expires=${date.toUTCString()}`;
+    }
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
   }
-  useEffect(() => {  
-      
+
+  function getCookie(cookieName: string) {
+    const nameEQ = cookieName + "=";
+    const cookieArray = document.cookie.split(';');
+
+    for (const elementFromCookie of cookieArray) {
+        const trimmedCookie = elementFromCookie.trim();
+        if (trimmedCookie.startsWith(nameEQ)) {
+            return trimmedCookie.substring(nameEQ.length);
+        }
+    }
+
+    return null;
+  }
+
+  setCookie("user_id", user?.sub as string, 30);
+
+  useEffect(() => {
     const getUserMetadata = async () => {
       const domain = auth0_domain;
       try {
-        const accessToken = await getAccessTokenSilently({      
+        const accessToken = await getAccessTokenSilently({
           authorizationParams: {
+            userId: getCookie("user_id"),
             audience: auth0_audience,
             scope: "read:current_user",
           },
-          
         });
-        setCookie("accessToken",accessToken,7)
         const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
         const metadataResponse = await fetch(userDetailsByIdUrl, {
           headers: {
@@ -46,7 +63,7 @@ const Profile: React.FC = () => {
         });
         const user_metadata = await metadataResponse.json();
         setUserMetadata(user_metadata);        
-        dispatch(fetchUserById(user_metadata?.user_id));        
+        await dispatch(fetchUserById(user_metadata));
       } catch (e) {
         console.log((e as Error).message);
       }
@@ -55,10 +72,10 @@ const Profile: React.FC = () => {
     if (user?.sub) {
       getUserMetadata();
     }
-  }, [getAccessTokenSilently, user?.sub,dispatch]);
+  }, [getAccessTokenSilently, user?.sub, dispatch]);
 
   if (isLoading) {
-    return <div>Loading ...</div>;
+    return <div>{t('auth0.Loading ...')}</div>;
   }
 
   const profileAvatar = () => {
@@ -107,7 +124,7 @@ const Profile: React.FC = () => {
         anchorEl={anchorEl}
         handleClose={handleClose}
       />
-        <Link to="/CreateBusiness/BaseDetailsManager">הרשמה של עסק</Link>
+      <Button href="/CreateBusiness/BaseDetailsManager" isLink={true}>{t('auth0.Register a business')}</Button>
     </>
   );
 };

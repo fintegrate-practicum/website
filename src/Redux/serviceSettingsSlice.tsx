@@ -1,6 +1,6 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import infraInstance from '../auth0/InfraInterceptors';
-import { ServiceSettings } from "../components/Setting/Category";
+import { ServiceSettings } from '../components/Setting/Category';
 
 const initialState = {
   settings: [] as ServiceSettings[],
@@ -52,17 +52,19 @@ export const fetchServiceSettingsByServiceName = createAsyncThunk<ServiceSetting
       const response = await infraInstance.get(`/service-settings/${serviceName}`);
       return response.data;
     } catch (error) {
+      console.log('Failed to fetch service settings');
     }
-  }
+  },
 );
 
 const serviceSettingsSlice = createSlice({
-  name: "serviceSettings",
+  name: 'serviceSettings',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchServiceSettings.fulfilled, (state, action: PayloadAction<ServiceSettings[]>) => {
+    builder.addCase(
+      fetchServiceSettings.fulfilled,
+      (state, action: PayloadAction<ServiceSettings[]>) => {
         state.settings = action.payload;
       })
       .addCase(fetchServiceNames.fulfilled, (state, action: PayloadAction<string[]>) => {
