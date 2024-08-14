@@ -6,7 +6,7 @@ import Employee from '../classes/employee';
 import { Types } from 'mongoose';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup'; 
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const schema = yup.object({
     nameEmployee: yup.string().required('שם העובד הוא שדה חובה'),
@@ -29,13 +29,11 @@ const AddEmployeeForm: React.FC = () => {
     const [existingBusiness, setExistingBusiness] = useState(false);
     const [employeeAdded, setEmployeeAdded] = useState(false);
     const currentEmployee = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails);
-    const { control, handleSubmit, watch,formState: { errors } } = useForm<FormValues>({resolver: yupResolver(schema), });
-    const type = watch('role.type');
-    const description = watch('role.description');
-    const nameEmployee = watch('nameEmployee');
-    const email = watch('email');
+    const { control, handleSubmit, formState: { errors }, getValues } = useForm<FormValues>({ resolver: yupResolver(schema), });
 
     const onSubmit: SubmitHandler<FormValues> = async () => {
+        const { nameEmployee, role, email } = getValues();
+
         const newEmployee: Employee = {
             userId: '-1',
             businessId: new Types.ObjectId(currentEmployee.businessId),
@@ -43,7 +41,7 @@ const AddEmployeeForm: React.FC = () => {
             createdBy: currentEmployee.id_user,
             updatedBy: currentEmployee.id_user,
             nameEmployee: nameEmployee,
-            role: { type: type, active: false, description: description },
+            role: { type: role.type, active: false, description: role.description },
         };
 
         const employee = await dispatch(getUserByEmail(email));
@@ -107,7 +105,7 @@ const AddEmployeeForm: React.FC = () => {
                                 label="שם העובד"
                                 variant="outlined"
                                 error={!!errors.nameEmployee}
-                                helperText={errors.nameEmployee?.message||''}
+                                helperText={errors.nameEmployee?.message || ''}
                                 {...field}
                             />
                         )}
