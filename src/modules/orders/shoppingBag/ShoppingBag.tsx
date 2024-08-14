@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './shoppingBag.css';
-import { Table, TableBody, TableCell, TableHead, TableRow, TextField, IconButton } from '@mui/material';
+import TextField from '../../../common/component/TextField/TextField';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  IconButton,
+} from '@mui/material';
 import Typography from '../../../common/components/Typography/Typography';
-import Button from '../../../common/components/Button/Button'
+import Button from '../../../common/components/Button/Button';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
@@ -16,9 +24,8 @@ interface BagItem {
   amount: number;
 }
 
-
 const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
-  const [bag, setBag] = useState<BagItem[]>(initialBag||[]);
+  const [bag, setBag] = useState<BagItem[]>(initialBag || []);
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
@@ -53,7 +60,7 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
 
   return (
     <div className='shoppingBag-container'>
-      <Typography  variant='h5'> סל קניות </Typography>
+      <Typography variant='h5'> סל קניות </Typography>
       {bag.length === 0 ? (
         <Typography> סל הקניות שלך ריק </Typography>
       ) : (
@@ -71,13 +78,16 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
               {bag.map((row, index) => (
                 <TableRow key={row.name}>
                   <TableCell align='right'>
-                    {row.name} <img src={row.image} width='80px' alt={row.name} />
+                    {row.name}{' '}
+                    <img src={row.image} width='80px' alt={row.name} />
                   </TableCell>
                   <TableCell align='right'>
                     <TextField
                       type='number'
                       value={row.amount}
-                      onChange={(e) => handleAmountChange(index, Number(e.target.value))}
+                      onChange={(e) =>
+                        handleAmountChange(index, Number(e.target.value))
+                      }
                     />
                   </TableCell>
                   <TableCell align='right'>

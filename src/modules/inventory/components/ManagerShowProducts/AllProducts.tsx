@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import { IProduct } from '../../interfaces/IProduct';
 import { IComponent } from '../../interfaces/IComponent';
 import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../../app/hooks';
+import { useAppSelector } from '../../../../app/hooks';
 import { getAllItems } from '../../Api-Requests/genericRequests';
 import { getProducts } from '../../features/product/productSlice';
 import { getAllComponents } from '../../features/component/componentSlice';
@@ -19,10 +19,17 @@ const AllProducts = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const products = useAppSelector((state) => state.product?.data || []);
-  const components = useAppSelector((state) => state.component?.data || []);
+  const products = useAppSelector(
+    (state: { product: { data: any } }) => state.product?.data || [],
+  );
+  const components = useAppSelector(
+    (state: { component: { data: any } }) => state.component?.data || [],
+  );
 
-  const allRows = useMemo(() => [...products, ...components], [products, components]);
+  const allRows = useMemo(
+    () => [...products, ...components],
+    [products, components],
+  );
 
   useEffect(() => {
     fetchProducts();
@@ -40,7 +47,9 @@ const AllProducts = () => {
 
   const fetchComponents = async () => {
     try {
-      const response = await getAllItems<IComponent[]>('api/inventory/component');
+      const response = await getAllItems<IComponent[]>(
+        'api/inventory/component',
+      );
       dispatch(getAllComponents(response.data));
     } catch (error) {
       console.error(error);
@@ -53,7 +62,7 @@ const AllProducts = () => {
     } else {
       navigate(`/inventory/componentForm/${item.id}`);
     }
-  }
+  };
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -85,7 +94,7 @@ const AllProducts = () => {
         return (
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <IconButton
-              color="primary"
+              color='primary'
               onClick={() => navigateToUpdate(item)}
               style={{ marginRight: '8px' }}
             >
@@ -106,16 +115,16 @@ const AllProducts = () => {
     <div style={{ height: 400, width: '100%' }}>
       <div style={{ marginBottom: '16px' }}>
         <Button
-          variant="contained"
-          color="primary"
+          variant='contained'
+          color='primary'
           onClick={() => navigate('/inventory/productForm')}
           style={{ marginRight: '8px' }}
         >
           Add Product
         </Button>
         <Button
-          variant="contained"
-          color="secondary"
+          variant='contained'
+          color='secondary'
           onClick={() => navigate('/inventory/componentForm')}
         >
           Add Component

@@ -1,62 +1,93 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import task from "../classes/task";
-import {  UpdateTaskEmployeeDTO } from "../dto/updateTaskEmployeeDto";
-import { UpdateTaskManagerDTO } from "../dto/updateTaskManagerDto";
-import { RootState } from "../../../Redux/store";
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import task from '../classes/task';
+import { UpdateTaskEmployeeDTO } from '../dto/updateTaskEmployeeDto';
+import { UpdateTaskManagerDTO } from '../dto/updateTaskManagerDto';
+import { RootState } from '../../../Redux/store';
+import workerInstance from '../../../auth0/WorkersInterceptors';
+import Task from '../classes/task';
 
 interface EditTaskArgs {
   taskId: string;
   updateTask: UpdateTaskManagerDTO | UpdateTaskEmployeeDTO;
-  employeeType: string; 
+  employeeType: string;
+}
+interface TaskState {
+  tasks: Task[];
 }
 
-const baseUrl = import.meta.env.VITE_WORKERS_SERVICE_URL;
-const managerId = import.meta.env.VITE_MANAGERID;
-const businessId = import.meta.env.VITE_BUSINESSID;
-const response = await axios.get(`${baseUrl}/tasks/manager/${businessId}/${managerId}`);
-const { data = {} } = response.data;
+const initialState: TaskState = {
+  tasks: [],
+};
+
+interface FetchTasksArgs {
+  employeeId: string;
+  businessId: string;
+}
+
+export const fetchTasks = createAsyncThunk(
+  'tasks/fetchTasks',
+  async ({ employeeId, businessId }: FetchTasksArgs) => {
+    const response = await workerInstance.get(
+      `/tasks/employee/${businessId}/${employeeId}`,
+    );
+    return response.data;
+  },
+);
 
 const taskSlice = createSlice({
-  name: "tasks",
-  initialState: data,
-  reducers: {}
-})
+  name: 'tasks',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(
+      fetchTasks.fulfilled,
+      (state, action: PayloadAction<Task[]>) => {
+        state.tasks = action.payload;
+      },
+    );
+  },
+});
 
-export const { } = taskSlice.actions;
 export const selectTasks = (state: RootState) => state.taskSlice.tasks;
 export default taskSlice.reducer;
 
-export const createTask = createAsyncThunk('',async (_task: task) => {
+export const createTask = createAsyncThunk('', async (_task: task) => {
   try {
-      const response = await axios.post(`${baseUrl}/tasks/manager/task`, _task)
-      return response.data
+    const response = await workerInstance.post(`/tasks/manager/task`, _task);
+    return response.data;
   } catch (error) {
-      return error
+    return error;
   }
 });
 
-export const editTask = createAsyncThunk('',async ({ taskId, updateTask, employeeType }: EditTaskArgs) => {
+export const editTask = createAsyncThunk(
+  '',
+  async ({ taskId, updateTask, employeeType }: EditTaskArgs) => {
     try {
-      
-      const response = await axios.put(`${baseUrl}/tasks/task/${taskId}`, updateTask, {
-        headers: {
-          'employee-type': employeeType
-        }
-      });
+      const response = await workerInstance.put(
+        `/tasks/task/${taskId}`,
+        updateTask,
+        {
+          headers: {
+            'employee-type': employeeType,
+          },
+        },
+      );
 
       return response.data;
     } catch (error) {
-      return error
+      return error;
     }
-  }
+  },
 );
 
-export const deleteTask = createAsyncThunk('',async (taskId:string) => {
+export const deleteTask = createAsyncThunk('', async (taskId: string) => {
   try {
-      const response = await axios.delete(`${baseUrl}/tasks/manager/task/${taskId}`)
-      return response.data
+    const response = await workerInstance.delete(
+      `/tasks/manager/task/${taskId}`,
+    );
+    return response.data;
   } catch (error) {
-      return error
+    return error;
   }
 });
