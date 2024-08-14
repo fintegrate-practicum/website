@@ -16,16 +16,16 @@ import {
   updateItem,
 } from '../Api-Requests/genericRequests';
 import {
+  Checkbox,
   Chip,
+  FormControl,
+  FormControlLabel,
   Grid,
   InputLabel,
   MenuItem,
   OutlinedInput,
   Select,
   SelectChangeEvent,
-  FormControl,
-  FormControlLabel,
-  Checkbox,
 } from '@mui/material';
 import { RootState } from '../../../Redux/store';
 import { getAllComponents } from '../features/component/componentSlice';
@@ -112,9 +112,7 @@ const AddProductForm = () => {
             `api/inventory/product`,
             productId,
           );
-          //this has to be added back to the line below - _id, __v,
-          //removed only because husky didn't let it go thru with it
-          const { ...dataToUpdate } = fetchedProduct.data;
+          const { _id, __v, ...dataToUpdate } = fetchedProduct.data;
           setProduct(dataToUpdate);
           reset(dataToUpdate);
         } catch (error) {
