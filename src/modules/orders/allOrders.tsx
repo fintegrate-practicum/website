@@ -77,7 +77,7 @@ export default function AllOrders() {
 
       const productsMap = productResults.reduce(
         (acc, product) => {
-          acc[product.id] = product; // לוודא שהמפתח `id` נמצא בכל סוגי המוצרים/רכיבים
+          acc[product.id] = product; 
           return acc;
         },
         {} as { [key: string]: IProduct | IComponent },
