@@ -7,12 +7,13 @@ import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Box from '@mui/material/Box';
-import TextField from '../../common/component/TextField/TextField';
+import TextField from '@mui/material/TextField';
 import Button from '../../common/components/Button/Button';
-import './ShoppingDetails.css';
 import { addItem } from './Api-Requests/genericRequests';
+import { useTranslation } from 'react-i18next';
 
 const ShoppingDetails = () => {
+  const { t } = useTranslation();
   const [selectedOption, setSelectedOption] = useState('');
 
   const handleChange = (e: {
@@ -24,27 +25,30 @@ const ShoppingDetails = () => {
   const saveDetails = async (data: Record<string, any>) => {
     try {
       const response = await addItem('orders', data);
-      alert('ההזמנה נשמרה בהצלחה');
+      alert(t('order.Order saved successfully'));
       console.log(response);
     } catch (err) {
       console.log(err);
-      alert('הייתה שגיאה בשמירת ההזמנה');
+      alert(t('order.Error saving the order'));
     }
   };
 
   const backForm = yup.object().shape({
-    city: yup.string().required('שדה זה הינו חובה'),
-    street: yup.string().required('שדה זה הינו חובה'),
+    city: yup.string().required(t('order.This field is required')),
+    street: yup.string().required(t('order.This field is required')),
     buildingNumber: yup
       .number()
-      .typeError('הכנס מספר בנין')
-      .positive('הכנס מספר בנין'),
-    floor: yup.number().typeError('הכנס קומה').positive('הכנס קומה'),
+      .typeError(t('order.Enter a building number'))
+      .positive(t('order.Enter a building number')),
+    floor: yup
+      .number()
+      .typeError(t('order.Enter a floor number'))
+      .positive(t('order.Enter a floor number')),
     apartmentNumber: yup
       .number()
-      .typeError('הכנס מספר דירה')
-      .positive('הכנס מספר דירה'),
-    lastName: yup.string().required('שדה זה הינו חובה'),
+      .typeError(t('order.Enter an apartment number'))
+      .positive(t('order.Enter an apartment number')),
+    lastName: yup.string().required(t('order.This field is required')),
   });
 
   const {
@@ -58,7 +62,7 @@ const ShoppingDetails = () => {
   return (
     <form onSubmit={handleSubmit(saveDetails)}>
       <FormControl>
-        <h3>איך תרצה לאסוף את המשלוח</h3>
+        <h3>{t('order.How would you like to receive the shipment')}</h3>
         <RadioGroup
           row
           aria-labelledby='demo-row-radio-buttons-group-label'
@@ -68,27 +72,24 @@ const ShoppingDetails = () => {
           <FormControlLabel
             value='shipping'
             control={<Radio />}
-            label='משלוח'
+            label={t('order.Shipping')}
           />
           <FormControlLabel
             value='selfCollection'
             control={<Radio />}
-            label='איסוף עצמי'
+            label={t('order.Self Collection')}
           />
         </RadioGroup>
         {selectedOption === 'shipping' && (
           <Box
-            // component="form"
             sx={{
               '& > :not(style)': { m: 1, width: '25ch', display: 'block' },
             }}
-            // noValidate
-            // autoComplete="off"
           >
             <TextField
               id='filled-basic'
               fullWidth
-              label='עיר'
+              label={t('order.City')}
               variant='filled'
               {...register('city')}
             />
@@ -96,7 +97,7 @@ const ShoppingDetails = () => {
             <TextField
               id='filled-basic'
               fullWidth
-              label='רחוב'
+              label={t('order.Street')}
               variant='filled'
               {...register('street')}
             />
@@ -104,7 +105,7 @@ const ShoppingDetails = () => {
             <TextField
               id='filled-basic'
               fullWidth
-              label='מספר בנין'
+              label={t('order.Building Number')}
               variant='filled'
               type='number'
               {...register('buildingNumber')}
@@ -113,7 +114,7 @@ const ShoppingDetails = () => {
             <TextField
               id='filled-basic'
               fullWidth
-              label='קומה'
+              label={t('order.Floor')}
               variant='filled'
               type='number'
               {...register('floor')}
@@ -122,7 +123,7 @@ const ShoppingDetails = () => {
             <TextField
               id='filled-basic'
               fullWidth
-              label='מספר בית'
+              label={t('order.Apartment Number')}
               variant='filled'
               type='number'
               {...register('apartmentNumber')}
@@ -131,13 +132,13 @@ const ShoppingDetails = () => {
             <TextField
               id='filled-basic'
               fullWidth
-              label='משפחה'
+              label={t('order.Last Name')}
               variant='filled'
               {...register('lastName')}
             />
             {errors.lastName && <p>{errors.lastName.message}</p>}
             <Button type='submit' variant='contained' color='primary'>
-              שמור פרטים
+              {t('order.Save Details')}
             </Button>
           </Box>
         )}

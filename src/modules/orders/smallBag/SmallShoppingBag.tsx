@@ -8,12 +8,13 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
+import './smallShoppingBag.css';
+import { useTranslation } from 'react-i18next';
 
 const bag = [
   {
     id: 1,
     image: '/dress.jpg',
-
     name: 'casual dress',
     model: 'blue flowers',
     description: 'bla bla...',
@@ -24,7 +25,6 @@ const bag = [
   {
     id: 2,
     image: '/dress.jpg',
-
     name: 'casual dress',
     model: 'blue flowers',
     description: 'bla bla...',
@@ -55,6 +55,7 @@ const bag = [
 ];
 
 const SmallShoppingBag = () => {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -69,14 +70,16 @@ const SmallShoppingBag = () => {
     <div className='shopping-bag-container'>
       {isVisible && (
         <>
-          <Typography className='shopping-bag-title'>סל קניות</Typography>
+          <Typography className='shopping-bag-title'>
+            {t('order.Shopping Bag')}
+          </Typography>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>פריטים</TableCell>
-                <TableCell>דגם</TableCell>
-                <TableCell>כמות</TableCell>
-                <TableCell>מחיר</TableCell>
+                <TableCell>{t('order.Items')}</TableCell>
+                <TableCell>{t('order.Model')}</TableCell>
+                <TableCell>{t('order.Quantity')}</TableCell>
+                <TableCell>{t('order.Price')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -94,7 +97,6 @@ const SmallShoppingBag = () => {
                       </div>
                     </TableCell>
                   </div>
-
                   <TableCell>{item.model}</TableCell>
                   <TableCell>{item.amount}</TableCell>
                   <TableCell>{item.price} ₪</TableCell>

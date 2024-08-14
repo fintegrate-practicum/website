@@ -1,6 +1,6 @@
 import * as React from 'react';
-import TextField from '../../../../common/component/TextField/TextField';
 import Button from '../../../../common/components/Button/Button';
+import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -11,8 +11,10 @@ import { useAppDispatch } from '../../../../Redux/hooks';
 import { Types } from 'mongoose';
 import Task from '../../classes/task';
 import { TaskStatus } from '../../classes/enum/taskStatus.enum';
+import { useTranslation } from 'react-i18next';
 
 export default function AddTaskBtn() {
+  const { t } = useTranslation();
   const [open, setOpen] = React.useState(false);
   const businessId = new Types.ObjectId(import.meta.env.VITE_BUSINESSID);
   const managerId = import.meta.env.VITE_MANAGERID
@@ -65,10 +67,11 @@ export default function AddTaskBtn() {
 
     setEmployee(employeeArray);
   };
+
   return (
     <React.Fragment>
       <Button variant='outlined' onClick={handleClickOpen}>
-        Add new Task
+        {t('workers.Add new Task')}
       </Button>
       <Dialog
         open={open}
@@ -81,11 +84,12 @@ export default function AddTaskBtn() {
           },
         }}
       >
-        <DialogTitle> Add new Task</DialogTitle>
+        <DialogTitle>{t('workers.Add new Task')}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To add a new task, please enter the data here. We will send updates
-            to employees.
+            {t(
+              'workers.To add a new task, please enter the data here. We will send updates to employees.',
+            )}
           </DialogContentText>
           <TextField
             onChange={(e) => setTaskName(e.target.value)}
@@ -94,7 +98,7 @@ export default function AddTaskBtn() {
             margin='dense'
             id='task_name'
             name='task_name'
-            label='Task Name'
+            label={t('workers.Task Name')}
             type='text'
             fullWidth
             variant='standard'
@@ -106,7 +110,7 @@ export default function AddTaskBtn() {
             margin='dense'
             id='description'
             name='description'
-            label='Description'
+            label={t('workers.Description')}
             type='text'
             fullWidth
             variant='standard'
@@ -119,7 +123,7 @@ export default function AddTaskBtn() {
             margin='dense'
             id='target_date'
             name='Target Date'
-            label='Target Date'
+            label={t('workers.Target Date')}
             type='date'
             fullWidth
             variant='standard'
@@ -132,7 +136,7 @@ export default function AddTaskBtn() {
             margin='dense'
             id='employee'
             name='employee'
-            label='Employee'
+            label={t('workers.Employee')}
             type='text'
             fullWidth
             variant='standard'
@@ -144,15 +148,15 @@ export default function AddTaskBtn() {
             margin='dense'
             id='urgency'
             name='Urgency'
-            label='Urgency'
+            label={t('workers.Urgency')}
             type='number'
             fullWidth
             variant='standard'
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button type='submit'>Save</Button>
+          <Button onClick={handleClose}>{t('common.Cancel')}</Button>
+          <Button type='submit'>{t('common.Save')}</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

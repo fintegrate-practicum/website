@@ -29,6 +29,7 @@ import {
 } from '@mui/material';
 import { RootState } from '../../../Redux/store';
 import { getAllComponents } from '../features/component/componentSlice';
+import { useTranslation } from 'react-i18next';
 
 const productSchema = yup.object().shape({
   name: yup
@@ -85,7 +86,8 @@ const productSchema = yup.object().shape({
 
 const AddProductForm = () => {
   const { productId } = useParams<{ productId: string }>();
-  const [product, setProduct] = useState<IProduct | any>(null);
+  const { t } = useTranslation();
+  const [product, setProduct] = useState<IProduct>();
   const [loading, setLoading] = useState<boolean>(false);
   const [components, setComponents] = useState<IComponent[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
@@ -154,8 +156,8 @@ const AddProductForm = () => {
 
     const newData = {
       ...data,
-      businessId: 'here will be the business id',
-      adminId: 'here will be the admin id',
+      businessId: t('here will be the business id'),
+      adminId: t('here will be the admin id'),
       productComponents: componentIds,
       images: data.images,
     };
@@ -177,9 +179,12 @@ const AddProductForm = () => {
           productId,
           newData,
         );
-        console.log('Product updated successfully:', response.data);
+        console.log(
+          t('inventory.Product updated successfully:'),
+          response.data,
+        );
       } catch (error) {
-        console.error('Error updating product:', error);
+        console.error(t('inventory.Error updating product:'), error);
       }
     } else {
       try {
@@ -187,15 +192,15 @@ const AddProductForm = () => {
           'api/inventory/product',
           newData,
         );
-        console.log('Product added successfully:', response.data);
+        console.log(t('inventory.Product added successfully:'), response.data);
       } catch (error) {
-        console.error('Error adding product:', error);
+        console.error(t('inventory.Error adding product:'), error);
       }
     }
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>{t('inventory.Loading...')}</div>;
   }
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -312,7 +317,7 @@ const AddProductForm = () => {
                 defaultChecked={product?.isActive || false}
               />
             }
-            label='Is Active'
+            label={t('inventory.Is Active')}
           />
         </Grid>
 

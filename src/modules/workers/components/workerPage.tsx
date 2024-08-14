@@ -19,6 +19,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import React, { useState } from 'react';
 import UpdateEmployeeDetails from './updateEmployeeDetails';
 import { UserDetails, EmployeeDetails } from '../../../Redux/currentUserSlice';
+import { useTranslation } from 'react-i18next';
 
 interface WorkerPageProps {
   user: UserDetails;
@@ -26,6 +27,8 @@ interface WorkerPageProps {
 }
 
 const WorkerPage: React.FC<WorkerPageProps> = (props) => {
+  const { t } = useTranslation();
+
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -65,7 +68,9 @@ const WorkerPage: React.FC<WorkerPageProps> = (props) => {
         id='all'
       >
         <Grid style={{ textAlign: 'left', margin: 'none' }}>
-          <Typography>Name:{props.user.userName}</Typography>
+          <Typography>
+            {t('workers.Name')}:{props.user.userName}
+          </Typography>
         </Grid>
 
         <List
@@ -89,27 +94,28 @@ const WorkerPage: React.FC<WorkerPageProps> = (props) => {
                 secondary={
                   <Typography component='span' variant='body2' color='black'>
                     {' '}
-                    dateOfBirth {props.user.userName}
+                    {t('workers.dateOfBirth')}: {props.user.userName}
                     <br />
-                    mobile:{props.user.mobile}
+                    {t('workers.mobile')}:{props.user.mobile}
                     <br />
-                    status:{props.user.status}
+                    {t('workers.status')}:{props.user.status}
                   </Typography>
                 }
               />
             </Grid>
           </ListItem>
         </List>
-        <Button onClick={handleClickOpen}>לעריכה</Button>
-
+        <Button onClick={handleClickOpen}>{t('workers.edit')}</Button>
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>ערוך פרטים</DialogTitle>
+          <DialogTitle>{t('workers.editDetails')}</DialogTitle>
           <DialogContent>
-            <DialogContentText>ערוך שינויים בפרטיך ושמור</DialogContentText>
+            <DialogContentText>
+              {t('workers.editYourDetails')}
+            </DialogContentText>
             <UpdateEmployeeDetails />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>בטל</Button>
+            <Button onClick={handleClose}>{t('common.Cancel')}</Button>
           </DialogActions>
         </Dialog>
       </Grid>

@@ -3,8 +3,10 @@ import { useAppSelector } from '../../../Redux/hooks';
 import React, { useState } from 'react';
 import Button from '../../../common/components/Button/Button';
 import { RootState } from '../../../Redux/store';
+import { useTranslation } from 'react-i18next';
 
 const WorkersShowList = () => {
+  const { t } = useTranslation();
   const employees = useAppSelector(
     (state: RootState) => state.employeeSlice.employees,
   );
@@ -48,7 +50,7 @@ const WorkersShowList = () => {
         onClick={showMoreData}
         disabled={!hasNextPage}
       >
-        הבא
+        {t('common.Next')}{' '}
       </Button>
       <Button
         component='label'
@@ -56,7 +58,7 @@ const WorkersShowList = () => {
         onClick={showLessData}
         disabled={!hasPreviousPage}
       >
-        הקודם
+        {t('common.Previous')}{' '}
       </Button>
     </>
   );
