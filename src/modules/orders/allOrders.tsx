@@ -62,8 +62,6 @@ export default function AllOrders() {
           );
           return product.data;
         } catch (error) {
-          console.log(error);
-
           const component = await getItemById<IComponent>(
             `api/inventory/component`,
             id,
