@@ -4,7 +4,7 @@ import SingleProduct from './singleProduct';
 import { IProduct } from '../../interfaces/IProduct';
 import { IComponent } from '../../interfaces/IComponent';
 import { getAllItems } from '../../Api-Requests/genericRequests';
-import { useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getProducts } from '../../features/product/productSlice';
 import { getAllComponents } from '../../features/component/componentSlice';
 import Button from "../../../../common/components/Button/Button";
@@ -19,12 +19,13 @@ export default function ShowProducts() {
   const itemsPerPage = 10;
   const products = useAppSelector((state) => state.product?.data || []);
   const components = useAppSelector((state) => state.component?.data || []);
-  const listProducts = [...products,...components];
+  const listProducts = [...products, ...components];
+        //יתקבל מהרידקס-זמני
+      const businessId = '123456789'
 
   const getAllProducts = async () => {
     try {
-      const res = await getAllItems<IProduct[]>('inventory/product');   
-      dispatch(getProducts(res.data));
+      const res = await getAllItems<IProduct[]>(`inventory/product/businessId/${businessId}`); dispatch(getProducts(res.data));
     }
     catch (err) {
       console.log(err);
@@ -33,8 +34,7 @@ export default function ShowProducts() {
 
   const getComponents = async () => {
     try {
-      const res = await getAllItems<IComponent[]>('inventory/component');
-      dispatch(getAllComponents(res.data));
+      const res = await getAllItems<IComponent[]>(`api/inventory/component/businessId/${businessId}`); dispatch(getAllComponents(res.data));
     }
     catch (err) {
       console.log(err);
@@ -56,16 +56,20 @@ export default function ShowProducts() {
   const showLessProductsData = () => {
     setStartIndex(Math.max(0, startIndex - itemsPerPage));
   };
- 
+
   return (
     <Grid sx={{ flexGrow: 1 }} container spacing={2} direction="column">
       <Grid container justifyContent="center">
         {paginatedProducts.map((product: IProduct | IComponent) => (
-          <SingleProduct key={product.id} product={product}/>
+          <SingleProduct key={product.id} product={product} />
         ))}
       </Grid>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Button  component="label"  tabIndex={-1}
+        <Button
+          component="label"
+          role={undefined}
+          variant="contained"
+          tabIndex={-1}
           onClick={showLessProductsData}
           disabled={!hasPreviousPage}
         >
@@ -73,6 +77,7 @@ export default function ShowProducts() {
         </Button>
         <Button
           component="label"
+          role={undefined}
           variant="contained"
           tabIndex={-1}
           onClick={showMoreProductsData}
