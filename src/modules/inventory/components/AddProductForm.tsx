@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react";
-import {SubmitHandler, useForm} from "react-hook-form";
-import {useDispatch, useSelector} from "react-redux";
-import {IProduct} from "../interfaces/IProduct";
-import {IComponent} from "../interfaces/IComponent";
+import React, { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { IProduct } from "../interfaces/IProduct";
+import { IComponent } from "../interfaces/IComponent";
 import TextField from '@mui/material/TextField';
 import * as yup from 'yup';
-import {yupResolver} from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import Button from '../../../common/components/Button/Button'
 import Box from '@mui/material/Box';
 import { useParams } from "react-router-dom";
@@ -45,6 +45,7 @@ const AddProductForm = () => {
     const [imagePreviews, setImagePreviews] = useState<string[]>([]);
     const dispatch = useDispatch();
     const componentState = useSelector((state: RootState) => state.component);
+    const[businessId,setbusinessId]=useState('98765')
 
     const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<IProduct>({
         resolver: yupResolver(productSchema)as any,
@@ -78,7 +79,7 @@ const AddProductForm = () => {
     const getComponents = async () => {
         setLoading(true);
         try {
-            const res = await getAllItems<IComponent[]>('api/inventory/component');
+            const res = await getAllItems<IComponent[]>(`api/inventory/component/businessId/${businessId}`);
             dispatch(getAllComponents(res.data));
             setComponents(res.data);
         } catch (err) {
@@ -96,7 +97,7 @@ const AddProductForm = () => {
 
         const newData = {
             ...data,
-            businessId: "here will be the business id",
+            businessId: "98765",
             adminId: "here will be the admin id",
             productComponents: componentIds,
             images: data.images
@@ -135,11 +136,30 @@ const AddProductForm = () => {
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
-            const images = Array.from(event.target.files).map(file => URL.createObjectURL(file));
-            setImagePreviews(images);
-            setValue("images", images);
+            const filesArray = Array.from(event.target.files);
+    
+            Promise.all(
+                filesArray.map(file => {
+                    return new Promise<string>((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = () => {
+                            const base64String = reader.result as string;
+                            resolve(base64String);
+                        };
+                        reader.onerror = error => reject(error);
+                    });
+                })
+            ).then(base64Images => {
+                setImagePreviews(base64Images);
+                setValue("images", base64Images);
+            }).catch(error => {
+                console.error("Error converting images to Base64:", error);
+            });
         }
     };
+    
+    
 
     const handleComponentChange = (event: SelectChangeEvent<string[]>) => {
         const selectedValue = event.target.value;
@@ -296,15 +316,17 @@ const AddProductForm = () => {
                 <Grid item xs={12} sm={12}>
                     {imagePreviews.length > 0 && (
                         <Box sx={{ display: 'flex', gap: 1, marginTop: 2 }}>
+                            <Grid item xs={12} sm={12}>
                             {imagePreviews.map((preview, index) => (
                                 <img key={index} src={preview} alt={`Image ${index + 1}`} style={{ maxWidth: 200, maxHeight: 200 }} />
                             ))}
+                            </Grid>
                         </Box>
                     )}
                 </Grid>
 
                 <Grid item xs={12} sm={12}>
-                    <Button  component="label" fullWidth>
+                    <Button variant="contained" component="label" fullWidth>
                         Upload Images
                         <input
                             type="file"
@@ -318,7 +340,7 @@ const AddProductForm = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={12}>
-                    <Button type="submit"  fullWidth>
+                    <Button type="submit" variant="contained" color="primary" fullWidth>
                         {product ? "Update Product" : "Add Product"}
                     </Button>
                 </Grid>
