@@ -9,6 +9,7 @@ import WorkerPage from '../../modules/workers/components/workerPage';
 import TasksShowList from '../../modules/workers/components/tasks/tasksShowList';
 import MessageList from '../../modules/workers/components/messageList';
 import Tab from '@mui/material/Tab';
+import { fetchTasks } from '../../modules/workers/features/taskSlice';
 
 const WorkersTopNav = () => {
   const location = useLocation();
@@ -31,6 +32,12 @@ const WorkersTopNav = () => {
 
     if (currentUser && currentUser.auth0_user_id) {
       dispatch(fetchMessages(currentUser.auth0_user_id));
+      dispatch(
+        fetchTasks({
+          employeeId: currentEmployee.id_user,
+          businessId: currentEmployee.businessId,
+        }),
+      );
     }
   }, [currentUser, dispatch]);
 

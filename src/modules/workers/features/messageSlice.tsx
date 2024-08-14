@@ -10,12 +10,14 @@ interface MessageState {
 const initialState: MessageState = {
   messages: [],
 };
-const workersService = import.meta.env.VITE_HTTP;
+const workersServiceUrl = import.meta.env.VITE_WORKERS_SERVICE_URL;
 
 export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
   async (employeeId: string) => {
-    const response = await axios.get(`${workersService}/message/${employeeId}`);
+    const response = await axios.get(
+      `${workersServiceUrl}/message/${employeeId}`,
+    );
     return response.data;
   },
 );

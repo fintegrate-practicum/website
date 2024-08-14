@@ -2,20 +2,15 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import { ComponentType } from 'react';
 import DateFormat from './dateFormat';
-
+import { column } from './genericList';
 interface Item {
   [key: string]: any;
-}
-interface Column {
-  name: string;
-  header: string;
-  type?: 'date' | 'text';
 }
 
 interface ItemProps {
   item: Item;
-  column: Column[];
-  Desing: ComponentType<{ item: Item; column: Column[] }> | null;
+  column: column[];
+  Desing: ComponentType<{ item: Item; column: column[] }> | null;
 }
 
 const Item = ({ item, column, Desing }: ItemProps) => {

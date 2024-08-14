@@ -7,7 +7,7 @@ import TableRow from '@mui/material/TableRow';
 import Item from './item';
 import { ComponentType, useMemo } from 'react';
 
-interface column {
+export interface column {
   name: string;
   header: string;
   type?: 'date' | 'text';

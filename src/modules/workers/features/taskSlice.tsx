@@ -19,11 +19,16 @@ const initialState: TaskState = {
   tasks: [],
 };
 
+interface FetchTasksArgs {
+  employeeId: string;
+  businessId: string;
+}
+
 export const fetchTasks = createAsyncThunk(
   'tasks/fetchTasks',
-  async (managerId, businessId) => {
+  async ({ employeeId, businessId }: FetchTasksArgs) => {
     const response = await workerInstance.get(
-      `/tasks/manager/${businessId}/${managerId}`,
+      `/tasks/employee/${businessId}/${employeeId}`,
     );
     return response.data;
   },

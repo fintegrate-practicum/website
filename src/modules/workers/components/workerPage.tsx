@@ -18,10 +18,11 @@ import Badge from '@mui/material/Badge';
 import MailIcon from '@mui/icons-material/Mail';
 import React, { useState } from 'react';
 import UpdateEmployeeDetails from './updateEmployeeDetails';
+import { UserDetails, EmployeeDetails } from '../../../Redux/currentUserSlice';
 
 interface WorkerPageProps {
-  user: any;
-  employee: any;
+  user: UserDetails;
+  employee: EmployeeDetails;
 }
 
 const WorkerPage: React.FC<WorkerPageProps> = (props) => {
