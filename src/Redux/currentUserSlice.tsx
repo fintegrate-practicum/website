@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
-// import workerInstance from "../auth0/WorkersInterceptors";
 import { showErrorToast } from '../components/generic/errorMassage';
 import { EmployeeRole } from '../modules/workers/classes/employeeRole';
 import { statuses } from '../modules/workers/classes/enum/statuses.enum';
@@ -15,16 +14,19 @@ interface UserDetails {
   status: statuses;
   data?: any;
 }
+
 interface EmployeeDetails {
   id_user: string;
   businessId: string;
   role: EmployeeRole;
   nameEmployee: string;
 }
+
 interface CurrentUser {
   employeeDetails: EmployeeDetails;
   userDetails: UserDetails;
 }
+
 const initialState: CurrentUser = {
   employeeDetails: {
     id_user: '',
@@ -42,6 +44,7 @@ const initialState: CurrentUser = {
     data: {},
   },
 };
+
 export const fetchUserById = createAsyncThunk(
   'fetchUserById',
   async (payload: any, { dispatch }) => {
@@ -53,32 +56,31 @@ export const fetchUserById = createAsyncThunk(
       if (data.data == null) {
         await dispatch(updateCurrentUserByJwt(payload));
       }
-      const res = data.data;
       const mappedData: CurrentUser = {
         employeeDetails: {
           id_user: data._id,
           businessId:
-            res.businessRoles && res.businessRoles.length > 0
-              ? res.businessRoles[0].businessId
+            data.businessRoles && data.businessRoles.length > 0
+              ? data.businessRoles[0].businessId
               : '',
-          role: new EmployeeRole(res.businessRoles[0].role, true, ''),
-          nameEmployee: res.userName,
+          role: new EmployeeRole(data.businessRoles[0].role, true, ''),
+          nameEmployee: data.userName,
         },
         userDetails: {
-          userName: res.userName,
-          userEmail: res.userEmail,
-          auth0_user_id: res.auth0_user_id,
-          registeredAt: res.registeredAt,
+          userName: data.userName,
+          userEmail: data.userEmail,
+          auth0_user_id: data.auth0_user_id,
+          registeredAt: data.registeredAt,
           lastLogin: data.lastLogin,
           status: statuses.Married,
-          data: {},
+          data: data.data,
         },
       };
-
       dispatch(currentUserSlice.actions.setCurrentUser(mappedData));
       return mappedData;
     } catch (error: any) {
       showErrorToast(error.message);
+      throw error;
     }
   },
 );
@@ -95,6 +97,7 @@ export const updateCurrentUser = createAsyncThunk(
       return response.data;
     } catch (error: any) {
       showErrorToast(error.message);
+      throw error;
     }
   },
 );
@@ -106,10 +109,12 @@ export const updateCurrentUserByJwt = createAsyncThunk(
       const response = await InfraInstance.put('/user/jwt', payload);
       return response.data;
     } catch (error: any) {
+      showErrorToast(error.message);
       throw error;
     }
   },
 );
+
 const currentUserSlice = createSlice({
   name: 'currentUser',
   initialState,

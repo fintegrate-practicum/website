@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ICart } from '../../interfaces/ICart';
 import {
   deleteItem,
   setData,
@@ -7,6 +6,7 @@ import {
   updateItem,
   State,
 } from '../../../../app/actions';
+import { ICart } from '../../interfaces/ICart';
 
 const initialState: State<ICart> = {
   data: [],
