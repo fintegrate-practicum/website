@@ -14,12 +14,7 @@ import AddIcon from '@mui/icons-material/Add';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { useTranslation } from 'react-i18next';
 
-//took off so husky goes thru - if needed please take care it should be used
-// interface SidebarWorkerDetailsProps {}
-
 export default function SidebarWorkerDetails() {
-//took off so husky goes thru - if needed please take care it should be used
-// props: SidebarWorkerDetailsProps,
   const { t } = useTranslation();
   const [state, setState] = React.useState(false);
   const ANCHOR = 'right';
