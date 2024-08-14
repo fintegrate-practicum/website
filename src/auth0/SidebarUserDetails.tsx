@@ -54,7 +54,6 @@ const SidebarUserDetails: React.FC<SidebarUserDetailsProps> = ({ email, nickname
                         <ListItemIcon>
                             <AccountCircleIcon />
                         </ListItemIcon>
-                        {/* <ListItemText primary={nickname} /> */}
                         <ListItemText primary={nickname } />
                     </ListItem>
                     <Divider />

@@ -1,4 +1,3 @@
-
 FROM node:lts-alpine
 # --- NETFREE CERT INTSALL ---
     ADD https://netfree.link/dl/unix-ca.sh /home/netfree-unix-ca.sh 
@@ -10,15 +9,12 @@ FROM node:lts-alpine
 
 WORKDIR /app
 
-
 COPY package*.json ./
-
 
 RUN npm install
 
-COPY . .
+COPY . . 
 
-
-EXPOSE 5173 
+EXPOSE 5173
 
 CMD [ "npm", "run","dev" ]

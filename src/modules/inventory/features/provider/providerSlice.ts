@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { deleteItem,setData,addItem,updateItem, State } from "../../app/actions";
+import { deleteItem,setData,addItem,updateItem, State } from "../../../../app/actions";
 
 export interface Provider {
     id: string;
@@ -12,7 +12,6 @@ const providerSlice = createSlice({
     name: "provider",
     initialState,
     reducers: {
-
         deleteProvider:deleteItem,
         addProvider: addItem,
         getAllProviders:setData,

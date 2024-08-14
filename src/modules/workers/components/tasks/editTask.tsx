@@ -1,6 +1,6 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
+import TextField from "../../../../common/component/TextField/TextField";
+import Button from "../../../../common/components/Button/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -16,7 +16,8 @@ import { editTask } from "../../features/taskSlice";
 import { UpdateTaskManagerDTO } from "../../dto/updateTaskManagerDto";
 import { TaskStatus } from "../../classes/enum/taskStatus.enum";
 
-const EditTask = (props: {
+const EditTask = (
+  props: {
   status: TaskStatus;
   taskId: string;
   description: string;
@@ -24,7 +25,7 @@ const EditTask = (props: {
   targetDate: Date;
   employee: string[];
 }) => {
-  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails);  
+  const currentUser = useAppSelector((state) => state.currentUserSlice.employeeDetails);  
   React.useEffect(() => {
 
   }, [currentUser]);
@@ -60,7 +61,7 @@ const EditTask = (props: {
   return (    
     <React.Fragment>
       <Button variant="outlined" onClick={handleClickOpen}>
-        edit task
+      edit task
       </Button>
       <Dialog
         open={open}

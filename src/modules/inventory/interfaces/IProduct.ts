@@ -1,16 +1,17 @@
-export interface IProduct {
+import Item from "../../../components/generic/item";
+export interface IProduct extends Item{
     id: string;
-    productName: string;
-    productDescription: string;
-    componentsImages: string[];
+    name: string;
+    description: string;
+    images: string[];
     packageCost: number;
     productComponents: string[];
     totalPrice: number;
     adminId: string;
     isActive: boolean;
     isOnSale: boolean;
-    salePercentage: number;
+    salePercentage?: number;
     stockQuantity: number;
-    bussinesId: string;
+    businessId: string;
     componentStatus: string;
 }

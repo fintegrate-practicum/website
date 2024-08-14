@@ -9,7 +9,7 @@ interface ShowTaskListProps {
 }
 
 const TasksShowList: React.FC<ShowTaskListProps> = ({ filteredTasks, setFilteredTasks }) => {
-  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails); 
+  const currentUser = useAppSelector((state) => state.currentUserSlice.employeeDetails);
 
   useEffect(() => {
     if (currentUser.role.type !== 'manager' && filteredTasks && filteredTasks.length > 0) {

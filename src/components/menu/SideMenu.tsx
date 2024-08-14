@@ -15,10 +15,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Divider from '@mui/material/Divider';
 import SidebarUserDetails from '../../auth0/SidebarUserDetails';
 import React from 'react';
+import { useAppSelector } from '../../Redux/hooks';
+import MenuItem from './types';
+
+
 
 
 const drawerWidth = 150;
-
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
   transition: theme.transitions.create('width', {
@@ -58,11 +61,12 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 interface Props {
-    items: menuItem[];
-    setCurrentMenu: (currentMenu:menuItem) => void;
+    items: MenuItem[];
+    setCurrentMenu: (currentMenu:MenuItem) => void;
 }
 
 const SideMenu: FC<Props> = ({ items, setCurrentMenu }) => {
+  const currentUser = useAppSelector((state) => state.currentUserSlice);
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -76,7 +80,7 @@ const SideMenu: FC<Props> = ({ items, setCurrentMenu }) => {
     setOpen(false);
   };
 
-  const clickMenuItem = (listItem: menuItem) => {
+  const clickMenuItem = (listItem: MenuItem) => {
     setOpen(false);
     setCurrentMenu(listItem);
   }
@@ -124,9 +128,10 @@ const SideMenu: FC<Props> = ({ items, setCurrentMenu }) => {
         </Drawer>
       </Box>
       <SidebarUserDetails 
-        nickname= {'John Doe' }
-        email= {'user@example.com'} 
-        user_id = {"auth0|123456789"}
+      
+        nickname= {currentUser.userDetails.userName }
+        email= {currentUser.userDetails.userEmail} 
+        user_id = {currentUser.userDetails.auth0_user_id}
         anchorEl={anchorEl} 
         handleClose={handleDrawerClose} 
       />
@@ -135,3 +140,4 @@ const SideMenu: FC<Props> = ({ items, setCurrentMenu }) => {
 }
 
 export default SideMenu;
+
