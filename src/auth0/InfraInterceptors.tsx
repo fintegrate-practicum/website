@@ -12,7 +12,7 @@ InfraInstance.interceptors.request.use(
     const token = useJwtFromCookie('accessToken');
 
     if (token) {
-      config.headers.Authorization = `${'Bearer'} ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
     return config;

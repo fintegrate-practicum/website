@@ -38,9 +38,9 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
           title={t('workers.tasks list')}
           list={filteredTasks}
           column={[
-            t('workers.Task Name'),
-            t('workers.Target Date'),
-            t('workers.theUrgencyOfTheTask'),
+            'workers.Task Name',
+            'workers.Target Date',
+            'workers.theUrgencyOfTheTask',
           ]}
           desing={null}
         />
