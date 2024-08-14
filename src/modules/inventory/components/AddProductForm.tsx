@@ -4,14 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IProduct } from '../interfaces/IProduct';
 import { IComponent } from '../interfaces/IComponent';
 import TextField from '@mui/material/TextField';
-// import * as yup from 'yup';
-// import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import Button from '../../../common/components/Button/Button';
 import Box from '@mui/material/Box';
 import { useParams } from 'react-router-dom';
 import {
   addItem,
   getAllItems,
+  getItemById,
   updateItem,
 } from '../Api-Requests/genericRequests';
 import {
@@ -30,33 +31,63 @@ import { RootState } from '../../../Redux/store';
 import { getAllComponents } from '../features/component/componentSlice';
 import { useTranslation } from 'react-i18next';
 
-// const productSchema = yup.object().shape({
-//     name: yup.string().required("name is a required field").min(3, "name must be at least 3 characters").max(20, "name must be at most 20 characters"),
-//     description: yup.string().required("productDescription is a required field"),
-//     images: yup.array().of(yup.string()).required("Images are required").min(1, "must be at least 1").max(5, "must be at most 5"),
-//     packageCost: yup.number().typeError("packageCost must be a number").required("packageCost is a required field").min(0, "package cost must be positive"),
-//     productComponents: yup.array().of(yup.string()).min(1, "Must select at least one component"),
-//     totalPrice: yup.number().typeError("totalPrice must be a number").required("totalPrice is a required field").min(1, "price must be positive"),
-//     adminId: yup.string().required("Admin ID is required"),
-//     isActive: yup.boolean().required("isActive is a required field"),
-//     isOnSale: yup.boolean().required("isOnSale is a required field"),
-//     salePercentage: yup.number()
-//         .when('isOnSale', {
-//             is: true,
-//             then: (schema) => schema
-//                 .typeError("Sale percentage must be a number").min(0, "Sale percentage must be at least 0").max(100, "Sale percentage must be at most 100")
-//                 .required("Sale percentage is a required field"), otherwise: (schema) => schema
-//                     .notRequired()
-//         }),
-//     stockQuantity: yup.number().typeError("stockQuantity must be a number").required("stockQuantity is a required field").min(0, "stock cannot be negative"),
-//     businessId: yup.string().required("Business ID is required"),
-//     componentStatus: yup.string().required("componentStatus is a required field").min(3, "componentStatus must be at least 3 characters").max(15, "componentStatus must be at most 15 characters"),
-// }) as unknown as yup.ObjectSchema<IProduct>;
+const productSchema = yup.object().shape({
+  name: yup
+    .string()
+    .required('name is a required field')
+    .min(3, 'name must be at least 3 characters')
+    .max(20, 'name must be at most 20 characters'),
+  description: yup.string().required('productDescription is a required field'),
+  images: yup
+    .array()
+    .of(yup.string())
+    .required('Images are required')
+    .min(1, 'must be at least 1')
+    .max(5, 'must be at most 5'),
+  packageCost: yup
+    .number()
+    .typeError('packageCost must be a number')
+    .required('packageCost is a required field')
+    .min(0, 'package cost must be positive'),
+  productComponents: yup
+    .array()
+    .of(yup.string())
+    .min(1, 'Must select at least one component'),
+  totalPrice: yup
+    .number()
+    .typeError('totalPrice must be a number')
+    .required('totalPrice is a required field')
+    .min(1, 'price must be positive'),
+  adminId: yup.string().required('Admin ID is required'),
+  isActive: yup.boolean().required('isActive is a required field'),
+  isOnSale: yup.boolean().required('isOnSale is a required field'),
+  salePercentage: yup.number().when('isOnSale', {
+    is: true,
+    then: (schema) =>
+      schema
+        .typeError('Sale percentage must be a number')
+        .min(0, 'Sale percentage must be at least 0')
+        .max(100, 'Sale percentage must be at most 100')
+        .required('Sale percentage is a required field'),
+    otherwise: (schema) => schema.notRequired(),
+  }),
+  stockQuantity: yup
+    .number()
+    .typeError('stockQuantity must be a number')
+    .required('stockQuantity is a required field')
+    .min(0, 'stock cannot be negative'),
+  businessId: yup.string().required('Business ID is required'),
+  componentStatus: yup
+    .string()
+    .required('componentStatus is a required field')
+    .min(3, 'componentStatus must be at least 3 characters')
+    .max(15, 'componentStatus must be at most 15 characters'),
+}) as unknown as yup.ObjectSchema<IProduct>;
 
 const AddProductForm = () => {
   const { productId } = useParams<{ productId: string }>();
   const { t } = useTranslation();
-  const [product] = useState<IProduct>();
+  const [product, setProduct] = useState<IProduct>();
   const [loading, setLoading] = useState<boolean>(false);
   const [components, setComponents] = useState<IComponent[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
@@ -71,7 +102,7 @@ const AddProductForm = () => {
     watch,
     formState: { errors },
   } = useForm<IProduct>({
-    // resolver: yupResolver(productSchema),
+    resolver: yupResolver(productSchema) as any,
     defaultValues: product || {},
   });
 
@@ -79,18 +110,20 @@ const AddProductForm = () => {
     const fetchProduct = async () => {
       if (productId) {
         try {
-          // const fetchedProduct = await getItemById<string>(`api/inventory/product`, productId);
-          // const { _id, __v, ...dataToUpdate } = fetchedProduct.data;
-          // setProduct(dataToUpdate);
-          // reset(dataToUpdate);
+          const fetchedProduct = await getItemById<any>(
+            `api/inventory/product`,
+            productId,
+          );
+          const { ...dataToUpdate } = fetchedProduct.data;
+          setProduct(dataToUpdate);
+          reset(dataToUpdate);
         } catch (error) {
-          console.error(t('inventory.Error fetching product:'), error);
+          console.error('Error fetching product:', error);
         }
       }
     };
     fetchProduct();
   }, [productId, reset]);
-
   useEffect(() => {
     if (!componentState.data || componentState.data.length === 0) {
       getComponents();
