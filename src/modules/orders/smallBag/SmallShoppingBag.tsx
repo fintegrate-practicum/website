@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import "./smallShoppingBag.css";
-import { Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
-import { useTranslation } from "react-i18next";
+import './smallShoppingBag.css';
+import Typography from '../../../common/components/Typography/Typography';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from '@mui/material';
+import './smallShoppingBag.css';
+import { useTranslation } from 'react-i18next';
 
 const bag = [
   {
@@ -42,8 +50,8 @@ const bag = [
     description: 'bla bla...',
     price: 89.9,
     size: 28,
-    amount: 1
-  }
+    amount: 1,
+  },
 ];
 
 const SmallShoppingBag = () => {
@@ -62,14 +70,16 @@ const SmallShoppingBag = () => {
     <div className='shopping-bag-container'>
       {isVisible && (
         <>
-          <Typography className='shopping-bag-title'>{t("order.Shopping Bag")}</Typography>
+          <Typography className='shopping-bag-title'>
+            {t('order.Shopping Bag')}
+          </Typography>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>{t("order.Items")}</TableCell>
-                <TableCell>{t("order.Model")}</TableCell>
-                <TableCell>{t("order.Quantity")}</TableCell>
-                <TableCell>{t("order.Price")}</TableCell>
+                <TableCell>{t('order.Items')}</TableCell>
+                <TableCell>{t('order.Model')}</TableCell>
+                <TableCell>{t('order.Quantity')}</TableCell>
+                <TableCell>{t('order.Price')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

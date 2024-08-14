@@ -13,7 +13,7 @@ export const fetchServiceSettings = createAsyncThunk<ServiceSettings[]>(
       const response = await infraInstance.get('/service-settings');
       return response.data;
     } catch (error) {
-      console.log('Failed to fetch service settings');
+      console.log('Failed to fetch service settings', error);
     }
   },
 );

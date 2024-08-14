@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { TextField, Container, Stack } from '@mui/material';
+import TextField from '../../common/component/TextField/TextField';
+import { Container, Stack } from '@mui/material';
 import Typography from '../../common/components/Typography/Typography';
 import Button from '../../common/components/Button/Button';
 import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 import { checkEmailVerificationCode } from '../../Redux/businessSlice';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+
 const EmailVerification = () => {
   const { handleSubmit } = useForm();
 
@@ -22,16 +23,14 @@ const EmailVerification = () => {
     }
   };
 
-  const { t } = useTranslation();
-
   return (
     <Container maxWidth='sm'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Typography variant='h5' gutterBottom>
-          {t('website.Sent you a code by email.')}
+          sent you a code by email.
         </Typography>
         <TextField
-          label={t('website.Code')}
+          label='code'
           variant='outlined'
           fullWidth
           value={code}
@@ -40,7 +39,7 @@ const EmailVerification = () => {
         />
         <Stack direction='row' spacing={2}>
           <Button color='success' type='submit'>
-            {t('website.Submit')}
+            submit
           </Button>
         </Stack>
       </form>

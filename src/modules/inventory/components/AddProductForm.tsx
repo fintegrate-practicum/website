@@ -114,7 +114,7 @@ const AddProductForm = () => {
             `api/inventory/product`,
             productId,
           );
-          const { ...dataToUpdate } = fetchedProduct.data;
+          const { _id, __v, ...dataToUpdate } = fetchedProduct.data;
           setProduct(dataToUpdate);
           reset(dataToUpdate);
         } catch (error) {
@@ -124,6 +124,7 @@ const AddProductForm = () => {
     };
     fetchProduct();
   }, [productId, reset]);
+
   useEffect(() => {
     if (!componentState.data || componentState.data.length === 0) {
       getComponents();

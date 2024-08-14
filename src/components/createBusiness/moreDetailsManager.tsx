@@ -1,20 +1,9 @@
-import React, { useState } from 'react';
-import TextField from '../../common/component/TextField/TextField';
-import { Box, Stack } from '@mui/material';
-import Button from '../../common/components/Button/Button';
-import { styled } from '@mui/system';
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-} from '@mui/material';
+import React from 'react';
 import { updateBusiness } from '../../Redux/businessSlice';
 import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 import FormWrapper from '../../stories/FormWrapper';
 import { FieldValues } from 'react-hook-form';
-import { BusinessSize} from '../../classes/Business';
+import { BusinessSize } from '../../classes/Business';
 import { useTranslation } from 'react-i18next';
 
 export default function MoreDetailsManager(): JSX.Element {
@@ -55,34 +44,35 @@ export default function MoreDetailsManager(): JSX.Element {
     console.log(newData, "newData'");
     console.log(values, "values'");
 
-        dispatch(updateBusiness({ companyNumber, newData }));
-    };
+    dispatch(updateBusiness({ companyNumber, newData }));
+  };
 
-    const { t } = useTranslation();
+  const { t } = useTranslation();
 
-    const fields = [
-        { name: 'description', label: t('website.Description'), type: 'text' },
-        { name: 'phone', label: t('website.Phone'), type: 'text' },
-        { name: 'address', label: t('website.Address'), type: 'text' },
-        {
-            name: 'businessSize',
-            label: t('website.Business Size'),
-            type: 'select',
-            options: Object.values(BusinessSize),
-        },
-        {
-            name: 'industryType',
-            label: t('website.Industry Type'),
-            type: 'select',
-            options: ['service provider', 'gives a product'],
-        },
-        {
-            name: 'logo',
-            label: t('website.Logo'),
-            type: 'file',
-            onChange: (e: React.ChangeEvent<HTMLInputElement>, setValue: any) => handleFileChange(e, setValue),
-        },
-    ];
+  const fields = [
+    { name: 'description', label: t('website.Description'), type: 'text' },
+    { name: 'phone', label: t('website.Phone'), type: 'text' },
+    { name: 'address', label: t('website.Address'), type: 'text' },
+    {
+      name: 'businessSize',
+      label: t('website.Business Size'),
+      type: 'select',
+      options: Object.values(BusinessSize),
+    },
+    {
+      name: 'industryType',
+      label: t('website.Industry Type'),
+      type: 'select',
+      options: ['service provider', 'gives a product'],
+    },
+    {
+      name: 'logo',
+      label: t('website.Logo'),
+      type: 'file',
+      onChange: (e: React.ChangeEvent<HTMLInputElement>, setValue: any) =>
+        handleFileChange(e, setValue),
+    },
+  ];
 
   return <FormWrapper onSubmit={onSubmit} fields={fields} />;
 }
