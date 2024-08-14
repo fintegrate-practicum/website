@@ -316,7 +316,7 @@ const AddProductForm = () => {
                 defaultChecked={product?.isActive || false}
               />
             }
-            label='Is Active'
+            label={t('inventory.Is Active')}
           />
         </Grid>
 

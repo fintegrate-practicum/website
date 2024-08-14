@@ -88,7 +88,7 @@ const Category: React.FC = () => {
 
   return (
     <>
-      {serviceSettings?.map((item, index) => (
+      {serviceSettings?.map((item) => (
         <AddSubCategory key={item.service_id} {...item.settings_json} />
       ))}
     </>

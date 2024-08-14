@@ -1,26 +1,27 @@
-import * as React from "react";
-import Button from "../../../../common/components/Button/Button";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import { createTask } from "../../features/taskSlice";
-import { useAppDispatch } from "../../../../Redux/hooks";
-import { Types } from "mongoose";
-import Task from "../../classes/task";
-import { TaskStatus } from "../../classes/enum/taskStatus.enum";
+import * as React from 'react';
+import Button from '../../../../common/components/Button/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { createTask } from '../../features/taskSlice';
+import { useAppDispatch } from '../../../../Redux/hooks';
+import { Types } from 'mongoose';
+import Task from '../../classes/task';
+import { TaskStatus } from '../../classes/enum/taskStatus.enum';
 import { useTranslation } from 'react-i18next';
-
 
 export default function AddTaskBtn() {
   const { t } = useTranslation();
   const [open, setOpen] = React.useState(false);
   const businessId = new Types.ObjectId(import.meta.env.VITE_BUSINESSID);
-  const managerId = import.meta.env.VITE_MANAGERID ? import.meta.env.VITE_MANAGERID : 'companyName';
-  const [taskName, setTaskName] = React.useState("");
-  const [description, setDescription] = React.useState("");
+  const managerId = import.meta.env.VITE_MANAGERID
+    ? import.meta.env.VITE_MANAGERID
+    : 'companyName';
+  const [taskName, setTaskName] = React.useState('');
+  const [description, setDescription] = React.useState('');
   const [targetDate, setTargetDate] = React.useState(new Date(0));
   const [employee, setEmployee] = React.useState<Types.ObjectId[]>([]);
   const [urgency, setUrgency] = React.useState(0);
@@ -30,7 +31,6 @@ export default function AddTaskBtn() {
   };
 
   const handleClose = () => {
-
     const task: Task = {
       businessId,
       managerId,
@@ -63,15 +63,14 @@ export default function AddTaskBtn() {
         console.warn(`Invalid ObjectId: ${trimmed}`);
         return null;
       })
-      .filter(item => item !== null) as Types.ObjectId[];
+      .filter((item) => item !== null) as Types.ObjectId[];
 
-    setEmployee(employeeArray);
     setEmployee(employeeArray);
   };
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant='outlined' onClick={handleClickOpen}>
         {t('workers.Add new Task')}
       </Button>
       <Dialog
@@ -88,17 +87,19 @@ export default function AddTaskBtn() {
         <DialogTitle>{t('workers.Add new Task')}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {t('workers.To add a new task, please enter the data here. We will send updates to employees.')}
+            {t(
+              'workers.To add a new task, please enter the data here. We will send updates to employees.',
+            )}
           </DialogContentText>
           <TextField
             onChange={(e) => setTaskName(e.target.value)}
             autoFocus
             required
-            margin="dense"
-            id="task_name"
-            name="task_name"
+            margin='dense'
+            id='task_name'
+            name='task_name'
             label={t('workers.Task Name')}
-            type="text"
+            type='text'
             fullWidth
             variant='standard'
           />
@@ -106,11 +107,11 @@ export default function AddTaskBtn() {
             onChange={(e) => setDescription(e.target.value)}
             autoFocus
             required
-            margin="dense"
-            id="description"
-            name="description"
+            margin='dense'
+            id='description'
+            name='description'
             label={t('workers.Description')}
-            type="text"
+            type='text'
             fullWidth
             variant='standard'
           />
@@ -119,11 +120,11 @@ export default function AddTaskBtn() {
             value={targetDate.toISOString().split('T')[0]}
             autoFocus
             required
-            margin="dense"
-            id="target_date"
-            name="Target Date"
+            margin='dense'
+            id='target_date'
+            name='Target Date'
             label={t('workers.Target Date')}
-            type="date"
+            type='date'
             fullWidth
             variant='standard'
           />
@@ -132,11 +133,11 @@ export default function AddTaskBtn() {
             value={employee.join(', ')}
             autoFocus
             // required
-            margin="dense"
-            id="employee"
-            name="employee"
+            margin='dense'
+            id='employee'
+            name='employee'
             label={t('workers.Employee')}
-            type="text"
+            type='text'
             fullWidth
             variant='standard'
           />
@@ -144,18 +145,18 @@ export default function AddTaskBtn() {
             onChange={(e) => setUrgency(parseInt(e.target.value))}
             autoFocus
             required
-            margin="dense"
-            id="urgency"
-            name="Urgency"
+            margin='dense'
+            id='urgency'
+            name='Urgency'
             label={t('workers.Urgency')}
-            type="number"
+            type='number'
             fullWidth
             variant='standard'
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>{t('common.Cancel')}</Button>
-          <Button type="submit">{t('common.Save')}</Button>
+          <Button type='submit'>{t('common.Save')}</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
