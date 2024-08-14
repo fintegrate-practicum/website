@@ -19,10 +19,12 @@ import { useAppDispatch, useAppSelector } from '../Redux/hooks';
 import { updateCurrentUser } from '../Redux/currentUserSlice';
 import { statuses } from '../modules/workers/classes/enum/statuses.enum';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 const statusArray = Object.keys(statuses).filter((key) => isNaN(Number(key)));
 
 const EditProfile: React.FC = () => {
+  const { t } = useTranslation();
   const { control, setValue, getValues } = useForm({
     defaultValues: {
       email: '',
@@ -75,7 +77,7 @@ const EditProfile: React.FC = () => {
     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
       <Paper sx={{ p: 4, maxWidth: 600, width: '100%' }}>
         <Typography variant='h4' gutterBottom>
-          Edit Profile
+          {t('auth0.Edit Profile')}
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
@@ -86,14 +88,14 @@ const EditProfile: React.FC = () => {
                 <TextField
                   {...field}
                   fullWidth
-                  label='Email'
+                  label={t('auth0.Email')}
                   disabled
                   variant='outlined'
                   margin='normal'
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position='end'>
-                        <Tooltip title='Copy'>
+                        <Tooltip title={t('auth0.Copy')}>
                           <IconButton onClick={handleCopy}>
                             <ContentCopyIcon />
                           </IconButton>
@@ -114,7 +116,7 @@ const EditProfile: React.FC = () => {
                 <TextField
                   {...field}
                   fullWidth
-                  label='Name'
+                  label={t('auth0.Name')}
                   disabled={!isEditing}
                   variant='outlined'
                   margin='normal'
@@ -129,13 +131,15 @@ const EditProfile: React.FC = () => {
               control={control}
               render={({ field }) => (
                 <FormControl fullWidth sx={{ mt: 2 }}>
-                  <InputLabel id='status-select-label'>Status</InputLabel>
+                  <InputLabel id='status-select-label'>
+                    {t('auth0.Status')}
+                  </InputLabel>
                   <Select
                     {...field}
                     labelId='status-select-label'
                     id='status-select'
                     value={field.value}
-                    label='Status'
+                    label={t('auth0.Status')}
                     disabled={!isEditing}
                   >
                     {statusArray.map((statusOption, index) => (
@@ -156,7 +160,7 @@ const EditProfile: React.FC = () => {
                 <TextField
                   {...field}
                   fullWidth
-                  label='Role'
+                  label={t('auth0.Role')}
                   disabled={!isEditing}
                   variant='outlined'
                   margin='normal'
@@ -168,9 +172,9 @@ const EditProfile: React.FC = () => {
         </Grid>
         <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
           {isEditing ? (
-            <Button onClick={handleSaveClick}>Save</Button>
+            <Button onClick={handleSaveClick}>{t('common.Save')}</Button>
           ) : (
-            <Button onClick={handleEditClick}>Edit</Button>
+            <Button onClick={handleEditClick}>{t('common.Edit')}</Button>
           )}
         </Box>
       </Paper>

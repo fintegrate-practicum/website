@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import TextField from '../../../common/component/TextField/TextField';
-import { Box, Grid, Paper } from '@mui/material';
+import { TextField, Box, Grid, Paper } from '@mui/material';
 import Typography from '../../../common/components/Typography/Typography';
 import Button from '../../../common/components/Button/Button';
 import { useAppDispatch, useAppSelector } from '../../../Redux/hooks';
 import { editEmployee } from '../features/employeeSlice';
+import { useTranslation } from 'react-i18next';
 
 const UpdateEmployeeDetails: React.FC = () => {
+  const { t } = useTranslation();
   const currentEmployee = useAppSelector(
     (state) => state.employeeSlice.currentEmployee,
   );
@@ -51,13 +52,13 @@ const UpdateEmployeeDetails: React.FC = () => {
     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
       <Paper sx={{ p: 4, maxWidth: 600, width: '100%' }}>
         <Typography variant='h4' gutterBottom>
-          Edit Employee Profile
+          {t('workers.Edit Employee Profile')}
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              label='Name'
+              label={t('workers.Name')}
               name='nameEmployee'
               value={formData.nameEmployee}
               onChange={handleChange}
@@ -70,7 +71,7 @@ const UpdateEmployeeDetails: React.FC = () => {
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              label='Role Type'
+              label={t('workers.Role Type')}
               name='roleType'
               value={formData.roleType}
               onChange={handleChange}
@@ -83,7 +84,7 @@ const UpdateEmployeeDetails: React.FC = () => {
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              label='Role Description'
+              label={t('workers.Role Description')}
               name='roleDescription'
               value={formData.roleDescription}
               onChange={handleChange}
@@ -96,9 +97,9 @@ const UpdateEmployeeDetails: React.FC = () => {
         </Grid>
         <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
           {isEditing ? (
-            <Button onClick={handleSaveClick}>Save</Button>
+            <Button onClick={handleSaveClick}>{t('common.Save')}</Button>
           ) : (
-            <Button onClick={handleEditClick}>Edit</Button>
+            <Button onClick={handleEditClick}>{t('common.Edit')}</Button>
           )}
         </Box>
       </Paper>

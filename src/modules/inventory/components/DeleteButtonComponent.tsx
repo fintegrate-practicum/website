@@ -5,13 +5,15 @@ import IconButton from '@mui/material/IconButton';
 import { deleteItem } from '../Api-Requests/genericRequests';
 import { IComponent } from "../interfaces/IComponent";
 import { deleteComponent } from '../features/component/componentSlice';
+import { useTranslation } from "react-i18next";
 
-const deleteButton: React.FunctionComponent<{componentDetails:IComponent}> = ({componentDetails}) => {
-
+const DeleteButton: React.FunctionComponent<{ componentDetails: IComponent }> = ({ componentDetails }) => {
+    const { t } = useTranslation();
     const dispatch = useDispatch();
+
     const handleClickDelete = async () => {
         if (!componentDetails.id) {
-            console.error("Component ID is not defined");
+            console.error(t("inventory.Component ID is not defined"));
             return;
         }
 
@@ -25,11 +27,11 @@ const deleteButton: React.FunctionComponent<{componentDetails:IComponent}> = ({c
 
     return (
         <>
-            <IconButton aria-label="delete component"
-                onClick={handleClickDelete}>
+            <IconButton aria-label={t("inventory.delete component")} onClick={handleClickDelete}>
                 <DeleteIcon />
             </IconButton>
         </>
     );
 };
-export default deleteButton;
+
+export default DeleteButton;
