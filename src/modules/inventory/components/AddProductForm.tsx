@@ -6,22 +6,11 @@ import { IComponent } from "../interfaces/IComponent";
 import TextField from '@mui/material/TextField';
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
-import Button from '../../../common/components/Button/Button'
+import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { useParams } from "react-router-dom";
 import { addItem, getAllItems, getItemById, updateItem } from "../Api-Requests/genericRequests";
-import {
-    Checkbox,
-    Chip,
-    FormControl,
-    FormControlLabel,
-    Grid,
-    InputLabel,
-    MenuItem,
-    OutlinedInput,
-    Select,
-    SelectChangeEvent
-} from "@mui/material";
+import { Chip, Grid, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, FormControl, FormControlLabel, Checkbox } from "@mui/material";
 import { RootState } from "../../../Redux/store";
 import { getAllComponents } from "../features/component/componentSlice";
 
@@ -32,9 +21,8 @@ const productSchema = yup.object().shape({
     packageCost: yup.number().typeError("packageCost must be a number").required("packageCost is a required field").min(0, "package cost must be positive"),
     productComponents: yup.array().of(yup.string()).min(1, "Must select at least one component"),
     totalPrice: yup.number().typeError("totalPrice must be a number").required("totalPrice is a required field").min(1, "price must be positive"),
-    adminId: yup.string().required("Admin ID is required"),
     isActive: yup.boolean().required("isActive is a required field"),
-    isOnSale: yup.boolean().required("isOnSale is a required field"),
+    isOnSale: yup.boolean().required("isOnSale is a required field"),    
     salePercentage: yup.number()
         .when('isOnSale', {
             is: true,
@@ -44,9 +32,8 @@ const productSchema = yup.object().shape({
                     .notRequired()
         }),
     stockQuantity: yup.number().typeError("stockQuantity must be a number").required("stockQuantity is a required field").min(0, "stock cannot be negative"),
-    businessId: yup.string().required("Business ID is required"),
     componentStatus: yup.string().required("componentStatus is a required field").min(3, "componentStatus must be at least 3 characters").max(15, "componentStatus must be at most 15 characters"),
-}) as unknown as yup.ObjectSchema<IProduct>;
+});
 
 const AddProductForm = () => {
     const { productId } = useParams<{ productId: string }>();
@@ -56,18 +43,19 @@ const AddProductForm = () => {
     const [imagePreviews, setImagePreviews] = useState<string[]>([]);
     const dispatch = useDispatch();
     const componentState = useSelector((state: RootState) => state.component);
+    const[businessId,setbusinessId]=useState('98765')
 
     const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<IProduct>({
-        resolver: yupResolver(productSchema),
+        resolver: yupResolver(productSchema as any),
         defaultValues: product || {}
     });
-
+   
 
     useEffect(() => {
         const fetchProduct = async () => {
             if (productId) {
                 try {
-                    const fetchedProduct = await getItemById<any>(`api/inventory/product`, productId);
+                    const fetchedProduct = await getItemById<any>(`inventory/product`, productId);
                     const { _id, __v, ...dataToUpdate } = fetchedProduct.data;
                     setProduct(dataToUpdate);
                     reset(dataToUpdate);
@@ -90,10 +78,8 @@ const AddProductForm = () => {
     const getComponents = async () => {
         setLoading(true);
         try {
-            //יתקבל מהרידקס-זמני
-            const businessId = '123456789'
-
-            const res = await getAllItems<IComponent[]>(`api/inventory/component/businessId/${businessId}`); dispatch(getAllComponents(res.data));
+            const res = await getAllItems<IComponent[]>(`inventory/component/businessId/${businessId}`);
+            dispatch(getAllComponents(res.data));
             setComponents(res.data);
         } catch (err) {
             console.log(err);
@@ -110,7 +96,7 @@ const AddProductForm = () => {
 
         const newData = {
             ...data,
-            businessId: "here will be the business id",
+            businessId: "98765",
             adminId: "here will be the admin id",
             productComponents: componentIds,
             images: data.images
@@ -128,14 +114,14 @@ const AddProductForm = () => {
 
         if (product && productId) {
             try {
-                const response = await updateItem<IProduct>(`api/inventory/product`, productId, newData);
+                const response = await updateItem<IProduct>(`inventory/product`, productId, newData);
                 console.log('Product updated successfully:', response.data);
             } catch (error) {
                 console.error('Error updating product:', error);
             }
         } else {
             try {
-                const response = await addItem<IProduct>('api/inventory/product', newData);
+                const response = await addItem<IProduct>('inventory/product', newData);
                 console.log('Product added successfully:', response.data);
             } catch (error) {
                 console.error('Error adding product:', error);
@@ -149,11 +135,30 @@ const AddProductForm = () => {
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
-            const images = Array.from(event.target.files).map(file => URL.createObjectURL(file));
-            setImagePreviews(images);
-            setValue("images", images);
+            const filesArray = Array.from(event.target.files);
+    
+            Promise.all(
+                filesArray.map(file => {
+                    return new Promise<string>((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = () => {
+                            const base64String = reader.result as string;
+                            resolve(base64String);
+                        };
+                        reader.onerror = error => reject(error);
+                    });
+                })
+            ).then(base64Images => {
+                setImagePreviews(base64Images);
+                setValue("images", base64Images);
+            }).catch(error => {
+                console.error("Error converting images to Base64:", error);
+            });
         }
     };
+    
+    
 
     const handleComponentChange = (event: SelectChangeEvent<string[]>) => {
         const selectedValue = event.target.value;
@@ -310,15 +315,17 @@ const AddProductForm = () => {
                 <Grid item xs={12} sm={12}>
                     {imagePreviews.length > 0 && (
                         <Box sx={{ display: 'flex', gap: 1, marginTop: 2 }}>
+                            <Grid item xs={12} sm={12}>
                             {imagePreviews.map((preview, index) => (
                                 <img key={index} src={preview} alt={`Image ${index + 1}`} style={{ maxWidth: 200, maxHeight: 200 }} />
                             ))}
+                            </Grid>
                         </Box>
                     )}
                 </Grid>
 
                 <Grid item xs={12} sm={12}>
-                    <Button component="label" fullWidth>
+                    <Button variant="contained" component="label" fullWidth>
                         Upload Images
                         <input
                             type="file"
@@ -332,7 +339,7 @@ const AddProductForm = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={12}>
-                    <Button type="submit" fullWidth>
+                    <Button type="submit" variant="contained" color="primary" fullWidth>
                         {product ? "Update Product" : "Add Product"}
                     </Button>
                 </Grid>
