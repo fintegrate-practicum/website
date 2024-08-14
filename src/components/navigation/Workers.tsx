@@ -1,15 +1,15 @@
-import * as React from 'react';
-import { Box, Tab } from '@mui/material';
+import { useLocation } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
+import React, { useEffect, useState } from 'react';
+import Task from '../../modules/workers/classes/task';
+import { fetchMessages } from '../../modules/workers/features/messageSlice';
+import Box from '@mui/material/Box';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import WorkerPage from '../../modules/workers/components/workerPage';
 import TasksShowList from '../../modules/workers/components/tasks/tasksShowList';
-import User from '../../modules/workers/classes/user';
-import employee from '../../modules/workers/classes/employee';
 import MessageList from '../../modules/workers/components/messageList';
-import { useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import Task from '../../modules/workers/classes/task';
-import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
+import Tab from '@mui/material/Tab';
+import { fetchTasks } from '../../modules/workers/features/taskSlice';
 import { useTranslation } from 'react-i18next';
 
 const WorkersTopNav = () => {
@@ -18,22 +18,34 @@ const WorkersTopNav = () => {
   const tasks = useAppSelector((state) => state.taskSlice.tasks);
   const messages = useAppSelector((state) => state.messageSlice.messages);
   const currentUser = useAppSelector(
+    (state) => state.currentUserSlice.userDetails,
+  );
+  const currentEmployee = useAppSelector(
     (state) => state.currentUserSlice.employeeDetails,
   );
+
   const dispatch = useAppDispatch();
   const [filteredTasks, setFilteredTasks] = useState<Task[]>(tasks);
-
+  console.log(filteredTasks);
   const [value, setValue] = useState(location.pathname.slice(8));
 
   useEffect(() => {
     setValue(location.pathname.slice(8));
-    console.log(filteredTasks);
+
+    if (currentUser && currentUser.auth0_user_id) {
+      dispatch(fetchMessages(currentUser.auth0_user_id));
+      dispatch(
+        fetchTasks({
+          employeeId: currentEmployee.id_user,
+          businessId: currentEmployee.businessId,
+        }),
+      );
+    }
   }, [currentUser, dispatch]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
-
   return (
     <Box sx={{ width: '100%', typography: 'body1' }}>
       <TabContext value={value}>
@@ -49,7 +61,7 @@ const WorkersTopNav = () => {
           </TabList>
         </Box>
         <TabPanel value='details'>
-          <WorkerPage user={new User()} employee={new employee()} />
+          <WorkerPage user={currentUser} employee={currentEmployee} />
         </TabPanel>
         <TabPanel value='tasks'>
           <TasksShowList

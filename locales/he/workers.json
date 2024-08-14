@@ -62,5 +62,8 @@
   "statusCompleted": "הושלם",
   "description": "תיאור",
   "cancel": "ביטול",
-  "save": "שמור"
+  "save": "שמור",
+  "edit": "לעריכה",
+  "editDetails": "ערוך פרטים",
+  "editYourDetails": "ערוך שינויים בפרטיך ושמור"
 }

@@ -62,5 +62,8 @@
   "statusCompleted": "Completed",
   "description": "Description",
   "cancel": "Cancel",
-  "save": "Save"
+  "save": "Save",
+  "edit": "Edit",
+  "editDetails": "Edit Details",
+  "editYourDetails": "Edit your details and save"
 }

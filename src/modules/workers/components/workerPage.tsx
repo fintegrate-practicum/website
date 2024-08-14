@@ -16,18 +16,19 @@ import Typography from '../../../common/components/Typography/Typography';
 import Stack from '@mui/material/Stack';
 import Badge from '@mui/material/Badge';
 import MailIcon from '@mui/icons-material/Mail';
-import User from '../classes/user';
 import React, { useState } from 'react';
-import employee from '../classes/employee';
 import UpdateEmployeeDetails from './updateEmployeeDetails';
+import { UserDetails, EmployeeDetails } from '../../../Redux/currentUserSlice';
 import { useTranslation } from 'react-i18next';
 
 interface WorkerPageProps {
-  user: User;
-  employee: employee;
+  user: UserDetails;
+  employee: EmployeeDetails;
 }
+
 const WorkerPage: React.FC<WorkerPageProps> = (props) => {
   const { t } = useTranslation();
+
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -68,7 +69,7 @@ const WorkerPage: React.FC<WorkerPageProps> = (props) => {
       >
         <Grid style={{ textAlign: 'left', margin: 'none' }}>
           <Typography>
-            {t('workers.Name')}: {props.user.userName}{' '}
+            {t('workers.Name')}:{props.user.userName}
           </Typography>
         </Grid>
 
@@ -89,36 +90,37 @@ const WorkerPage: React.FC<WorkerPageProps> = (props) => {
               }}
             >
               <ListItemText
-                primary={t('workers.Personal Information')}
+                primary='Personal Information:'
                 secondary={
-                  <Typography>
+                  <Typography component='span' variant='body2' color='black'>
+                    {' '}
                     {t('workers.dateOfBirth')}: {props.user.userName}
                     <br />
-                    {t('workers.mobile')}: {props.user.mobile}
+                    {t('workers.mobile')}:{props.user.mobile}
                     <br />
-                    {t('workers.status')}: {props.user.status}
+                    {t('workers.status')}:{props.user.status}
                   </Typography>
                 }
               />
             </Grid>
           </ListItem>
         </List>
-        <Button onClick={handleClickOpen}>{t('workers.Edit Details')}</Button>
-
+        <Button onClick={handleClickOpen}>{t('workers.edit')}</Button>
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>{t('workers.Edit Details')}</DialogTitle>
+          <DialogTitle>{t('workers.editDetails')}</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              {t('workers.Edit Changes in Your Details and Save')}
+              {t('workers.editYourDetails')}
             </DialogContentText>
             <UpdateEmployeeDetails />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>{t('comoon.Cancel')}</Button>
+            <Button onClick={handleClose}>{t('common.Cancel')}</Button>
           </DialogActions>
         </Dialog>
       </Grid>
     </>
   );
 };
+
 export default WorkerPage;
