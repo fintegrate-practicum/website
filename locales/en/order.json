@@ -49,5 +49,12 @@
   "loading": "Loading...",
   "noBusinessCode": "No business code",
   "Product details unavailable": "Product details unavailable",
-  "Sale": "Sale"
+  "Sale": "Sale",
+  "bagIsEmpty": "Your shopping bag is empty",
+  "productName": "Product Name",
+  "removeProduct": "Remove Product",
+  "totalAmount": "Total Amount: {{total}} ₪",
+  "checkout": "Checkout",
+  "confirmRemove": "Are you sure you want to remove the product?",
+  "paymentClicked": "Payment button was clicked"
 }

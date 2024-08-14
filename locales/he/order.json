@@ -65,5 +65,12 @@
   "loading": "טוען...",
   "noBusinessCode": "אין קוד עסק",
   "Product details unavailable": "פרטי המוצר אינם זמינים",
-  "Sale": "מְכִירָה"
+  "Sale": "מְכִירָה",
+  "bagIsEmpty": "סל הקניות",
+  "productName": "שם המוצר",
+  "removeProduct": "הסרת המוצר",
+  "totalAmount": "סכום לתשלום {{total}} ₪",
+  "checkout": "לתשלום",
+  "confirmRemove": "האם ברצונך להסיר את המוצר?",
+  "paymentClicked": "לחצן התשלום נלחץ"
 }

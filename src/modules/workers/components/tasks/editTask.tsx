@@ -36,7 +36,7 @@ const EditTask = (props: {
   const [status, setStatus] = React.useState(props.status);
   const [taskName, setTaskName] = React.useState(props.taskName);
   const [targetDate, setTargetDate] = React.useState(
-    props.targetDate.toISOString().split('workers.T')[0],
+    props.targetDate.toISOString().split('T')[0],
   );
   const [employee, setEmployee] = React.useState(props.employee);
   const handleChange = (event: SelectChangeEvent) => {
@@ -50,7 +50,7 @@ const EditTask = (props: {
   };
   const handleEmployeeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    const employeeArray = value.split('workers.,').map((item) => item.trim());
+    const employeeArray = value.split(',').map((item) => item.trim());
     setEmployee(employeeArray);
   };
   return (

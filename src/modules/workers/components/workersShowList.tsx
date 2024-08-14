@@ -49,7 +49,7 @@ const WorkersShowList = () => {
         onClick={showMoreData}
         disabled={!hasNextPage}
       >
-        {'Next'}
+        {'common.Next'}
       </Button>
       <Button
         component='label'
@@ -57,7 +57,7 @@ const WorkersShowList = () => {
         onClick={showLessData}
         disabled={!hasPreviousPage}
       >
-        {'Previous'}
+        {'common.Previous'}
       </Button>
     </>
   );
