@@ -1,11 +1,12 @@
-
-// jest.config.js
-module.exports = {
-    preset: 'ts-jest',
-    testEnvironment: 'jsdom',
-    moduleNameMapper: {
-      '\\.(css|less)$': 'identity-obj-proxy',
-      '^@mui/(.*)$': '<rootDir>/node_modules/@mui/$1'
-    }
-  };
+export default {
+  preset: 'ts-jest',
+  testEnvironment: 'jest-environment-jsdom',
+  transform: {
+      "^.+\\.tsx?$": "ts-jest" 
+  // process `*.tsx` files with `ts-jest`
+  },
+  moduleNameMapper: {
+      '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/__ mocks __/fileMock.js',
+  },
+}
   

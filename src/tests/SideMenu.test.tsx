@@ -7,8 +7,15 @@ import { vi } from 'vitest';
 import menuItem from '../components/menu/types';
 
 const items: menuItem[] = [
-  { name: 'home', nameToView: 'Home', icon: iconsMaterial.Home, route: '/' },
-  { name: 'about', nameToView: 'About', icon: iconsMaterial.Info, route: '/about' },
+  
+  {
+    name: 'home', nameToView: 'Home', icon: iconsMaterial.Home, route: '/',
+    component: ''
+  },
+  {
+    name: 'about', nameToView: 'About', icon: iconsMaterial.Info, route: '/about',
+    component: ''
+  },
 ];
 
 const setCurrentMenu = vi.fn();

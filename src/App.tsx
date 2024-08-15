@@ -110,7 +110,6 @@ const App = () => {
             ) : typeUser === 'manager' || typeUser === 'admin' ? (
               <MainRouter />
             ) : (
-              //
               <Login/>
             )}
           </>

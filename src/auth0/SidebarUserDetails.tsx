@@ -57,6 +57,7 @@ const SidebarUserDetails: React.FC<SidebarUserDetailsProps> = ({
       PaperProps={{
         sx: {
           marginTop: 5.5,
+          marginLeft:20,
           borderRadius: 4,
         },
       }}
