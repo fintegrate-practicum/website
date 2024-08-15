@@ -5,7 +5,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Item from './item';
-import { ComponentType, useMemo } from 'react';
+import { ComponentType, useMemo, useState } from 'react';
+import { Dialog } from '@mui/material';
 
 export interface Column {
   name: string;
@@ -21,8 +22,21 @@ const GenericList = (props: {
     item: object;
     column: Column[];
   }> | null;
+  DialogComponent?: ComponentType<{ item: object }>;
 }) => {
-  const { title, list, column, desing } = props;
+  const { title, list, column, desing, DialogComponent } = props;
+  const [open, setOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<object | null>(null);
+
+  const handleClickOpen = (item: object) => {
+    setSelectedItem(item);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedItem(null);
+  };
 
   const existList = useMemo(() => {
     if (!Array.isArray(list) || list.length === 0) {
@@ -52,7 +66,9 @@ const GenericList = (props: {
           {existList ? (
             <TableBody>
               {list.map((l, i) => (
-                <Item key={i} column={column} item={l} Desing={desing} />
+                <TableRow key={i} onClick={() => handleClickOpen(l)}>
+                  <Item key={i} column={column} item={l} Desing={desing} />
+                </TableRow>
               ))}
             </TableBody>
           ) : (
@@ -66,6 +82,11 @@ const GenericList = (props: {
           )}
         </Table>
       </TableContainer>
+      {DialogComponent && selectedItem && (
+        <Dialog open={open} onClose={handleClose}>
+          <DialogComponent item={selectedItem} />
+        </Dialog>
+      )}
     </>
   );
 };
