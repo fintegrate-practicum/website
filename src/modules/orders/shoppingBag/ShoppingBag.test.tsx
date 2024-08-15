@@ -63,7 +63,7 @@ describe('ShoppingCart component', () => {
     // screen.getAllByLabelText('הסרת המוצר').forEach(button => fireEvent.click(button));
 
     // Check if the empty cart message is displayed
-    //   expect(screen.getByText('Your shopping bag is empty')).toBeInTheDocument();
+    // expect(screen.getByText('Your shopping bag is empty')).toBeInTheDocument();
   });
 
   it('calls the payment function when the payment button is clicked', () => {
