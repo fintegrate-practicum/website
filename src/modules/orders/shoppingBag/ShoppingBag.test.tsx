@@ -53,18 +53,18 @@ describe('ShoppingCart component', () => {
     expect(screen.queryByText('שמלת בנות חגיגית')).not.toBeInTheDocument();
   });
 
-  // it('displays empty cart message when all items are removed', () => {
-  //   render(<ShoppingBag />);
+  it('displays empty cart message when all items are removed', () => {
+    render(<ShoppingBag />);
 
-  //   // Simulate window.confirm to always return true
-  //   window.confirm = vi.fn().mockImplementation(() => true);
+    // Simulate window.confirm to always return true
+    window.confirm = vi.fn().mockImplementation(() => true);
 
-  //   // Click the remove button for all items
-  //   // screen.getAllByLabelText('הסרת המוצר').forEach(button => fireEvent.click(button));
+    // Click the remove button for all items
+    // screen.getAllByLabelText('הסרת המוצר').forEach(button => fireEvent.click(button));
 
-  //   // Check if the empty cart message is displayed
-  //   expect(screen.getByText('Your shopping bag is empty')).toBeInTheDocument();
-  // });
+    // Check if the empty cart message is displayed
+    expect(screen.getByText('Your shopping bag is empty')).toBeInTheDocument();
+  });
 
   it('calls the payment function when the payment button is clicked', () => {
     render(<ShoppingBag />);
