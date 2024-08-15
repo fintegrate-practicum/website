@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Meta, StoryFn } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import Toast, { ToastProps } from './Toast‏';
-// import Toast, { ToastProps } from './Toast';
 
 export default {
     title: 'Components/Toast',
