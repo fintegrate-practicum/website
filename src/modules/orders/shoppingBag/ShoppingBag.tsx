@@ -1,19 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import './shoppingBag.css';
-import TextField from '../../../common/component/TextField/TextField';
-import { useTranslation } from 'react-i18next';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  IconButton,
-} from '@mui/material';
 import Typography from '../../../common/components/Typography/Typography';
 import Button from '../../../common/components/Button/Button';
-import DeleteForever from '@mui/icons-material/DeleteForever';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import TableComponent from '../../../stories/TableComponent';
+import { useTranslation } from 'react-i18next';
+
 interface BagItem {
   image: string;
   name: string;
@@ -28,25 +19,30 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
   const { t } = useTranslation();
   const [bag, setBag] = useState<BagItem[]>(initialBag || []);
   const [total, setTotal] = useState<number>(0);
+
   useEffect(() => {
     calculateTotal();
   }, [bag]);
+
   const calculateTotal = () => {
     const sum = bag.reduce((acc, item) => acc + item.price * item.amount, 0);
     setTotal(sum);
   };
-  const handleRemove = (index: number) => {
+
+  const handleRemove = (id: number) => {
     if (window.confirm(t('order.confirmRemove'))) {
-      const newBag = bag.filter((_, i) => i !== index);
+      const newBag = bag.filter((_, i) => i !== id);
       setBag(newBag);
     }
   };
-  const handleAmountChange = (index: number, newAmount: number) => {
+
+  const handleAmountChange = (id: number, key: string, value: string) => {
+    const newAmount = parseInt(value, 10);
     if (newAmount === 0) {
-      handleRemove(index);
+      handleRemove(id);
     } else {
       const newBag = bag.map((item, i) => {
-        if (i === index) {
+        if (i === id) {
           return { ...item, amount: newAmount };
         }
         return item;
@@ -54,56 +50,39 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
       setBag(newBag);
     }
   };
+
+  const dataObject = {
+    headers: [
+      { key: 'name', label: 'שם המוצר', type: 'text', isImage: true },
+      { key: 'model', label: 'דגם', type: 'text' },
+      { key: 'amount', label: 'כמות', type: 'number', isAmount: true },
+      { key: 'price', label: 'מחיר', type: 'number', isPrice: true },
+    ],
+    rows: bag.map((item, index) => ({
+      id: index,
+      ...item,
+      price: (item.price * item.amount).toFixed(2),
+    })),
+  };
+
   return (
-    <div className='shoppingBag-container'>
-      <Typography variant='h5'>{t('order.shoppingBag')}</Typography>
+    <div>
+      <Typography variant='h5'> {t('order.shoppingBag')} </Typography>
       {bag.length === 0 ? (
-        <Typography>{t('order.bagIsEmpty')}</Typography>
+        <Typography> {t('order.bagIsEmpty')}</Typography>
       ) : (
         <>
-          <Table className='shoppingBag' style={{ direction: 'rtl' }}>
-            <TableHead>
-              <TableRow>
-                <TableCell align='right'>{t('order.productName')}</TableCell>
-                <TableCell align='right'>{t('order.quantity')}</TableCell>
-                <TableCell align='right'>{t('order.price')}</TableCell>
-                <TableCell align='right'>.</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {bag.map((row, index) => (
-                <TableRow key={row.name}>
-                  <TableCell align='right'>
-                    {row.name}{' '}
-                    <img src={row.image} width='80px' alt={row.name} />
-                  </TableCell>
-                  <TableCell align='right'>
-                    <TextField
-                      type='number'
-                      value={row.amount}
-                      onChange={(e) =>
-                        handleAmountChange(index, Number(e.target.value))
-                      }
-                    />
-                  </TableCell>
-                  <TableCell align='right'>
-                    {(row.price * row.amount).toFixed(2)} ₪
-                  </TableCell>
-                  <TableCell align='right'>
-                    <IconButton
-                      aria-label={t('order.removeProduct')}
-                      onClick={() => handleRemove(index)}
-                    >
-                      <DeleteForever />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-            <TableCell colSpan={3} className='total_line'>
-              {t('order.totalAmount', { total: total.toFixed(2) })}
-            </TableCell>
-          </Table>
+          <TableComponent
+            dataObject={dataObject}
+            tableSize='large'
+            showDeleteButton={true}
+            onDelete={handleRemove}
+            handleAmountChange={handleAmountChange}
+          />
+          <Typography variant='h6'>
+            {' '}
+            סכום לתשלום: {total.toFixed(2)} ₪{' '}
+          </Typography>
           <Button
             onClick={() => alert(t('order.paymentClicked'))}
             startIcon={<ArrowBackIosIcon />}
@@ -117,4 +96,5 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
     </div>
   );
 };
+
 export default ShoppingBag;

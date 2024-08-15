@@ -1,13 +1,11 @@
-import React, { useEffect } from 'react';
-import GenericList from '../../../../components/generic/genericList';
+import React, { useEffect, useMemo } from 'react';
 import Task from '../../classes/task';
 import { useAppSelector } from '../../../../Redux/hooks';
-
+import TableComponent from '../../../../stories/TableComponent';
 interface ShowTaskListProps {
   filteredTasks: Task[];
   setFilteredTasks: React.Dispatch<React.SetStateAction<Task[]>>;
 }
-
 const TasksShowList: React.FC<ShowTaskListProps> = ({
   filteredTasks,
   setFilteredTasks,
@@ -15,7 +13,6 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
   const currentUser = useAppSelector(
     (state) => state.currentUserSlice.employeeDetails,
   );
-
   useEffect(() => {
     if (
       currentUser.role.type !== 'admin' &&
@@ -28,23 +25,35 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
       setFilteredTasks(updatedFilteredTasks);
     }
   }, [currentUser, filteredTasks, setFilteredTasks]);
-
+  const dataObject = useMemo(() => {
+    return {
+      headers: [
+        { key: 'taskName', label: 'taskName', type: 'text' },
+        { key: 'targetDate', label: 'targetDate', type: 'text' },
+        {
+          key: 'theUrgencyOfTheTask',
+          label: 'theUrgency Of The Task',
+          type: 'text',
+        },
+      ],
+      rows: filteredTasks.map((task) => ({
+        id: task.id,
+        taskName: task.taskName,
+        targetDate: task.targetDate.toISOString(), // Convert Date to string
+        theUrgencyOfTheTask: task.urgency,
+      })),
+    };
+  }, [filteredTasks]);
   return (
-    <>
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        <GenericList
-          title={'רשימת משימות'}
-          list={filteredTasks}
-          column={[
-            { name: 'taskName', header: 'שם המשימה', type: 'text' },
-            { name: 'targetDate', header: 'תאריך יעד', type: 'date' },
-            { name: 'urgency', header: 'דחיפות', type: 'text' },
-          ]}
-          desing={null}
-        />
-      </div>
-    </>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <TableComponent
+        dataObject={dataObject}
+        tableSize='large'
+        onDelete={() => {}}
+        showDeleteButton={false}
+        handleAmountChange={() => {}}
+      />
+    </div>
   );
 };
-
 export default TasksShowList;

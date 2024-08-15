@@ -1,19 +1,16 @@
-import { useEffect, useMemo } from 'react';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
-import { IProduct } from '../../interfaces/IProduct';
-import { IComponent } from '../../interfaces/IComponent';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../../app/hooks';
 import { getAllItems } from '../../Api-Requests/genericRequests';
 import { getProducts } from '../../features/product/productSlice';
 import { getAllComponents } from '../../features/component/componentSlice';
 import { useNavigate } from 'react-router-dom';
+import { IProduct } from '../../interfaces/IProduct';
+import { IComponent } from '../../interfaces/IComponent';
 import DeleteProduct from '../DeleteProduct';
 import DeleteComponent from '../DeleteComponent';
-import { Edit } from '@mui/icons-material/';
-import ProductComponentsList from './ProductComponentsList';
+import TableComponent from '../../../../stories/TableComponent';
+import Button from '../../../../common/components/Button/Button';
 
 const AllProducts = () => {
   const dispatch = useDispatch();
@@ -24,11 +21,6 @@ const AllProducts = () => {
   );
   const components = useAppSelector(
     (state: { component: { data: any } }) => state.component?.data || [],
-  );
-
-  const allRows = useMemo(
-    () => [...products, ...components],
-    [products, components],
   );
 
   useEffect(() => {
@@ -47,13 +39,32 @@ const AllProducts = () => {
 
   const fetchComponents = async () => {
     try {
-      const response = await getAllItems<IComponent[]>(
-        'inventory/component',
-      );
+      const response = await getAllItems<IComponent[]>('inventory/component');
       dispatch(getAllComponents(response.data));
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleDelete = (id: number) => {
+    const item = [...products, ...components].find((item) => item.id === id);
+
+    if (!item) {
+      console.error(`Item with ID ${id} not found.`);
+      return;
+    }
+
+    if ('productComponents' in item) {
+      // Render the DeleteProduct component with the found item
+      return <DeleteProduct item={item as IProduct} />;
+    } else {
+      // Render the DeleteComponent component with the found item
+      return <DeleteComponent item={item as IComponent} />;
+    }
+  };
+
+  const handleEdit = (item: IProduct | IComponent) => {
+    navigateToUpdate(item);
   };
 
   const navigateToUpdate = (item: IProduct | IComponent) => {
@@ -64,52 +75,16 @@ const AllProducts = () => {
     }
   };
 
-  const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'name', headerName: 'Name', width: 130 },
-    { field: 'totalPrice', headerName: 'Price', type: 'number', width: 90 },
-    { field: 'stockQuantity', headerName: 'Qty', type: 'number', width: 90 },
-    {
-      field: 'productComponents',
-      headerName: 'Components',
-      description: 'Displays components associated with a product.',
-      sortable: false,
-      width: 220,
-      renderCell: (params) => {
-        const product = params.row as IProduct;
-        return (
-          <ProductComponentsList
-            componentIds={product.productComponents || []}
-            components={components}
-          />
-        );
-      },
-    },
-    {
-      field: 'actions',
-      headerName: 'Actions',
-      width: 200,
-      renderCell: (params) => {
-        const item = params.row as IProduct | IComponent;
-        return (
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <IconButton
-              color='primary'
-              onClick={() => navigateToUpdate(item)}
-              style={{ marginRight: '8px' }}
-            >
-              <Edit />
-            </IconButton>
-            {'productComponents' in item ? (
-              <DeleteProduct item={item as IProduct} />
-            ) : (
-              <DeleteComponent item={item as IComponent} />
-            )}
-          </div>
-        );
-      },
-    },
-  ];
+  const dataObject = {
+    headers: [
+      { key: 'id', label: 'ID', type: 'number' },
+      { key: 'name', label: 'Name', type: 'text' },
+      { key: 'totalPrice', label: 'Price', type: 'number', isPrice: true },
+      { key: 'stockQuantity', label: 'Qty', type: 'number' },
+      { key: 'productComponents', label: 'Components', type: 'text' },
+    ],
+    rows: [...products, ...components],
+  };
 
   return (
     <div style={{ height: 400, width: '100%' }}>
@@ -130,16 +105,14 @@ const AllProducts = () => {
           Add Component
         </Button>
       </div>
-      <DataGrid
-        rows={allRows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
+      <TableComponent
+        dataObject={dataObject}
+        tableSize='large'
+        showDeleteButton={true}
+        showEditButton={true}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+        handleAmountChange={() => {}}
       />
     </div>
   );
