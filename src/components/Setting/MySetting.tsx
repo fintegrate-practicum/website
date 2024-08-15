@@ -60,7 +60,15 @@ export interface MySettingProps {
     settingDesc: string;
     type: ComponentType;
     props?: Record<string, any>;
-    children?: CustomChild[] | CustomChild | RadioGroupChildren | SelectChildren | ButtonGroupChildren | ButtonChildren | FloatingActionButtonChildren | string;
+    children?:
+      | CustomChild[]
+      | CustomChild
+      | RadioGroupChildren
+      | SelectChildren
+      | ButtonGroupChildren
+      | ButtonChildren
+      | FloatingActionButtonChildren
+      | string;
   };
 }
 
@@ -81,9 +89,7 @@ const componentMap: {
   [ComponentType.Input]: 'input',
 };
 
-
 const MySetting: FC<MySettingProps> = (props) => {
-
   const { setting } = props;
 
   if (!setting) {
@@ -97,13 +103,19 @@ const MySetting: FC<MySettingProps> = (props) => {
   }
 
   let children: ReactElement | ReactElement[] | undefined | any;
-  if (setting.type === ComponentType.Select && Array.isArray(setting.children)) {
+  if (
+    setting.type === ComponentType.Select &&
+    Array.isArray(setting.children)
+  ) {
     children = (setting.children as CustomChild[]).map((child, index) => (
-      <MenuItem key={index} value={child.value }>
+      <MenuItem key={index} value={child.value}>
         {child.text}
       </MenuItem>
     ));
-  } else if (setting.type === ComponentType.RadioGroup && Array.isArray(setting.children)) {
+  } else if (
+    setting.type === ComponentType.RadioGroup &&
+    Array.isArray(setting.children)
+  ) {
     children = setting.children.map((child, index) => (
       <FormControlLabel
         key={index}
@@ -112,18 +124,25 @@ const MySetting: FC<MySettingProps> = (props) => {
         label={child.label}
       />
     ));
-  } else if (setting.type === ComponentType.ButtonGroup && Array.isArray(setting.children)) {
+  } else if (
+    setting.type === ComponentType.ButtonGroup &&
+    Array.isArray(setting.children)
+  ) {
     children = setting.children.map((child, index) => (
       <Button key={index} variant={setting.props?.variant}>
         {child.value}
       </Button>
     ));
   } else if (
-    (setting.type === ComponentType.FloatingActionButton || setting.type === ComponentType.Button) &&
+    (setting.type === ComponentType.FloatingActionButton ||
+      setting.type === ComponentType.Button) &&
     typeof setting.children === 'string'
   ) {
     children = createElement('span', null, setting.children);
-  } else if (setting.type === ComponentType.Input && typeof setting.children === 'string') {
+  } else if (
+    setting.type === ComponentType.Input &&
+    typeof setting.children === 'string'
+  ) {
     children = createElement('span', null, setting.children);
   } else {
     children = setting.children;
