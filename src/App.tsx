@@ -10,9 +10,9 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast from './components/generic/errorMassage';
 import Inventory from './modules/inventory/Inventory';
-import Login from './components/Login/login';
-import Orders from './modules/orders/App';
+import  Login from './components/Login/login';
 import Header from './components/Header/Header';
+import Orders from './modules/orders/App';
 import AllOrders from './modules/orders/allOrders';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher';
@@ -98,6 +98,7 @@ const App = () => {
             <Route path='orders' element={<Orders />} />
           </Route>
         </Routes>
+
         {isRootPath && (
           <>
             {typeUser !== 'manager' &&
@@ -109,7 +110,7 @@ const App = () => {
             ) : typeUser === 'manager' || typeUser === 'admin' ? (
               <MainRouter />
             ) : (
-              <Login />
+              <Login/>
             )}
           </>
         )}

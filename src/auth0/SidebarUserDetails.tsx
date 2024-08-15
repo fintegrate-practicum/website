@@ -47,16 +47,17 @@ const SidebarUserDetails: React.FC<SidebarUserDetailsProps> = ({
       anchorEl={anchorEl}
       onClose={handleClose}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: 'bottom',
+        horizontal: 'left',
       }}
       transformOrigin={{
         vertical: 'top',
-        horizontal: 'left',
+        horizontal: 'right',
       }}
       PaperProps={{
         sx: {
           marginTop: 5.5,
+          marginLeft:20,
           borderRadius: 4,
         },
       }}
