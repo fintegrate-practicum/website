@@ -8,6 +8,7 @@ export default {
     actions: {
       handles: ['click .btn'],
     },
+    documentation: 'https://www.npmjs.com/package/@canvasjs/charts',
   },
 } as Meta<typeof BaseGraph>;
 
