@@ -11,7 +11,6 @@ import Button from '../../../../common/components/Button/Button';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useAppSelector } from '../../../../app/hooks';
-import { Link } from 'react-router-dom';
 
 export default function ShowProducts() {
   const dispatch = useDispatch();

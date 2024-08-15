@@ -1,13 +1,13 @@
 {
-	"errorOccurred": "An error occurred",
-	"retry": "Retry",
-	"dismiss": "Dismiss",
-	"Loading ...": "Loading ...",
-	"Cancel": "Cancel",
-	"Save": "Save",
-	"Edit": "Edit",
-	"Next": "Next",
-	"Previous": "Previous",
-	"loadingText": "loadingText",
-	"Delete": "Delete"
+  "errorOccurred": "An error occurred",
+  "retry": "Retry",
+  "dismiss": "Dismiss",
+  "Loading ...": "Loading ...",
+  "Cancel": "Cancel",
+  "Save": "Save",
+  "Edit": "Edit",
+  "Next": "Next",
+  "Previous": "Previous",
+  "loadingText": "loadingText",
+  "Delete": "Delete"
 }

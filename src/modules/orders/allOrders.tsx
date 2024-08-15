@@ -77,7 +77,7 @@ export default function AllOrders() {
 
       const productsMap = productResults.reduce(
         (acc, product) => {
-          acc[product.id] = product;
+          acc[product.id] = product; 
           return acc;
         },
         {} as { [key: string]: IProduct | IComponent },

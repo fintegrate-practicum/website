@@ -23,6 +23,7 @@ interface BagItem {
   size: number;
   amount: number;
 }
+
 const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
   const { t } = useTranslation();
   const [bag, setBag] = useState<BagItem[]>(initialBag || []);
@@ -73,7 +74,7 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
               {bag.map((row, index) => (
                 <TableRow key={row.name}>
                   <TableCell align='right'>
-                    {row.name}
+                    {row.name}{' '}
                     <img src={row.image} width='80px' alt={row.name} />
                   </TableCell>
                   <TableCell align='right'>

@@ -1,13 +1,13 @@
 {
-	"errorOccurred": "אירעה שגיאה",
-	"retry": "נסה שוב",
-	"dismiss": "סגור",
-	"Loading ...": "...טוען ",
-	"Cancel": "ביטול",
-	"Save": "שמור",
-	"Edit": "ערוך",
-	"Next": "הבא",
-	"Previous": "הקודם",
-	"loadingText": "טוען טקסט",
-	"Delete": "מחק"
+  "errorOccurred": "אירעה שגיאה",
+  "retry": "נסה שוב",
+  "dismiss": "סגור",
+  "Loading ...": "...טוען ",
+  "Cancel": "ביטול",
+  "Save": "שמור",
+  "Edit": "ערוך",
+  "Next": "הבא",
+  "Previous": "הקודם",
+  "loadingText": "טוען טקסט",
+  "Delete": "מחק"
 }

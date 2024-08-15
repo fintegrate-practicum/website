@@ -16,18 +16,23 @@ const SearchTask: React.FC<SearchTaskProps> = ({ tasks, setFilteredTasks }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearch = () => {
-    setFilteredTasks(tasks.filter(task => {
-      return task.taskName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        task.employee.some(emp =>
-          emp.toString().includes(searchTerm.toLowerCase())) ||
-        task.description.toLowerCase().includes(searchTerm.toLowerCase());
-    }))
+    setFilteredTasks(
+      tasks.filter((task) => {
+        return (
+          task.taskName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          task.employee.some((emp) =>
+            emp.toString().includes(searchTerm.toLowerCase()),
+          ) ||
+          task.description.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      }),
+    );
   };
 
   return (
     <>
       <Paper
-        component="form"
+        component='form'
         sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
       >
         <InputBase
@@ -38,10 +43,14 @@ const SearchTask: React.FC<SearchTaskProps> = ({ tasks, setFilteredTasks }) => {
           onChange={(e) => {
             setSearchTerm(e.target.value);
             handleSearch();
-          }
-          }
+          }}
         />
-        <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleSearch}>
+        <IconButton
+          type='button'
+          sx={{ p: '10px' }}
+          aria-label='search'
+          onClick={handleSearch}
+        >
           <SearchIcon />
         </IconButton>
       </Paper>

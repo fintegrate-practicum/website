@@ -1,7 +1,6 @@
 import MaterialButton from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import React from 'react';
-import theme from '../../../Theme';
 
 interface ButtonProps {
   onClick?: () => void;
