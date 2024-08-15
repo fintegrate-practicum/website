@@ -45,7 +45,6 @@ describe('ShoppingCart component', () => {
 
   it('removes an item when amount is changed to 0', () => {
     render(<ShoppingBag />);
-
     // Change the amount of the first item to 0
     // fireEvent.change(screen.getAllByDisplayValue('1')[0], { target: { value: '0' } });
 
