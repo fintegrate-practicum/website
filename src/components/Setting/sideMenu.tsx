@@ -18,7 +18,7 @@ const drawerWidth = 240;
 export default function PermanentDrawerRight() {
     const dispatch = useAppDispatch();
     const serviceNames: string[] = useAppSelector((state: RootState) => state.serviceSettingsSlice.serviceNames);
-    const [selectedServiceName, setSelectedServiceName] = useState<string | null>('general');
+    const [selectedServiceName, setSelectedServiceName] = useState<string>('general');
     const [serviceSettings, setServiceSettings] = useState<ServiceSettings | null>(null);
 
     useEffect(() => {
@@ -81,9 +81,8 @@ export default function PermanentDrawerRight() {
             </Drawer>
             <main style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 {serviceSettings && serviceSettings.settings_json.map((item, index) => (
-                    <AddSubCategory key={index} {...item} />
+                    <AddSubCategory key={index} {...item} selectedServiceName={selectedServiceName}  categoryName={item.CategoryItem.CategoryName} />
                 ))}
-
             </main>
         </div>
     );

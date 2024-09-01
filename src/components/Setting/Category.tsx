@@ -2,7 +2,7 @@ import * as React from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '../../common/components/Typography/Typography';
+import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { List, ListItem, ListItemText } from '@mui/material';
 import MySetting, { MySettingProps } from './MySetting';
@@ -31,49 +31,45 @@ export interface ServiceSettings {
   settings_json: CategoryProps[];
 }
 
-export default function AddSubCategory(SubCategoryProp: CategoryProps) {
+interface AddSubCategoryProps extends CategoryProps {
+  selectedServiceName: string;
+  categoryName:string;
+}
+
+export default function AddSubCategory({ CategoryItem, selectedServiceName, categoryName }: AddSubCategoryProps) {
   const [expanded, setExpanded] = React.useState<string | false>(false);
-  const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-      setExpanded(isExpanded ? panel : false);
-    };
+  const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+
   return (
-    <Accordion
-      expanded={expanded === 'panel4'}
-      onChange={handleChange('panel4')}
-    >
+    <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
-        aria-controls='panel4bh-content'
-        id='panel4bh-header'
+        aria-controls="panel4bh-content"
+        id="panel4bh-header"
       >
         <Typography style={{ width: '60vw', flexShrink: 0 }}>
-          {SubCategoryProp?.CategoryItem.CategoryName}
+          {CategoryItem.CategoryName}
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
         <div>
-          {SubCategoryProp.CategoryItem.Settings && (
-            <List aria-label='mailbox folders'>
-              {SubCategoryProp.CategoryItem.Settings.map((s, index) => (
+          {CategoryItem.Settings && (
+            <List aria-label="mailbox folders">
+              {CategoryItem.Settings.map((s, index) => (
                 <ListItem key={index} sx={style}>
                   <ListItemText primary={s.setting.settingDesc} />
-                  <MySetting setting={s.setting} />
+                  <MySetting setting={{ ...s.setting, serviceName: selectedServiceName, categoryName: categoryName }} />
                 </ListItem>
               ))}
             </List>
           )}
-          {SubCategoryProp?.CategoryItem.SubCategory?.map((sc, index) => (
-            <AddSubCategory key={index} {...sc} />
+          {CategoryItem.SubCategory?.map((sc, index) => (
+            <AddSubCategory key={index} {...sc} selectedServiceName={selectedServiceName} categoryName={CategoryItem.CategoryName} />
           ))}
         </div>
       </AccordionDetails>
     </Accordion>
   );
 }
-
-
-
-
-
-
