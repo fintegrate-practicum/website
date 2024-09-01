@@ -1,14 +1,33 @@
-import React from 'react';
-import { StoryFn, Meta } from '@storybook/react';
-import FormWrapper, { FormWrapperProps } from './FormWrapper';
+import { Meta, StoryFn } from '@storybook/react';
+import FormWrapper from './FormWrapper';
 import { FieldValues } from 'react-hook-form';
+import { action } from '@storybook/addon-actions';
 
-export default {
+const meta: Meta<typeof FormWrapper> = {
   title: 'Components/FormWrapper',
   component: FormWrapper,
-} as Meta;
+  parameters: {
+    layout: 'centered',
+  },
+  tags: ['autodocs'],
+  argTypes: {
+    formWidth: {
+      control: { type: 'select' },
+      options: ['short', 'medium', 'long'],
+    },
+    onSubmit: { action: 'submitted' },
+  },
+};
 
-const Template: StoryFn<FormWrapperProps> = (args) => <FormWrapper {...args} />;
+export default meta;
+
+const Template: StoryFn<typeof FormWrapper> = (args) => {
+  const handleSubmit = (data: FieldValues) => {
+    action('submitted')(data);
+  };
+
+  return <FormWrapper {...args} onSubmit={handleSubmit} />;
+};
 
 export const Default = Template.bind({});
 Default.args = {
@@ -33,7 +52,8 @@ Default.args = {
         required: 'Business name is required',
         pattern: {
           value: /^[A-Z]{2,30}$/i,
-          message: 'Business name must contain more than 2 and less than 30 characters',
+          message:
+            'Business name must contain more than 2 and less than 30 characters',
         },
       },
     },
@@ -49,8 +69,22 @@ Default.args = {
         },
       },
     },
+    {
+      name: 'terms',
+      label: 'Accept Terms',
+      type: 'checkbox',
+    },
+    {
+      name: 'fileUpload',
+      label: 'Upload File',
+      type: 'file',
+    },
+    {
+      name: 'selectOption',
+      label: 'Select Option',
+      type: 'select',
+      options: ['Option 1', 'Option 2', 'Option 3'],
+    },
   ],
-  onSubmit: (values: FieldValues) => {
-    console.log(values);
-  },
+  formWidth: 'short',
 };

@@ -8,7 +8,12 @@ export default defineConfig({
     react(),
     eslintPlugin({
       cache: false,
-      include: ['./src/**/*.js', './src/**/*.jsx', './src/**/*.ts', './src/**/*.tsx'],
+      include: [
+        './src/**/*.js',
+        './src/**/*.jsx',
+        './src/**/*.ts',
+        './src/**/*.tsx',
+      ],
       exclude: [],
       emitWarning: true,
       emitError: false,
@@ -23,6 +28,7 @@ export default defineConfig({
     port: 5173,
     hmr: true,
   },
+
   test: {
     environment: 'jsdom',
     globals: true,
@@ -31,5 +37,4 @@ export default defineConfig({
   build: {
     target: 'esnext',
   },
-
 });

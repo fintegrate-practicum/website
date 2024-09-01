@@ -8,23 +8,30 @@ import MainRouter from './components/router/MainRouter';
 import React, { Suspense, useEffect, useState } from 'react';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import { useAppSelector } from './Redux/hooks';
-import ErrorToast, { showErrorToast } from './components/generic/errorMassage';
-import Inventory from './modules/inventory/Inventory';
+import ErrorToast from './components/generic/errorMassage';
 import Login from './components/Login/login';
-import Orders from './modules/orders/App';
 import Header from './components/Header/Header';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
-const LazyBaseDetailsManager = React.lazy(() => import('./components/createBusiness/baseDetailsManager'));
-const LazyEmailVerification = React.lazy(() => import('./components/createBusiness/emailVerification'));
-const LazyMoreDetailsManager = React.lazy(() => import('./components/createBusiness/moreDetailsManager'));
+const LazyBaseDetailsManager = React.lazy(
+  () => import('./components/createBusiness/baseDetailsManager'),
+);
+const LazyEmailVerification = React.lazy(
+  () => import('./components/createBusiness/emailVerification'),
+);
+const LazyMoreDetailsManager = React.lazy(
+  () => import('./components/createBusiness/moreDetailsManager'),
+);
 const LazyClient = React.lazy(() => import('./components/client/Client'));
 
 const App = () => {
+  const { t } = useTranslation();
+
+  const currentUser = useAppSelector((state) => state.currentUserSlice);
+  const [typeUser, setTypeUser] = useState<string | null>(null);
   //currentUser-עובדים עליו עכשיו ויצטרכו לשנות אחרי כן
-  const currentUser = useAppSelector((state) => state.currentUserSlice.CurrentUser);
-  const [typeUser, setTypeUser] = useState<any | null>(null);
-  const [lastInvalidPath, setLastInvalidPath] = useState<string | null>(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -34,53 +41,85 @@ const App = () => {
     }
   }, [currentUser]);
 
-  const ErrorToastRoute = () => {
-    useEffect(() => {
-      if (location.pathname !== lastInvalidPath) {
-        showErrorToast('הדף שאת/ה מחפש/ת אינו נמצא route-הכנס/י ב http://localhost:0000/link/**של עסק linkUID**');
-        setLastInvalidPath(location.pathname);
-      }
-    }, [location, lastInvalidPath]);
-    return null;
-  };
-
   const isRootPath = location.pathname === '/';
 
   return (
     <ThemeProvider theme={theme}>
       <Provider store={Store}>
         <Header />
+        <LanguageSwitcher />
+        <Header />
         <Client />
         <ErrorToast />
         <Routes>
-          <Route path="/inventory/*" element={<Inventory />} />
-          <Route path="/editProfile" element={<Suspense fallback="Loading..."><LazyEditProfile /></Suspense>} />
-          <Route path="/CreateBusiness/BaseDetailsManager" element={<Suspense fallback="Loading..."><LazyBaseDetailsManager /></Suspense>} />
-          <Route path="/CreateBusiness/EmailVerification" element={<Suspense fallback="Loading..."><LazyEmailVerification /></Suspense>} />
-          <Route path="/CreateBusiness/MoreDetailsManager" element={<Suspense fallback="Loading..."><LazyMoreDetailsManager /></Suspense>} />
-          <Route path="/link/:linkUID" element={<Suspense fallback="Loading..."><LazyClient /></Suspense>} >
-            <Route path="orders" element={<Orders />} />
-            <Route path="HomePage" element={<MainRouter />} />
-            <Route path="manager/*" element={<MainRouter />} />
-            <Route path="Setting/Category" element={<MainRouter />} />
-            <Route path="Worker/*" element={<MainRouter />} />
-            <Route path="allorders" element={<MainRouter />} />
-            <Route path="allinventory/*" element={<MainRouter />} />
+          <Route
+            path='/editProfile'
+            element={
+              <Suspense fallback={t('common.Loading...')}>
+                <LazyEditProfile />
+              </Suspense>
+            }
+          />
+          <Route
+            path='/CreateBusiness/BaseDetailsManager'
+            element={
+              <Suspense fallback={t('common.Loading...')}>
+                <LazyBaseDetailsManager />
+              </Suspense>
+            }
+          />
+          <Route
+            path='/CreateBusiness/EmailVerification'
+            element={
+              <Suspense fallback={t('common.Loading...')}>
+                <LazyEmailVerification />
+              </Suspense>
+            }
+          />
+          <Route
+            path='/CreateBusiness/MoreDetailsManager'
+            element={
+              <Suspense fallback={t('common.Loading...')}>
+                <LazyMoreDetailsManager />
+              </Suspense>
+            }
+          />
+          <Route path='/allorders/:businessCode?' element={<MainRouter />} />
+          <Route path='/allinventory/*' element={<MainRouter />} />
+          <Route
+            path='/link/:linkUID'
+            element={
+              <Suspense fallback='Loading...'>
+                <LazyClient />
+              </Suspense>
+            }
+          >
+            <Route path='orders' element={<MainRouter />} />
+            <Route path='inventory' element={<MainRouter />} />
+            <Route path='HomePage' element={<MainRouter />} />
+            <Route path='manager/*' element={<MainRouter />} />
+            <Route path='Setting/Category' element={<MainRouter />} />
+            <Route path='Worker/*' element={<MainRouter />} />
           </Route>
         </Routes>
         {isRootPath && (
-             <>
-             {typeUser !== 'admin' && typeUser !== '' && typeUser !== undefined && typeUser !== null ? (
-               <Client />
-             ) : typeUser === 'admin' ? (
-               <>
-                 <MainRouter />
-                 <Link to={'/CreateBusiness/BaseDetailsManager'}>הרשמה של עסק</Link>
-               </>
-             ) : (
-                 <Login/>
-             )}
-           </>
+          <>
+            {typeUser !== 'admin' &&
+            typeUser !== '' &&
+            typeUser !== undefined &&
+            typeUser !== null ? (
+              <Client />
+            ) : typeUser === 'admin' ? (
+              <>
+                <MainRouter />
+                <Link to={'/CreateBusiness/BaseDetailsManager'}>
+                  הרשמה של עסק
+                </Link>
+              </>
+            ) : (
+              <Login />
+            )}
+          </>
         )}
       </Provider>
     </ThemeProvider>
