@@ -9,20 +9,19 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { deleteProduct as deleteProductFromState } from '../features/product/productSlice';
 import { deleteItem } from '../Api-Requests/genericRequests';
 import { IProduct } from '../interfaces/IProduct';
-import { IconButton, Snackbar, Alert } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import Toast from '../../../common/components/Toast/Toast'; 
 
 const DeleteProduct = ({ item }: { item: IProduct }) => {
   const { t } = useTranslation();
   const [open, setOpen] = React.useState(false);
-  //this is temporarily here until the toast from story book is ready
-  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-  const [snackbarMessage, setSnackbarMessage] = React.useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = React.useState<
+  const [toastOpen, setToastOpen] = React.useState(false);
+  const [toastMessage, setToastMessage] = React.useState('');
+  const [toastSeverity, setToastSeverity] = React.useState<
     'success' | 'error'
   >('success');
-  //end temporary toast
   const dispatch = useDispatch();
 
   const handleClickOpen = () => {
@@ -36,19 +35,15 @@ const DeleteProduct = ({ item }: { item: IProduct }) => {
   const deleteProduct = async () => {
     try {
       await deleteItem('api/inventory/product', item.id);
-      //this is temporarily here until the toast from story book is ready
-      setSnackbarMessage(t('inventory.The deletion was successful'));
-      setSnackbarSeverity('success');
-      setSnackbarOpen(true);
-      //end temporary toast
+      setToastMessage(t('inventory.The deletion was successful'));
+      setToastSeverity('success');
+      setToastOpen(true);
       dispatch(deleteProductFromState(item.id));
     } catch (err) {
       console.log(err);
-      //this is temporarily here until the toast from story book is ready
-      setSnackbarMessage('Failed to delete product');
-      setSnackbarSeverity('error');
-      setSnackbarOpen(true);
-      //end temporary toast
+      setToastMessage(t('inventory.Failed to delete product'));
+      setToastSeverity('error');
+      setToastOpen(true);
     }
     setOpen(false);
   };
@@ -83,21 +78,15 @@ const DeleteProduct = ({ item }: { item: IProduct }) => {
         </DialogActions>
       </Dialog>
 
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarOpen(false)}
-        action={<Button onClick={() => setSnackbarOpen(false)}>Close</Button>}
-      >
-        <Alert
-          onClose={() => setSnackbarOpen(false)}
-          severity={snackbarSeverity}
-        >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+      <Toast
+        open={toastOpen}
+        onClose={() => setToastOpen(false)}
+        message={toastMessage}
+        severity={toastSeverity}
+      />
     </>
   );
 };
 
 export default DeleteProduct;
+
