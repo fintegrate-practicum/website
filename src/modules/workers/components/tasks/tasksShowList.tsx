@@ -30,17 +30,13 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
       headers: [
         { key: 'taskName', label: 'taskName', type: 'text' },
         { key: 'targetDate', label: 'targetDate', type: 'text' },
-        {
-          key: 'theUrgencyOfTheTask',
-          label: 'theUrgency Of The Task',
-          type: 'text',
-        },
+        { key: 'urgency', label: 'theUrgency Of The Task', type: 'text' },
       ],
       rows: filteredTasks.map((task) => ({
         id: task.id,
         taskName: task.taskName,
         targetDate: task.targetDate.toISOString(), // Convert Date to string
-        theUrgencyOfTheTask: task.urgency,
+        urgency: task.urgency,
       })),
     };
   }, [filteredTasks]);

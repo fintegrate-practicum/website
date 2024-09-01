@@ -29,20 +29,20 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
     setTotal(sum);
   };
 
-  const handleRemove = (id: number) => {
+  const handleRemove = (id: string) => {
     if (window.confirm(t('order.confirmRemove'))) {
-      const newBag = bag.filter((_, i) => i !== id);
+      const newBag = bag.filter((_, i) => i !== parseInt(id));
       setBag(newBag);
     }
   };
 
-  const handleAmountChange = (id: number, key: string, value: string) => {
+  const handleAmountChange = (id: string, key: string, value: string) => {
     const newAmount = parseInt(value, 10);
     if (newAmount === 0) {
       handleRemove(id);
     } else {
       const newBag = bag.map((item, i) => {
-        if (i === id) {
+        if (i === parseInt(id)) {
           return { ...item, amount: newAmount };
         }
         return item;

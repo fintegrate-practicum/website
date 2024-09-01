@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../../app/hooks';
 import { getAllItems } from '../../Api-Requests/genericRequests';
@@ -21,6 +21,11 @@ const AllProducts = () => {
   );
   const components = useAppSelector(
     (state: { component: { data: any } }) => state.component?.data || [],
+  );
+
+  const allRows = useMemo(
+    () => [...products, ...components],
+    [products, components],
   );
 
   useEffect(() => {
@@ -47,7 +52,7 @@ const AllProducts = () => {
   };
 
   const handleDelete = (id: number) => {
-    const item = [...products, ...components].find((item) => item.id === id);
+    const item = allRows.find((item) => item.id === id);
 
     if (!item) {
       console.error(`Item with ID ${id} not found.`);
@@ -55,10 +60,8 @@ const AllProducts = () => {
     }
 
     if ('productComponents' in item) {
-      // Render the DeleteProduct component with the found item
       return <DeleteProduct item={item as IProduct} />;
     } else {
-      // Render the DeleteComponent component with the found item
       return <DeleteComponent item={item as IComponent} />;
     }
   };
@@ -83,7 +86,7 @@ const AllProducts = () => {
       { key: 'stockQuantity', label: 'Qty', type: 'number' },
       { key: 'productComponents', label: 'Components', type: 'text' },
     ],
-    rows: [...products, ...components],
+    rows: allRows,
   };
 
   return (
@@ -108,8 +111,8 @@ const AllProducts = () => {
       <TableComponent
         dataObject={dataObject}
         tableSize='large'
-        showDeleteButton={true}
-        showEditButton={true}
+        showDeleteButton
+        showEditButton
         onEdit={handleEdit}
         onDelete={handleDelete}
         handleAmountChange={() => {}}

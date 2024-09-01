@@ -37,16 +37,18 @@ const WorkersShowList = () => {
 
   const dataObject = {
     headers,
-    rows: paginatedEmployees.map((employee) => ({
-      id: employee.userId,
-      userId: employee.userId,
-      code: employee.code,
-      createdBy: employee.createdBy,
-      updatedBy: employee.updatedBy,
-      roleId: employee.role,
-      // position: employee.position,
-      // details: employee.details,
-    })),
+    rows: paginatedEmployees,
+    // rows: paginatedEmployees.map((employee) => ({
+    //   id: employee.userId,
+    //   userId: employee.userId,
+    //   code: employee.code,
+    //   createdBy: employee.createdBy,
+    //   updatedBy: employee.updatedBy,
+    //   roleId: employee.role,
+    //   // position: employee.position,
+    //   // details: employee.details,
+    // }
+    // )),
   };
 
   const handleDelete = () => {
