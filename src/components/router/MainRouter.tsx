@@ -34,6 +34,7 @@ const MainRouter = () => {
         }
     ];
 
+    // eslint-disable-next-line no-constant-condition
     if(true){//if the user is manager
         menuItems.push({
             name: 'manager',
@@ -72,7 +73,13 @@ const MainRouter = () => {
         <>
             <Header serviceName={currentMenu?.nameToView}><div></div></Header>
             <div style={{height: "25vh"}}></div>
-            <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} />
+            <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} currentUser={{
+          userDetails: {
+            userName: '',
+            userEmail: '',
+            auth0_user_id: ''
+          }
+        }} />
             <LazyRouter currentRoute={currentMenu?.component || ' '} />
         </>
     )

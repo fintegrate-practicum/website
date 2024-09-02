@@ -15,7 +15,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Divider from '@mui/material/Divider';
 import SidebarUserDetails from '../../auth0/SidebarUserDetails';
 import React from 'react';
-import { useAppSelector } from '../../Redux/hooks';
 import MenuItem from './types';
 
 
@@ -63,10 +62,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 interface Props {
     items: MenuItem[];
     setCurrentMenu: (currentMenu:MenuItem) => void;
+    currentUser:{userDetails:{userName: string; userEmail:string;auth0_user_id:string;}
 }
-
-const SideMenu: FC<Props> = ({ items, setCurrentMenu }) => {
-  const currentUser = useAppSelector((state) => state.currentUserSlice);
+}
+const SideMenu: FC<Props> = ({ items, setCurrentMenu ,currentUser}) => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -128,7 +127,6 @@ const SideMenu: FC<Props> = ({ items, setCurrentMenu }) => {
         </Drawer>
       </Box>
       <SidebarUserDetails 
-      
         nickname= {currentUser.userDetails.userName }
         email= {currentUser.userDetails.userEmail} 
         user_id = {currentUser.userDetails.auth0_user_id}
