@@ -1,10 +1,11 @@
 import { describe, test, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import TableComponent from '../stories/TableComponent';
+import TableComponent from './TableComponent';
 import '@testing-library/jest-dom';
+import { DataObject } from './interfaces';
 
 describe('<TableComponent />', () => {
-  const defaultDataObject = {
+  const defaultDataObject: DataObject = {
     headers: [
       { key: 'id', label: 'ID', type: 'text' },
       { key: 'name', label: 'Name', type: 'text', isImage: true },
@@ -80,7 +81,7 @@ describe('<TableComponent />', () => {
     const amountInput = screen.getAllByRole('spinbutton')[0];
     fireEvent.change(amountInput, { target: { value: '30' } });
 
-    expect(handleAmountChange).toHaveBeenCalledWith(1, 'age', '30');
+    expect(handleAmountChange).toHaveBeenCalledWith('1', 'age', 30);
   });
 
   test('displays empty message when no rows are provided', () => {

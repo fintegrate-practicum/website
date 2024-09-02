@@ -9,18 +9,19 @@ import { IProduct } from '../../interfaces/IProduct';
 import { IComponent } from '../../interfaces/IComponent';
 import DeleteProduct from '../DeleteProduct';
 import DeleteComponent from '../DeleteComponent';
-import TableComponent from '../../../../stories/TableComponent';
+import TableComponent from '../../../../common/components/Table/TableComponent';
 import Button from '../../../../common/components/Button/Button';
+import { DataObject } from '../../../../common/components/Table/interfaces';
 
 const AllProducts = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const products = useAppSelector(
-    (state: { product: { data: any } }) => state.product?.data || [],
+    (state: { product: { data: any } }) => state.product.data || [],
   );
   const components = useAppSelector(
-    (state: { component: { data: any } }) => state.component?.data || [],
+    (state: { component: { data: any } }) => state.component.data || [],
   );
 
   const allRows = useMemo(
@@ -51,7 +52,7 @@ const AllProducts = () => {
     }
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     const item = allRows.find((item) => item.id === id);
 
     if (!item) {
@@ -78,7 +79,7 @@ const AllProducts = () => {
     }
   };
 
-  const dataObject = {
+  const dataObject: DataObject = {
     headers: [
       { key: 'id', label: 'ID', type: 'number' },
       { key: 'name', label: 'Name', type: 'text' },

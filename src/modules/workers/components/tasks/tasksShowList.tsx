@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo } from 'react';
 import Task from '../../classes/task';
 import { useAppSelector } from '../../../../Redux/hooks';
-import TableComponent from '../../../../stories/TableComponent';
+import TableComponent from '../../../../common/components/Table/TableComponent';
+import { DataObject } from '../../../../common/components/Table/interfaces';
 interface ShowTaskListProps {
   filteredTasks: Task[];
   setFilteredTasks: React.Dispatch<React.SetStateAction<Task[]>>;
@@ -25,21 +26,25 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
       setFilteredTasks(updatedFilteredTasks);
     }
   }, [currentUser, filteredTasks, setFilteredTasks]);
-  const dataObject = useMemo(() => {
-    return {
-      headers: [
-        { key: 'taskName', label: 'taskName', type: 'text' },
-        { key: 'targetDate', label: 'targetDate', type: 'text' },
-        { key: 'urgency', label: 'theUrgency Of The Task', type: 'text' },
-      ],
-      rows: filteredTasks.map((task) => ({
-        id: task.id,
+
+  const rows = useMemo(
+    () =>
+      filteredTasks.map((task) => ({
         taskName: task.taskName,
-        targetDate: task.targetDate.toISOString(), // Convert Date to string
+        targetDate: task.targetDate.toISOString(),
         urgency: task.urgency,
       })),
-    };
-  }, [filteredTasks]);
+    [filteredTasks],
+  );
+
+  const dataObject: DataObject = {
+    headers: [
+      { key: 'taskName', label: 'Task Name', type: 'text' },
+      { key: 'targetDate', label: 'Target Date', type: 'text' },
+      { key: 'urgency', label: 'Urgency', type: 'text' },
+    ],
+    rows,
+  };
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <TableComponent

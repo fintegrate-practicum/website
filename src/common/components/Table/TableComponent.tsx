@@ -1,53 +1,34 @@
 import { DataGrid } from '@mui/x-data-grid';
 import { useState } from 'react';
-import { action } from '@storybook/addon-actions';
 import PropTypes from 'prop-types';
-import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
+import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import useTheme from '@mui/material/styles/useTheme';
+import { Header, Row, DataObject, TableComponentProps } from './interfaces';
 
-const TableComponent = ({
+const TableComponent: React.FC<TableComponentProps> = ({
   dataObject,
   tableSize,
   onDelete,
-  showDeleteButton,
-  showEditButton,
+  showDeleteButton = false,
+  showEditButton = false,
   handleAmountChange,
   onEdit,
-}: {
-  dataObject: any;
-  tableSize: any;
-  onDelete: any;
-  showDeleteButton: any;
-  showEditButton: any;
-  handleAmountChange: any;
-  onEdit: any;
 }) => {
+  const theme = useTheme();
+  const MyColor = theme.palette.primary.main;
   const isLarge = tableSize === 'large';
   const tableHeight = isLarge ? '300px' : '200px';
   const tableWidth = isLarge ? '85%' : '60%';
   const imageSize = isLarge ? '50px' : '50px';
 
-  const [rows, setRows] = useState(dataObject.rows);
-  const [pageSize, setPageSize] = useState(5);
-  const handleDelete = (id: any) => {
-    action('Row deleted')(id);
-    const newRows = rows.filter((row: any) => row.id !== id);
-    setRows(newRows);
-    onDelete(id);
-  };
-
-  const handlePriceChange = (id: any, field: any, value: any) => {
-    const updatedRows = rows.map((row: any) =>
-      row.id === id ? { ...row, [field]: value } : row,
-    );
-    setRows(updatedRows);
-    handleAmountChange(id, field, value);
-  };
+  const [rows, setRows] = useState<Row[]>(dataObject.rows);
+  const [pageSize, setPageSize] = useState<number>(5);
 
   const columns = [
-    ...dataObject.headers.map((header: any) => {
+    ...dataObject.headers.map((header) => {
       if (header.isImage) {
         return {
           field: 'name',
@@ -90,7 +71,11 @@ const TableComponent = ({
                 type='number'
                 value={params.value}
                 onChange={(e) =>
-                  handlePriceChange(params.id, header.key, e.target.value)
+                  handleAmountChange?.(
+                    params.id.toString(),
+                    header.key,
+                    Number(e.target.value),
+                  )
                 }
                 variant='outlined'
                 size='small'
@@ -101,7 +86,7 @@ const TableComponent = ({
                       borderColor: 'transparent',
                     },
                     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                      borderColor: '#800080',
+                      borderColor: MyColor,
                     },
                   },
                 }}
@@ -122,18 +107,18 @@ const TableComponent = ({
               <div style={{ display: 'flex', gap: '8px' }}>
                 {showEditButton && (
                   <IconButton
-                    onClick={() => onEdit(params.row)}
+                    onClick={() => onEdit?.(params.row)}
                     aria-label='edit'
-                    sx={{ color: '#800080' }}
+                    sx={{ color: MyColor }}
                   >
                     <EditIcon />
                   </IconButton>
                 )}
                 {showDeleteButton && (
                   <IconButton
-                    onClick={() => handleDelete(params.row.id)}
+                    onClick={() => onDelete?.(params.row.id)}
                     aria-label='delete'
-                    sx={{ color: '#800080' }}
+                    sx={{ color: MyColor }}
                   >
                     <DeleteIcon />
                   </IconButton>
@@ -152,9 +137,7 @@ const TableComponent = ({
         width: tableWidth,
         marginTop: '20px',
         marginRight: tableSize === 'large' ? 'auto' : '0',
-        marginLeft: tableSize === 'large' ? 'auto' : 'auto', // Center or align left for large tables
         display: 'flex',
-        justifyContent: tableSize === 'large' ? 'center' : 'center',
       }}
     >
       {rows.length === 0 ? (
@@ -172,11 +155,11 @@ const TableComponent = ({
           sx={{
             '& .MuiDataGrid-columnHeaders': {
               backgroundColor: '#f0f0f0',
-              color: '#800080',
-              borderBottom: '2px solid #800080',
+              color: MyColor,
+              borderBottom: `2px solid ${MyColor}`,
             },
             '& .MuiDataGrid-row': {
-              borderBottom: '1px solid #800080',
+              borderBottom: `1px solid ${MyColor}`,
             },
             '& .MuiDataGrid-cell': {
               borderBottom: 'none',
@@ -190,22 +173,12 @@ const TableComponent = ({
     </div>
   );
 };
-
 TableComponent.propTypes = {
   dataObject: PropTypes.shape({
-    headers: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        label: PropTypes.string.isRequired,
-        type: PropTypes.oneOf(['text', 'number', 'image']).isRequired,
-        isAmount: PropTypes.bool,
-        isPrice: PropTypes.bool,
-        isImage: PropTypes.bool,
-      }),
-    ).isRequired,
-    rows: PropTypes.arrayOf(PropTypes.object).isRequired,
+    headers: PropTypes.array.isRequired,
+    rows: PropTypes.array.isRequired,
   }).isRequired,
-  tableSize: PropTypes.string.isRequired,
+  tableSize: PropTypes.oneOf<'small' | 'large'>(['small', 'large']).isRequired,
   onDelete: PropTypes.func,
   showDeleteButton: PropTypes.bool,
   showEditButton: PropTypes.bool,

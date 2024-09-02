@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useAppSelector } from '../../../Redux/hooks';
 import { RootState } from '../../../Redux/store';
-import TableComponent from '../../../stories/TableComponent';
+import TableComponent from '../../../common/components/Table/TableComponent';
 import Button from '../../../common/components/Button/Button';
 import { useTranslation } from 'react-i18next';
+import { DataObject, Row } from '../../../common/components/Table/interfaces';
 
 const WorkersShowList = () => {
   const { t } = useTranslation();
@@ -24,31 +25,27 @@ const WorkersShowList = () => {
     startIndex,
     startIndex + itemsPerPage,
   );
+  const rows: Row[] = paginatedEmployees.map((employee) => ({
+    userId: employee.userId,
+    code: employee.code,
+    createdBy: employee.createdBy,
+    updatedBy: employee.updatedBy,
+    roleId: employee.role.type,
+    // position: employee.position,
+    // details: employee.details,
+  }));
 
-  const headers = [
-    { key: 'userId', label: 'User ID', type: 'text' },
-    { key: 'code', label: 'Code', type: 'text' },
-    { key: 'createdBy', label: 'Created By', type: 'text' },
-    { key: 'updatedBy', label: 'Updated By', type: 'text' },
-    { key: 'roleId', label: 'Role ID', type: 'text' },
-    { key: 'position', label: 'Position', type: 'text' },
-    { key: 'details', label: 'Details', type: 'text' },
-  ];
-
-  const dataObject = {
-    headers,
-    rows: paginatedEmployees,
-    // rows: paginatedEmployees.map((employee) => ({
-    //   id: employee.userId,
-    //   userId: employee.userId,
-    //   code: employee.code,
-    //   createdBy: employee.createdBy,
-    //   updatedBy: employee.updatedBy,
-    //   roleId: employee.role,
-    //   // position: employee.position,
-    //   // details: employee.details,
-    // }
-    // )),
+  const dataObject: DataObject = {
+    headers: [
+      { key: 'userId', label: 'User ID', type: 'text' },
+      { key: 'code', label: 'Code', type: 'text' },
+      { key: 'createdBy', label: 'Created By', type: 'text' },
+      { key: 'updatedBy', label: 'Updated By', type: 'text' },
+      { key: 'roleId', label: 'Role ID', type: 'text' },
+      { key: 'position', label: 'Position', type: 'text' },
+      { key: 'details', label: 'Details', type: 'text' },
+    ],
+    rows,
   };
 
   const handleDelete = () => {

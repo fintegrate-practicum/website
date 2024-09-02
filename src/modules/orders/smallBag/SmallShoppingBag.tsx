@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import TableComponent from '../../../stories/TableComponent';
+import TableComponent from '../../../common/components/Table/TableComponent';
+import { DataObject } from '../../../common/components/Table/interfaces';
 
-const bagData = {
+const bagData: DataObject = {
   headers: [
     { key: 'id', label: 'ID', type: 'text' },
     { key: 'name', label: 'פריט', type: 'text', isImage: true },

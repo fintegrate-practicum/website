@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Typography from '../../../common/components/Typography/Typography';
 import Button from '../../../common/components/Button/Button';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import TableComponent from '../../../stories/TableComponent';
+import TableComponent from '../../../common/components/Table/TableComponent';
 import { useTranslation } from 'react-i18next';
+import { DataObject } from '../../../common/components/Table/interfaces';
 
 interface BagItem {
   image: string;
@@ -36,8 +37,8 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
     }
   };
 
-  const handleAmountChange = (id: string, key: string, value: string) => {
-    const newAmount = parseInt(value, 10);
+  const handleAmountChange = (id: string, key: string, value: number) => {
+    const newAmount = value;
     if (newAmount === 0) {
       handleRemove(id);
     } else {
@@ -51,7 +52,7 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
     }
   };
 
-  const dataObject = {
+  const dataObject: DataObject = {
     headers: [
       { key: 'name', label: 'שם המוצר', type: 'text', isImage: true },
       { key: 'model', label: 'דגם', type: 'text' },
