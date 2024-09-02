@@ -56,7 +56,8 @@ const App = () => {
             path='/editProfile'
             element={
               <Suspense fallback={t('common.Loading...')}>
-                <LazyEditProfile />
+                {' '}
+                <LazyEditProfile />{' '}
               </Suspense>
             }
           />
@@ -64,7 +65,8 @@ const App = () => {
             path='/CreateBusiness/BaseDetailsManager'
             element={
               <Suspense fallback={t('common.Loading...')}>
-                <LazyBaseDetailsManager />
+                {' '}
+                <LazyBaseDetailsManager />{' '}
               </Suspense>
             }
           />
@@ -72,7 +74,8 @@ const App = () => {
             path='/CreateBusiness/EmailVerification'
             element={
               <Suspense fallback={t('common.Loading...')}>
-                <LazyEmailVerification />
+                {' '}
+                <LazyEmailVerification />{' '}
               </Suspense>
             }
           />
@@ -80,10 +83,12 @@ const App = () => {
             path='/CreateBusiness/MoreDetailsManager'
             element={
               <Suspense fallback={t('common.Loading...')}>
-                <LazyMoreDetailsManager />
+                {' '}
+                <LazyMoreDetailsManager />{' '}
               </Suspense>
             }
           />
+
           <Route path='/allorders/:businessCode?' element={<MainRouter />} />
           <Route path='/allinventory/*' element={<MainRouter />} />
           <Route
