@@ -10,13 +10,18 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
-import menuItem from './types';
 import { IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Divider from '@mui/material/Divider';
+import SidebarUserDetails from '../../auth0/SidebarUserDetails';
+import React from 'react';
+import { useAppSelector } from '../../Redux/hooks';
+import MenuItem from './types';
 
-const drawerWidth = 240;
 
+
+
+const drawerWidth = 150;
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
   transition: theme.transitions.create('width', {
@@ -32,9 +37,9 @@ const closedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
+  width: `calc(${theme.spacing(10)} + 1px)`,
   [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
+    width: `calc(${theme.spacing(10)} + 1px)`,
   },
 });
 
@@ -54,23 +59,28 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
   }),
 );
+
 interface Props {
-    items: menuItem[];
-    setCurrentMenu: (currentMenu:menuItem) => void;
+    items: MenuItem[];
+    setCurrentMenu: (currentMenu:MenuItem) => void;
 }
+
 const SideMenu: FC<Props> = ({ items, setCurrentMenu }) => {
-
+  const currentUser = useAppSelector((state) => state.currentUserSlice);
   const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
-  const handleDrawerOpen = () => {
+  const handleDrawerOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
     setOpen(true);
   };
 
   const handleDrawerClose = () => {
+    setAnchorEl(null);
     setOpen(false);
   };
 
-  const clickMenuItem = (listItem: menuItem) => {
+  const clickMenuItem = (listItem: MenuItem) => {
     setOpen(false);
     setCurrentMenu(listItem);
   }
@@ -111,13 +121,23 @@ const SideMenu: FC<Props> = ({ items, setCurrentMenu }) => {
       >
         <Drawer
           variant="permanent"
-          anchor="right"
+          anchor="left"
           open={open}
         >
           {drawer}
         </Drawer>
       </Box>
+      <SidebarUserDetails 
+      
+        nickname= {currentUser.userDetails.userName }
+        email= {currentUser.userDetails.userEmail} 
+        user_id = {currentUser.userDetails.auth0_user_id}
+        anchorEl={anchorEl} 
+        handleClose={handleDrawerClose} 
+      />
     </Box>
   );
 }
+
 export default SideMenu;
+

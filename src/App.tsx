@@ -102,6 +102,7 @@ const App = () => {
             <Route path='Worker/*' element={<MainRouter />} />
           </Route>
         </Routes>
+
         {isRootPath && (
           <>
             {typeUser !== 'admin' &&
@@ -117,7 +118,7 @@ const App = () => {
                 </Link>
               </>
             ) : (
-              <Login />
+              <Login/>
             )}
           </>
         )}
