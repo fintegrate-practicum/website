@@ -12,7 +12,7 @@ const LanguageSwitcher: React.FC = () => {
       i18n.changeLanguage(lng);
 
       // קביעת הכיוון בהתאם לשפה
-      const newDirection = lng === 'he' ? 'rtl' : 'ltr';
+      const newDirection = getTextDirection(lng);
       document.body.style.direction = newDirection; // עדכון סגנון הכיוון של הגוף
       document.documentElement.lang = lng; // הגדרת שפת האתר
 
@@ -22,7 +22,6 @@ const LanguageSwitcher: React.FC = () => {
   };
 
   // קביעת כיוון הכפתורים והמיקום לפי השפה הנוכחית
-  const currentDirection = getTextDirection(i18n.language);
   return (
     <Box
       position='fixed'
@@ -35,9 +34,6 @@ const LanguageSwitcher: React.FC = () => {
       display='flex'
       justifyContent='center'
       alignItems='center'
-      sx={{
-        direction: currentDirection, // שינוי הכיוון של הכפתורים בהתאם לשפה הנוכחית
-      }}
     >
       <ButtonGroup variant='contained' color='primary'>
         <Button onClick={() => changeLanguage('en')}>English</Button>

@@ -33,10 +33,6 @@ const LazyClient = React.lazy(() => import('./components/client/Client'));
 
 const App = () => {
   const { t ,i18n} = useTranslation();
-  // const direction: 'rtl' | 'ltr' = i18n.language === 'he' ? 'rtl' : 'ltr'; // קביעת הכיוון לפי השפה הנוכחית
-  // דוגמה לקובץ שבו אתה משתמש בפונקציה
-// import { getTextDirection } from './utils';
-
 const direction = getTextDirection(i18n.language);
 
   const currentUser = useAppSelector((state) => state.currentUserSlice);
