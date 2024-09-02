@@ -25,19 +25,22 @@ const ShoppingDetails: React.FC<Props> = ({ amount }) => {
 
     const userId = useJwtFromCookie('user_id')?.split('|')[1];
     const token = useJwtFromCookie('accessToken') || undefined;
-    const Cart = useAppSelector((state) => state.cart?.data || []);
+    const Carts = useAppSelector((state) => state.cart?.data || []);
     const [selectedOption, setSelectedOption] = useState<string>('');
     const dispatch = useDispatch();
 
+    const currentEmployee = useAppSelector(
+        (state) => state.currentUserSlice.CurrentUser.employeeDetails,
+    );
 
-    const productsCart = Cart.map(c => ({
+    const productsCart = Carts.map(c => ({
         id: c.product.id,
         qty: c.Quantity,
     }));
 
     const getAllCart = async () => {
         try {
-            const res = await getAllItems<ICart[]>(`cart/business123/${userId}`, token);
+            const res = await getAllItems<ICart[]>(`cart/${currentEmployee.businessId}/${userId}`, token);
             dispatch(getBasket(res.data));
         }
         catch (err) {
@@ -105,7 +108,7 @@ const ShoppingDetails: React.FC<Props> = ({ amount }) => {
     return (
         <Grid sx={{ flexGrow: 1 }} container spacing={2} direction="column" alignItems="center">
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-                {productsCart.length > 0 && Cart.map((cart) => (
+                {productsCart.length > 0 && Carts.map((cart) => (
                     <Card sx={{ width: 200, maxWidth: '100%', boxShadow: 'lg', margin: 2 }}>
                         <Typography>
                             name: {cart.product.name}
