@@ -1,6 +1,7 @@
 import { createTheme } from '@mui/material/styles';
 
-const theme = (direction: any) => createTheme({
+type Direction = 'ltr' | 'rtl';
+const theme = (direction:Direction) => createTheme({
   direction, // הגדרת כיוון כ-RTL או LTR
   palette: {
     primary: {

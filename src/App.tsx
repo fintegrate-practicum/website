@@ -5,7 +5,7 @@ import Store from './Redux/store';
 import theme from './Theme';
 import Client from './components/client/Client';
 import MainRouter from './components/router/MainRouter';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useMemo, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast from './components/generic/errorMassage';
@@ -32,7 +32,6 @@ const LazyClient = React.lazy(() => import('./components/client/Client'));
 const App = () => {
   const { t ,i18n} = useTranslation();
   const direction: 'rtl' | 'ltr' = i18n.language === 'he' ? 'rtl' : 'ltr'; // קביעת הכיוון לפי השפה הנוכחית
-
   const currentUser = useAppSelector((state) => state.currentUserSlice);
   const [typeUser, setTypeUser] = useState<string | null>(null);
   const location = useLocation();
@@ -45,9 +44,9 @@ const App = () => {
   }, [currentUser]);
 
   const isRootPath = location.pathname === '/';
-
+  const memoizedTheme = useMemo(() => theme(direction), [direction]);
   return (
-    <ThemeProvider theme={theme(direction)}>
+    <ThemeProvider theme={memoizedTheme}>
       <Provider store={Store}>
         <Header />
         <LanguageSwitcher />
