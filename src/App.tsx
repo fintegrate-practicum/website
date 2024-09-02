@@ -90,14 +90,14 @@ const App = () => {
             path='/link/:linkUID'
             element={
               <Suspense fallback='Loading...'>
-                <LazyClient />
+                {' '}
+                <LazyClient />{' '}
               </Suspense>
             }
           >
             <Route path='orders' element={<MainRouter />} />
             <Route path='inventory' element={<MainRouter />} />
             <Route path='HomePage' element={<MainRouter />} />
-            <Route path='manager/*' element={<MainRouter />} />
             <Route path='Setting/Category' element={<MainRouter />} />
             <Route path='Worker/*' element={<MainRouter />} />
           </Route>
