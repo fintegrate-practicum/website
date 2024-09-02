@@ -56,7 +56,8 @@ const App = () => {
             path='/editProfile'
             element={
               <Suspense fallback={t('common.Loading...')}>
-                <LazyEditProfile />
+                {' '}
+                <LazyEditProfile />{' '}
               </Suspense>
             }
           />
@@ -64,7 +65,8 @@ const App = () => {
             path='/CreateBusiness/BaseDetailsManager'
             element={
               <Suspense fallback={t('common.Loading...')}>
-                <LazyBaseDetailsManager />
+                {' '}
+                <LazyBaseDetailsManager />{' '}
               </Suspense>
             }
           />
@@ -72,7 +74,8 @@ const App = () => {
             path='/CreateBusiness/EmailVerification'
             element={
               <Suspense fallback={t('common.Loading...')}>
-                <LazyEmailVerification />
+                {' '}
+                <LazyEmailVerification />{' '}
               </Suspense>
             }
           />
@@ -80,7 +83,8 @@ const App = () => {
             path='/CreateBusiness/MoreDetailsManager'
             element={
               <Suspense fallback={t('common.Loading...')}>
-                <LazyMoreDetailsManager />
+                {' '}
+                <LazyMoreDetailsManager />{' '}
               </Suspense>
             }
           />
@@ -90,14 +94,14 @@ const App = () => {
             path='/link/:linkUID'
             element={
               <Suspense fallback='Loading...'>
-                <LazyClient />
+                {' '}
+                <LazyClient />{' '}
               </Suspense>
             }
           >
             <Route path='orders' element={<MainRouter />} />
             <Route path='inventory' element={<MainRouter />} />
             <Route path='HomePage' element={<MainRouter />} />
-            <Route path='manager/*' element={<MainRouter />} />
             <Route path='Setting/Category' element={<MainRouter />} />
             <Route path='Worker/*' element={<MainRouter />} />
           </Route>

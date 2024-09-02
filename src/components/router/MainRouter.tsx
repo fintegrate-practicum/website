@@ -1,6 +1,14 @@
 import { useEffect, useState } from 'react';
 import menuItem from '../menu/types';
-import { Home, Settings, Person, List, Widgets } from '@mui/icons-material';
+import {
+  Home,
+  Settings,
+  Person,
+  List,
+  PlaylistAdd,
+  AddShoppingCart,
+  Widgets,
+} from '@mui/icons-material';
 import SideMenu from '../menu/SideMenu';
 import LazyRouter from '../router/lazyRouter';
 import Header from '../Header/Header';
@@ -33,27 +41,39 @@ const MainRouter = () => {
       route: '../Worker/details',
       component: '../navigation/Workers',
     },
+    {
+      name: 'orders',
+      nameToView: 'Orders',
+      icon: PlaylistAdd,
+      route: '../orders',
+      component: '../../modules/orders/ShoppingDetails',
+    },
+    {
+      name: 'inventory',
+      nameToView: 'Inventory',
+      icon: AddShoppingCart,
+      route: '../inventory',
+      component:
+        '../../modules/inventory/components/ClientShowProducts/AllProducts',
+    },
   ];
   //currentUser-עובדים עליו עכשיו ויצטרכו לשנות אחרי כן
   if (currentUser.employeeDetails.role.type === 'admin') {
-    //if the user is manager
     menuItems.push(
-      //הכנה לorders  צריך לסדר ניתוב רק כשהקומפוננטה תהיה מוכנה
       {
         name: 'allorders',
         nameToView: 'ALLOrders',
         icon: Widgets,
         route: '../orders',
-        component: '../../modules/orders/showOrders/ALLOrders',
+        component: '../../modules/orders/ALLOrders',
       },
-      //הכנה ל inventory צריך לסדר ניתוב רק כשהקומפוננטה תהיה מוכנה
       {
         name: 'allinventory',
         nameToView: 'ALLInventory',
         icon: List,
         route: '../inventory',
         component:
-          '../../modules/inventory/components/tableInventory/AllProducts',
+          '../../modules/inventory/components/ManagerShowProducts/AllProducts',
       },
     );
   }
