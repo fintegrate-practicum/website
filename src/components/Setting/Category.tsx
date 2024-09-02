@@ -6,10 +6,6 @@ import Typography from '../../common/components/Typography/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { List, ListItem, ListItemText } from '@mui/material';
 import MySetting, { MySettingProps } from './MySetting';
-import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
-import { fetchServiceSettings } from '../../Redux/serviceSettingsSlice';
-import { RootState } from '../../Redux/store';
-import { useEffect } from 'react';
 
 const style = {
   p: 0,
@@ -22,7 +18,6 @@ const style = {
   textAlign: 'right',
 };
 
-
 export interface CategoryProps {
   CategoryItem: {
     CategoryName: string;
@@ -32,30 +27,34 @@ export interface CategoryProps {
 }
 
 export interface ServiceSettings {
-  service_id: number;
-  settings_json: CategoryProps;
+  service_name: string;
+  settings_json: CategoryProps[];
 }
 
-export function AddSubCategory(SubCategoryProp: CategoryProps) {
+export default function AddSubCategory(SubCategoryProp: CategoryProps) {
   const [expanded, setExpanded] = React.useState<string | false>(false);
-  const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-    setExpanded(isExpanded ? panel : false);
-  };
+  const handleChange =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
   return (
-    <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
+    <Accordion
+      expanded={expanded === 'panel4'}
+      onChange={handleChange('panel4')}
+    >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel4bh-content"
-        id="panel4bh-header"
+        aria-controls='panel4bh-content'
+        id='panel4bh-header'
       >
         <Typography style={{ width: '60vw', flexShrink: 0 }}>
           {SubCategoryProp?.CategoryItem.CategoryName}
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <div> 
+        <div>
           {SubCategoryProp.CategoryItem.Settings && (
-            <List aria-label="mailbox folders">
+            <List aria-label='mailbox folders'>
               {SubCategoryProp.CategoryItem.Settings.map((s, index) => (
                 <ListItem key={index} sx={style}>
                   <ListItemText primary={s.setting.settingDesc} />
@@ -73,21 +72,8 @@ export function AddSubCategory(SubCategoryProp: CategoryProps) {
   );
 }
 
-const Category: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const serviceSettings: ServiceSettings[] = useAppSelector((state: RootState) => state.serviceSettingsSlice.settings);
 
-  useEffect(() => {
-    dispatch(fetchServiceSettings());
-  }, []);
 
-  return (
-    <>
-      {serviceSettings?.map((item, index) => (
-        <AddSubCategory key={item.service_id} {...item.settings_json} />
-      ))}
-    </>
-  );
-};
 
-export default Category;
+
+

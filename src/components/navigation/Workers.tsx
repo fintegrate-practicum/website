@@ -10,8 +10,10 @@ import TasksShowList from '../../modules/workers/components/tasks/tasksShowList'
 import MessageList from '../../modules/workers/components/messageList';
 import Tab from '@mui/material/Tab';
 import { fetchTasks } from '../../modules/workers/features/taskSlice';
+import { useTranslation } from 'react-i18next';
 
 const WorkersTopNav = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const tasks = useAppSelector((state) => state.taskSlice.tasks);
   const messages = useAppSelector((state) => state.messageSlice.messages);
@@ -48,9 +50,13 @@ const WorkersTopNav = () => {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label='workers tabs'>
-            <Tab label='details' value='details' />
-            <Tab label='tasks' value='tasks' />
-            <Tab label='messages' value='messages' />
+            <Tab label={t('website.details')} value='details' href='details' />
+            <Tab label={t('website.tasks')} value='tasks' href='tasks' />
+            <Tab
+              label={t('website.messages')}
+              value='messages'
+              href='messages'
+            />
           </TabList>
         </Box>
         <TabPanel value='details'>

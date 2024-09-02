@@ -52,7 +52,8 @@ Default.args = {
         required: 'Business name is required',
         pattern: {
           value: /^[A-Z]{2,30}$/i,
-          message: 'Business name must contain more than 2 and less than 30 characters',
+          message:
+            'Business name must contain more than 2 and less than 30 characters',
         },
       },
     },

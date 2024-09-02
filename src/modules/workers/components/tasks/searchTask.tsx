@@ -4,6 +4,7 @@ import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Task from '../../classes/task';
+import { useTranslation } from 'react-i18next';
 
 interface SearchTaskProps {
   tasks: Task[];
@@ -11,40 +12,50 @@ interface SearchTaskProps {
 }
 
 const SearchTask: React.FC<SearchTaskProps> = ({ tasks, setFilteredTasks }) => {
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearch = () => {
-    setFilteredTasks(tasks.filter(task => {
-      return task.taskName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        task.employee.some(emp =>
-          emp.toString().includes(searchTerm.toLowerCase())) ||
-        task.description.toLowerCase().includes(searchTerm.toLowerCase());
-    }))
+    setFilteredTasks(
+      tasks.filter((task) => {
+        return (
+          task.taskName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          task.employee.some((emp) =>
+            emp.toString().includes(searchTerm.toLowerCase()),
+          ) ||
+          task.description.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      }),
+    );
   };
 
   return (
     <>
       <Paper
-        component="form"
+        component='form'
         sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
       >
         <InputBase
           sx={{ ml: 1, flex: 1 }}
-          placeholder="Search"
+          placeholder={t('workers.Search')}
           inputProps={{ 'aria-label': 'search' }}
           value={searchTerm}
           onChange={(e) => {
             setSearchTerm(e.target.value);
             handleSearch();
-          }
-          }
+          }}
         />
-        <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleSearch}>
+        <IconButton
+          type='button'
+          sx={{ p: '10px' }}
+          aria-label='search'
+          onClick={handleSearch}
+        >
           <SearchIcon />
         </IconButton>
       </Paper>
     </>
-
   );
-}
+};
+
 export default SearchTask;

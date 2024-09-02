@@ -13,8 +13,11 @@ import Typography from '../../../common/components/Typography/Typography';
 import { useAppDispatch } from '../../../Redux/hooks';
 import DateFormat from '../../../components/generic/dateFormat';
 import { getUserById } from '../features/employeeSlice';
+import { useTranslation } from 'react-i18next';
 
 const MessageList = ({ messages }: { messages: Message[] }) => {
+  const { t } = useTranslation();
+
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
   const dispatch = useAppDispatch();
 
@@ -66,7 +69,7 @@ const MessageList = ({ messages }: { messages: Message[] }) => {
                   primary={message.message_content}
                   secondary={
                     <>
-                      {`Received from: ${userNames[message.sender_id] || 'Loading...'} at `}
+                      {`${t('workers.Received from:')} ${userNames[message.sender_id] || t('common.Loading...')} at `}
                       <DateFormat
                         isoDate={message.date_time.toLocaleString()}
                       />
@@ -78,7 +81,7 @@ const MessageList = ({ messages }: { messages: Message[] }) => {
           </List>
         ) : (
           <Typography variant='h6' color='textSecondary' align='center'>
-            No messages available.
+            {t('workers.No messages available.')}
           </Typography>
         )}
       </Box>
@@ -89,8 +92,10 @@ const MessageList = ({ messages }: { messages: Message[] }) => {
               {selectedMessage.message_content}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
-              Received from:
-              {userNames[selectedMessage.sender_id] || 'Loading...'} at{' '}
+              {t('workers.Received from:')}
+              {userNames[selectedMessage.sender_id] ||
+                t('common.Loading...')}{' '}
+              at{' '}
               {
                 <DateFormat
                   isoDate={selectedMessage.date_time.toLocaleString()}
@@ -100,7 +105,7 @@ const MessageList = ({ messages }: { messages: Message[] }) => {
           </Paper>
         ) : (
           <Typography variant='h6' color='textSecondary'>
-            Select a message to read
+            {t('workers.Select a message to read')}
           </Typography>
         )}
       </Box>
