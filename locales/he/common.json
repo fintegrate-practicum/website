@@ -9,5 +9,7 @@
   "Next": "הבא",
   "Previous": "הקודם",
   "loadingText": "טוען טקסט",
-  "Delete": "מחק"
+  "Delete": "מחק",
+  "Error":"שגיאה",
+  "Success":"הצליח"
 }
