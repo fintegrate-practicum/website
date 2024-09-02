@@ -16,6 +16,8 @@ import Orders from './modules/orders/App';
 import AllOrders from './modules/orders/allOrders';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher';
+import {getTextDirection} from './utils/utils';
+
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(
@@ -31,7 +33,12 @@ const LazyClient = React.lazy(() => import('./components/client/Client'));
 
 const App = () => {
   const { t ,i18n} = useTranslation();
-  const direction: 'rtl' | 'ltr' = i18n.language === 'he' ? 'rtl' : 'ltr'; // קביעת הכיוון לפי השפה הנוכחית
+  // const direction: 'rtl' | 'ltr' = i18n.language === 'he' ? 'rtl' : 'ltr'; // קביעת הכיוון לפי השפה הנוכחית
+  // דוגמה לקובץ שבו אתה משתמש בפונקציה
+// import { getTextDirection } from './utils';
+
+const direction = getTextDirection(i18n.language);
+
   const currentUser = useAppSelector((state) => state.currentUserSlice);
   const [typeUser, setTypeUser] = useState<string | null>(null);
   const location = useLocation();

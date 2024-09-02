@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, ButtonGroup, Box } from '@mui/material';
+import {getTextDirection} from '../../utils/utils'
 
 const LanguageSwitcher: React.FC = () => {
   const { i18n } = useTranslation();
@@ -21,8 +22,7 @@ const LanguageSwitcher: React.FC = () => {
   };
 
   // קביעת כיוון הכפתורים והמיקום לפי השפה הנוכחית
-  const currentDirection = i18n.language === 'he' ? 'rtl' : 'ltr';
-
+  const currentDirection = getTextDirection(i18n.language);
   return (
     <Box
       position='fixed'
