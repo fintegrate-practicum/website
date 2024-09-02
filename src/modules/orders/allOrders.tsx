@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Container,
   Paper,
@@ -24,7 +24,7 @@ import { getOrders } from './features/order/orderSlice';
 import theme from '../../Theme';
 import { IComponent } from '../inventory/interfaces/IComponent';
 import { useTranslation } from 'react-i18next';
-
+import {getTextDirection} from '../../utils/utils'
 export default function AllOrders() {
   const { businessCode } = useParams<{ businessCode: string }>();
   const [products, setProducts] = useState<{
@@ -34,8 +34,9 @@ export default function AllOrders() {
   const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
   const orders = useAppSelector((state) => state.order?.data || []);
-  const { t } = useTranslation();
-
+  const { t ,i18n} = useTranslation();
+  const direction = getTextDirection(i18n.language);
+  const memoizedTheme = useMemo(() => theme(direction), [direction]);
   const getAllOrders = async () => {
     try {
       const res = await getAllItems<IOrder[]>(`orders/${businessCode}`);
@@ -98,7 +99,7 @@ export default function AllOrders() {
 
   if (loading) {
     return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={memoizedTheme}>
         <CssBaseline />
         <Container>
           <CircularProgress />
@@ -109,7 +110,7 @@ export default function AllOrders() {
 
   if (error) {
     return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={memoizedTheme}>
         <CssBaseline />
         <Container>
           <Typography variant='h6' color='error'>
@@ -124,7 +125,7 @@ export default function AllOrders() {
     return <div>{t('order.noBusinessCode')}</div>;
   }
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={memoizedTheme}>
       <CssBaseline />
       <Container>
         <Typography variant='h4' color='primary' gutterBottom>
