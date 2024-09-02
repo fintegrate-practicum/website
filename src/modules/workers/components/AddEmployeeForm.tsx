@@ -7,18 +7,20 @@ import { Types } from 'mongoose';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useTranslation } from 'react-i18next';
+const { t } = useTranslation();
 
 const schema = yup.object({
-    nameEmployee: yup.string().required('שם העובד הוא שדה חובה'),
+    nameEmployee: yup.string().required(t('worker.This field is required')),
     role: yup.object({
-        type: yup.string().required('תפקיד הוא שדה חובה'),
-        description: yup.string().required('תיאור תפקיד הוא שדה חובה'),
+        type: yup.string().required(t('worker.This field is required')),
+        description: yup.string().required(t('worker.This field is required')),
     }),
     email: yup.string()
-        .required('אימייל הוא שדה חובה')
-        .email('כתובת אימייל לא תקינה').matches(
+        .required(t('worker.This field is required'))
+        .email(t('worker.Email address is not valid')).matches(
             /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net|org|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$/,
-            'כתובת אימייל לא תקינה'
+            t('worker.Email address is not valid')
         ),
 }).required();
 
@@ -28,7 +30,7 @@ const AddEmployeeForm: React.FC = () => {
     const dispatch = useAppDispatch();
     const [existingBusiness, setExistingBusiness] = useState(false);
     const [employeeAdded, setEmployeeAdded] = useState(false);
-    const currentEmployee = useAppSelector((state) => state.currentUserSlice.CurrentUser.employeeDetails);
+    const currentEmployee = useAppSelector((state) => state.currentUserSlice.employeeDetails);
     const { control, handleSubmit, formState: { errors }, getValues } = useForm<FormValues>({ resolver: yupResolver(schema), });
 
     const onSubmit: SubmitHandler<FormValues> = async () => {
@@ -79,19 +81,19 @@ const AddEmployeeForm: React.FC = () => {
         <>
             {existingBusiness && (
                 <Alert severity="error">
-                    <AlertTitle>Error</AlertTitle>
-                    An existing employee systems
+                    <AlertTitle>{t('common.Error')}</AlertTitle>
+                    {t('worker.Error Message')}
                 </Alert>
             )}
             {employeeAdded && (
                 <Alert severity="success">
-                    <AlertTitle>Success</AlertTitle>
-                    An employee is added to the system
+                    <AlertTitle>{t('common.Success')}</AlertTitle>
+                    {t('worker.Success Message')}
                 </Alert>
             )}
             <Container maxWidth="sm" sx={{ marginTop: '2rem' }}>
                 <Typography variant="h4" component="h1" gutterBottom>
-                    הוספת עובד חדש
+                    {t('worker.Add Employee')}
                 </Typography>
                 <Box component="form" onSubmit={handleSubmit(onSubmit)}>
                     <Controller
@@ -102,7 +104,7 @@ const AddEmployeeForm: React.FC = () => {
                             <TextField
                                 sx={{ marginBottom: '1rem' }}
                                 fullWidth
-                                label="שם העובד"
+                                label={t('worker.name')}
                                 variant="outlined"
                                 error={!!errors.nameEmployee}
                                 helperText={errors.nameEmployee?.message || ''}
@@ -119,14 +121,14 @@ const AddEmployeeForm: React.FC = () => {
                                 sx={{ marginBottom: '1rem' }}
                                 fullWidth
                                 select
-                                label="תפקיד"
+                                label={t('worker.role')}
                                 variant="outlined"
                                 error={!!errors.role?.type}
                                 helperText={errors.role?.message || ''}
                                 {...field}
                             >
-                                <MenuItem value="admin">מנהל צוות</MenuItem>
-                                <MenuItem value="employee">עובד</MenuItem>
+                                <MenuItem value="admin">{t('worker.team manager')}</MenuItem>
+                                <MenuItem value="employee">{t('worker.worker')}</MenuItem>
                             </TextField>
                         )}
                     />
@@ -138,7 +140,7 @@ const AddEmployeeForm: React.FC = () => {
                             <TextField
                                 sx={{ marginBottom: '1rem' }}
                                 fullWidth
-                                label="תיאור תפקיד"
+                                label={t('worker.Role Description')}
                                 variant="outlined"
                                 error={!!errors.role?.description}
                                 helperText={errors.role?.description?.message || ''}
@@ -152,17 +154,17 @@ const AddEmployeeForm: React.FC = () => {
                         control={control}
                         defaultValue=""
                         rules={{
-                            required: "אימייל הוא שדה חובה",
+                            required: t('worker.This field is required'),
                             pattern: {
                                 value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net|org|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$/,
-                                message: "כתובת אימייל לא תקינה",
+                                message:  t('worker.Email address is not valid'),
                             }
                         }}
                         render={({ field }) => (
                             <TextField
                                 sx={{ marginBottom: '1rem' }}
                                 fullWidth
-                                label="אימייל"
+                                label={t('worker.email')}
                                 variant="outlined"
                                 error={!!errors.email}
                                 helperText={errors.email?.message || ''}
@@ -177,7 +179,7 @@ const AddEmployeeForm: React.FC = () => {
                         variant="contained"
                         color="primary"
                     >
-                        הוסף עובד
+                        {t('worker.Add Employee Button')}
                     </Button>
                 </Box>
             </Container>
