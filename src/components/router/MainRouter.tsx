@@ -59,9 +59,7 @@ const MainRouter = () => {
   ];
   //currentUser-עובדים עליו עכשיו ויצטרכו לשנות אחרי כן
   if (currentUser.employeeDetails.role.type === 'admin') {
-    //if the user is manager
     menuItems.push(
-      //הכנה לorders  צריך לסדר ניתוב רק כשהקומפוננטה תהיה מוכנה
       {
         name: 'allorders',
         nameToView: 'ALLOrders',
@@ -69,7 +67,6 @@ const MainRouter = () => {
         route: '../orders',
         component: '../../modules/orders/ALLOrders',
       },
-      //הכנה ל inventory צריך לסדר ניתוב רק כשהקומפוננטה תהיה מוכנה
       {
         name: 'allinventory',
         nameToView: 'ALLInventory',
