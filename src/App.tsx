@@ -30,7 +30,8 @@ const LazyMoreDetailsManager = React.lazy(
 const LazyClient = React.lazy(() => import('./components/client/Client'));
 
 const App = () => {
-  const { t } = useTranslation();
+  const { t ,i18n} = useTranslation();
+  const direction: 'rtl' | 'ltr' = i18n.language === 'he' ? 'rtl' : 'ltr'; // קביעת הכיוון לפי השפה הנוכחית
 
   const currentUser = useAppSelector((state) => state.currentUserSlice);
   const [typeUser, setTypeUser] = useState<string | null>(null);
@@ -46,7 +47,7 @@ const App = () => {
   const isRootPath = location.pathname === '/';
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme(direction)}>
       <Provider store={Store}>
         <Header />
         <LanguageSwitcher />

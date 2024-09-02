@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, ButtonGroup, Box } from '@mui/material';
@@ -46,15 +45,15 @@ const LanguageSwitcher: React.FC = () => {
         sx={{
           direction: 'ltr', // שמירת כיוון הכפתורים ב-LTR
           '& button': {
-            borderRadius: 0, // מניעת עיגול הפינות בין הכפתורים
+            borderRadius: '8px', // שמירה על פינות עגולות עבור כל כפתור
           },
           '&:first-of-type': {
-            borderTopLeftRadius: '4px', // שמירה על פינות עגולות בצד החיצוני
-            borderBottomLeftRadius: '4px',
+            borderTopLeftRadius: '8px', // עיגול פינות בצד שמאל
+            borderBottomLeftRadius: '8px',
           },
           '&:last-of-type': {
-            borderTopRightRadius: '4px', // שמירה על פינות עגולות בצד החיצוני
-            borderBottomRightRadius: '4px',
+            borderTopRightRadius: '8px', // עיגול פינות בצד ימין
+            borderBottomRightRadius: '8px',
           },
         }}
       >
