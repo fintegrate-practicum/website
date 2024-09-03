@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, ButtonGroup, Box } from '@mui/material';
-import {getTextDirection} from '../../utils/utils'
+import { getTextDirection } from '../../utils/utils';
 
 const LanguageSwitcher: React.FC = () => {
   const { i18n } = useTranslation();
-
+  
   // פונקציה לשינוי שפה וכיוון
   const changeLanguage = (lng: string) => {
     if (i18n && typeof i18n.changeLanguage === 'function') {
@@ -15,11 +15,19 @@ const LanguageSwitcher: React.FC = () => {
       const newDirection = getTextDirection(lng);
       document.body.style.direction = newDirection; // עדכון סגנון הכיוון של הגוף
       document.documentElement.lang = lng; // הגדרת שפת האתר
-
+      // שמירת השפה ב-localStorage
+      localStorage.setItem('language', lng);
     } else {
       console.error('i18n or changeLanguage is not available');
     }
   };
+  // בעת טעינת הקומפוננטה, נבדוק אם יש שפה שמורה
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage) {
+      changeLanguage(savedLanguage);
+    }
+  }, []);
 
   // קביעת כיוון הכפתורים והמיקום לפי השפה הנוכחית
   return (
@@ -36,8 +44,16 @@ const LanguageSwitcher: React.FC = () => {
       alignItems='center'
     >
       <ButtonGroup variant='contained' color='primary'>
-        <Button onClick={() => changeLanguage('en')}>English</Button>
-        <Button onClick={() => changeLanguage('he')}>עברית</Button>
+        <Button
+          onClick={() => changeLanguage('en')}
+        >
+          English
+        </Button>
+        <Button
+          onClick={() => changeLanguage('he')}
+        >
+          עברית
+        </Button>
       </ButtonGroup>
     </Box>
   );
