@@ -9,5 +9,7 @@
   "Next": "Next",
   "Previous": "Previous",
   "loadingText": "loadingText",
-  "Delete": "Delete"
+  "Delete": "Delete",
+  "Error":"Error",
+  "Success":"Success"
 }

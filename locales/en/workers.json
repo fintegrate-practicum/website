@@ -56,5 +56,16 @@
   "Edit Task": "Edit Task",
   "To Do": "To Do",
   "In Progress": "In Progress",
-  "Edit your details and save": "Edit your details and save"
+  "Edit your details and save": "Edit your details and save",
+  "Email address is not valid":"Email address is not valid",
+  "Error Message":"Error message user exists in the system",
+  "Success Message":"Added successfully",
+  "Add Employee":"Add Employee",
+  "name":"name",
+  "role":"role",
+  "team manager":"team manager",
+  "worker":"worker",
+  "Role Description":"Role Description",
+  "email":"email",
+  "Add Employee Button":"Add Employee"
 }
