@@ -70,23 +70,11 @@ export const getUserById = createAsyncThunk('', async (id: string) => {
   }
 });
 
-
 export const getUserByEmail = createAsyncThunk('', async (email: string) => {
-    try {
-        const response = await workerInstance.get(`/user/email/${email}`)
-        return response.data
-    } catch (error) {
-        console.error('error', error)
-
-    }
-  },
-);
-
-export const getUserById = createAsyncThunk('', async (id: string) => {
   try {
-    const response = await workerInstance.get(`/user/${id}`);
-    return response.data.data;
+    const response = await workerInstance.get(`/user/email/${email}`);
+    return response.data;
   } catch (error) {
-    return error;
+    console.error('error', error);
   }
 });
