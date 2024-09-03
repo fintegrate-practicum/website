@@ -1,7 +1,7 @@
 {
-  "errorOccurred": "An error occurred",
-  "retry": "Retry",
-  "dismiss": "Dismiss",
+  "An error occurred": "An error occurred",
+  "Retry": "Retry",
+  "Dismiss": "Dismiss",
   "Loading ...": "Loading ...",
   "Cancel": "Cancel",
   "Save": "Save",
