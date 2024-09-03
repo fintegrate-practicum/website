@@ -64,16 +64,16 @@ const ShoppingDetails: React.FC<Props> = ({ amount }) => {
                 },
                 user: userId,
                 products: productsCart,
-                businessCode: 'business123',
+                businessCode: currentEmployee.businessId,
                 settingManeger: 1,
                 deliveryMethod: selectedOption,
             }
             await addItem("orders", newData);
             reset()
-            alert("ההזמנה נשמרה בהצלחה");
+            alert("Order saved successfully");
         } catch (err) {
             console.log(err);
-            showErrorToast("הייתה שגיאה בשמירת ההזמנה");
+            showErrorToast("Error saving the order");
         }
     };
 
@@ -111,7 +111,7 @@ const ShoppingDetails: React.FC<Props> = ({ amount }) => {
                 {productsCart.length > 0 && Carts.map((cart) => (
                     <Card sx={{ width: 200, maxWidth: '100%', boxShadow: 'lg', margin: 2 }}>
                         <Typography>
-                            name: {cart.product.name}
+                            Product Name: {cart.product.name}
                         </Typography>
                         <Typography>
                             Quantity: {cart.Quantity}
@@ -124,12 +124,12 @@ const ShoppingDetails: React.FC<Props> = ({ amount }) => {
             </Box>
 
             <Typography variant="h5">
-                הסכום לתשלום: {amount}
+                Total to pay : {amount}
             </Typography>
 
             <form onSubmit={handleSubmit(saveDetails)}>
                 <FormControl >
-                    <Typography >איך תרצה לאסוף את המשלוח</Typography>
+                    <Typography >  How would you like to receive the shipment? </Typography>
                     <RadioGroup
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
@@ -162,7 +162,7 @@ const ShoppingDetails: React.FC<Props> = ({ amount }) => {
                         </Box>)
                     }
                     <Button type="submit" variant="contained" color="primary" fullWidth>
-                        שמור פרטים
+                        save details 
                     </Button>
 
                 </FormControl>
