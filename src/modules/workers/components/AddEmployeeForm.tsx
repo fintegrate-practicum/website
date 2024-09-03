@@ -8,9 +8,17 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
-const { t } = useTranslation();
 
-const schema = yup.object({
+const AddEmployeeForm: React.FC = () => {
+    const { t } = useTranslation();
+
+    const dispatch = useAppDispatch();
+    const [existingBusiness, setExistingBusiness] = useState(false);
+    const [employeeAdded, setEmployeeAdded] = useState(false);
+    const currentEmployee = useAppSelector((state) => state.currentUserSlice.employeeDetails);
+    const { control, handleSubmit, formState: { errors }, getValues } = useForm<FormValues>({ resolver: yupResolver(schema), });
+
+    const schema = yup.object({
     nameEmployee: yup.string().required(t('worker.This field is required')),
     role: yup.object({
         type: yup.string().required(t('worker.This field is required')),
@@ -24,14 +32,7 @@ const schema = yup.object({
         ),
 }).required();
 
-type FormValues = yup.InferType<typeof schema>;
-
-const AddEmployeeForm: React.FC = () => {
-    const dispatch = useAppDispatch();
-    const [existingBusiness, setExistingBusiness] = useState(false);
-    const [employeeAdded, setEmployeeAdded] = useState(false);
-    const currentEmployee = useAppSelector((state) => state.currentUserSlice.employeeDetails);
-    const { control, handleSubmit, formState: { errors }, getValues } = useForm<FormValues>({ resolver: yupResolver(schema), });
+    type FormValues = yup.InferType<typeof schema>;
 
     const onSubmit: SubmitHandler<FormValues> = async () => {
         const { nameEmployee, role, email } = getValues();
