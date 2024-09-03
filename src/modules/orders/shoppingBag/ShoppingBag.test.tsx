@@ -60,7 +60,7 @@ describe('ShoppingCart component', () => {
     renderWithToast('העגלה שלך ריקה!', 'info');
 
     // Check if the empty cart message is displayed
-    expect(screen.getByText('Your shopping bag is empty')).toBeInTheDocument();
+    expect(screen.getByText('order.bagIsEmpty')).toBeInTheDocument();
   });
 
   it('calls the payment function when the payment button is clicked', () => {

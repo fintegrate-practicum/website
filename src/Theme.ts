@@ -1,6 +1,8 @@
 import { createTheme } from '@mui/material/styles';
 
-const theme = createTheme({
+type Direction = 'ltr' | 'rtl';
+const theme = (direction:Direction) => createTheme({
+  direction, // הגדרת כיוון כ-RTL או LTR
   palette: {
     primary: {
       main: '#6503A6',
@@ -17,4 +19,3 @@ const theme = createTheme({
 });
 
 export default theme;
-
