@@ -10,14 +10,13 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast from './components/generic/errorMassage';
 import Inventory from './modules/inventory/Inventory';
-import  Login from './components/Login/login';
+import Login from './components/Login/login';
 import Header from './components/Header/Header';
 import Orders from './modules/orders/App';
 import AllOrders from './modules/orders/allOrders';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher';
-import {getTextDirection} from './utils/utils';
-
+import { getTextDirection } from './utils/utils';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(
@@ -32,8 +31,8 @@ const LazyMoreDetailsManager = React.lazy(
 const LazyClient = React.lazy(() => import('./components/client/Client'));
 
 const App = () => {
-  const { t ,i18n} = useTranslation();
-const direction = getTextDirection(i18n.language);
+  const { t, i18n } = useTranslation();
+  const direction = getTextDirection(i18n.language);
 
   const currentUser = useAppSelector((state) => state.currentUserSlice);
   const [typeUser, setTypeUser] = useState<string | null>(null);
@@ -113,7 +112,7 @@ const direction = getTextDirection(i18n.language);
             ) : typeUser === 'manager' || typeUser === 'admin' ? (
               <MainRouter />
             ) : (
-              <Login/>
+              <Login />
             )}
           </>
         )}
