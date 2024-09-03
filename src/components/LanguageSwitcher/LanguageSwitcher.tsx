@@ -5,6 +5,7 @@ import { getTextDirection } from '../../utils/utils';
 
 const LanguageSwitcher: React.FC = () => {
   const { i18n } = useTranslation();
+  
   // פונקציה לשינוי שפה וכיוון
   const changeLanguage = (lng: string) => {
     if (i18n && typeof i18n.changeLanguage === 'function') {
@@ -14,15 +15,12 @@ const LanguageSwitcher: React.FC = () => {
       const newDirection = getTextDirection(lng);
       document.body.style.direction = newDirection; // עדכון סגנון הכיוון של הגוף
       document.documentElement.lang = lng; // הגדרת שפת האתר
-
       // שמירת השפה ב-localStorage
       localStorage.setItem('language', lng);
-      // setSelectedLanguage(lng);
     } else {
       console.error('i18n or changeLanguage is not available');
     }
   };
-
   // בעת טעינת הקומפוננטה, נבדוק אם יש שפה שמורה
   useEffect(() => {
     const savedLanguage = localStorage.getItem('language');
@@ -31,6 +29,7 @@ const LanguageSwitcher: React.FC = () => {
     }
   }, []);
 
+  // קביעת כיוון הכפתורים והמיקום לפי השפה הנוכחית
   return (
     <Box
       position='fixed'

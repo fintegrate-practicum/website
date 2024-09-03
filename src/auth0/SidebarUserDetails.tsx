@@ -16,12 +16,16 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+
 interface SidebarUserDetailsProps {
   email: string | undefined;
   nickname: string | undefined;
   user_id: string | undefined;
   anchorEl: HTMLElement | null;
   handleClose: () => void;
+  domain?: string;
+  clientId?: string;
+  
 }
 
 const SidebarUserDetails: React.FC<SidebarUserDetailsProps> = ({
