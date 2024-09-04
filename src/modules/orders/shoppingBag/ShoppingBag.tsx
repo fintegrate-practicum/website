@@ -8,6 +8,7 @@ import { DataObject } from '../../../common/components/Table/interfaces';
 import TextField from '@mui/material/TextField';
 
 interface BagItem {
+  id?: string;
   image: string;
   name: string;
   model: string;
@@ -33,7 +34,7 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
 
   const handleRemove = (id: string) => {
     if (window.confirm(t('order.confirmRemove'))) {
-      const newBag = bag.filter((_, i) => i !== parseInt(id));
+      const newBag = bag.filter((b) => b.id !== id);
       setBag(newBag);
     }
   };
@@ -43,8 +44,8 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
     if (newAmount === 0) {
       handleRemove(id);
     } else {
-      const newBag = bag.map((item, i) => {
-        if (i === parseInt(id)) {
+      const newBag = bag.map((item) => {
+        if (item.id === id) {
           return { ...item, amount: newAmount };
         }
         return item;
@@ -57,7 +58,7 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
     headers: [
       {
         key: 'name',
-        label: 'שם המוצר',
+        label: t('order.name'),
         type: 'text',
         renderCell: (params) => (
           <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -70,10 +71,10 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
           </div>
         ),
       },
-      { key: 'model', label: 'דגם', type: 'text' },
+      { key: 'model', label: t('order.Model'), type: 'text' },
       {
         key: 'amount',
-        label: 'כמות',
+        label: t('order.amount'),
         type: 'number',
         renderCell: (params) => (
           <TextField
@@ -104,7 +105,7 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
       },
       {
         key: 'price',
-        label: 'מחיר',
+        label: t('order.price'),
         type: 'number',
         renderCell: (params) => (
           <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -115,8 +116,8 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
       },
     ],
     rows: bag.map((item, index) => ({
-      id: index,
       ...item,
+      id: index.toString(),
       price: (item.price * item.amount).toFixed(2),
     })),
   };
@@ -136,7 +137,7 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
           />
           <Typography variant='h6'>
             {' '}
-            סכום לתשלום: {total.toFixed(2)} ₪{' '}
+            {t('order.Amount to be paid :')} {total.toFixed(2)} ₪{' '}
           </Typography>
           <Button
             onClick={() => alert(t('order.paymentClicked'))}

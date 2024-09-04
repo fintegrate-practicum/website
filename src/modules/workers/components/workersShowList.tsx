@@ -48,16 +48,11 @@ const WorkersShowList = () => {
     rows,
   };
 
-  const handleDelete = () => {
-    // Implement delete logic here
-  };
-
   return (
     <>
       <TableComponent
         dataObject={dataObject}
         tableSize='large'
-        onDelete={handleDelete}
         showDeleteButton={false}
       />
       <div

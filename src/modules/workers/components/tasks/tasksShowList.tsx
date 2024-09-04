@@ -50,7 +50,6 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
       <TableComponent
         dataObject={dataObject}
         tableSize='large'
-        onDelete={() => {}}
         showDeleteButton={false}
       />
     </div>

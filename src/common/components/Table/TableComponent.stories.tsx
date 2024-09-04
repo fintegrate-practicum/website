@@ -31,14 +31,6 @@ const Template: StoryFn<TableComponentProps> = (args) => {
     // Add your edit logic here
   };
 
-  // const handleAmountChange = (id: string, key: string, value: number) => {
-  //   const newRows = rows.map((row) =>
-  //     row.id === id ? { ...row, [key]: value } : row,
-  //   );
-  //   setRows(newRows);
-  //   action('Amount changed')(id, key, value);
-  // };
-
   return (
     <TableComponent
       {...args}

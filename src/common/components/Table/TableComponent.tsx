@@ -6,6 +6,7 @@ import useTheme from '@mui/material/styles/useTheme';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { TableComponentProps } from './interfaces';
+import { useTranslation } from 'react-i18next';
 
 const TableComponent: React.FC<TableComponentProps> = ({
   dataObject,
@@ -21,6 +22,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
   const tableHeight = isLarge ? '300px' : '200px';
   const tableWidth = isLarge ? '85%' : '60%';
   const [pageSize, setPageSize] = useState<number>(5);
+  const { t } = useTranslation();
 
   const columns = dataObject.headers.map((header) => ({
     field: header.key,
@@ -71,7 +73,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
     >
       {dataObject.rows.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '20px', color: '#888' }}>
-          אין מה להציג, נא הכנס נתונים.
+          {t('Nothing to display, please enter data.')}{' '}
         </div>
       ) : (
         <DataGrid

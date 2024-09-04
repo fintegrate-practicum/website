@@ -137,7 +137,7 @@ describe('<TableComponent />', () => {
     const amountInput = screen.getAllByRole('spinbutton')[0];
     fireEvent.change(amountInput, { target: { value: '30' } });
 
-    // expect(handleAmountChange).toHaveBeenCalledWith('1', 'age', 30);
+    expect(handleAmountChange).toHaveBeenCalledWith('1', 'age', 30);
   });
 
   test('displays empty message when no rows are provided', () => {
@@ -153,7 +153,7 @@ describe('<TableComponent />', () => {
     );
 
     expect(
-      screen.getByText('אין מה להציג, נא הכנס נתונים.'),
+      screen.getByText('Nothing to display, please enter data.'),
     ).toBeInTheDocument();
   });
 
