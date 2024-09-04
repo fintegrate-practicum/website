@@ -1,6 +1,7 @@
 import React from 'react';
 // @ts-expect-error  i need it to import the package @canvasjs/react-charts
 import CanvasJSReact from '@canvasjs/react-charts';
+import { useEffect, useRef } from 'react';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 interface DataPoint {
@@ -37,6 +38,32 @@ interface BaseGraphProps {
 const BaseGraph = (
   props: React.ComponentProps<typeof CanvasJSChart> & BaseGraphProps,
 ) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (containerRef.current) {
+      const options = {
+        theme: 'light1',
+        title: {
+          text: 'Sample Chart Title',
+        },
+        axisY: {
+          title: 'Y-Axis Title',
+        },
+        data: [
+          {
+            type: 'spline',
+            dataPoints: [
+              { label: 'A', y: 10 },
+              { label: 'B', y: 20 },
+              { label: 'C', y: 15 },
+            ],
+          },
+        ],
+      };
+      const chart = new CanvasJSChart(containerRef.current, options);
+      chart.render();
+    }
+  }, [props]);
   const {
     animationEnabled,
     prefix,
@@ -94,7 +121,13 @@ const BaseGraph = (
   return (
     <div>
       <h1>Graph</h1>
-      <CanvasJSChart options={options} />
+      <div
+        ref={containerRef}
+        style={{ height: '300px', width: '100%' }}
+        data-testid='canvasjs-chart'
+      >
+        {containerRef.current && <CanvasJSChart options={options} />}
+      </div>
     </div>
   );
 };
