@@ -71,9 +71,3 @@ export default function AddSubCategory(SubCategoryProp: CategoryProps) {
     </Accordion>
   );
 }
-
-
-
-
-
-

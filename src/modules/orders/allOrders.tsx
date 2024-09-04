@@ -24,7 +24,7 @@ import { getOrders } from './features/order/orderSlice';
 import theme from '../../Theme';
 import { IComponent } from '../inventory/interfaces/IComponent';
 import { useTranslation } from 'react-i18next';
-import {getTextDirection} from '../../utils/utils'
+import { getTextDirection } from '../../utils/utils';
 export default function AllOrders() {
   const { businessCode } = useParams<{ businessCode: string }>();
   const [products, setProducts] = useState<{
@@ -34,7 +34,7 @@ export default function AllOrders() {
   const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
   const orders = useAppSelector((state) => state.order?.data || []);
-  const { t ,i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const direction = getTextDirection(i18n.language);
   const memoizedTheme = useMemo(() => theme(direction), [direction]);
   const getAllOrders = async () => {
@@ -67,6 +67,7 @@ export default function AllOrders() {
             `api/inventory/component`,
             id,
           );
+          console.log(error);
           return component.data;
         }
       };
@@ -78,7 +79,7 @@ export default function AllOrders() {
 
       const productsMap = productResults.reduce(
         (acc, product) => {
-          acc[product.id] = product; 
+          acc[product.id] = product;
           return acc;
         },
         {} as { [key: string]: IProduct | IComponent },
