@@ -13,8 +13,9 @@ export const fetchServiceSettings = createAsyncThunk<ServiceSettings[]>(
     try {
       const response = await infraInstance.get('/service-settings');
       return response.data;
-    } catch {
+    } catch (error) {
       console.log('Failed to fetch service settings');
+      console.log(error);
       return [];
     }
   },
@@ -29,7 +30,8 @@ export const createServiceSettings = createAsyncThunk(
         newServiceSettings,
       );
       return response.data;
-    } catch {
+    } catch (error) {
+      console.log(error);
       console.log('Failed to create service settings');
     }
   },
@@ -41,7 +43,8 @@ export const fetchServiceNames = createAsyncThunk<string[]>(
     try {
       const response = await infraInstance.get('/service-settings/names');
       return response.data;
-    } catch {
+    } catch (error) {
+      console.log(error);
       console.log('Failed to fetch service names');
       return [];
     }
@@ -57,7 +60,8 @@ export const fetchServiceSettingsByServiceName = createAsyncThunk<
       `/service-settings/${serviceName}`,
     );
     return response.data;
-  } catch {
+  } catch (error) {
+    console.log(error);
     console.log('Failed to fetch service settings');
   }
 });

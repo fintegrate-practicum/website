@@ -16,8 +16,9 @@ import { useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../Redux/hooks';
 
 const MainRouter = () => {
-  const currentUser = useAppSelector((state) => state.currentUserSlice);
   const location = useLocation();
+  const currentUser = useAppSelector((state) => state.currentUserSlice);
+  const userType = currentUser.employeeDetails.role.type;
 
   const menuItems = [
     {
@@ -58,7 +59,7 @@ const MainRouter = () => {
     },
   ];
   //currentUser-עובדים עליו עכשיו ויצטרכו לשנות אחרי כן
-  if (currentUser.employeeDetails.role.type === 'admin') {
+  if (userType === 'admin') {
     menuItems.push(
       {
         name: 'allorders',
@@ -111,7 +112,11 @@ const MainRouter = () => {
         <div></div>
       </Header>
       <div style={{ height: '25vh' }}></div>
-      <SideMenu items={menuItems} setCurrentMenu={setCurrentMenu} />
+      <SideMenu
+        items={menuItems}
+        setCurrentMenu={setCurrentMenu}
+        currentUser={currentUser}
+      />
       <LazyRouter currentRoute={currentMenu?.component || ' '} />
     </>
   );
