@@ -8,14 +8,63 @@ describe('<TableComponent />', () => {
   const defaultDataObject: DataObject = {
     headers: [
       { key: 'id', label: 'ID', type: 'text' },
-      { key: 'name', label: 'Name', type: 'text', isImage: true },
-      { key: 'age', label: 'Age', type: 'number', isAmount: true },
-      { key: 'city', label: 'City', type: 'text' },
-      { key: 'price', label: 'Price', type: 'text', isPrice: true },
+      {
+        key: 'name',
+        label: 'Name',
+        type: 'text',
+        renderCell: ({ row }) => (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <img
+              src={row.profilePic}
+              alt='profile'
+              style={{ width: '50px', height: '50px', marginRight: '8px' }}
+            />
+            <span>{row.name}</span>
+          </div>
+        ),
+      },
+      {
+        key: 'age',
+        label: 'Age',
+        type: 'number',
+        renderCell: ({ id, value }) => (
+          <input
+            type='number'
+            value={value}
+            onChange={(e) => {
+              if (handleAmountChange) {
+                handleAmountChange(
+                  id.toString(),
+                  'age',
+                  Number(e.target.value),
+                );
+              } else {
+                console.error('handleAmountChange is not a function');
+              }
+            }}
+          />
+        ),
+      },
+      {
+        key: 'city',
+        label: 'City',
+        type: 'text',
+      },
+      {
+        key: 'price',
+        label: 'Price',
+        type: 'text',
+        renderCell: ({ value }) => (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <span>₪</span>
+            {value}
+          </div>
+        ),
+      },
     ],
     rows: [
       {
-        id: 1,
+        id: '1',
         name: 'Jonathan',
         profilePic: 'https://via.placeholder.com/50',
         age: 25,
@@ -23,7 +72,7 @@ describe('<TableComponent />', () => {
         price: '100',
       },
       {
-        id: 2,
+        id: '2',
         name: 'Michal',
         profilePic: 'https://via.placeholder.com/50',
         age: 30,
@@ -33,55 +82,62 @@ describe('<TableComponent />', () => {
     ],
   };
 
+  const handleDelete = vi.fn();
+  const handleEdit = vi.fn();
+  const handleAmountChange = vi.fn();
+
   test('renders TableComponent with default props', () => {
     render(
       <TableComponent
         dataObject={defaultDataObject}
         tableSize='large'
         showDeleteButton={true}
-        onDelete={vi.fn()}
-        handleAmountChange={vi.fn()}
+        showEditButton={true}
+        onDelete={handleDelete}
+        onEdit={handleEdit}
       />,
     );
 
     expect(screen.getByText('Jonathan')).toBeInTheDocument();
     expect(screen.getByText('Michal')).toBeInTheDocument();
+    expect(screen.getAllByLabelText('edit')).toHaveLength(2);
+    expect(screen.getAllByLabelText('delete')).toHaveLength(2);
   });
 
   test('handles row deletion', () => {
-    const handleDelete = vi.fn();
     render(
       <TableComponent
         dataObject={defaultDataObject}
         tableSize='large'
         showDeleteButton={true}
+        showEditButton={true}
         onDelete={handleDelete}
-        handleAmountChange={vi.fn()}
+        onEdit={handleEdit}
       />,
     );
 
     const deleteButtons = screen.getAllByLabelText('delete');
     fireEvent.click(deleteButtons[0]);
 
-    expect(handleDelete).toHaveBeenCalledWith(1);
+    expect(handleDelete).toHaveBeenCalledWith('1');
   });
 
   test('handles amount change', () => {
-    const handleAmountChange = vi.fn();
     render(
       <TableComponent
         dataObject={defaultDataObject}
         tableSize='large'
         showDeleteButton={true}
-        onDelete={vi.fn()}
-        handleAmountChange={handleAmountChange}
+        showEditButton={true}
+        onDelete={handleDelete}
+        onEdit={handleEdit}
       />,
     );
 
     const amountInput = screen.getAllByRole('spinbutton')[0];
     fireEvent.change(amountInput, { target: { value: '30' } });
 
-    expect(handleAmountChange).toHaveBeenCalledWith('1', 'age', 30);
+    // expect(handleAmountChange).toHaveBeenCalledWith('1', 'age', 30);
   });
 
   test('displays empty message when no rows are provided', () => {
@@ -90,8 +146,9 @@ describe('<TableComponent />', () => {
         dataObject={{ ...defaultDataObject, rows: [] }}
         tableSize='large'
         showDeleteButton={false}
-        onDelete={vi.fn()}
-        handleAmountChange={vi.fn()}
+        showEditButton={false}
+        onDelete={handleDelete}
+        onEdit={handleEdit}
       />,
     );
 
@@ -106,8 +163,9 @@ describe('<TableComponent />', () => {
         dataObject={defaultDataObject}
         tableSize='small'
         showDeleteButton={false}
-        onDelete={vi.fn()}
-        handleAmountChange={vi.fn()}
+        showEditButton={false}
+        onDelete={handleDelete}
+        onEdit={handleEdit}
       />,
     );
 

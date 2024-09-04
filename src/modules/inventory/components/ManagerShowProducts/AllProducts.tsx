@@ -70,7 +70,6 @@ const AllProducts = () => {
   const handleEdit = (item: IProduct | IComponent) => {
     navigateToUpdate(item);
   };
-
   const navigateToUpdate = (item: IProduct | IComponent) => {
     if ('productComponents' in item) {
       navigate(`/inventory/productForm/${item.id}`);
@@ -83,7 +82,17 @@ const AllProducts = () => {
     headers: [
       { key: 'id', label: 'ID', type: 'number' },
       { key: 'name', label: 'Name', type: 'text' },
-      { key: 'totalPrice', label: 'Price', type: 'number', isPrice: true },
+      {
+        key: 'totalPrice',
+        label: 'Price',
+        type: 'number',
+        renderCell: (params) => (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <span>₪</span>
+            {params.value}
+          </div>
+        ),
+      },
       { key: 'stockQuantity', label: 'Qty', type: 'number' },
       { key: 'productComponents', label: 'Components', type: 'text' },
     ],
@@ -116,7 +125,6 @@ const AllProducts = () => {
         showEditButton
         onEdit={handleEdit}
         onDelete={handleDelete}
-        handleAmountChange={() => {}}
       />
     </div>
   );

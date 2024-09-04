@@ -52,7 +52,6 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
         tableSize='large'
         onDelete={() => {}}
         showDeleteButton={false}
-        handleAmountChange={() => {}}
       />
     </div>
   );

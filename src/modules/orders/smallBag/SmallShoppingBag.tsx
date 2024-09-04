@@ -5,10 +5,34 @@ import { DataObject } from '../../../common/components/Table/interfaces';
 const bagData: DataObject = {
   headers: [
     { key: 'id', label: 'ID', type: 'text' },
-    { key: 'name', label: 'פריט', type: 'text', isImage: true },
+    {
+      key: 'name',
+      label: 'פריט',
+      type: 'text',
+      renderCell: (params) => (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <img
+            src={params.row.profilePic}
+            alt='thumbnail'
+            style={{ width: '50px', height: '50px', marginRight: '8px' }}
+          />
+          <span>{params.value}</span>
+        </div>
+      ),
+    },
     { key: 'model', label: 'דגם', type: 'text' },
-    { key: 'amount', label: 'כמות', type: 'number', isAmount: true },
-    { key: 'price', label: 'מחיר', type: 'number', isPrice: true },
+    { key: 'amount', label: 'כמות', type: 'number' },
+    {
+      key: 'price',
+      label: 'מחיר',
+      type: 'number',
+      renderCell: (params) => (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <span>₪</span>
+          {params.value}
+        </div>
+      ),
+    },
   ],
   rows: [
     {
@@ -65,7 +89,6 @@ const SmallShoppingBag = () => {
             dataObject={bagData}
             tableSize='small'
             showDeleteButton={false}
-            handleAmountChange={() => {}}
             onDelete={() => {}}
           />
         </>

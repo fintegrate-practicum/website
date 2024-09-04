@@ -3,6 +3,7 @@ import { Meta, StoryFn } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import TableComponent from './TableComponent';
 import { Row, TableComponentProps, DataObject } from './interfaces';
+import TextField from '@mui/material/TextField';
 
 const meta: Meta = {
   title: 'TableComponent',
@@ -30,13 +31,13 @@ const Template: StoryFn<TableComponentProps> = (args) => {
     // Add your edit logic here
   };
 
-  const handleAmountChange = (id: string, key: string, value: number) => {
-    const newRows = rows.map((row) =>
-      row.id === id ? { ...row, [key]: value } : row,
-    );
-    setRows(newRows);
-    action('Amount changed')(id, key, value);
-  };
+  // const handleAmountChange = (id: string, key: string, value: number) => {
+  //   const newRows = rows.map((row) =>
+  //     row.id === id ? { ...row, [key]: value } : row,
+  //   );
+  //   setRows(newRows);
+  //   action('Amount changed')(id, key, value);
+  // };
 
   return (
     <TableComponent
@@ -44,7 +45,6 @@ const Template: StoryFn<TableComponentProps> = (args) => {
       dataObject={{ ...args.dataObject }}
       onDelete={handleDelete}
       onEdit={handleEdit}
-      handleAmountChange={handleAmountChange}
       showDeleteButton={args.showDeleteButton}
       showEditButton={args.showEditButton}
     />
@@ -54,10 +54,66 @@ const Template: StoryFn<TableComponentProps> = (args) => {
 const baseProps: DataObject = {
   headers: [
     { key: 'id', label: 'ID', type: 'text' },
-    { key: 'name', label: 'Name', type: 'text', isImage: true },
-    { key: 'age', label: 'Age', type: 'number', isAmount: true },
+    {
+      key: 'name',
+      label: 'Name',
+      type: 'text',
+      renderCell: (params) => (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <img
+            src={params.row.image}
+            alt='thumbnail'
+            style={{ width: '50px', height: '50px', marginRight: '8px' }}
+          />
+          <span>{params.value}</span>
+        </div>
+      ),
+    },
+    {
+      key: 'age',
+      label: 'Age',
+      type: 'number',
+      renderCell: (params) => {
+        return (
+          <TextField
+            type='number'
+            value={params.value}
+            onChange={(e) =>
+              handleAmountChange(
+                params.id.toString(),
+                'age',
+                Number(e.target.value),
+              )
+            }
+            variant='outlined'
+            size='small'
+            style={{ width: '100%' }}
+            InputProps={{
+              sx: {
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'transparent',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#1976d2',
+                },
+              },
+            }}
+          />
+        );
+      },
+    },
     { key: 'city', label: 'City', type: 'text' },
-    { key: 'price', label: 'Price', type: 'text', isPrice: true },
+    {
+      key: 'price',
+      label: 'Price',
+      type: 'text',
+      renderCell: (params) => (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <span>₪</span>
+          {params.value}
+        </div>
+      ),
+    },
   ],
   rows: [
     {
@@ -91,4 +147,7 @@ export const DataSmall = Template.bind({});
 DataSmall.args = {
   dataObject: baseProps,
   tableSize: 'small',
+};
+const handleAmountChange = (id: string, key: string, value: number) => {
+  action('Amount changed')(id, key, value);
 };

@@ -6,9 +6,7 @@ export interface Header {
   key: string;
   label: string;
   type: 'text' | 'number' | 'image';
-  isAmount?: boolean;
-  isPrice?: boolean;
-  isImage?: boolean;
+  renderCell?: (params: any) => React.ReactNode;
 }
 
 export interface Row {
@@ -26,6 +24,5 @@ export interface TableComponentProps {
   onDelete?: (id: string) => void;
   showDeleteButton?: boolean;
   showEditButton?: boolean;
-  handleAmountChange?: (id: string, field: string, value: number) => void;
   onEdit?: (row: IProduct | IComponent) => void;
 }

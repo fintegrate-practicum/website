@@ -52,10 +52,6 @@ const WorkersShowList = () => {
     // Implement delete logic here
   };
 
-  const handleAmountChange = () => {
-    // Implement amount change logic here
-  };
-
   return (
     <>
       <TableComponent
@@ -63,7 +59,6 @@ const WorkersShowList = () => {
         tableSize='large'
         onDelete={handleDelete}
         showDeleteButton={false}
-        handleAmountChange={handleAmountChange}
       />
       <div
         style={{
