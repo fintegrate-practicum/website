@@ -17,6 +17,7 @@ import AllOrders from './modules/orders/allOrders';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher';
 import { getTextDirection } from './utils/utils';
+import WorkersTopNav from './components/navigation/Workers';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(
@@ -57,6 +58,7 @@ const App = () => {
         <Routes>
           <Route path='/inventory/*' element={<Inventory />} />
           <Route path='/allOrders/:businessCode?' element={<AllOrders />} />
+          <Route path='/employeeView' element={<WorkersTopNav />} />
           <Route
             path='/editProfile'
             element={
