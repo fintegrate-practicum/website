@@ -15,9 +15,11 @@ import Toast from '../../../common/components/Toast/Toast';
 
 const DeleteComponent = ({ item }: { item: IComponent }) => {
     const [open, setOpen] = React.useState(false);
-    const [toastOpen, setToastOpen] = React.useState(false);
-    const [toastMessage, setToastMessage] = React.useState("");
-    const [toastSeverity, setToastSeverity] = React.useState<"success" | "error">("success");
+    const [toast, setToast] = React.useState({
+        open: false,
+        message: "",
+        severity: "success" as "success" | "error",
+    });
     const dispatch = useDispatch();
 
     const handleClickOpen = () => {
@@ -31,15 +33,19 @@ const DeleteComponent = ({ item }: { item: IComponent }) => {
     const deleteComponent = async () => {
         try {
             await deleteItem("api/inventory/component", item.id);
-            setToastMessage("Component deleted successfully");
-            setToastSeverity("success");
-            setToastOpen(true);
+            setToast({
+                open: true,
+                message: "Component deleted successfully",
+                severity: "success",
+            });
             dispatch(deleteComponentFromState(item.id));
         } catch (err) {
             console.log(err);
-            setToastMessage("Failed to delete component");
-            setToastSeverity("error");
-            setToastOpen(true);
+            setToast({
+                open: true,
+                message: "Failed to delete component",
+                severity: "error",
+            });
         }
         setOpen(false);
     };
@@ -73,10 +79,10 @@ const DeleteComponent = ({ item }: { item: IComponent }) => {
             </Dialog>
 
             <Toast
-                open={toastOpen}
-                message={toastMessage}
-                severity={toastSeverity}
-                onClose={() => setToastOpen(false)}
+                open={toast.open}
+                message={toast.message}
+                severity={toast.severity}
+                onClose={() => setToast((prevToast) => ({ ...prevToast, open: false }))}
                 duration={6000}
             />
         </>
