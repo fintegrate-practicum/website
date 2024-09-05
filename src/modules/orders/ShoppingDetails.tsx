@@ -16,7 +16,6 @@ import { ICart } from './interfaces/ICart';
 import { useDispatch } from 'react-redux';
 import { getBasket } from './features/basket/basketSlice';
 import { showErrorToast } from "../../components/generic/errorMassage";
-import { useNavigate } from 'react-router-dom';
 interface Props {
     amount: number;
 }
