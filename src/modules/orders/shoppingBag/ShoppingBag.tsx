@@ -25,32 +25,21 @@ interface BagItem {
   size: number;
   amount: number;
 }
-import { ICart } from '../interfaces/ICart';
-import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../../../Redux/hooks';
-import { deleteFromBasket, updateBasket } from '../features/basket/basketSlice';
-import { deleteItem, updateItem } from '../Api-Requests/genericRequests';
-
 
 const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
   const { t } = useTranslation();
   const [bag, setBag] = useState<BagItem[]>(initialBag || []);
-const ShoppingBag: React.FC<{  }> = () => {
   const [total, setTotal] = useState<number>(0);
   const [toastOpen, setToastOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastSeverity, setToastSeverity] = useState<'success' | 'info' | 'warning' | 'error'>('success');
-  const bag=useAppSelector((state) => state.basketSlice?.data || [])
-  const dispatch=useDispatch()
 
   useEffect(() => {
     calculateTotal();
   }, [bag]);
 
-
   const calculateTotal = () => {
-    let sum=0;
-    bag.forEach(product=>sum+=product.metadata.quantity*product.metadata.price)
+    const sum = bag.reduce((acc, item) => acc + item.price * item.amount, 0);
     setTotal(sum);
   };
 
@@ -64,7 +53,7 @@ const ShoppingBag: React.FC<{  }> = () => {
     }
   };
 
-  const handleAmountChange = async (index: string, newAmount: number) => {
+  const handleAmountChange = (index: number, newAmount: number) => {
     if (newAmount === 0) {
       handleRemove(index);
     } else {
@@ -108,29 +97,25 @@ const ShoppingBag: React.FC<{  }> = () => {
               {bag.map((row, index) => (
                 <TableRow key={row.name}>
                   <TableCell align='right'>
-                    {row.product.name} <img src={row.image} width='80px' alt={""} />
+                    {row.name}{' '}
+                    <img src={row.image} width='80px' alt={row.name} />
                   </TableCell>
                   <TableCell align='right'>
                     <TextField
                       type='number'
-                      value={row.quantity}
-                      onChange={(e) => handleAmountChange(row.id, Number(e.target.value))}
+                      value={row.amount}
+                      onChange={(e) =>
+                        handleAmountChange(index, Number(e.target.value))
+                      }
                     />
                   </TableCell>
                   <TableCell align='right'>
-                    {row.metadata.price} ₪
-                  </TableCell>
-                  <TableCell align='right'>
-                    {Object.entries(row.metadata).map(([key, value]) => (
-                      <Typography key={key}>{`${key}: ${value}`}</Typography>
-                    ))}
+                    {(row.price * row.amount).toFixed(2)} ₪
                   </TableCell>
                   <TableCell align='right'>
                     <IconButton
                       aria-label={t('order.removeProduct')}
                       onClick={() => handleRemove(index)}
-                      aria-label='הסרת המוצר'
-                      onClick={() => handleRemove(row.id)}
                     >
                       <DeleteForever />
                     </IconButton>
@@ -144,7 +129,7 @@ const ShoppingBag: React.FC<{  }> = () => {
           </Table>
           <Button
             onClick={handleCheckout}
-            endIcon={<ArrowBackIosIcon />}
+            startIcon={<ArrowBackIosIcon />}
             style={{ textTransform: 'none' }}
             size='large'
           >
@@ -163,4 +148,3 @@ const ShoppingBag: React.FC<{  }> = () => {
 };
 
 export default ShoppingBag;
-
