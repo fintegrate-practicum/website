@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Typography from '../../../common/components/Typography/Typography';
 import Button from '../../../common/components/Button/Button';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import Toast from '../../../common/components/Toast/Toast';
 import TableComponent from '../../../common/components/Table/TableComponent';
 import { useTranslation } from 'react-i18next';
 import { DataObject } from '../../../common/components/Table/interfaces';
@@ -22,6 +23,11 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
   const { t } = useTranslation();
   const [bag, setBag] = useState<BagItem[]>(initialBag || []);
   const [total, setTotal] = useState<number>(0);
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastSeverity, setToastSeverity] = useState<
+    'success' | 'info' | 'warning' | 'error'
+  >('success');
 
   useEffect(() => {
     calculateTotal();
@@ -36,6 +42,9 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
     if (window.confirm(t('order.confirmRemove'))) {
       const newBag = bag.filter((b) => b.id !== id);
       setBag(newBag);
+      setToastMessage(t('order.productRemoved'));
+      setToastSeverity('warning');
+      setToastOpen(true);
     }
   };
 
@@ -51,7 +60,17 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
         return item;
       });
       setBag(newBag);
+      setToastMessage(t('order.quantityUpdated'));
+      setToastSeverity('success');
+      setToastOpen(true);
     }
+  };
+
+  const handleCheckout = () => {
+    alert(t('order.paymentClicked'));
+    setToastMessage(t('order.checkoutInitiated'));
+    setToastSeverity('info');
+    setToastOpen(true);
   };
 
   const dataObject: DataObject = {
@@ -140,7 +159,7 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
             {t('order.Amount to be paid :')} {total.toFixed(2)} ₪{' '}
           </Typography>
           <Button
-            onClick={() => alert(t('order.paymentClicked'))}
+            onClick={handleCheckout}
             startIcon={<ArrowBackIosIcon />}
             style={{ textTransform: 'none' }}
             size='large'
@@ -149,6 +168,12 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
           </Button>
         </>
       )}
+      <Toast
+        message={toastMessage}
+        severity={toastSeverity}
+        open={toastOpen}
+        onClose={() => setToastOpen(false)}
+      />
     </div>
   );
 };
