@@ -32,7 +32,7 @@ const ShoppingDetails: React.FC<Props> = ({ amount }) => {
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
 
   const currentEmployee = useAppSelector(
-    (state) => state.currentUserSlice.CurrentUser.employeeDetails,
+    (state) => state.currentUserSlice.employeeDetails,
   );
 
   const productsCart = Carts.map((c) => ({
