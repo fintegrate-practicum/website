@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './shoppingBag.css';
-import { Table, TableBody, TableCell, TableHead, TableRow, Typography, TextField, IconButton, Button } from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableRow, IconButton } from '@mui/material';
 import TextField from '../../../common/component/TextField/TextField';
 import Typography from '../../../common/components/Typography/Typography';
 import Button from '../../../common/components/Button/Button'
@@ -67,7 +67,8 @@ const ShoppingBag: React.FC<{}> = () => {
 
   return (
     <div className='shoppingBag-container'>
-      <Typography paragraph={true} variant='h5'> סל קניות </Typography>
+      {/* <Typography paragraph={true} variant='h5'> סל קניות </Typography> */}
+      <Typography variant='h5'> סל קניות </Typography>
       {bag.length === 0 ? (
         <Typography> סל הקניות שלך ריק </Typography>
       ) : (

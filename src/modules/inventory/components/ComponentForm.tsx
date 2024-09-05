@@ -11,6 +11,7 @@ import './ComponentForm.css';
 import { Checkbox, FormControlLabel, Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { IProduct } from "../interfaces/IProduct.ts";
+import { useAppSelector } from "../../../Redux/hooks.tsx";
 
 const notSaleAloneSchema = yup.object().shape({
     name: yup.string().required("Name is a required field").min(3, "Name must be at least 3 characters").max(20, "Name must be at most 20 characters"),
@@ -48,6 +49,8 @@ export const ComponentForm = () => {
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const schema = useMemo(() => isAloneChecked ? saleAloneSchema : notSaleAloneSchema, [isAloneChecked]);
     const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+    const currentUser = useAppSelector((state) => state.currentUserSlice.employeeDetails);
+    const businessId=currentUser.businessId;
 
     const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<IComponent>({
         resolver: yupResolver(schema) as unknown as Resolver<IComponent>,
@@ -73,7 +76,7 @@ export const ComponentForm = () => {
     const save = async (data: IComponent) => {
         try {
             data.addingComponentDate = new Date();
-            data.businessId = "here will be the business id";
+            data.businessId = businessId;
             data.adminId = "here will be the admin id";
             if (component && componentId) {
                 const response = await updateItem<IComponent>(`inventory/component`, componentId, data);

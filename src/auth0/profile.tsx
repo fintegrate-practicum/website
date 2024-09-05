@@ -11,7 +11,8 @@ import { useDispatch } from 'react-redux';
 import { getBasket } from '../modules/orders/features/basket/basketSlice';
 import { getAllItems } from '../modules/orders/Api-Requests/genericRequests';
 import { ICart } from '../modules/orders/interfaces/ICart';
-
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 const auth0_audience = import.meta.env.VITE_AUTH0_AUDIENCE as string;
 const auth0_domain = import.meta.env.VITE_AUTH0_DOMAIN as string;
 
@@ -19,6 +20,35 @@ const Profile: React.FC = () => {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [userMetadata, setUserMetadata] = useState<any>(null);
   const dispatch = useAppDispatch()
+  
+  
+  const { linkUID } = useParams<{ linkUID: string }>();
+  const [companyNumber, setCompanyNumber] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [errorOccurred, setErrorOccurred] = useState(false);
+  const baseUrl = import.meta.env.VITE_INFRA_SERVICE_URL;
+
+  useEffect(() => {
+    async function fetchBusinessData() {
+      try {
+        console.log(`Fetching business data for linkUID: ${linkUID}`);
+        const response = await axios.get(`${baseUrl}/business/link/${linkUID}`);
+        console.log('Business data fetched successfully:', response.data);
+        setCompanyNumber(response.data.companyNumber);
+      } catch (error) {
+        console.error("Error fetching business data", error);
+        setErrorOccurred(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+    if (linkUID) {
+      fetchBusinessData();
+    } else {
+      setLoading(false);
+    }
+  }, [linkUID]);
+  
 
   function setCookie(name: string, value: string, days: number) {
 
@@ -74,12 +104,9 @@ const Profile: React.FC = () => {
     };
     const getSavedCartsForUser = async () => {
       const userId = useJwtFromCookie('user_id')?.split('|')[1]
-      
-      //אמור להשלף מהרידקס ברגע שיטפלו בזה
-      const buissnes_code = "615123456"
 
       try {
-        const response = await getAllItems<ICart[]>(`cart/${buissnes_code}/${userId}`)
+        const response = await getAllItems<ICart[]>(`cart/${companyNumber}/${userId}`)
         dispatch(getBasket(response.data))
       } catch (error) {
         console.error('Error fetching cart data:', error);

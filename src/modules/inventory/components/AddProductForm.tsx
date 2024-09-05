@@ -13,6 +13,7 @@ import { addItem, getAllItems, getItemById, updateItem } from "../Api-Requests/g
 import { Chip, Grid, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, FormControl, FormControlLabel, Checkbox } from "@mui/material";
 import { RootState } from "../../../Redux/store";
 import { getAllComponents } from "../features/component/componentSlice";
+import { useAppSelector } from "../../../Redux/hooks";
 
     const productSchema = yup.object().shape({
         name: yup.string().required("name is a required field").min(3, "name must be at least 3 characters").max(20, "name must be at most 20 characters"),
@@ -45,7 +46,9 @@ const AddProductForm = () => {
     const [imagePreviews, setImagePreviews] = useState<string[]>([]);
     const dispatch = useDispatch();
     const componentState = useSelector((state: RootState) => state.component);
-    const[businessId,setbusinessId]=useState('98765')
+    const currentUser = useAppSelector((state) => state.currentUserSlice.employeeDetails);
+    const businessId=currentUser.businessId;
+
 
     const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<IProduct>({
         resolver: yupResolver(productSchema)as any,
@@ -97,7 +100,7 @@ const AddProductForm = () => {
 
         const newData = {
             ...data,
-            businessId: "98765",
+            businessId: businessId,
             adminId: "here will be the admin id",
             productComponents: componentIds,
             images: data.images
