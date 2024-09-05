@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { RootState } from "../../../Redux/store";
-import message from "../classes/message";
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { RootState } from '../../../Redux/store';
+import message from '../classes/message';
+import workerInstance from '../../../auth0/WorkersInterceptors';
 
 interface MessageState {
   messages: message[];
@@ -14,19 +14,22 @@ const initialState: MessageState = {
 export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
   async (employeeId: string) => {
-    const response = await axios.get(`http://localhost:4001/message/${employeeId}`);
+    const response = await workerInstance.get(`/message/${employeeId}`);
     return response.data;
-  }
+  },
 );
 
 const messageSlice = createSlice({
-  name: "messages",
+  name: 'messages',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchMessages.fulfilled, (state, action: PayloadAction<message[]>) => {
-      state.messages = action.payload;
-    });
+    builder.addCase(
+      fetchMessages.fulfilled,
+      (state, action: PayloadAction<message[]>) => {
+        state.messages = action.payload;
+      },
+    );
   },
 });
 

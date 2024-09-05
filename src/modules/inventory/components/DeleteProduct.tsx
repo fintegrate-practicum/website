@@ -1,76 +1,75 @@
 import DeleteIcon from '@mui/icons-material/Delete';
-import React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import { deleteItem } from '../Api-Requests/genericRequests';
+import React, { useState } from 'react';
+import { IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import Button from '../../../common/components/Button/Button';
 import { useDispatch } from 'react-redux';
-import { deleteProduct as deleteProductFromState} from '../features/product/productSlice';
+import { useTranslation } from 'react-i18next';
+import Toast from '../../../common/components/Toast/Toast'; 
+import { deleteProduct as deleteProductFromState } from '../features/product/productSlice';
+import { deleteItem } from '../Api-Requests/genericRequests';
+import { IProduct } from '../interfaces/IProduct';
 
+const DeleteProduct = ({ item }: { item: IProduct }) => {
+  const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
+  const [toast, setToast] = useState({
+    open: false,
+    message: '',
+    severity: 'success' as 'success' | 'error',
+  });
+  const dispatch = useDispatch();
 
-const DeleteProduct = ({item}:any) => {
+  const handleDialogToggle = () => setOpen(!open);
 
-    const [open, setOpen] = React.useState(false);
-    const dispatch = useDispatch();
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const deleteProduct = async () => {
-        try {
-            const response=await deleteItem("product",item.id); 
-            alert("המחיקה בוצעה בהצלחה")
-            console.log(response);
-        }
-        catch (err) {
-            console.log(err);
-        }
-        dispatch(deleteProductFromState(item.id))
-        setOpen(false);
+  const deleteProduct = async () => {
+    try {
+      await deleteItem('api/inventory/product', item.id);
+      dispatch(deleteProductFromState(item.id));
+      setToast({ open: true, message: t('inventory.The deletion was successful'), severity: 'success' });
+    } catch (err) {
+      console.log(err);
+      setToast({ open: true, message: t('inventory.Failed to delete product'), severity: 'error' });
     }
+    setOpen(false);
+  };
 
+  return (
+    <>
+      <IconButton onClick={handleDialogToggle} color="primary">
+        <DeleteIcon />
+      </IconButton>
+      <Dialog
+        open={open}
+        onClose={handleDialogToggle}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {t('inventory.Are you sure you want to delete this product?')}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {t('inventory.Product to delete')}: {item.name}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="text" onClick={handleDialogToggle}>
+            {t('common.cancel')}
+          </Button>
+          <Button variant="text" onClick={deleteProduct} autoFocus>
+            {t('inventory.delete')}
+          </Button>
+        </DialogActions>
+      </Dialog>
 
-    return (<>
-
-        <Button variant="outlined" onClick={handleClickOpen} startIcon={<DeleteIcon />}>
-            Delete
-        </Button>
-
-
-
-        <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-        >
-            <DialogTitle id="alert-dialog-title">
-                {"Are you sure you want to delete this product?"}
-            </DialogTitle>
-            <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                    Product code to delete:
-                </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={handleClose}>cancel</Button>
-                <Button
-                    onClick={deleteProduct}
-                    autoFocus>
-                    delete
-                </Button>
-            </DialogActions>
-        </Dialog>
-
-    </>);
-}
+      <Toast
+        open={toast.open}
+        onClose={() => setToast({ ...toast, open: false })}
+        message={toast.message}
+        severity={toast.severity}
+      />
+    </>
+  );
+};
 
 export default DeleteProduct;

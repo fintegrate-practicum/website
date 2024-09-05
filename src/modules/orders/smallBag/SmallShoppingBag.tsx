@@ -1,31 +1,36 @@
-
 import React, { useState, useEffect } from 'react';
-import "./smallShoppingBag.css";
-import { Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import './smallShoppingBag.css';
+import Typography from '../../../common/components/Typography/Typography';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from '@mui/material';
+import './smallShoppingBag.css';
+import { useTranslation } from 'react-i18next';
 
 const bag = [
-
   {
     id: 1,
     image: '/dress.jpg',
-
     name: 'casual dress',
     model: 'blue flowers',
     description: 'bla bla...',
-    price: 125.90,
+    price: 125.9,
     size: 4,
-    amount: 1
+    amount: 1,
   },
   {
     id: 2,
     image: '/dress.jpg',
-
     name: 'casual dress',
     model: 'blue flowers',
     description: 'bla bla...',
-    price: 125.90,
+    price: 125.9,
     size: 6,
-    amount: 1
+    amount: 1,
   },
   {
     id: 3,
@@ -33,9 +38,9 @@ const bag = [
     name: 'snickers',
     model: 'red',
     description: 'bla bla...',
-    price: 89.90,
+    price: 89.9,
     size: 28,
-    amount: 1
+    amount: 1,
   },
   {
     id: 4,
@@ -43,15 +48,14 @@ const bag = [
     name: 'snickers',
     model: 'red',
     description: 'bla bla...',
-    price: 89.90,
+    price: 89.9,
     size: 28,
-    amount: 1
-  }
-
-
+    amount: 1,
+  },
 ];
 
 const SmallShoppingBag = () => {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -66,29 +70,33 @@ const SmallShoppingBag = () => {
     <div className='shopping-bag-container'>
       {isVisible && (
         <>
-          <Typography className='shopping-bag-title'>סל קניות</Typography>
+          <Typography className='shopping-bag-title'>
+            {t('order.Shopping Bag')}
+          </Typography>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>פריטים</TableCell>
-                <TableCell>דגם</TableCell>
-                <TableCell>כמות</TableCell>
-                <TableCell>מחיר</TableCell>
+                <TableCell>{t('order.Items')}</TableCell>
+                <TableCell>{t('order.Model')}</TableCell>
+                <TableCell>{t('order.Quantity')}</TableCell>
+                <TableCell>{t('order.Price')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {bag.map((item) => (
                 <TableRow key={item.id}>
-
                   <div className='product-name'>
                     <TableCell>
-                      <div className="image-text-container">
-                        <img src={item.image} width="50px" className="product-image" />
-                        <span className="product-text">{item.name}</span>
+                      <div className='image-text-container'>
+                        <img
+                          src={item.image}
+                          width='50px'
+                          className='product-image'
+                        />
+                        <span className='product-text'>{item.name}</span>
                       </div>
                     </TableCell>
                   </div>
-
                   <TableCell>{item.model}</TableCell>
                   <TableCell>{item.amount}</TableCell>
                   <TableCell>{item.price} ₪</TableCell>
@@ -103,4 +111,3 @@ const SmallShoppingBag = () => {
 };
 
 export default SmallShoppingBag;
-

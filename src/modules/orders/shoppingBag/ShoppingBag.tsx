@@ -1,8 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import './shoppingBag.css';
-import { Table, TableBody, TableCell, TableHead, TableRow, Typography, TextField, IconButton, Button } from '@mui/material';
+import TextField from '../../../common/component/TextField/TextField';
+import { useTranslation } from 'react-i18next';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  IconButton,
+} from '@mui/material';
+import Typography from '../../../common/components/Typography/Typography';
+import Button from '../../../common/components/Button/Button';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import Toast from '../../../common/components/Toast/Toast';
+
+interface BagItem {
+  image: string;
+  name: string;
+  model: string;
+  description: string;
+  price: number;
+  size: number;
+  amount: number;
+}
 import { ICart } from '../interfaces/ICart';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../Redux/hooks';
@@ -10,8 +32,14 @@ import { deleteFromBasket, updateBasket } from '../features/basket/basketSlice';
 import { deleteItem, updateItem } from '../Api-Requests/genericRequests';
 
 
+const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
+  const { t } = useTranslation();
+  const [bag, setBag] = useState<BagItem[]>(initialBag || []);
 const ShoppingBag: React.FC<{  }> = () => {
   const [total, setTotal] = useState<number>(0);
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastSeverity, setToastSeverity] = useState<'success' | 'info' | 'warning' | 'error'>('success');
   const bag=useAppSelector((state) => state.basketSlice?.data || [])
   const dispatch=useDispatch()
 
@@ -26,14 +54,13 @@ const ShoppingBag: React.FC<{  }> = () => {
     setTotal(sum);
   };
 
-  const handleRemove =async (index: string) => {
-    if (window.confirm('האם ברצונך להסיר את המוצר?')) {
-      dispatch(deleteFromBasket(index));
-      try {
-        await deleteItem<ICart>('cart',index)
-      } catch (error) {
-        
-      }
+  const handleRemove = (index: number) => {
+    if (window.confirm(t('order.confirmRemove'))) {
+      const newBag = bag.filter((_, i) => i !== index);
+      setBag(newBag);
+      setToastMessage(t('order.productRemoved'));
+      setToastSeverity('warning');
+      setToastOpen(true);
     }
   };
 
@@ -41,44 +68,40 @@ const ShoppingBag: React.FC<{  }> = () => {
     if (newAmount === 0) {
       handleRemove(index);
     } else {
-      const ProductToUpdate = bag.find(x => x.id === index);
-      if (ProductToUpdate !== undefined) {
-        const updatedMetadata = {
-          ...ProductToUpdate.metadata,
-          quantity: ProductToUpdate.metadata.quantity !== undefined ? newAmount : 0 // בדיקה אם quantity קיים
-        };
-  
-        const updatedProduct = {
-          ...ProductToUpdate,
-          metadata: updatedMetadata
-        };
-  
-        dispatch(updateBasket(updatedProduct));
-        try {
-          await updateItem<ICart>('cart',index,updatedProduct)
-        } catch (error) {
-          
+      const newBag = bag.map((item, i) => {
+        if (i === index) {
+          return { ...item, amount: newAmount };
         }
-
-      }
+        return item;
+      });
+      setBag(newBag);
+      setToastMessage(t('order.quantityUpdated'));
+      setToastSeverity('success');
+      setToastOpen(true);
     }
+  };
+
+  const handleCheckout = () => {
+    alert(t('order.paymentClicked'));
+    setToastMessage(t('order.checkoutInitiated'));
+    setToastSeverity('info');
+    setToastOpen(true);
   };
 
   return (
     <div className='shoppingBag-container'>
-      <Typography paragraph={true} variant='h5'> סל קניות </Typography>
+      <Typography variant='h5'>{t('order.shoppingBag')}</Typography>
       {bag.length === 0 ? (
-        <Typography> סל הקניות שלך ריק </Typography>
+        <Typography>{t('order.bagIsEmpty')}</Typography>
       ) : (
         <>
           <Table className='shoppingBag' style={{ direction: 'rtl' }}>
             <TableHead>
               <TableRow>
-                <TableCell align='right'> שם המוצר </TableCell>
-                <TableCell align='right'> כמות </TableCell>
-                <TableCell align='right'> מחיר </TableCell>
-                <TableCell align='right'>פרטים נוספים </TableCell>
-                <TableCell align='right'> . </TableCell>
+                <TableCell align='right'>{t('order.productName')}</TableCell>
+                <TableCell align='right'>{t('order.quantity')}</TableCell>
+                <TableCell align='right'>{t('order.price')}</TableCell>
+                <TableCell align='right'>.</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -90,7 +113,7 @@ const ShoppingBag: React.FC<{  }> = () => {
                   <TableCell align='right'>
                     <TextField
                       type='number'
-                      value={row.metadata.quantity}
+                      value={row.quantity}
                       onChange={(e) => handleAmountChange(row.id, Number(e.target.value))}
                     />
                   </TableCell>
@@ -104,6 +127,8 @@ const ShoppingBag: React.FC<{  }> = () => {
                   </TableCell>
                   <TableCell align='right'>
                     <IconButton
+                      aria-label={t('order.removeProduct')}
+                      onClick={() => handleRemove(index)}
                       aria-label='הסרת המוצר'
                       onClick={() => handleRemove(row.id)}
                     >
@@ -114,22 +139,28 @@ const ShoppingBag: React.FC<{  }> = () => {
               ))}
             </TableBody>
             <TableCell colSpan={3} className='total_line'>
-              סכום לתשלום {total.toFixed(2)} ₪
+              {t('order.totalAmount', { total: total.toFixed(2) })}
             </TableCell>
           </Table>
           <Button
-            onClick={() => alert('payment button was clicked')}
-            variant='contained'
+            onClick={handleCheckout}
             endIcon={<ArrowBackIosIcon />}
             style={{ textTransform: 'none' }}
             size='large'
           >
-            לתשלום
+            {t('order.checkout')}
           </Button>
         </>
       )}
+      <Toast
+        message={toastMessage}
+        severity={toastSeverity}
+        open={toastOpen}
+        onClose={() => setToastOpen(false)}
+      />
     </div>
   );
 };
 
 export default ShoppingBag;
+

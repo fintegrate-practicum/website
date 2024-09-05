@@ -1,14 +1,15 @@
-
-import GenericList from "../../../components/generic/genericList";
-import { useAppSelector } from "../../../Redux/hooks";
-import ItemDetailToWorker from "./itemDetailToWorker";
-import React, { useState } from "react";
-import Button from "@mui/material/Button";
-import { RootState } from "../../../Redux/store";
+import GenericList from '../../../components/generic/genericList';
+import { useAppSelector } from '../../../Redux/hooks';
+import React, { useState } from 'react';
+import Button from '../../../common/components/Button/Button';
+import { RootState } from '../../../Redux/store';
+import { useTranslation } from 'react-i18next';
 
 const WorkersShowList = () => {
-
-  const employees = useAppSelector((state: RootState) => state.employeeSlice.employees);
+  const { t } = useTranslation();
+  const employees = useAppSelector(
+    (state: RootState) => state.employeeSlice.employees,
+  );
 
   const [startIndex, setStartIndex] = useState<number>(0);
   const itemsPerPage = 10;
@@ -20,50 +21,44 @@ const WorkersShowList = () => {
   };
   const paginatedEmployees = employees.slice(
     startIndex,
-    startIndex + itemsPerPage
+    startIndex + itemsPerPage,
   );
   const hasNextPage = startIndex + itemsPerPage < employees.length;
   const hasPreviousPage = startIndex - itemsPerPage >= 0;
 
   return (
     <>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         <GenericList
-          title={"workers list"}
+          title={'workers list'}
           list={paginatedEmployees}
           column={[
-            "userId",
-            "code",
-            "createdBy",
-            "updatedBy",
-            "roleId",
-            "position",
-            "details",
+            { name: 'userId', header: 'userId', type: 'text' },
+            { name: 'code', header: 'code', type: 'text' },
+            { name: 'createdBy', header: 'createdBy', type: 'text' },
+            { name: 'updatedBy', header: 'updatedBy', type: 'text' },
+            { name: 'roleId', header: 'roleId', type: 'text' },
+            { name: 'position', header: 'position', type: 'text' },
+            { name: 'details', header: 'details', type: 'text' },
           ]}
-          desing={ItemDetailToWorker}
+          desing={null}
         />
       </div>
       <Button
-        component="label"
-        role={undefined}
-        variant="contained"
+        component='label'
         tabIndex={-1}
-        // startIcon={<CloudUploadIcon />}
         onClick={showMoreData}
         disabled={!hasNextPage}
       >
-        הבא
+        {t('common.Next')}{' '}
       </Button>
       <Button
-        component="label"
-        role={undefined}
-        variant="contained"
+        component='label'
         tabIndex={-1}
-        // startIcon={<CloudUploadIcon />}
         onClick={showLessData}
         disabled={!hasPreviousPage}
       >
-        הקודם
+        {t('common.Previous')}{' '}
       </Button>
     </>
   );

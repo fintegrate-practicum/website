@@ -1,11 +1,12 @@
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, Outlet } from 'react-router-dom';
-import { showErrorToast } from "../generic/errorMassage";
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
+import Typography from '../../common/components/Typography/Typography';
+import Button from '../../common/components/Button/Button';
+import Toast from '../../common/components/Toast/Toast';
+import { useTranslation } from 'react-i18next';
 
 interface Business {
   id: string;
@@ -26,11 +27,20 @@ interface Business {
 }
 
 export default function LazyClient() {
+  const { t } = useTranslation();
   const { linkUID } = useParams<{ linkUID: string }>();
   const [business, setBusiness] = useState<Business | null>(null);
   const [loading, setLoading] = useState(true);
-  const [errorOccurred, setErrorOccurred] = useState(false);
+  const [toast, setToast] = useState({
+    open: false,
+    message: '',
+    severity: 'success' as 'success' | 'error',
+  });
   const baseUrl = import.meta.env.VITE_INFRA_SERVICE_URL;
+
+  const showToast = (message: string, severity: 'success' | 'error') => {
+    setToast({ open: true, message, severity });
+  };
 
   useEffect(() => {
     async function fetchBusinessData() {
@@ -40,8 +50,11 @@ export default function LazyClient() {
         console.log('Business data fetched successfully:', response.data);
         setBusiness(response.data);
       } catch (error) {
-        console.error("Error fetching business data", error);
-        setErrorOccurred(true);
+        console.error('Error fetching business data', error);
+        showToast(
+          'הדף שאת/ה מחפש/ת אינו נמצא. הכנס/י route-הכנס/י ב http://localhost:0000/link/**של עסק linkUID**',
+          'error'
+        );
       } finally {
         setLoading(false);
       }
@@ -53,14 +66,8 @@ export default function LazyClient() {
     }
   }, [linkUID]);
 
-  useEffect(() => {
-    if (errorOccurred) {
-      showErrorToast('הדף שאת/ה מחפש/ת אינו נמצא route-הכנס/י ב http://localhost:0000/link/**של עסק linkUID**');
-    }
-  }, [errorOccurred]);
-
   if (loading) {
-    return <Typography>Loading...</Typography>;
+    return <Typography>{t('common.Loading...')}</Typography>;
   }
 
   if (!business) {
@@ -76,28 +83,51 @@ export default function LazyClient() {
           alignItems: 'center',
           height: '50vh',
           flexDirection: 'column',
-          textAlign: 'right'
+          textAlign: 'right',
         }}
       >
-        <Typography variant="h5">פרטי העסק</Typography>
+        <Typography variant='h5'>{t('website.Business Details')}</Typography>
         <Box sx={{ mb: 2 }}>
-          <Typography>{business.name} :שם העסק</Typography>
-          <Typography>{business.companyNumber} :מספר חברה</Typography>
-          <Typography>{business.description} :תיאור</Typography>
-          <Typography>{business.email} :אימייל</Typography>
-          <Typography>{business.phone} :טלפון</Typography>
-          <Typography>{business.owner} :בעל העסק</Typography>
-          <Typography>{business.businessSize} :גודל העסק</Typography>
-          <Typography>{business.industryType} :תחום העסק</Typography>
           <Typography>
-            {new Date(business.establishmentDate).toLocaleDateString()} :תאריך ייסוד
+            {business.name} : {t('website.Business Name')}
+          </Typography>
+          <Typography>
+            {business.companyNumber} : {t('website.Company Number')}
+          </Typography>
+          <Typography>
+            {business.description} : {t('website.Description')}
+          </Typography>
+          <Typography>
+            {business.email} : {t('website.Email')}
+          </Typography>
+          <Typography>
+            {business.phone} : {t('website.Phone')}
+          </Typography>
+          <Typography>
+            {business.owner} : {t('website.Owner')}
+          </Typography>
+          <Typography>
+            {business.businessSize} : {t('website.Business Size')}
+          </Typography>
+          <Typography>
+            {business.industryType} : {t('website.Industry Type')}
+          </Typography>
+          <Typography>
+            {new Date(business.establishmentDate).toLocaleDateString()} :{' '}
+            {t('website.Establishment Date')}
           </Typography>
         </Box>
-        <Stack spacing={2} direction="row">
-          <Button variant="contained">צור הזמנה</Button>
+        <Stack spacing={2} direction='row'>
+          <Button>{t('website.Create Order')}</Button>
         </Stack>
       </Box>
       <Outlet />
+      <Toast
+        open={toast.open}
+        onClose={() => setToast({ ...toast, open: false })}
+        message={toast.message}
+        severity={toast.severity}
+      />
     </>
   );
 }

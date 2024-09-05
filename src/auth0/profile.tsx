@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { useAuth0 } from "@auth0/auth0-react";
-import { Link } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
+import Button from '../common/components/Button/Button';
 import { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import { useAppDispatch, useJwtFromCookie } from '../Redux/hooks';
 import { fetchUserById } from '../Redux/currentUserSlice';
 import SidebarUserDetails from './SidebarUserDetails';
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { getBasket } from '../modules/orders/features/basket/basketSlice';
 import httpService from '../modules/orders/Api-Requests/httpService';
@@ -17,22 +18,24 @@ const auth0_audience = import.meta.env.VITE_AUTH0_AUDIENCE as string;
 const auth0_domain = import.meta.env.VITE_AUTH0_DOMAIN as string;
 
 const Profile: React.FC = () => {
-  const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+  const { t } = useTranslation();
+  const { user, isAuthenticated, isLoading, getAccessTokenSilently } =
+    useAuth0();
   const [userMetadata, setUserMetadata] = useState<any>(null);
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   function setCookie(name: string, value: string, days: number) {
-
-    let expires = "";
+    let expires = '';
     if (days) {
       const date = new Date();
-      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
       expires = `; expires=${date.toUTCString()}`;
     }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    document.cookie = name + '=' + (value || '') + expires + '; path=/';
   }
+
   function getCookie(cookieName: string) {
-    const nameEQ = cookieName + "=";
+    const nameEQ = cookieName + '=';
     const cookieArray = document.cookie.split(';');
 
     for (const elementFromCookie of cookieArray) {
@@ -45,8 +48,8 @@ const Profile: React.FC = () => {
     return null;
   }
 
+  setCookie('user_id', user?.sub as string, 30);
 
-  setCookie("user_id", user?.sub as string, 30);
   useEffect(() => {
 
     const getUserMetadata = async () => {
@@ -54,11 +57,10 @@ const Profile: React.FC = () => {
       try {
         const accessToken = await getAccessTokenSilently({
           authorizationParams: {
-            userId: getCookie("user_id"),
+            userId: getCookie('user_id'),
             audience: auth0_audience,
-            scope: "read:current_user",
+            scope: 'read:current_user',
           },
-
         });
         const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
         const metadataResponse = await fetch(userDetailsByIdUrl, {
@@ -93,15 +95,15 @@ const Profile: React.FC = () => {
       getUserMetadata();
       getSavedCartForUser();
     }
-  }, [getAccessTokenSilently, user?.sub, dispatch]);
+  }, [getAccessTokenSilently, user?.sub,  dispatch]);
 
   if (isLoading) {
-    return <div>Loading ...</div>;
+    return <div>{t('auth0.Loading ...')}</div>;
   }
 
   const profileAvatar = () => {
     let emailUser = '';
-    if (userMetadata) {
+    if  (userMetadata)  {
       emailUser = userMetadata.email;
     }
     return {
@@ -109,9 +111,11 @@ const Profile: React.FC = () => {
         bgcolor: 'red',
         position: 'relative',
         width: 37,
-        height: 37
+        height: 37,
       },
-      children: emailUser ? `${emailUser.split('')[0][0]}${emailUser.split('')[1][0]}` : ''
+      children: emailUser
+        ? `${emailUser.split('')[0][0]}${emailUser.split('')[1][0]}`
+        : '',
     };
   };
 
@@ -129,7 +133,7 @@ const Profile: React.FC = () => {
     <>
       {isAuthenticated && (
         <Box
-          position="absolute"
+          position='absolute'
           top={18}
           right={18}
           onClick={handleClick}
@@ -145,7 +149,9 @@ const Profile: React.FC = () => {
         anchorEl={anchorEl}
         handleClose={handleClose}
       />
-      <Link to="/CreateBusiness/BaseDetailsManager">הרשמה של עסק</Link>
+      <Button href='/CreateBusiness/BaseDetailsManager' isLink={true}>
+        {t('auth0.Register a business')}
+      </Button>
     </>
   );
 };
