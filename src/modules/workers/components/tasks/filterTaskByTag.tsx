@@ -30,17 +30,20 @@ const FilterTasksByTag: React.FC<FilterTasksByTagProps> = ({
     );
   };
 
-  const handleSuggestTags = () => {
-    const allTags: string[] = tasks.reduce((acc: string[], task) => {
+  const handleSuggestTags = (inputValue: string) => {
+    const filteredTags = tasks.reduce((acc: string[], task) => {
       task.tags?.forEach((tag) => {
-        if (!acc.includes(tag as string)) {
-          acc.push(tag as string);
+        if (
+          tag.toLowerCase().startsWith(inputValue.toLowerCase()) &&
+          !acc.includes(tag)
+        ) {
+          acc.push(tag);
         }
       });
       return acc;
     }, []);
 
-    setSuggestedTags(allTags);
+    setSuggestedTags(filteredTags);
   };
 
   return (
@@ -59,9 +62,10 @@ const FilterTasksByTag: React.FC<FilterTasksByTagProps> = ({
             inputProps={{ ...params.inputProps, 'aria-label': 'filter' }}
             value={filterTerm}
             onChange={(e) => {
-              setFilterTerm(e.target.value);
+              const inputValue = e.target.value;
+              setFilterTerm(inputValue);
               handleFilter();
-              handleSuggestTags();
+              handleSuggestTags(inputValue);
             }}
           />
         )}
