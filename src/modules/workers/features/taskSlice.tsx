@@ -54,6 +54,7 @@ export default taskSlice.reducer;
 export const createTask = createAsyncThunk('', async (_task: task) => {
   try {
     const response = await workerInstance.post(`/tasks/manager/task`, _task);
+    console.log({ _task });
     return response.data;
   } catch (error) {
     return error;

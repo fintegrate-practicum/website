@@ -89,6 +89,7 @@ const EditTask = (props: {
               const updateTaskForManager: UpdateTaskManagerDTO = {
                 description: description,
                 taskName: taskName,
+                tags: tags,
                 status: status,
                 targetDate: new Date(targetDate),
                 employee: employee,
