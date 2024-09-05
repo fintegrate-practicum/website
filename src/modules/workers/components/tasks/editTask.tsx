@@ -23,6 +23,7 @@ const EditTask = (props: {
   taskName: string;
   targetDate: Date;
   employee: string[];
+  tags: string[];
 }) => {
   const { t } = useTranslation();
   const currentUser = useAppSelector(
@@ -34,6 +35,8 @@ const EditTask = (props: {
   const [taskId] = React.useState(props.taskId);
   const [description, setDescription] = React.useState(props.description);
   const [status, setStatus] = React.useState(props.status);
+  const [tags, setTags] = React.useState(props.tags);
+
   const [taskName, setTaskName] = React.useState(props.taskName);
   const [targetDate, setTargetDate] = React.useState(
     props.targetDate.toISOString().split('T')[0],
@@ -52,6 +55,11 @@ const EditTask = (props: {
     const value = e.target.value;
     const employeeArray = value.split(',').map((item) => item.trim());
     setEmployee(employeeArray);
+  };
+  const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const tagsArray = value.split(',').map((item) => item.trim());
+    setTags(tagsArray);
   };
   return (
     <React.Fragment>
@@ -81,6 +89,7 @@ const EditTask = (props: {
               const updateTaskForManager: UpdateTaskManagerDTO = {
                 description: description,
                 taskName: taskName,
+                tags: tags,
                 status: status,
                 targetDate: new Date(targetDate),
                 employee: employee,
@@ -135,6 +144,18 @@ const EditTask = (props: {
                 id='employee'
                 name='employee'
                 label={t('workers.employee')}
+                type='text'
+                fullWidth
+                variant='standard'
+              />
+              <TextField
+                onChange={handleTagsChange}
+                value={tags.join(', ')}
+                autoFocus
+                margin='dense'
+                id='tags'
+                name='tags'
+                label={'workers.tags'}
                 type='text'
                 fullWidth
                 variant='standard'

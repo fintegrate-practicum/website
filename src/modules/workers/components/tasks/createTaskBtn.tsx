@@ -24,6 +24,8 @@ export default function AddTaskBtn() {
   const [description, setDescription] = React.useState('');
   const [targetDate, setTargetDate] = React.useState(new Date(0));
   const [employee, setEmployee] = React.useState<Types.ObjectId[]>([]);
+  const [tags, setTags] = React.useState<string[]>([]);
+
   const [urgency, setUrgency] = React.useState(0);
   const dispatch = useAppDispatch();
   const handleClickOpen = () => {
@@ -38,6 +40,7 @@ export default function AddTaskBtn() {
       description,
       targetDate,
       employee,
+      tags,
       urgency,
       status: TaskStatus.ToDo,
       completionDate: new Date(0),
@@ -67,7 +70,19 @@ export default function AddTaskBtn() {
 
     setEmployee(employeeArray);
   };
+  const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const tagsArray = value
+      .split(',')
+      .map((item) => {
+        const trimmed = item.trim();
+        console.warn(`Invalid ObjectId: ${trimmed}`);
+        return null;
+      })
+      .filter((item) => item !== null) as string[];
 
+    setTags(tagsArray);
+  };
   return (
     <React.Fragment>
       <Button variant='outlined' onClick={handleClickOpen}>
@@ -132,11 +147,22 @@ export default function AddTaskBtn() {
             onChange={handleEmployeeChange}
             value={employee.join(', ')}
             autoFocus
-            // required
             margin='dense'
             id='employee'
             name='employee'
             label={t('workers.Employee')}
+            type='text'
+            fullWidth
+            variant='standard'
+          />
+          <TextField
+            onChange={handleTagsChange}
+            value={tags.join(', ')}
+            autoFocus
+            margin='dense'
+            id='tags'
+            name='tags'
+            label={t('workers.Tags')}
             type='text'
             fullWidth
             variant='standard'

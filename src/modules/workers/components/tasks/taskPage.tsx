@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import SearchTask from './searchTask';
+import FilterTasksByTag from './filterTaskByTag';
 import Task from '../../classes/task';
 import TasksShowList from './tasksShowList';
 import { useAppSelector } from '../../../../Redux/hooks';
@@ -11,6 +12,7 @@ const TaskPage = () => {
   return (
     <div>
       <SearchTask tasks={tasks} setFilteredTasks={setFilteredTasks} />
+      <FilterTasksByTag tasks={tasks} setFilteredTasks={setFilteredTasks} />
       <TasksShowList
         filteredTasks={filteredTasks}
         setFilteredTasks={setFilteredTasks}
@@ -18,4 +20,5 @@ const TaskPage = () => {
     </div>
   );
 };
+
 export default TaskPage;
