@@ -3,6 +3,8 @@ import Task from '../../classes/task';
 import { useAppSelector } from '../../../../Redux/hooks';
 import TableComponent from '../../../../common/components/Table/TableComponent';
 import { DataObject } from '../../../../common/components/Table/interfaces';
+import { useTranslation } from 'react-i18next';
+
 interface ShowTaskListProps {
   filteredTasks: Task[];
   setFilteredTasks: React.Dispatch<React.SetStateAction<Task[]>>;
@@ -14,6 +16,7 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
   const currentUser = useAppSelector(
     (state) => state.currentUserSlice.employeeDetails,
   );
+  const { t } = useTranslation();
   useEffect(() => {
     if (
       currentUser.role.type !== 'admin' &&
@@ -39,9 +42,9 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
 
   const dataObject: DataObject = {
     headers: [
-      { key: 'taskName', label: 'Task Name', type: 'text' },
-      { key: 'targetDate', label: 'Target Date', type: 'text' },
-      { key: 'urgency', label: 'Urgency', type: 'text' },
+      { key: 'taskName', label: t('common.Task Name'), type: 'text' },
+      { key: 'targetDate', label: t('common.Target Date'), type: 'text' },
+      { key: 'urgency', label: t('common.Urgency'), type: 'text' },
     ],
     rows,
   };

@@ -31,19 +31,17 @@ const WorkersShowList = () => {
     createdBy: employee.createdBy,
     updatedBy: employee.updatedBy,
     roleId: employee.role.type,
-    // position: employee.position,
-    // details: employee.details,
   }));
 
   const dataObject: DataObject = {
     headers: [
-      { key: 'userId', label: 'User ID', type: 'text' },
-      { key: 'code', label: 'Code', type: 'text' },
-      { key: 'createdBy', label: 'Created By', type: 'text' },
-      { key: 'updatedBy', label: 'Updated By', type: 'text' },
-      { key: 'roleId', label: 'Role ID', type: 'text' },
-      { key: 'position', label: 'Position', type: 'text' },
-      { key: 'details', label: 'Details', type: 'text' },
+      { key: 'userId', label: t('common.User ID'), type: 'text' },
+      { key: 'code', label: t('common.Code'), type: 'text' },
+      { key: 'createdBy', label: t('common.created By'), type: 'text' },
+      { key: 'updatedBy', label: t('common.Updated By'), type: 'text' },
+      { key: 'roleId', label: t('common.Role ID'), type: 'text' },
+      { key: 'position', label: t('common.Position'), type: 'text' },
+      { key: 'details', label: t('common.Details'), type: 'text' },
     ],
     rows,
   };

@@ -9,5 +9,15 @@
   "Next": "הבא",
   "Previous": "הקודם",
   "loadingText": "טוען טקסט",
-  "Delete": "מחק"
+  "Delete": "מחק",
+  "Details": "פרטים",
+  "Position": "מצב",
+  "Role ID": "מזהה תפקיד",
+  "Updated By": "עודכן על ידי",
+  "created By": "נוצר על ידי",
+  "Code": "קוד",
+  "User ID": "מזהה משתמש",
+  "Urgency": "דחיפות",
+  "Target Date": "תאריך יעד",
+  "Task Name": "Task Name"
 }

@@ -9,5 +9,15 @@
   "Next": "Next",
   "Previous": "Previous",
   "loadingText": "loadingText",
-  "Delete": "Delete"
+  "Delete": "Delete",
+  "Details": "Details",
+  "Position": "Position",
+  "Role ID": "Role ID",
+  "Updated By": "Updated By",
+  "created By": "created By",
+  "Code": "Code",
+  "User ID": "User ID",
+  "Urgency": "Urgency",
+  "Target Date": "Target Date",
+  "Task Name": "Task Name"
 }

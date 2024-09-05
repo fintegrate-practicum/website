@@ -73,7 +73,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
     >
       {dataObject.rows.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '20px', color: '#888' }}>
-          {t('Nothing to display, please enter data.')}{' '}
+          {t('website.Nothing to display, please enter data.')}{' '}
         </div>
       ) : (
         <DataGrid
