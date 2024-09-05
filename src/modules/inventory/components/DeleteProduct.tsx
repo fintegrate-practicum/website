@@ -1,101 +1,73 @@
 import DeleteIcon from '@mui/icons-material/Delete';
-import React from 'react';
+import React, { useState } from 'react';
+import { IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import Button from '../../../common/components/Button/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import Toast from '../../../common/components/Toast/Toast'; 
 import { deleteProduct as deleteProductFromState } from '../features/product/productSlice';
 import { deleteItem } from '../Api-Requests/genericRequests';
 import { IProduct } from '../interfaces/IProduct';
-import { IconButton, Snackbar, Alert } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 
 const DeleteProduct = ({ item }: { item: IProduct }) => {
   const { t } = useTranslation();
-  const [open, setOpen] = React.useState(false);
-  //this is temporarily here until the toast from story book is ready
-  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-  const [snackbarMessage, setSnackbarMessage] = React.useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = React.useState<
-    'success' | 'error'
-  >('success');
-  //end temporary toast
+  const [open, setOpen] = useState(false);
+  const [toast, setToast] = useState({
+    open: false,
+    message: '',
+    severity: 'success' as 'success' | 'error',
+  });
   const dispatch = useDispatch();
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleDialogToggle = () => setOpen(!open);
 
   const deleteProduct = async () => {
     try {
       await deleteItem('api/inventory/product', item.id);
-      //this is temporarily here until the toast from story book is ready
-      setSnackbarMessage(t('inventory.The deletion was successful'));
-      setSnackbarSeverity('success');
-      setSnackbarOpen(true);
-      //end temporary toast
       dispatch(deleteProductFromState(item.id));
+      setToast({ open: true, message: t('inventory.The deletion was successful'), severity: 'success' });
     } catch (err) {
       console.log(err);
-      //this is temporarily here until the toast from story book is ready
-      setSnackbarMessage('Failed to delete product');
-      setSnackbarSeverity('error');
-      setSnackbarOpen(true);
-      //end temporary toast
+      setToast({ open: true, message: t('inventory.Failed to delete product'), severity: 'error' });
     }
     setOpen(false);
   };
 
   return (
     <>
-      <IconButton onClick={handleClickOpen} color='primary'>
+      <IconButton onClick={handleDialogToggle} color="primary">
         <DeleteIcon />
       </IconButton>
-
       <Dialog
         open={open}
-        onClose={handleClose}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
+        onClose={handleDialogToggle}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id='alert-dialog-title'>
+        <DialogTitle id="alert-dialog-title">
           {t('inventory.Are you sure you want to delete this product?')}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
-            Product to delete: {item.name}
+          <DialogContentText id="alert-dialog-description">
+            {t('inventory.Product to delete')}: {item.name}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant='text' onClick={handleClose}>
+          <Button variant="text" onClick={handleDialogToggle}>
             {t('common.cancel')}
           </Button>
-          <Button variant='text' onClick={deleteProduct} autoFocus>
+          <Button variant="text" onClick={deleteProduct} autoFocus>
             {t('inventory.delete')}
           </Button>
         </DialogActions>
       </Dialog>
 
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarOpen(false)}
-        action={<Button onClick={() => setSnackbarOpen(false)}>Close</Button>}
-      >
-        <Alert
-          onClose={() => setSnackbarOpen(false)}
-          severity={snackbarSeverity}
-        >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+      <Toast
+        open={toast.open}
+        onClose={() => setToast({ ...toast, open: false })}
+        message={toast.message}
+        severity={toast.severity}
+      />
     </>
   );
 };
