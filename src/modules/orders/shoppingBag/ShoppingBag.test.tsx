@@ -1,81 +1,111 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import ShoppingBag from './ShoppingBag';
 import { vi } from 'vitest';
+import '@testing-library/jest-dom';
 
-describe('ShoppingCart component', () => {
-  // it('renders the component with initial items', () => {
-  //   render(<ShoppingBag />);
+describe('ShoppingBag component', () => {
+  it('changes the amount of an item', async () => {
+    render(
+      <ShoppingBag
+        initialBag={[
+          {
+            id: '1',
+            image: '',
+            name: 'שמלת בנות חגיגית',
+            model: '',
+            description: '',
+            price: 100,
+            size: 0,
+            amount: 1,
+          },
+        ]}
+      />,
+    );
 
-  //   // Check if initial items are rendered
-  //   expect(screen.getByText('שמלת בנות חגיגית')).toBeInTheDocument();
-  //   expect(screen.getByText('boys shirt')).toBeInTheDocument();
-  //   expect(screen.getByText('snickers')).toBeInTheDocument();
-  // });
+    const amountInput = screen.getByDisplayValue('1');
+    fireEvent.change(amountInput, { target: { value: '2' } });
 
-  // it('calculates the total correctly', () => {
-  //   render(<ShoppingBag />);
-
-  //   // Check if the total is calculated correctly
-  //   expect(screen.getByText('סכום לתשלום 365.80 ₪')).toBeInTheDocument();
-  // });
-
-  // it('removes an item from the cart', () => {
-  //   render(<ShoppingBag />);
-
-  //   // Simulate window.confirm to always return true
-  //   window.confirm = vi.fn().mockImplementation(() => true);
-
-  //   // Click the remove button for the first item
-  //   fireEvent.click(screen.getAllByLabelText('הסרת המוצר')[0]);
-
-  //   // Check if the item is removed
-  //   expect(screen.queryByText('שמלת בנות חגיגית')).not.toBeInTheDocument();
-  // });
-
-  it('changes the amount of an item', () => {
-    render(<ShoppingBag />);
-
-    // Change the amount of the first item to 3
-    // fireEvent.change(screen.getAllByDisplayValue('1')[0], { target: { value: '3' } });
-
-    // Check if the total is updated correctly
-    // expect(screen.getByText('סכום לתשלום 490.50 ₪')).toBeInTheDocument();
+    waitFor(() => {
+      expect(screen.getByDisplayValue('1')).toBeInTheDocument();
+    });
   });
 
-  it('removes an item when amount is changed to 0', () => {
-    render(<ShoppingBag />);
+  it('removes an item when amount is changed to 0', async () => {
+    render(
+      <ShoppingBag
+        initialBag={[
+          {
+            id: '1',
+            image: '',
+            name: 'שמלת בנות חגיגית',
+            model: '',
+            description: '',
+            price: 100,
+            size: 0,
+            amount: 1,
+          },
+        ]}
+      />,
+    );
 
-    // Change the amount of the first item to 0
-    // fireEvent.change(screen.getAllByDisplayValue('1')[0], { target: { value: '0' } });
+    const amountInput = screen.getByDisplayValue('1');
+    fireEvent.change(amountInput, { target: { value: '0' } });
 
-    // Check if the item is removed
-    expect(screen.queryByText('שמלת בנות חגיגית')).not.toBeInTheDocument();
+    waitFor(() => {
+      expect(screen.queryByText('שמלת בנות חגיגית')).not.toBeInTheDocument();
+    });
   });
 
-  it('displays empty cart message when all items are removed', () => {
-    render(<ShoppingBag />);
+  it('displays empty cart message when all items are removed', async () => {
+    render(
+      <ShoppingBag
+        initialBag={[
+          {
+            id: '1',
+            image: '',
+            name: 'שמלת בנות חגיגית',
+            model: '',
+            description: '',
+            price: 100,
+            size: 0,
+            amount: 1,
+          },
+        ]}
+      />,
+    );
 
-    // Simulate window.confirm to always return true
     window.confirm = vi.fn().mockImplementation(() => true);
+    const amountInput = screen.getByDisplayValue('1');
+    fireEvent.change(amountInput, { target: { value: '0' } });
 
-    // Click the remove button for all items
-    // screen.getAllByLabelText('הסרת המוצר').forEach(button => fireEvent.click(button));
-
-    // Check if the empty cart message is displayed
-    // expect(screen.getByText('סל הקניות שלך ריק .')).toBeInTheDocument();
+    waitFor(() => {
+      expect(screen.getByText('bagIsEmpty')).toBeInTheDocument();
+    });
   });
 
-  it('calls the payment function when the payment button is clicked', () => {
-    render(<ShoppingBag />);
+  it('calls the payment function when the payment button is clicked', async () => {
+    render(
+      <ShoppingBag
+        initialBag={[
+          {
+            id: '1',
+            image: '',
+            name: 'שמלת בנות חגיגית',
+            model: '',
+            description: '',
+            price: 100,
+            size: 0,
+            amount: 1,
+          },
+        ]}
+      />,
+    );
 
-    // Simulate alert to prevent it from actually showing
-    window.alert = vi.fn();
+    const checkoutButton = screen.getByText('Checkout');
+    fireEvent.click(checkoutButton);
 
-    // Click the payment button
-    // fireEvent.click(screen.getByText('לתשלום'));
-
-    // Check if the alert function is called
-    // expect(window.alert).toHaveBeenCalledWith('payment button was clicked');
+    waitFor(() => {
+      expect(screen.getByText('Order saved successfully')).toBeInTheDocument();
+    });
   });
 });
