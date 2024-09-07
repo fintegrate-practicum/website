@@ -92,7 +92,7 @@ const BaseGraph = (
   };
 
   return (
-    <div>
+    <>
       <h1>Graph</h1>
       <div
         style={{ height: '300px', width: '100%' }}
@@ -100,7 +100,7 @@ const BaseGraph = (
       >
         <CanvasJSChart options={options} />
       </div>
-    </div>
+    </>
   );
 };
 
