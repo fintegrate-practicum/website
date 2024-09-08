@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import businessSlice from './businessSlice';
 import currentUserSlice from './currentUserSlice';
 import serviceSettingsSlice from './serviceSettingsSlice';
+import serviceConfigurationsSlice from './serviceConfigurationsSlice'
 import productSlice from '../modules/inventory/features/product/productSlice';
 import componentSlice from '../modules/inventory/features/component/componentSlice';
 import providerSlice from '../modules/inventory/features/provider/providerSlice';
@@ -10,11 +11,11 @@ import employeeSlice from '../modules/workers/features/employeeSlice';
 import taskSlice from '../modules/workers/features/taskSlice';
 import messageSlice from '../modules/workers/features/messageSlice';
 import orderSlice from '../modules/orders/features/order/orderSlice';
-import basketSlice from "../modules/orders/features/basket/basketSlice";
 
 const Store = configureStore({
   reducer: {
     serviceSettingsSlice,
+    serviceConfigurationsSlice,
     businessSlice,
     currentUserSlice,
     user: userSlice.reducer,
@@ -25,7 +26,6 @@ const Store = configureStore({
     component: componentSlice,
     provider: providerSlice,
     order: orderSlice,
-    cart: basketSlice
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
