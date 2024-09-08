@@ -20,6 +20,7 @@ import { updateCurrentUser } from '../Redux/currentUserSlice';
 import { statuses } from '../modules/workers/classes/enum/statuses.enum';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 
 const statusArray = Object.keys(statuses).filter((key) => isNaN(Number(key)));
 
@@ -31,16 +32,22 @@ const EditProfile: React.FC = () => {
       name: '',
       role: '',
       status: '',
+      mobile: '',
     },
   });
   const currentUser = useAppSelector((state) => state.currentUserSlice);
   const [isEditing, setIsEditing] = React.useState(false);
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const businessId = queryParams.get('businessId');
+  console.log('businessId', businessId);
 
   React.useEffect(() => {
     setValue('email', currentUser.userDetails.userEmail || '');
     setValue('name', currentUser.userDetails.userName || '');
     setValue('role', currentUser.employeeDetails.role.type || '');
+    setValue('mobile', currentUser.userDetails.mobile || '');
     setValue('status', String(currentUser.userDetails.status));
   }, [currentUser, setValue]);
 
@@ -60,10 +67,13 @@ const EditProfile: React.FC = () => {
         userEmail: getValues('email'),
         userName: getValues('name'),
         status: getValues('status'),
+        mobile: getValues('mobile'),
       },
     };
     const newData = {
-      auth0_user_id: currentUser.userDetails.auth0_user_id,
+      // auth0_user_id: currentUser.userDetails.auth0_user_id,
+      auth0_user_id: 'google-oauth2|100503928335826721491',
+      businessId: businessId || '',
       updatedCurrentUser,
     };
     dispatch(updateCurrentUser(newData));
@@ -149,6 +159,23 @@ const EditProfile: React.FC = () => {
                     ))}
                   </Select>
                 </FormControl>
+              )}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Controller
+              name='mobile'
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  label={t('auth0.mobile')}
+                  disabled={!isEditing}
+                  variant='outlined'
+                  margin='normal'
+                  sx={{ mt: 2 }}
+                />
               )}
             />
           </Grid>

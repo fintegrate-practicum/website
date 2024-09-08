@@ -58,6 +58,14 @@ const App = () => {
           <Route path='/inventory/*' element={<Inventory />} />
           <Route path='/allOrders/:businessCode?' element={<AllOrders />} />
           <Route
+            path='/editProfile:businessId?'
+            element={
+              <Suspense fallback={t('common.Loading...')}>
+                <LazyEditProfile />
+              </Suspense>
+            }
+          />
+          <Route
             path='/editProfile'
             element={
               <Suspense fallback={t('common.Loading...')}>

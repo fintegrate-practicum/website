@@ -5,6 +5,10 @@ import { EmployeeRole } from '../modules/workers/classes/employeeRole';
 import { statuses } from '../modules/workers/classes/enum/statuses.enum';
 import InfraInstance from '../auth0/InfraInterceptors';
 
+export interface BusinessRole {
+  businessId: string;
+  role: EmployeeRole;
+}
 export interface UserDetails {
   userName: string;
   userEmail: string;
@@ -14,6 +18,7 @@ export interface UserDetails {
   status: statuses;
   data?: any;
   mobile: string;
+  businessRoles: BusinessRole[];
 }
 
 export interface EmployeeDetails {
@@ -42,6 +47,7 @@ const initialState: CurrentUser = {
     status: statuses.Married,
     data: {},
     mobile: '',
+    businessRoles: [],
   },
 };
 export const fetchUserById = createAsyncThunk(
@@ -74,6 +80,7 @@ export const fetchUserById = createAsyncThunk(
           status: statuses.Married,
           data: data.data,
           mobile: data.mobile,
+          businessRoles: data.businessRoles,
         },
       };
       dispatch(currentUserSlice.actions.setCurrentUser(mappedData));
