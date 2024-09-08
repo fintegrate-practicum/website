@@ -1,7 +1,7 @@
 {
-  "errorOccurred": "An error occurred",
-  "retry": "Retry",
-  "dismiss": "Dismiss",
+  "An error occurred": "An error occurred",
+  "Retry": "Retry",
+  "Dismiss": "Dismiss",
   "Loading ...": "Loading ...",
   "Cancel": "Cancel",
   "Save": "Save",
@@ -9,5 +9,17 @@
   "Next": "Next",
   "Previous": "Previous",
   "loadingText": "loadingText",
-  "Delete": "Delete"
+  "Delete": "Delete",
+  "Error": "Error",
+  "Success": "Success",
+  "Details": "Details",
+  "Position": "Position",
+  "Role ID": "Role ID",
+  "Updated By": "Updated By",
+  "created By": "created By",
+  "Code": "Code",
+  "User ID": "User ID",
+  "Urgency": "Urgency",
+  "Target Date": "Target Date",
+  "Task Name": "Task Name"
 }

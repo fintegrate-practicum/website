@@ -5,17 +5,18 @@ import Store from './Redux/store';
 import theme from './Theme';
 import Client from './components/client/Client';
 import MainRouter from './components/router/MainRouter';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useMemo, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast from './components/generic/errorMassage';
 import Inventory from './modules/inventory/Inventory';
 import Login from './components/Login/login';
-import Orders from './modules/orders/App';
 import Header from './components/Header/Header';
+import Orders from './modules/orders/App';
 import AllOrders from './modules/orders/allOrders';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher';
+import { getTextDirection } from './utils/utils';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(
@@ -30,7 +31,8 @@ const LazyMoreDetailsManager = React.lazy(
 const LazyClient = React.lazy(() => import('./components/client/Client'));
 
 const App = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const direction = getTextDirection(i18n.language);
 
   const currentUser = useAppSelector((state) => state.currentUserSlice);
   const [typeUser, setTypeUser] = useState<string | null>(null);
@@ -44,9 +46,9 @@ const App = () => {
   }, [currentUser]);
 
   const isRootPath = location.pathname === '/';
-
+  const memoizedTheme = useMemo(() => theme(direction), [direction]);
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={memoizedTheme}>
       <Provider store={Store}>
         <Header />
         <LanguageSwitcher />
@@ -98,6 +100,7 @@ const App = () => {
             <Route path='orders' element={<Orders />} />
           </Route>
         </Routes>
+
         {isRootPath && (
           <>
             {typeUser !== 'manager' &&

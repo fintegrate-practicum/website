@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import './shoppingBag.css';
-import TextField from '../../../common/component/TextField/TextField';
-import { useTranslation } from 'react-i18next';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  IconButton,
-} from '@mui/material';
 import Typography from '../../../common/components/Typography/Typography';
 import Button from '../../../common/components/Button/Button';
-import DeleteForever from '@mui/icons-material/DeleteForever';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import Toast from '../../../common/components/Toast/Toast';
+import TableComponent from '../../../common/components/Table/TableComponent';
+import { useTranslation } from 'react-i18next';
+import { DataObject } from '../../../common/components/Table/interfaces';
+import TextField from '@mui/material/TextField';
+
 interface BagItem {
+  id?: string;
   image: string;
   name: string;
   model: string;
@@ -28,84 +23,143 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
   const { t } = useTranslation();
   const [bag, setBag] = useState<BagItem[]>(initialBag || []);
   const [total, setTotal] = useState<number>(0);
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastSeverity, setToastSeverity] = useState<
+    'success' | 'info' | 'warning' | 'error'
+  >('success');
+
   useEffect(() => {
     calculateTotal();
   }, [bag]);
+
   const calculateTotal = () => {
     const sum = bag.reduce((acc, item) => acc + item.price * item.amount, 0);
     setTotal(sum);
   };
-  const handleRemove = (index: number) => {
+
+  const handleRemove = (id: string) => {
     if (window.confirm(t('order.confirmRemove'))) {
-      const newBag = bag.filter((_, i) => i !== index);
+      const newBag = bag.filter((b) => b.id !== id);
       setBag(newBag);
+      setToastMessage(t('order.productRemoved'));
+      setToastSeverity('warning');
+      setToastOpen(true);
     }
   };
-  const handleAmountChange = (index: number, newAmount: number) => {
+
+  const handleAmountChange = (id: string, key: string, value: number) => {
+    const newAmount = value;
     if (newAmount === 0) {
-      handleRemove(index);
+      handleRemove(id);
     } else {
-      const newBag = bag.map((item, i) => {
-        if (i === index) {
+      const newBag = bag.map((item) => {
+        if (item.id === id) {
           return { ...item, amount: newAmount };
         }
         return item;
       });
       setBag(newBag);
+      setToastMessage(t('order.quantityUpdated'));
+      setToastSeverity('success');
+      setToastOpen(true);
     }
   };
+
+  const handleCheckout = () => {
+    alert(t('order.paymentClicked'));
+    setToastMessage(t('order.checkoutInitiated'));
+    setToastSeverity('info');
+    setToastOpen(true);
+  };
+
+  const dataObject: DataObject = {
+    headers: [
+      {
+        key: 'name',
+        label: t('order.name'),
+        type: 'text',
+        renderCell: (params) => (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <img
+              src={params.row.image}
+              alt='thumbnail'
+              style={{ width: '50px', height: '50px', marginRight: '8px' }}
+            />
+            <span>{params.value}</span>
+          </div>
+        ),
+      },
+      { key: 'model', label: t('order.Model'), type: 'text' },
+      {
+        key: 'amount',
+        label: t('order.amount'),
+        type: 'number',
+        renderCell: (params) => (
+          <TextField
+            type='number'
+            value={params.value}
+            onChange={(e) =>
+              handleAmountChange(
+                params.id.toString(),
+                'age',
+                Number(e.target.value),
+              )
+            }
+            variant='outlined'
+            size='small'
+            style={{ width: '100%' }}
+            InputProps={{
+              sx: {
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'transparent',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#1976d2',
+                },
+              },
+            }}
+          />
+        ),
+      },
+      {
+        key: 'price',
+        label: t('order.price'),
+        type: 'number',
+        renderCell: (params) => (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <span>₪</span>
+            {params.value}
+          </div>
+        ),
+      },
+    ],
+    rows: bag.map((item, index) => ({
+      ...item,
+      id: index.toString(),
+      price: (item.price * item.amount).toFixed(2),
+    })),
+  };
+
   return (
-    <div className='shoppingBag-container'>
-      <Typography variant='h5'>{t('order.shoppingBag')}</Typography>
+    <div>
+      <Typography variant='h5'> {t('order.shoppingBag')} </Typography>
       {bag.length === 0 ? (
-        <Typography>{t('order.bagIsEmpty')}</Typography>
+        <Typography> {t('order.bagIsEmpty')}</Typography>
       ) : (
         <>
-          <Table className='shoppingBag' style={{ direction: 'rtl' }}>
-            <TableHead>
-              <TableRow>
-                <TableCell align='right'>{t('order.productName')}</TableCell>
-                <TableCell align='right'>{t('order.quantity')}</TableCell>
-                <TableCell align='right'>{t('order.price')}</TableCell>
-                <TableCell align='right'>.</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {bag.map((row, index) => (
-                <TableRow key={row.name}>
-                  <TableCell align='right'>
-                    {row.name}{' '}
-                    <img src={row.image} width='80px' alt={row.name} />
-                  </TableCell>
-                  <TableCell align='right'>
-                    <TextField
-                      type='number'
-                      value={row.amount}
-                      onChange={(e) =>
-                        handleAmountChange(index, Number(e.target.value))
-                      }
-                    />
-                  </TableCell>
-                  <TableCell align='right'>
-                    {(row.price * row.amount).toFixed(2)} ₪
-                  </TableCell>
-                  <TableCell align='right'>
-                    <IconButton
-                      aria-label={t('order.removeProduct')}
-                      onClick={() => handleRemove(index)}
-                    >
-                      <DeleteForever />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-            <TableCell colSpan={3} className='total_line'>
-              {t('order.totalAmount', { total: total.toFixed(2) })}
-            </TableCell>
-          </Table>
+          <TableComponent
+            dataObject={dataObject}
+            tableSize='large'
+            showDeleteButton={true}
+            onDelete={handleRemove}
+          />
+          <Typography variant='h6'>
+            {' '}
+            {t('order.Amount to be paid :')} {total.toFixed(2)} ₪{' '}
+          </Typography>
           <Button
-            onClick={() => alert(t('order.paymentClicked'))}
+            onClick={handleCheckout}
             startIcon={<ArrowBackIosIcon />}
             style={{ textTransform: 'none' }}
             size='large'
@@ -114,7 +168,14 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
           </Button>
         </>
       )}
+      <Toast
+        message={toastMessage}
+        severity={toastSeverity}
+        open={toastOpen}
+        onClose={() => setToastOpen(false)}
+      />
     </div>
   );
 };
+
 export default ShoppingBag;

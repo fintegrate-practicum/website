@@ -65,7 +65,7 @@ const EditTask = (props: {
           component: 'form',
           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
-            if (currentUser.role.type !== 'admin') {
+            if (currentUser.role.type !== 'manager') {
               const updateTaskForEmployee: UpdateTaskEmployeeDTO = {
                 description: description,
                 status: status,
