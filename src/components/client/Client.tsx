@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, Outlet } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
@@ -53,7 +53,7 @@ export default function LazyClient() {
         console.error('Error fetching business data', error);
         showToast(
           'הדף שאת/ה מחפש/ת אינו נמצא. הכנס/י route-הכנס/י ב http://localhost:0000/link/**של עסק linkUID**',
-          'error'
+          'error',
         );
       } finally {
         setLoading(false);

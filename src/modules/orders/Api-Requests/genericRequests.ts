@@ -4,8 +4,9 @@ export const getItemById = <T>(route: string, id: string) => {
     return httpSrvice.get<T>(`/${route}/${id}`);
 };
 
-export const getAllItems = <T>(route: string) => {
-    return httpSrvice.get<T>(`/${route}`);
+export const getAllItems = <T>(route: string, token?: string) => {
+    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    return httpSrvice.get<T>(`/${route}`, { headers });
 };
 
 export const deleteItem = <T>(route: string, id: string) => {

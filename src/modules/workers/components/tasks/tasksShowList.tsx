@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
-import GenericList from '../../../../components/generic/genericList';
+import React, { useEffect, useMemo } from 'react';
 import Task from '../../classes/task';
 import { useAppSelector } from '../../../../Redux/hooks';
 import SingleTask from './singleTask';
+import TableComponent from '../../../../common/components/Table/TableComponent';
+import { DataObject } from '../../../../common/components/Table/interfaces';
+import { useTranslation } from 'react-i18next';
 
 interface ShowTaskListProps {
   filteredTasks: Task[];
   setFilteredTasks: React.Dispatch<React.SetStateAction<Task[]>>;
 }
-
 const TasksShowList: React.FC<ShowTaskListProps> = ({
   filteredTasks,
   setFilteredTasks,
@@ -16,7 +17,7 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
   const currentUser = useAppSelector(
     (state) => state.currentUserSlice.employeeDetails,
   );
-
+  const { t } = useTranslation();
   useEffect(() => {
     if (
       currentUser.role.type !== 'admin' &&
@@ -30,6 +31,24 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
     }
   }, [currentUser, filteredTasks, setFilteredTasks]);
 
+  const rows = useMemo(
+    () =>
+      filteredTasks.map((task) => ({
+        taskName: task.taskName,
+        targetDate: task.targetDate.toISOString(),
+        urgency: task.urgency,
+      })),
+    [filteredTasks],
+  );
+
+  const dataObject: DataObject = {
+    headers: [
+      { key: 'taskName', label: t('common.Task Name'), type: 'text' },
+      { key: 'targetDate', label: t('common.Target Date'), type: 'text' },
+      { key: 'urgency', label: t('common.Urgency'), type: 'text' },
+    ],
+    rows,
+  };
   return (
     <>
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
@@ -45,8 +64,14 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
           DialogComponent={SingleTask}
         />
       </div>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <TableComponent
+        dataObject={dataObject}
+        tableSize='large'
+        showDeleteButton={false}
+      />
+    </div>
     </>
   );
 };
-
 export default TasksShowList;

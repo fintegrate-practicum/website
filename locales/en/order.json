@@ -67,5 +67,10 @@
   "Total Amount": "Total Amount",
   "checkout": "Checkout",
   "Are you sure you want to remove the product?": "Are you sure you want to remove the product?",
-  "Payment button was clicked": "Payment button was clicked"
+  "Payment button was clicked": "Payment button was clicked",
+  "confirmRemove": "Are you sure you want to remove the product?",
+  "paymentClicked": "Payment button was clicked",
+  "Amount to be paid :": "Amount to be paid",
+  "amount": "amount",
+  "name": "name"
 }
