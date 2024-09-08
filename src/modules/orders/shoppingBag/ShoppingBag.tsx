@@ -14,6 +14,8 @@ import Typography from '../../../common/components/Typography/Typography';
 import Button from '../../../common/components/Button/Button';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import Toast from '../../../common/components/Toast/Toast';
+
 interface BagItem {
   image: string;
   name: string;
@@ -28,19 +30,31 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
   const { t } = useTranslation();
   const [bag, setBag] = useState<BagItem[]>(initialBag || []);
   const [total, setTotal] = useState<number>(0);
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastSeverity, setToastSeverity] = useState<
+    'success' | 'info' | 'warning' | 'error'
+  >('success');
+
   useEffect(() => {
     calculateTotal();
   }, [bag]);
+
   const calculateTotal = () => {
     const sum = bag.reduce((acc, item) => acc + item.price * item.amount, 0);
     setTotal(sum);
   };
+
   const handleRemove = (index: number) => {
     if (window.confirm(t('order.confirmRemove'))) {
       const newBag = bag.filter((_, i) => i !== index);
       setBag(newBag);
+      setToastMessage(t('order.productRemoved'));
+      setToastSeverity('warning');
+      setToastOpen(true);
     }
   };
+
   const handleAmountChange = (index: number, newAmount: number) => {
     if (newAmount === 0) {
       handleRemove(index);
@@ -52,8 +66,19 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
         return item;
       });
       setBag(newBag);
+      setToastMessage(t('order.quantityUpdated'));
+      setToastSeverity('success');
+      setToastOpen(true);
     }
   };
+
+  const handleCheckout = () => {
+    alert(t('order.paymentClicked'));
+    setToastMessage(t('order.checkoutInitiated'));
+    setToastSeverity('info');
+    setToastOpen(true);
+  };
+
   return (
     <div className='shoppingBag-container'>
       <Typography variant='h5'>{t('order.shoppingBag')}</Typography>
@@ -105,7 +130,7 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
             </TableCell>
           </Table>
           <Button
-            onClick={() => alert(t('order.paymentClicked'))}
+            onClick={handleCheckout}
             startIcon={<ArrowBackIosIcon />}
             style={{ textTransform: 'none' }}
             size='large'
@@ -114,7 +139,14 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
           </Button>
         </>
       )}
+      <Toast
+        message={toastMessage}
+        severity={toastSeverity}
+        open={toastOpen}
+        onClose={() => setToastOpen(false)}
+      />
     </div>
   );
 };
+
 export default ShoppingBag;
