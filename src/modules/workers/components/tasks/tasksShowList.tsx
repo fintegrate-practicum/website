@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import GenericList from '../../../../components/generic/genericList';
 import Task from '../../classes/task';
 import { useAppSelector } from '../../../../Redux/hooks';
+import SingleTask from './singleTask';
 
 interface ShowTaskListProps {
   filteredTasks: Task[];
@@ -41,6 +42,7 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
             { name: 'urgency', header: 'דחיפות', type: 'text' },
           ]}
           desing={null}
+          DialogComponent={SingleTask}
         />
       </div>
     </>
