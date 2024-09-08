@@ -1,14 +1,19 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Task from '../../classes/task';
 import { useAppSelector } from '../../../../Redux/hooks';
 import TableComponent from '../../../../common/components/Table/TableComponent';
 import { DataObject } from '../../../../common/components/Table/interfaces';
 import { useTranslation } from 'react-i18next';
+import Dialog from '@mui/material/Dialog'; // ייבוא דיאלוג
+import SingleTask from './singleTask'; // ייבוא הקומפוננטה SingleTask
+import TableRow from '@mui/material/TableRow'; // ייבוא TableRow ו-TableCell
+import TableCell from '@mui/material/TableCell';
 
 interface ShowTaskListProps {
   filteredTasks: Task[];
   setFilteredTasks: React.Dispatch<React.SetStateAction<Task[]>>;
 }
+
 const TasksShowList: React.FC<ShowTaskListProps> = ({
   filteredTasks,
   setFilteredTasks,
@@ -17,6 +22,23 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
     (state) => state.currentUserSlice.employeeDetails,
   );
   const { t } = useTranslation();
+
+  // State לניהול הדיאלוג
+  const [open, setOpen] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+
+  // פונקציה לפתיחת דיאלוג עם המשימה שנבחרה
+  const handleOpen = (task: Task) => {
+    setSelectedTask(task);
+    setOpen(true);
+  };
+
+  // פונקציה לסגירת הדיאלוג
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedTask(null);
+  };
+
   useEffect(() => {
     if (
       currentUser.role.type !== 'admin' &&
@@ -48,14 +70,31 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
     ],
     rows,
   };
+
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
+      {/* יצירת הטבלה */}
       <TableComponent
         dataObject={dataObject}
         tableSize='large'
         showDeleteButton={false}
       />
+
+      {/* יצירת השורות עם onClick */}
+      {filteredTasks.map((task, index) => (
+        <TableRow key={index} onClick={() => handleOpen(task)}>
+          <TableCell>{task.taskName}</TableCell>
+          <TableCell>{task.targetDate.toISOString()}</TableCell>
+          <TableCell>{task.urgency}</TableCell>
+        </TableRow>
+      ))}
+
+      {/* דיאלוג להצגת המשימה הנבחרת */}
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth='md'>
+        {selectedTask && <SingleTask item={selectedTask} />}
+      </Dialog>
     </div>
   );
 };
+
 export default TasksShowList;

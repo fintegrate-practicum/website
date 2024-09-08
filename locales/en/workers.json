@@ -67,5 +67,14 @@
   "worker": "worker",
   "Role Description": "Role Description",
   "email": "email",
-  "Add Employee Button": "Add Employee"
+  "Add Employee Button": "Add Employee",
+  "no_task_found": "No task found",
+  "decription": "Decription",
+  "status": "Status",
+  "target_date": "Target Date",
+  "assigned_to": "Assigned to",
+  "urgency": "Urgency",
+  "completion_date": "Completion Date",
+  "not_completed_yet": "Not completed yet",
+  "unknown_employee": "unknown_employee"
 }

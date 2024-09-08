@@ -67,5 +67,14 @@
   "worker": "עובד",
   "Role Description": "תיאור תפקיד",
   "email": "אימייל",
-  "Add Employee Button": "הוסף עובד"
+  "Add Employee Button": "הוסף עובד",
+  "no_task_found": "לא נמצאה משימה",
+  "decription": "תיאור",
+  "status": "סטטוס",
+  "target_date": "תאריך יעד",
+  "assigned_to": "משויך ל",
+  "urgency": "דחיפות",
+  "completion_date": "תאריך סיום",
+  "not_completed_yet": "טרם הושלם",
+  "unknown_employee": "עובד לא ידוע"
 }
