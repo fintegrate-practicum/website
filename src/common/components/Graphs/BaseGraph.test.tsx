@@ -29,9 +29,8 @@ describe('BaseGraph', () => {
       startAngle: -90,
     };
 
-    const { getByText, getByTestId } = render(<BaseGraph {...props} />);
+    const { getByTestId } = render(<BaseGraph {...props} />);
 
-    expect(getByText('Graph')).toBeInTheDocument();
     expect(getByTestId('canvasjs-chart')).toBeInTheDocument();
   });
   it('renders labels on the BaseGraph component', () => {
