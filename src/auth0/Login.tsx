@@ -10,7 +10,7 @@ const LoginButton = () => {
     <>
       <Button onClick={() => loginWithRedirect()}>{t('auth0.login')}</Button>;
       <Button href='/CreateBusiness/BaseDetailsManager' isLink={true}>
-        {t('Register a business')}
+        {t('auth0.Register a business')}
       </Button>
     </>
   );
