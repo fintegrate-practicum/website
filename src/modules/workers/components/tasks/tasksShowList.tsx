@@ -4,7 +4,8 @@ import { useAppSelector } from '../../../../Redux/hooks';
 import TableComponent from '../../../../common/components/Table/TableComponent';
 import { DataObject } from '../../../../common/components/Table/interfaces';
 import { useTranslation } from 'react-i18next';
-
+import * as XLSX from 'xlsx';
+import Button from '../../../../common/components/Button/Button';
 interface ShowTaskListProps {
   filteredTasks: Task[];
   setFilteredTasks: React.Dispatch<React.SetStateAction<Task[]>>;
@@ -48,14 +49,38 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
     ],
     rows,
   };
+  const exportToExcel = () => {
+    const data = dataObject.rows.map((item) => ({
+      taskName: item.taskName,
+      targetDate: item.targetDate,
+      urgency: item.urgency,
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    const desiredColumnWidths = [
+      { width: 20 },
+      { width: 20 },
+      { width: 20 },
+      { width: 20 },
+      { width: 20 },
+    ];
+    worksheet['!cols'] = desiredColumnWidths;
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+    XLSX.writeFile(workbook, 'MYSavedData.xlsx');
+  };
   return (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <TableComponent
-        dataObject={dataObject}
-        tableSize='large'
-        showDeleteButton={false}
-      />
-    </div>
+    <>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <TableComponent
+          dataObject={dataObject}
+          tableSize='large'
+          showDeleteButton={false}
+        />
+      </div>
+      <Button onClick={exportToExcel} variant='outlined'>
+        Export to Excel
+      </Button>
+    </>
   );
 };
 export default TasksShowList;

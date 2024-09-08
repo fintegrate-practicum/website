@@ -3,6 +3,7 @@ import { useAppSelector } from '../../../Redux/hooks';
 import { RootState } from '../../../Redux/store';
 import TableComponent from '../../../common/components/Table/TableComponent';
 import Button from '../../../common/components/Button/Button';
+import * as XLSX from 'xlsx';
 import { useTranslation } from 'react-i18next';
 import { DataObject, Row } from '../../../common/components/Table/interfaces';
 
@@ -45,7 +46,30 @@ const WorkersShowList = () => {
     ],
     rows,
   };
-
+  const exportToExcel = () => {
+    const data = dataObject.rows.map((item) => ({
+      userId: item.userId,
+      code: item.code,
+      profilePic: item.profilePic,
+      createdBy: item.createdBy,
+      updatedBy: item.updatedBy,
+      position: item.position,
+      roleId: item.roleId,
+      details: item.details,
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    const desiredColumnWidths = [
+      { width: 20 },
+      { width: 20 },
+      { width: 20 },
+      { width: 20 },
+      { width: 20 },
+    ];
+    worksheet['!cols'] = desiredColumnWidths;
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+    XLSX.writeFile(workbook, 'MYSavedData.xlsx');
+  };
   return (
     <>
       <TableComponent
@@ -75,6 +99,9 @@ const WorkersShowList = () => {
           disabled={!hasPreviousPage}
         >
           {t('common.Previous')}{' '}
+        </Button>
+        <Button onClick={exportToExcel} variant='outlined'>
+          Export to Excel
         </Button>
       </div>
     </>
