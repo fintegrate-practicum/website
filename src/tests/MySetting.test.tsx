@@ -4,19 +4,17 @@ import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import MySetting, { ComponentType } from '../components/Setting/MySetting';
-import serviceSettingsSlice from '../Redux/serviceConfigurationsSlice'; // מיקום סלייס לדוגמה
+import serviceSettingsSlice from '../Redux/serviceConfigurationsSlice'; 
 
-// פונקציה ליצירת store mock
 const createMockStore = (initialState = {}) => {
   return configureStore({
     reducer: {
-      serviceSettings: serviceSettingsSlice, // דוגמה של סלייס אמיתי, ניתן להחליף בהתאם
+      serviceSettings: serviceSettingsSlice, 
     },
     preloadedState: initialState,
   });
 };
 
-// פונקציה לעיטוף הרכיב ב-Redux Provider עם store mock
 const renderWithRedux = (component: any, initialState = {}) => {
   const store = createMockStore(initialState);
   return render(<Provider store={store}>{component}</Provider>);
