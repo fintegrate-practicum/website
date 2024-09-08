@@ -17,7 +17,9 @@ import AllOrders from './modules/orders/allOrders';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher';
 import { getTextDirection } from './utils/utils';
-
+const LazySidemenu = React.lazy(
+  () => import('./components/Setting/Sidemenu'),
+);
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(
   () => import('./components/createBusiness/baseDetailsManager'),
@@ -62,6 +64,14 @@ const App = () => {
             element={
               <Suspense fallback={t('common.Loading...')}>
                 <LazyEditProfile />
+              </Suspense>
+            }
+          />
+          <Route
+            path='/Sidemenu'
+            element={
+              <Suspense fallback={t('common.Loading...')}>
+                <LazySidemenu />
               </Suspense>
             }
           />

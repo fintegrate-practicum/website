@@ -2,7 +2,7 @@ import * as React from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
+import Typography from '../../common/components/Typography/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { List, ListItem, ListItemText } from '@mui/material';
 import MySetting, { MySettingProps } from './MySetting';
