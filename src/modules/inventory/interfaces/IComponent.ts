@@ -15,7 +15,5 @@ export interface IComponent extends Item {
   images?: string[];
   isOnSale?: boolean;
   salePercentage?: number;
-  // componentColor?: string;
-  // componentSize?: string;
   businessId: string;
 }
