@@ -66,7 +66,6 @@ const ConfirmOrder = () => {
     updateInventory();
   }, []);
 
-  
   return (
     <Container maxWidth="sm">
       <Paper elevation={3} sx={{ padding: '2rem', textAlign: 'center', marginTop: '2rem' }}>

@@ -33,7 +33,6 @@ const ShoppingDetails: React.FC<Props> = ({ amount }) => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const navigate = useNavigate();    
-
   const currentEmployee = useAppSelector(
     (state) => state.currentUserSlice.employeeDetails,
     );
@@ -79,7 +78,7 @@ const ShoppingDetails: React.FC<Props> = ({ amount }) => {
 
     } catch (err) {
       console.log(err);
-      setSnackbarMessage(t('order.Error saving the order'));
+      setSnackbarMessage(t('order.Error saving the order!'));
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
     }
