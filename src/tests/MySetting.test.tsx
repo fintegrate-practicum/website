@@ -164,3 +164,23 @@ describe('<MySetting>', () => {
     expect(handleClick).toHaveBeenCalled();
   });
 });
+
+test('renders ButtonGroup component with children', async () => {
+  const { container } = renderWithRedux(
+    <MySetting
+      setting={{
+        categoryName: 'Example Category',
+        serviceName: 'Example Service',
+        settingDesc: 'Test description',
+        type: ComponentType.ButtonGroup,
+        props: { variant: 'contained' },
+        children: [
+          { key: '1', value: '1' },
+          { key: '2', value: '2' },
+        ],
+      }}
+    />
+  );
+
+  expect(container.firstChild).not.toBeNull();
+});
