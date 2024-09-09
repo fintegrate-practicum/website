@@ -41,6 +41,7 @@ const SmallShoppingBag = () => {
       {
         id: 1,
         name: 'casual dress',
+        profilePic: '/dress.jpg',
         model: 'blue flowers',
         amount: 1,
         price: 125.9,
@@ -48,6 +49,7 @@ const SmallShoppingBag = () => {
       {
         id: 2,
         name: 'casual dress',
+        profilePic: '/dress.jpg',
         model: 'blue flowers',
         amount: 1,
         price: 125.9,
@@ -55,6 +57,7 @@ const SmallShoppingBag = () => {
       {
         id: 3,
         name: 'snickers',
+        profilePic: '/dress.jpg',
         model: 'red',
         amount: 1,
         price: 89.9,
@@ -62,6 +65,7 @@ const SmallShoppingBag = () => {
       {
         id: 4,
         name: 'snickers',
+        profilePic: '/dress.jpg',
         model: 'red',
         amount: 1,
         price: 89.9,
