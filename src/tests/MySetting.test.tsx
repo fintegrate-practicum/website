@@ -4,12 +4,12 @@ import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import MySetting, { ComponentType } from '../components/Setting/MySetting';
-import serviceSettingsSlice from '../Redux/serviceConfigurationsSlice'; 
+import serviceSettingsSlice from '../Redux/serviceConfigurationsSlice';
 
 const createMockStore = (initialState = {}) => {
   return configureStore({
     reducer: {
-      serviceSettings: serviceSettingsSlice, 
+      serviceSettings: serviceSettingsSlice,
     },
     preloadedState: initialState,
   });
@@ -66,6 +66,85 @@ describe('<MySetting>', () => {
     const button = screen.getByTestId('test-button');
     expect(button).not.toBeNull();
     expect(button).toHaveProperty('disabled', true);
+  });
+
+
+  test('renders ButtonGroup component with children', async () => {
+    const { container } = renderWithRedux(
+      <MySetting
+        setting={{
+          categoryName: 'Example Category',
+          serviceName: 'Example Service',
+          settingDesc: 'Test description',
+          type: ComponentType.ButtonGroup,
+          props: { variant: 'contained' },
+          children: [
+            { key: '1', value: '1' },
+            { key: '2', value: '2' },
+          ],
+        }}
+      />
+    );
+    const childButtons = container.querySelectorAll('button');
+    expect(childButtons.length).toBe(2);
+    expect(childButtons[0].textContent).toBe('1');
+    expect(childButtons[1].textContent).toBe('2');
+    expect(container.firstChild).not.toBeNull();
+  });
+
+  test('renders FloatingActionButton component with children', async () => {
+    renderWithRedux(
+      <MySetting
+        setting={{
+          categoryName: 'Example Category',
+          serviceName: 'Example Service',
+          settingDesc: 'Test description',
+          type: ComponentType.FloatingActionButton,
+          props: { color: 'primary' },
+          children: 'FAB',
+        }}
+      />
+    );
+
+    const fabButton = screen.getByText('FAB');
+    expect(fabButton).toBeTruthy();
+    expect(fabButton.textContent).toBe('FAB');
+  });
+
+  test('renders RadioGroup component with children', async () => {
+    renderWithRedux(
+      <MySetting
+        setting={{
+          categoryName: 'Example Category',
+          serviceName: 'Example Service',
+          settingDesc: 'Test description',
+          type: ComponentType.RadioGroup,
+          props: { name: 'radio-group' },
+          children: [
+            { value: 'option1', label: 'Option 1' },
+            { value: 'option2', label: 'Option 2' }
+          ],
+        }}
+      />
+    );
+
+    const radioGroup = screen.getByRole('radiogroup');
+    expect(radioGroup).toBeTruthy();
+
+    const labels = radioGroup.querySelectorAll('label.MuiFormControlLabel-root');
+    expect(labels.length).toBe(2);
+
+    const firstLabel = labels[0];
+    const firstRadioInput = firstLabel.querySelector('input');
+    expect(firstRadioInput).toBeTruthy();
+    expect(firstRadioInput?.getAttribute('value')).toBe('option1');
+    expect(firstLabel.textContent).toBe('Option 1');
+
+    const secondLabel = labels[1];
+    const secondRadioInput = secondLabel.querySelector('input');
+    expect(secondRadioInput).toBeTruthy();
+    expect(secondRadioInput?.getAttribute('value')).toBe('option2');
+    expect(secondLabel.textContent).toBe('Option 2');
   });
 
   test('renders null for invalid component type', () => {
@@ -163,27 +242,4 @@ describe('<MySetting>', () => {
 
     expect(handleClick).toHaveBeenCalled();
   });
-});
-
-test('renders ButtonGroup component with children', async () => {
-  const { container } = renderWithRedux(
-    <MySetting
-      setting={{
-        categoryName: 'Example Category',
-        serviceName: 'Example Service',
-        settingDesc: 'Test description',
-        type: ComponentType.ButtonGroup,
-        props: { variant: 'contained' },
-        children: [
-          { key: '1', value: '1' },
-          { key: '2', value: '2' },
-        ],
-      }}
-    />
-  );
-  const childButtons = container.querySelectorAll('button');
-  expect(childButtons.length).toBe(2);
-  expect(childButtons[0].textContent).toBe('1');
-  expect(childButtons[1].textContent).toBe('2');
-  expect(container.firstChild).not.toBeNull();
 });
