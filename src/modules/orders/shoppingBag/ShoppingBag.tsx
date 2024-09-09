@@ -157,23 +157,14 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
             {' '}
             {t('order.Amount to be paid :')} {total.toFixed(2)} ₪{' '}
           </Typography>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              alignItems: 'flex-end',
-              gap: '38%',
-            }}
+          <Button
+            onClick={handleCheckout}
+            startIcon={<ArrowBackIosIcon />}
+            style={{ textTransform: 'none' }}
+            size='large'
           >
-            <Button
-              onClick={handleCheckout}
-              startIcon={<ArrowBackIosIcon />}
-              style={{ textTransform: 'none' }}
-              size='large'
-            >
-              {t('order.checkout')}
-            </Button>
-          </div>
+            {t('order.checkout')}
+          </Button>
         </>
       )}
 

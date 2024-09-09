@@ -48,15 +48,13 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
     rows,
   };
   return (
-    <>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <TableComponent
-          dataObject={dataObject}
-          tableSize='large'
-          showDeleteButton={false}
-        />
-      </div>
-    </>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <TableComponent
+        dataObject={dataObject}
+        tableSize='large'
+        showDeleteButton={false}
+      />
+    </div>
   );
 };
 export default TasksShowList;
