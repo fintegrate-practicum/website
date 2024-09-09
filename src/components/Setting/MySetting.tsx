@@ -12,6 +12,8 @@ import TextField from '../../common/component/TextField/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
+import { saveServiceSettings } from '../../Redux/serviceConfigurationsSlice';
+import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 
 export enum ComponentType {
   Button = 'Button',
@@ -26,6 +28,11 @@ export enum ComponentType {
   TextField = 'TextField',
   MenuItem = 'MenuItem',
   Input = 'Input',
+}
+
+interface Setting {
+  key: string;
+  value: any;
 }
 
 export interface ButtonChildren {
@@ -57,18 +64,12 @@ interface CustomChild {
 
 export interface MySettingProps {
   setting: {
+    categoryName: string;
+    serviceName: string;
     settingDesc: string;
     type: ComponentType;
     props?: Record<string, any>;
-    children?:
-      | CustomChild[]
-      | CustomChild
-      | RadioGroupChildren
-      | SelectChildren
-      | ButtonGroupChildren
-      | ButtonChildren
-      | FloatingActionButtonChildren
-      | string;
+    children?: CustomChild[] | CustomChild | RadioGroupChildren | SelectChildren | ButtonGroupChildren | ButtonChildren | FloatingActionButtonChildren | string;
   };
 }
 
@@ -91,6 +92,12 @@ const componentMap: {
 
 const MySetting: FC<MySettingProps> = (props) => {
   const { setting } = props;
+  const dispatch = useAppDispatch();
+
+  const handleChange = (key: string, value: any) => {
+    const updatedSetting: Setting = { key, value };
+    dispatch(saveServiceSettings({ serviceName: setting.serviceName, settings: [updatedSetting] }));
+  };
 
   if (!setting) {
     return null;
@@ -103,19 +110,14 @@ const MySetting: FC<MySettingProps> = (props) => {
   }
 
   let children: ReactElement | ReactElement[] | undefined | any;
-  if (
-    setting.type === ComponentType.Select &&
-    Array.isArray(setting.children)
-  ) {
-    children = (setting.children as CustomChild[]).map((child, index) => (
-      <MenuItem key={index} value={child.value}>
-        {child.text}
-      </MenuItem>
-    ));
-  } else if (
-    setting.type === ComponentType.RadioGroup &&
-    Array.isArray(setting.children)
-  ) {
+  if (setting.type === ComponentType.Select && Array.isArray(setting.children)) {
+      children = (setting.children as CustomChild[]).map((child, index) => (
+        <MenuItem key={index} value={child.value}>
+          {child.text}
+        </MenuItem>
+      ));
+   
+  } else if (setting.type === ComponentType.RadioGroup && Array.isArray(setting.children)) {
     children = setting.children.map((child, index) => (
       <FormControlLabel
         key={index}
@@ -124,31 +126,24 @@ const MySetting: FC<MySettingProps> = (props) => {
         label={child.label}
       />
     ));
-  } else if (
-    setting.type === ComponentType.ButtonGroup &&
-    Array.isArray(setting.children)
-  ) {
+  } else if (setting.type === ComponentType.ButtonGroup && Array.isArray(setting.children)) {
     children = setting.children.map((child, index) => (
       <Button key={index} variant={setting.props?.variant}>
         {child.value}
       </Button>
     ));
   } else if (
-    (setting.type === ComponentType.FloatingActionButton ||
-      setting.type === ComponentType.Button) &&
+    (setting.type === ComponentType.FloatingActionButton || setting.type === ComponentType.Button) &&
     typeof setting.children === 'string'
   ) {
     children = createElement('span', null, setting.children);
-  } else if (
-    setting.type === ComponentType.Input &&
-    typeof setting.children === 'string'
-  ) {
+  } else if (setting.type === ComponentType.Input && typeof setting.children === 'string') {
     children = createElement('span', null, setting.children);
   } else {
     children = setting.children;
   }
 
-  return createElement(Component, setting.props ?? {}, children);
+  return createElement(Component, { ...setting.props, onChange: (event: any) => handleChange(`${setting.categoryName} -> ${setting.settingDesc}`, event.target.value) }, children);
 };
 
 export default MySetting;
