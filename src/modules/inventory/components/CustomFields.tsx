@@ -328,6 +328,8 @@ const CustomFields: React.FC<CustomFieldProps> = ({
                     <Box>
                       <MySetting
                         setting={{
+                          categoryName: 'customFields',
+                          serviceName: 'customFields',
                           settingDesc: customField.fieldName,
                           type: customField.fieldType,
                           props:
