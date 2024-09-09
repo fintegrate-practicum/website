@@ -4,9 +4,9 @@ import { useAppSelector } from '../../../../Redux/hooks';
 import TableComponent from '../../../../common/components/Table/TableComponent';
 import { DataObject } from '../../../../common/components/Table/interfaces';
 import { useTranslation } from 'react-i18next';
-import Dialog from '@mui/material/Dialog'; // ייבוא דיאלוג
-import SingleTask from './singleTask'; // ייבוא הקומפוננטה SingleTask
-import TableRow from '@mui/material/TableRow'; // ייבוא TableRow ו-TableCell
+import Dialog from '@mui/material/Dialog';
+import SingleTask from './singleTask';
+import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 
 interface ShowTaskListProps {
@@ -23,17 +23,14 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
   );
   const { t } = useTranslation();
 
-  // State לניהול הדיאלוג
   const [open, setOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
-  // פונקציה לפתיחת דיאלוג עם המשימה שנבחרה
   const handleOpen = (task: Task) => {
     setSelectedTask(task);
     setOpen(true);
   };
 
-  // פונקציה לסגירת הדיאלוג
   const handleClose = () => {
     setOpen(false);
     setSelectedTask(null);
@@ -73,14 +70,14 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
-      {/* יצירת הטבלה */}
+      {/* Creating Table */}
       <TableComponent
         dataObject={dataObject}
         tableSize='large'
         showDeleteButton={false}
       />
 
-      {/* יצירת השורות עם onClick */}
+      {/* Creating rows with onClick */}
       {filteredTasks.map((task, index) => (
         <TableRow key={index} onClick={() => handleOpen(task)}>
           <TableCell>{task.taskName}</TableCell>
@@ -89,7 +86,7 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
         </TableRow>
       ))}
 
-      {/* דיאלוג להצגת המשימה הנבחרת */}
+      {/* Dialog for displaying the selected task */}
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth='md'>
         {selectedTask && <SingleTask item={selectedTask} />}
       </Dialog>
