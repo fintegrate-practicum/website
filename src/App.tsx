@@ -57,6 +57,7 @@ const App = () => {
         <Client />
         <ErrorToast />
         <Routes>
+          
           <Route path='/inventory/*' element={<Inventory />} />
           <Route path='/allOrders/:businessCode?' element={<AllOrders />} />
           <Route path="/ConfirmeOrder" element={<ConfirmeOrder/>} />

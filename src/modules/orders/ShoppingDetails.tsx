@@ -32,15 +32,11 @@ const ShoppingDetails: React.FC<Props> = ({ amount }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
+  const navigate = useNavigate();    
 
   const currentEmployee = useAppSelector(
     (state) => state.currentUserSlice.employeeDetails,
     );
-    
-    //
-    const navigate = useNavigate();
-    //
-    
     
     const productsCart = Carts.map((c) => ({
       id: c.product.id,
@@ -79,10 +75,8 @@ const ShoppingDetails: React.FC<Props> = ({ amount }) => {
       setSnackbarMessage(t('order.Order saved successfully'));
       setSnackbarSeverity('success');
       setSnackbarOpen(true);
-     //
-    // Navigate to confirmation page with the new order details
       navigate('/ConfirmeOrder', { state: { newOrder: response.data } });
-    //
+
     } catch (err) {
       console.log(err);
       setSnackbarMessage(t('order.Error saving the order'));
