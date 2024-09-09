@@ -33,6 +33,7 @@ const ShoppingDetails: React.FC<Props> = ({ amount }) => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const navigate = useNavigate();    
+
   const currentEmployee = useAppSelector(
     (state) => state.currentUserSlice.employeeDetails,
     );
@@ -133,6 +134,7 @@ const ShoppingDetails: React.FC<Props> = ({ amount }) => {
               onChange={handleChange}
               sx={{ justifyContent: 'center' }}
             >
+
               <FormControlLabel value="delivery" control={<Radio />} label={t('inorder.Shippg')} />
               <FormControlLabel value="selfCollection" control={<Radio />} label={t('order.Self Collection')} />
             </RadioGroup>
@@ -160,7 +162,6 @@ const ShoppingDetails: React.FC<Props> = ({ amount }) => {
           </FormControl>
         </form>
       </Grid>
-
       <Toast
         open={snackbarOpen}
         severity={snackbarSeverity}
