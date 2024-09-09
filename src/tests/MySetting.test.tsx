@@ -181,6 +181,9 @@ test('renders ButtonGroup component with children', async () => {
       }}
     />
   );
-
+  const childButtons = container.querySelectorAll('button');
+  expect(childButtons.length).toBe(2);
+  expect(childButtons[0].textContent).toBe('1');
+  expect(childButtons[1].textContent).toBe('2');
   expect(container.firstChild).not.toBeNull();
 });
