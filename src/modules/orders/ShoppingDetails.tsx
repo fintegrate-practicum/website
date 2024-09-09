@@ -256,7 +256,6 @@ const ShoppingDetails: React.FC<Props> = ({ amount }) => {
           </FormControl>
         </form>
       </Grid>
-
       <Toast
         open={snackbarOpen}
         severity={snackbarSeverity}

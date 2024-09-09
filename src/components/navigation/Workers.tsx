@@ -31,15 +31,15 @@ const WorkersTopNav = () => {
   useEffect(() => {
     setValue(location.pathname.slice(8));
 
-    if (currentUser && currentUser.auth0_user_id) {
-      dispatch(fetchMessages(currentUser.auth0_user_id));
-      dispatch(
-        fetchTasks({
-          employeeId: currentEmployee.id_user,
-          businessId: currentEmployee.businessId,
-        }),
-      );
-    }
+    // if (currentUser && currentUser.auth0_user_id) {
+    dispatch(fetchMessages(currentUser.auth0_user_id));
+    dispatch(
+      fetchTasks({
+        employeeId: currentEmployee.id_user,
+        businessId: currentEmployee.businessId,
+      }),
+    );
+    // }
   }, [currentUser, dispatch]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {

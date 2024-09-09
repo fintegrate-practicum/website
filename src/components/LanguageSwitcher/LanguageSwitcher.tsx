@@ -5,7 +5,7 @@ import { getTextDirection } from '../../utils/utils';
 
 const LanguageSwitcher: React.FC = () => {
   const { i18n } = useTranslation();
-  
+
   // פונקציה לשינוי שפה וכיוון
   const changeLanguage = (lng: string) => {
     if (i18n && typeof i18n.changeLanguage === 'function') {
@@ -44,16 +44,8 @@ const LanguageSwitcher: React.FC = () => {
       alignItems='center'
     >
       <ButtonGroup variant='contained' color='primary'>
-        <Button
-          onClick={() => changeLanguage('en')}
-        >
-          English
-        </Button>
-        <Button
-          onClick={() => changeLanguage('he')}
-        >
-          עברית
-        </Button>
+        <Button onClick={() => changeLanguage('en')}>English</Button>
+        <Button onClick={() => changeLanguage('he')}>עברית</Button>
       </ButtonGroup>
     </Box>
   );
