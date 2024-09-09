@@ -7,6 +7,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { TableComponentProps } from './interfaces';
 import { useTranslation } from 'react-i18next';
+import Button from '../Button/Button';
+import * as XLSX from 'xlsx';
 
 const TableComponent: React.FC<TableComponentProps> = ({
   dataObject,
@@ -60,47 +62,74 @@ const TableComponent: React.FC<TableComponentProps> = ({
       ),
     });
   }
+  const exportToExcel = () => {
+    const column = dataObject.headers.map((header) => ({
+      field: header.key,
+      headerName: header.label,
+      flex: 1,
+    }));
+    const data = dataObject.rows.map((item) => {
+      const rowData: { [key: string]: any } = {};
+      column.forEach((column) => {
+        rowData[column.headerName] = item[column.field];
+      });
+      return rowData;
+    });
 
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    const desiredColumnWidths = columns.map(() => ({ width: 20 }));
+    worksheet['!cols'] = desiredColumnWidths;
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+    XLSX.writeFile(workbook, 'MYSavedData.xlsx');
+  };
   return (
     <div
-      style={{
-        height: tableHeight,
-        width: tableWidth,
-        marginTop: '20px',
-        marginRight: tableSize === 'large' ? 'auto' : '0',
-        display: 'flex',
-      }}
+      style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}
     >
-      {dataObject.rows.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '20px', color: '#888' }}>
-          {t('website.Nothing to display, please enter data.')}{' '}
-        </div>
-      ) : (
-        <DataGrid
-          rows={dataObject.rows}
-          columns={columns}
-          paginationModel={{ pageSize, page: 0 }}
-          onPaginationModelChange={(model) => setPageSize(model.pageSize)}
-          pageSizeOptions={[5]}
-          disableRowSelectionOnClick
-          sx={{
-            '& .MuiDataGrid-columnHeaders': {
-              backgroundColor: '#f0f0f0',
-              color: MyColor,
-              borderBottom: `2px solid ${MyColor}`,
-            },
-            '& .MuiDataGrid-row': {
-              borderBottom: `1px solid ${MyColor}`,
-            },
-            '& .MuiDataGrid-cell': {
-              borderBottom: 'none',
-            },
-            '& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within': {
-              outline: 'none',
-            },
-          }}
-        />
-      )}
+      <div
+        style={{
+          height: tableHeight,
+          width: tableWidth,
+          marginTop: '20px',
+          marginRight: tableSize === 'large' ? 'auto' : '0',
+          display: 'flex',
+        }}
+      >
+        {dataObject.rows.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '20px', color: '#888' }}>
+            {t('website.Nothing to display, please enter data.')}{' '}
+          </div>
+        ) : (
+          <DataGrid
+            rows={dataObject.rows}
+            columns={columns}
+            paginationModel={{ pageSize, page: 0 }}
+            onPaginationModelChange={(model) => setPageSize(model.pageSize)}
+            pageSizeOptions={[5]}
+            disableRowSelectionOnClick
+            sx={{
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#f0f0f0',
+                color: MyColor,
+                borderBottom: `2px solid ${MyColor}`,
+              },
+              '& .MuiDataGrid-row': {
+                borderBottom: `1px solid ${MyColor}`,
+              },
+              '& .MuiDataGrid-cell': {
+                borderBottom: 'none',
+              },
+              '& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within': {
+                outline: 'none',
+              },
+            }}
+          />
+        )}
+      </div>
+      <Button onClick={exportToExcel} variant='outlined'>
+        Export to Excel
+      </Button>
     </div>
   );
 };

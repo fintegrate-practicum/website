@@ -12,7 +12,6 @@ import DeleteComponent from '../DeleteComponent';
 import TableComponent from '../../../../common/components/Table/TableComponent';
 import Button from '../../../../common/components/Button/Button';
 import { DataObject } from '../../../../common/components/Table/interfaces';
-import * as XLSX from 'xlsx';
 const AllProducts = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -98,25 +97,6 @@ const AllProducts = () => {
     ],
     rows: allRows,
   };
-  const exportToExcel = () => {
-    const data = dataObject.rows.map((item) => ({
-      id: item.id,
-      name: item.name,
-      totalPrice: item.totalPrice,
-    }));
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    const desiredColumnWidths = [
-      { width: 20 },
-      { width: 20 },
-      { width: 20 },
-      { width: 20 },
-      { width: 20 },
-    ];
-    worksheet['!cols'] = desiredColumnWidths;
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-    XLSX.writeFile(workbook, 'MYSavedData.xlsx');
-  };
   return (
     <div style={{ height: 400, width: '100%' }}>
       <div style={{ marginBottom: '16px' }}>
@@ -144,9 +124,6 @@ const AllProducts = () => {
         onEdit={handleEdit}
         onDelete={handleDelete}
       />
-      <Button onClick={exportToExcel} variant='outlined'>
-        Export to Excel
-      </Button>
     </div>
   );
 };

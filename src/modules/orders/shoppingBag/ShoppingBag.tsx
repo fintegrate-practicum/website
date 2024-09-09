@@ -3,7 +3,6 @@ import Typography from '../../../common/components/Typography/Typography';
 import Button from '../../../common/components/Button/Button';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Toast from '../../../common/components/Toast/Toast';
-import * as XLSX from 'xlsx';
 import TableComponent from '../../../common/components/Table/TableComponent';
 import { useTranslation } from 'react-i18next';
 import { DataObject } from '../../../common/components/Table/interfaces';
@@ -141,21 +140,6 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
       price: (item.price * item.amount).toFixed(2),
     })),
   };
-  const exportToExcel = () => {
-    const data = bag.map((item) => ({
-      name: item.name,
-      model: item.model,
-      description: item.description,
-      price: item.price,
-      size: item.size,
-      amount: item.amount,
-    }));
-
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-    XLSX.writeFile(workbook, 'MYSavedData.xlsx');
-  };
   return (
     <div>
       <Typography variant='h5'> {t('order.shoppingBag')} </Typography>
@@ -188,9 +172,6 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
               size='large'
             >
               {t('order.checkout')}
-            </Button>
-            <Button onClick={exportToExcel} variant='outlined'>
-              Export to Excel
             </Button>
           </div>
         </>
