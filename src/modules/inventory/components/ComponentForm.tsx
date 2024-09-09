@@ -17,7 +17,8 @@ import { useParams } from 'react-router-dom';
 import { ICustomField } from '../interfaces/ICustomField.ts';
 import { IVariant } from '../interfaces/IVariant.ts';
 import CustomFields from './CustomFields.tsx';
-import { CustomFieldModal } from './AddProductForm.tsx';
+import { CustomFieldModal } from './CustomFieldModal.tsx';
+import { useTranslation } from 'react-i18next';
 
 const notSaleAloneSchema = yup.object().shape({
   name: yup
@@ -80,6 +81,7 @@ const saleAloneSchema = yup.object().shape({
 }) as unknown as yup.ObjectSchema<IComponent>;
 
 export const ComponentForm = () => {
+  const { t } = useTranslation();
   const { componentId } = useParams<{ componentId: string }>();
   const [component, setComponent] = useState<IComponent | any>(null);
   const [isAloneChecked, setIsAloneChecked] = useState(
@@ -364,12 +366,12 @@ export const ComponentForm = () => {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>
             <Button type='submit' variant='contained' color='primary'>
-              Submit
+              {t('inventory.Submit')}
             </Button>
           </Grid>
           <Grid item xs={12} sm={12}>
             <Button color='secondary' onClick={() => setCurrentStep(1)}>
-              back to product details
+              {t('inventory.back to component details')}
             </Button>
           </Grid>
         </Grid>

@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 import { Delete, Add } from '@mui/icons-material';
 import {
@@ -13,6 +12,11 @@ import {
   FormControlLabel,
   Checkbox,
   IconButton,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import { t } from 'i18next';
@@ -22,6 +26,7 @@ import MySetting, {
 import { ICustomField } from '../interfaces/ICustomField';
 import { IVariant } from '../interfaces/IVariant';
 import Button from '../../../common/components/Button/Button';
+import Toast from '../../../common/components/Toast/Toast';
 
 interface CustomFieldProps {
   customFields: ICustomField[];
@@ -36,7 +41,14 @@ const CustomFields: React.FC<CustomFieldProps> = ({
   variants,
   setVariants,
 }) => {
-  const [variantError, setVariantError] = useState<string>();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>(
+    'success',
+  );
+  const [openDialog, setOpenDialog] = useState(false);
+  const [fieldToDelete, setFieldToDelete] = useState<string | null>(null);
+  const [isFieldUsed, setIsFieldUsed] = useState(false);
 
   useEffect(() => {
     if (customFields.length === 0) {
@@ -47,9 +59,13 @@ const CustomFields: React.FC<CustomFieldProps> = ({
   const handleAddCustomField = () => {
     const existingFieldNames = customFields.map((field) => field.fieldName);
     if (existingFieldNames.includes('')) {
-      alert(
-        'Please set a name for all existing custom fields before adding a new one.',
+      setSnackbarMessage(
+        t(
+          'inventory.Please set a name for all existing custom fields before adding a new one.',
+        ),
       );
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
       return;
     }
 
@@ -78,31 +94,37 @@ const CustomFields: React.FC<CustomFieldProps> = ({
   };
 
   const handleDeleteCustomField = (fieldName: string) => {
-    const isFieldUsed = variants.some((variant) =>
+    const fieldIsUsed = variants.some((variant) =>
       Object.keys(variant.customFields).includes(fieldName),
     );
 
-    if (isFieldUsed) {
-      if (
-        window.confirm(
-          `The field '${fieldName}' is used in existing variants. Are you sure you want to delete it?`,
-        )
-      ) {
+    setIsFieldUsed(fieldIsUsed);
+    setFieldToDelete(fieldName);
+    setOpenDialog(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (fieldToDelete) {
+      if (isFieldUsed) {
         const updatedVariants = variants.map((variant) => {
           const newFields = { ...variant.customFields };
-          delete newFields[fieldName];
+          delete newFields[fieldToDelete];
           return { ...variant, customFields: newFields };
         });
         setVariants(updatedVariants);
-        setCustomFields((prevFields) =>
-          prevFields.filter((field) => field.fieldName !== fieldName),
-        );
       }
-      return;
+
+      setCustomFields((prevFields) =>
+        prevFields.filter((field) => field.fieldName !== fieldToDelete),
+      );
     }
-    setCustomFields((prevFields) =>
-      prevFields.filter((field) => field.fieldName !== fieldName),
-    );
+    setOpenDialog(false);
+    setFieldToDelete(null);
+  };
+
+  const handleCancelDelete = () => {
+    setOpenDialog(false);
+    setFieldToDelete(null);
   };
 
   const handleAddVariant = () => {
@@ -142,10 +164,10 @@ const CustomFields: React.FC<CustomFieldProps> = ({
     });
 
     if (isDuplicate) {
-      setVariantError('Duplicate variant not allowed');
+      setSnackbarMessage(t('inventory.Duplicate variant not allowed'));
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
       return;
-    } else {
-      setVariantError('');
     }
 
     newVariants[index] = updatedVariant;
@@ -172,6 +194,27 @@ const CustomFields: React.FC<CustomFieldProps> = ({
       : [];
   };
 
+  const mapOptions = (field: ICustomField) => {
+    switch (field.fieldType) {
+      case ComponentType.Select:
+        return field.options?.map((opt) => ({
+          key: opt.value,
+          value: opt.value,
+          text: opt.label,
+        }));
+      case ComponentType.ButtonGroup:
+        return field.options?.map((opt) => ({
+          key: opt.value,
+          value: opt.value,
+        }));
+      case ComponentType.Button:
+      case ComponentType.Input:
+        return field.options?.[0]?.value || field.fieldName;
+      default:
+        return undefined;
+    }
+  };
+
   return (
     <>
       {customFields && customFields.length > 0 && (
@@ -194,7 +237,7 @@ const CustomFields: React.FC<CustomFieldProps> = ({
                         )
                       }
                       fullWidth
-                      placeholder={t('Please enter a field name')}
+                      placeholder={t('inventory.Please enter a field name')}
                     />
                   </Grid>
 
@@ -291,26 +334,7 @@ const CustomFields: React.FC<CustomFieldProps> = ({
                             customField.fieldType === ComponentType.TextField
                               ? { value: customField.options?.[0]?.value }
                               : {},
-                          children:
-                            customField.fieldType === ComponentType.Select
-                              ? customField.options?.map((opt) => ({
-                                  key: opt.value,
-                                  value: opt.value,
-                                  text: opt.label,
-                                }))
-                              : customField.fieldType ===
-                                  ComponentType.ButtonGroup
-                                ? customField.options?.map((opt) => ({
-                                    key: opt.value,
-                                    value: opt.value,
-                                  }))
-                                : customField.fieldType ===
-                                      ComponentType.Button ||
-                                    customField.fieldType ===
-                                      ComponentType.Input
-                                  ? customField.options?.[0]?.value ||
-                                    customField.fieldName
-                                  : undefined,
+                          children: mapOptions(customField),
                         }}
                       />
                     </Box>
@@ -430,9 +454,41 @@ const CustomFields: React.FC<CustomFieldProps> = ({
               {t('inventory.Add Variant')}
             </Button>
           )}
-          {variantError && <div>{variantError}</div>}
         </Grid>
       )}
+
+      <Toast
+        open={snackbarOpen}
+        severity={snackbarSeverity}
+        message={snackbarMessage}
+        onClose={() => setSnackbarOpen(false)}
+      />
+
+      <Dialog
+        open={openDialog}
+        onClose={handleCancelDelete}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogTitle id='alert-dialog-title'>
+          {`${t('inventory.Delete Custom Field')} '${fieldToDelete}'`}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id='alert-dialog-description'>
+            {isFieldUsed
+              ? `${t('inventory.Field Used In Variants')} '${fieldToDelete}'. ${t('inventory.Are you sure you want to delete it?')}`
+              : `${t('inventory.Are you sure you want to delete')} '${fieldToDelete}'?`}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancelDelete} color='primary'>
+            {t('inventory.Cancel')}
+          </Button>
+          <Button onClick={handleConfirmDelete} color='primary' autoFocus>
+            {t('inventory.Confirm')}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

@@ -92,5 +92,17 @@
   "back to product details": "back to product details",
   "Continue to Custom Fields?": "Continue to Custom Fields?",
   "No": "No",
-  "Yes": "Yes"
+  "Yes": "Yes",
+  "Please set a name for all existing custom fields before adding a new one": "Please set a name for all existing custom fields before adding a new one",
+  "Duplicate variant not allowed": "Duplicate variant not allowed",
+  "Delete Custom Field": "Delete Custom Field",
+  "Cancel": "Cancel",
+  "Confirm": "Confirm",
+  "Field Used In Variants": "Field Used In Variants",
+  "Are you sure you want to delete it?": "Are you sure you want to delete it?",
+  "Are you sure you want to delete": "Are you sure you want to delete",
+  "explainCustomFields": "Custom fields allow you to add additional, personalized information to a product that is not covered by the standard fields like name, price, or stock. You can use custom fields to specify unique attributes or details relevant to your product, such as size, color, material, or any other special features. This flexibility helps tailor each product to better fit your specific business needs, making it easier to provide customers with all the necessary product details.",
+  "Please enter a field name": "Please enter a field name",
+  "Submit": "Submit",
+  "back to component details": "back to component details"
 }

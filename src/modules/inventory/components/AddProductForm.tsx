@@ -18,7 +18,6 @@ import {
 import {
   Checkbox,
   Chip,
-  DialogContent,
   FormControl,
   FormControlLabel,
   Grid,
@@ -34,6 +33,13 @@ import { useTranslation } from 'react-i18next';
 import { ICustomField } from '../interfaces/ICustomField';
 import { IVariant } from '../interfaces/IVariant';
 import CustomFields from './CustomFields';
+import { CustomFieldModal } from './CustomFieldModal';
+
+const STEPS = {
+  PRODUCT_DETAILS: 1,
+  CUSTOM_FIELDS: 2,
+  SUBMIT_FORM: 3,
+};
 
 const productSchema = yup.object().shape({
   name: yup
@@ -95,7 +101,7 @@ const AddProductForm = () => {
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [customFields, setCustomFields] = useState<ICustomField[]>([]);
   const [variants, setVariants] = useState<IVariant[]>([]);
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(STEPS.PRODUCT_DETAILS);
   const [showCustomFieldModal, setShowCustomFieldModal] = useState(false);
   const dispatch = useDispatch();
   const componentState = useSelector((state: RootState) => state.component);
@@ -250,12 +256,12 @@ const AddProductForm = () => {
 
   const handleCustomFieldDecision = (addFields: boolean) => {
     setShowCustomFieldModal(false);
-    setCurrentStep(addFields ? 2 : 3);
+    setCurrentStep(addFields ? STEPS.CUSTOM_FIELDS : STEPS.SUBMIT_FORM);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate autoComplete='on'>
-      {currentStep === 1 && (
+      {currentStep === STEPS.PRODUCT_DETAILS && (
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -463,7 +469,7 @@ const AddProductForm = () => {
         </Grid>
       )}
 
-      {currentStep === 2 && (
+      {currentStep === STEPS.CUSTOM_FIELDS && (
         <CustomFields
           customFields={customFields}
           setCustomFields={setCustomFields}
@@ -472,7 +478,8 @@ const AddProductForm = () => {
         />
       )}
 
-      {(currentStep === 2 || currentStep === 3) && (
+      {(currentStep === STEPS.CUSTOM_FIELDS ||
+        currentStep === STEPS.SUBMIT_FORM) && (
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>
             <Button type='submit' fullWidth>
@@ -482,7 +489,10 @@ const AddProductForm = () => {
             </Button>
           </Grid>
           <Grid item xs={12} sm={12}>
-            <Button color='secondary' onClick={() => setCurrentStep(1)}>
+            <Button
+              color='secondary'
+              onClick={() => setCurrentStep(STEPS.PRODUCT_DETAILS)}
+            >
               {t('inventory.back to product details')}
             </Button>
           </Grid>
@@ -495,46 +505,6 @@ const AddProductForm = () => {
         onDecision={handleCustomFieldDecision}
       />
     </form>
-  );
-};
-
-import { Dialog, DialogTitle, DialogActions } from '@mui/material';
-
-interface CustomFieldModalProps {
-  open: boolean;
-  onClose: () => void;
-  onDecision: (addFields: boolean) => void;
-}
-
-export const CustomFieldModal: React.FC<CustomFieldModalProps> = ({
-  open,
-  onClose,
-  onDecision,
-}) => {
-  const { t } = useTranslation();
-  return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogContent sx={{ fontSize: '16px', fontFamily: 'Arial' }}>
-        <p>
-          Custom fields allow you to add additional, personalized information to
-          a product that is not covered by the standard fields like name, price,
-          or stock. You can use custom fields to specify unique attributes or
-          details relevant to your product, such as size, color, material, or
-          any other special features. This flexibility helps tailor each product
-          to better fit your specific business needs, making it easier to
-          provide customers with all the necessary product details.
-        </p>
-      </DialogContent>
-      <DialogTitle>{t('inventory.Continue to Custom Fields?')}</DialogTitle>
-      <DialogActions>
-        <Button onClick={() => onDecision(false)} color='primary'>
-          {t('inventory.No')}
-        </Button>
-        <Button onClick={() => onDecision(true)} color='primary'>
-          {t('inventory.Yes')}
-        </Button>
-      </DialogActions>
-    </Dialog>
   );
 };
 
