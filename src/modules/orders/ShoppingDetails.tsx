@@ -15,6 +15,8 @@ import { useDispatch } from 'react-redux';
 import { getBasket } from './features/basket/basketSlice';
 import { Typography, Card, TextField, Box, Grid } from '@mui/material';
 import Toast from '../../common/components/Toast/Toast'; 
+import { useNavigate } from 'react-router-dom';
+import { IOrder } from './interfaces/IOrder';
 
 interface Props {
   amount: number;
@@ -33,45 +35,54 @@ const ShoppingDetails: React.FC<Props> = ({ amount }) => {
 
   const currentEmployee = useAppSelector(
     (state) => state.currentUserSlice.employeeDetails,
-  );
-
-  const productsCart = Carts.map((c) => ({
-    id: c.product.id,
-    qty: c.Quantity,
-  }));
-
-  const getAllCart = async () => {
-    try {
-      const res = await getAllItems<ICart[]>(`cart/${currentEmployee.businessId}/${userId}`, token);
-      dispatch(getBasket(res.data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedOption(e.target.value);
-  };
-
-  useEffect(() => {
-    getAllCart();
-  }, []);
-
-  const saveDetails = async (data: Record<string, any>) => {
-    try {
-      const newData = {
-        destinationAddress: { ...data },
-        user: userId,
+    );
+    
+    //
+    const navigate = useNavigate();
+    //
+    
+    
+    const productsCart = Carts.map((c) => ({
+      id: c.product.id,
+      qty: c.Quantity,
+    }));
+    
+    const getAllCart = async () => {
+      try {
+        const res = await getAllItems<ICart[]>(`cart/${currentEmployee.businessId}/${userId}`, token);
+        dispatch(getBasket(res.data));
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSelectedOption(e.target.value);
+    };
+    
+    useEffect(() => {
+      getAllCart();
+    }, []);
+    
+    const saveDetails = async (data: Record<string, any>) => {
+      try {
+        const newData = {
+          destinationAddress: { ...data },
+          user: userId,
         products: productsCart,
         businessCode: currentEmployee.businessId,
         settingManeger: 1,
         deliveryMethod: selectedOption,
       };
-      await addItem('orders', newData);
+      const response = await addItem('orders', newData);
       reset();
       setSnackbarMessage(t('order.Order saved successfully'));
       setSnackbarSeverity('success');
       setSnackbarOpen(true);
+     //
+    // Navigate to confirmation page with the new order details
+      navigate('/ConfirmeOrder', { state: { newOrder: response.data } });
+    //
     } catch (err) {
       console.log(err);
       setSnackbarMessage(t('order.Error saving the order'));
