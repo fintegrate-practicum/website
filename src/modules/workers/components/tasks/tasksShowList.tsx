@@ -18,7 +18,7 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
 
   useEffect(() => {
     if (
-      currentUser.role.type !== 'admin' &&
+      // currentUser.role.type !== 'admin' &&
       filteredTasks &&
       filteredTasks.length > 0
     ) {
