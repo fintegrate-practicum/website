@@ -41,7 +41,6 @@ const EditProfile: React.FC = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const businessId = queryParams.get('businessId');
-  console.log('businessId', businessId);
 
   React.useEffect(() => {
     setValue('email', currentUser.userDetails.userEmail || '');
@@ -59,17 +58,11 @@ const EditProfile: React.FC = () => {
     setIsEditing(false);
     console.log('currentUser',{currentUser});
     const updatedCurrentUser = {
-      // employee: {
-      //   ...currentUser.employeeDetails,
-      //   role: { ...currentUser.employeeDetails.role, type: getValues('role') },
-      // },
-      // user: {
         ...currentUser.userDetails,
         userEmail: getValues('email'),
         userName: getValues('name'),
         mobile: getValues('mobile'),
         status: getValues('status'),
-      // },
     };
     const newData = {
       auth0_user_id: currentUser.userDetails.auth0_user_id,

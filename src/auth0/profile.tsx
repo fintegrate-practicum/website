@@ -20,7 +20,7 @@ const Profile: React.FC = () => {
   const [userMetadata, setUserMetadata] = useState<any>(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const b = '1';
+  const businessID = '1';// TODO: Replace the temporary variable with the business ID from the URL once it's available 
 
   function setCookie(name: string, value: string, days: number) {
     let expires = '';
@@ -59,7 +59,8 @@ const Profile: React.FC = () => {
             scope: 'read:current_user',
           },
         });
-        const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;//TODO
+        const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;// TODO: Update the user's details and add the business ID to their array. 
+        // If the user details are valid, update only the business ID without redirecting to the user update page.
         const metadataResponse = await fetch(userDetailsByIdUrl, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -67,16 +68,16 @@ const Profile: React.FC = () => {
         });
         const user_metadata = await metadataResponse.json();
         if (!user_metadata.address) 
-          { navigate(`/editProfile?businessId=${b}`); }
+          { navigate(`/editProfile?businessId=${businessID}`); }
         else
-          if (b && user_metadata.businessRoles.some((role: { businessId: string; }) => role.businessId === b)) {
+          if (businessID && user_metadata.businessRoles.some((role: { businessId: string; }) => role.businessId === businessID)) {
             navigate('/business?businessId=${b}');
           }
           else{
             dispatch(
               updateCurrentUser({
                 ...user_metadata,
-                businessRoles: [...user_metadata.businessRoles, b],
+                businessRoles: [...user_metadata.businessRoles, businessID],
               }),
             );
             navigate('/business?businessId=${b}');
