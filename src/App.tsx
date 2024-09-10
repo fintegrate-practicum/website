@@ -65,7 +65,6 @@ const App = () => {
               </Suspense>
             }
           />
-          <Route path='HomePage' element={<MainRouter />} />
           <Route path='/inventory/*' element={<Inventory />} />
           <Route path='/allOrders/:businessCode?' element={<AllOrders />} />
           <Route
