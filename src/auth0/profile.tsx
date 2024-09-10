@@ -5,9 +5,10 @@ import { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import { useAppDispatch } from '../Redux/hooks';
-import { fetchUserById } from '../Redux/currentUserSlice';
+import { fetchUserById, updateCurrentUser } from '../Redux/currentUserSlice';
 import SidebarUserDetails from './SidebarUserDetails';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 const auth0_audience = import.meta.env.VITE_AUTH0_AUDIENCE as string;
 const auth0_domain = import.meta.env.VITE_AUTH0_DOMAIN as string;
@@ -18,6 +19,8 @@ const Profile: React.FC = () => {
     useAuth0();
   const [userMetadata, setUserMetadata] = useState<any>(null);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const b = '1';
 
   function setCookie(name: string, value: string, days: number) {
     let expires = '';
@@ -56,15 +59,31 @@ const Profile: React.FC = () => {
             scope: 'read:current_user',
           },
         });
-        const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
+        const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;//TODO
         const metadataResponse = await fetch(userDetailsByIdUrl, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
         const user_metadata = await metadataResponse.json();
+        if (!user_metadata.address) 
+          { navigate(`/editProfile?businessId=${b}`); }
+        else
+          if (b && user_metadata.businessRoles.some((role: { businessId: string; }) => role.businessId === b)) {
+            navigate('/business?businessId=${b}');
+          }
+          else{
+            dispatch(
+              updateCurrentUser({
+                ...user_metadata,
+                businessRoles: [...user_metadata.businessRoles, b],
+              }),
+            );
+            navigate('/business?businessId=${b}');
+          }
         setUserMetadata(user_metadata);
         await dispatch(fetchUserById(user_metadata));
+
       } catch (e) {
         console.log((e as Error).message);
       }

@@ -89,10 +89,12 @@ export const updateCurrentUser = createAsyncThunk(
   async (payload: any) => {
     const { auth0_user_id, updatedCurrentUser } = payload;
     try {
+      console.log("i get updateCurrentUser:",updatedCurrentUser)
       const response = await InfraInstance.put(
         `/user/${auth0_user_id}`,
         updatedCurrentUser,
       );
+      console.log("i get updateCurrentUser with response",response)
       return response.data;
     } catch (error: any) {
       showErrorToast(error.message);
