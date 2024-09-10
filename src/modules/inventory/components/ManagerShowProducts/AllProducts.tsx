@@ -56,21 +56,6 @@ const AllProducts = () => {
     }
   };
 
-  const handleDelete = (id: string) => {
-    const item = allRows.find((item) => item.id === id);
-
-    if (!item) {
-      console.error(`Item with ID ${id} not found.`);
-      return;
-    }
-
-    if ('productComponents' in item) {
-      return <DeleteProduct item={item as IProduct} />;
-    } else {
-      return <DeleteComponent item={item as IComponent} />;
-    }
-  };
-
   const handleEdit = (item: IProduct | IComponent) => {
     navigateToUpdate(item);
   };
@@ -99,6 +84,17 @@ const AllProducts = () => {
       },
       { key: 'stockQuantity', label: 'Qty', type: 'number' },
       { key: 'productComponents', label: 'Components', type: 'text' },
+      {
+        key: 'DELETE',
+        label: 'delete',
+        type: 'text',
+        renderCell: (item) =>
+          'productComponents' in item ? (
+            <DeleteProduct item={item as IProduct} />
+          ) : (
+            <DeleteComponent item={item as IComponent} />
+          ),
+      },
     ],
     rows: allRows,
   };
@@ -125,10 +121,8 @@ const AllProducts = () => {
       <TableComponent
         dataObject={dataObject}
         tableSize='large'
-        showDeleteButton
         showEditButton
         onEdit={handleEdit}
-        onDelete={handleDelete}
       />
     </div>
   );
