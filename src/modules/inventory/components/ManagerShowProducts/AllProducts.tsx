@@ -12,7 +12,6 @@ import DeleteComponent from '../DeleteComponent';
 import TableComponent from '../../../../common/components/Table/TableComponent';
 import Button from '../../../../common/components/Button/Button';
 import { DataObject } from '../../../../common/components/Table/interfaces';
-
 const AllProducts = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -102,7 +101,6 @@ const AllProducts = () => {
     ],
     rows: allRows,
   };
-
   return (
     <div style={{ height: 400, width: '100%' }}>
       <div style={{ marginBottom: '16px' }}>

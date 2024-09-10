@@ -4,7 +4,6 @@ import { useAppSelector } from '../../../../Redux/hooks';
 import TableComponent from '../../../../common/components/Table/TableComponent';
 import { DataObject } from '../../../../common/components/Table/interfaces';
 import { useTranslation } from 'react-i18next';
-
 interface ShowTaskListProps {
   filteredTasks: Task[];
   setFilteredTasks: React.Dispatch<React.SetStateAction<Task[]>>;
