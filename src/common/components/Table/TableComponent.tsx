@@ -63,16 +63,13 @@ const TableComponent: React.FC<TableComponentProps> = ({
     });
   }
   const exportToExcel = () => {
-    const column = dataObject.headers.map((header) => ({
-      field: header.key,
-      headerName: header.label,
-      flex: 1,
-    }));
     const data = dataObject.rows.map((item) => {
       const rowData: { [key: string]: any } = {};
-      column.forEach((column) => {
-        rowData[column.headerName] = item[column.field];
+
+      dataObject.headers.forEach((header) => {
+        rowData[header.label] = item[header.key];
       });
+
       return rowData;
     });
 
@@ -128,7 +125,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
         )}
       </div>
       <Button onClick={exportToExcel} variant='outlined'>
-        Export to Excel
+        {t('website.Export to Excel')}
       </Button>
     </div>
   );

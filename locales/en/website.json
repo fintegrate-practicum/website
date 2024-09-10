@@ -48,5 +48,6 @@
   "transparency": "Transparency",
   "brightness": "Brightness",
   "The page you are looking for is not found route-enter": "The page you are looking for is not found route-enter",
-  "Nothing to display, please enter data.": "Nothing to display, please enter data."
+  "Nothing to display, please enter data.": "Nothing to display, please enter data.",
+  "Export to Excel": "Export to Excel"
 }
