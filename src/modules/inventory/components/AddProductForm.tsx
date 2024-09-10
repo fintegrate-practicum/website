@@ -30,6 +30,16 @@ import {
 import { RootState } from '../../../Redux/store';
 import { getAllComponents } from '../features/component/componentSlice';
 import { useTranslation } from 'react-i18next';
+import { ICustomField } from '../interfaces/ICustomField';
+import { IVariant } from '../interfaces/IVariant';
+import CustomFields from './CustomFields';
+import { CustomFieldModal } from './CustomFieldModal';
+
+const STEPS = {
+  PRODUCT_DETAILS: 1,
+  CUSTOM_FIELDS: 2,
+  SUBMIT_FORM: 3,
+};
 
 const productSchema = yup.object().shape({
   name: yup
@@ -58,7 +68,6 @@ const productSchema = yup.object().shape({
     .typeError('totalPrice must be a number')
     .required('totalPrice is a required field')
     .min(1, 'price must be positive'),
-  adminId: yup.string().required('Admin ID is required'),
   isActive: yup.boolean().required('isActive is a required field'),
   isOnSale: yup.boolean().required('isOnSale is a required field'),
   salePercentage: yup.number().when('isOnSale', {
@@ -76,7 +85,6 @@ const productSchema = yup.object().shape({
     .typeError('stockQuantity must be a number')
     .required('stockQuantity is a required field')
     .min(0, 'stock cannot be negative'),
-  businessId: yup.string().required('Business ID is required'),
   componentStatus: yup
     .string()
     .required('componentStatus is a required field')
@@ -91,6 +99,10 @@ const AddProductForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [components, setComponents] = useState<IComponent[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [customFields, setCustomFields] = useState<ICustomField[]>([]);
+  const [variants, setVariants] = useState<IVariant[]>([]);
+  const [currentStep, setCurrentStep] = useState(STEPS.PRODUCT_DETAILS);
+  const [showCustomFieldModal, setShowCustomFieldModal] = useState(false);
   const dispatch = useDispatch();
   const componentState = useSelector((state: RootState) => state.component);
 
@@ -101,6 +113,7 @@ const AddProductForm = () => {
     setValue,
     watch,
     formState: { errors },
+    trigger,
   } = useForm<IProduct>({
     resolver: yupResolver(productSchema) as any,
     defaultValues: product || {},
@@ -111,12 +124,20 @@ const AddProductForm = () => {
       if (productId) {
         try {
           const fetchedProduct = await getItemById<any>(
-            `api/inventory/product`,
+            `inventory/product`,
             productId,
           );
-          const { _id, __v, ...dataToUpdate } = fetchedProduct.data;
+          const { _id, __v, id, ...dataToUpdate } = fetchedProduct.data;
           setProduct(dataToUpdate);
           reset(dataToUpdate);
+          const cleanedCustomFields = dataToUpdate.customFields.map(
+            ({ _id, ...rest }: any) => rest,
+          );
+          setCustomFields(cleanedCustomFields);
+          const cleanedVariants = dataToUpdate.variants.map(
+            ({ _id, ...rest }: any) => rest,
+          );
+          setVariants(cleanedVariants);
         } catch (error) {
           console.error('Error fetching product:', error);
         }
@@ -136,7 +157,9 @@ const AddProductForm = () => {
   const getComponents = async () => {
     setLoading(true);
     try {
-      const res = await getAllItems<IComponent[]>('api/inventory/component');
+      const res = await getAllItems<IComponent[]>(
+        'inventory/component/businessId/here will be the business id',
+      );
       dispatch(getAllComponents(res.data));
       setComponents(res.data);
     } catch (err) {
@@ -160,6 +183,8 @@ const AddProductForm = () => {
       adminId: t('here will be the admin id'),
       productComponents: componentIds,
       images: data.images,
+      customFields,
+      variants,
     };
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
@@ -175,7 +200,7 @@ const AddProductForm = () => {
     if (product && productId) {
       try {
         const response = await updateItem<IProduct>(
-          `api/inventory/product`,
+          `inventory/product`,
           productId,
           newData,
         );
@@ -188,10 +213,7 @@ const AddProductForm = () => {
       }
     } else {
       try {
-        const response = await addItem<IProduct>(
-          'api/inventory/product',
-          newData,
-        );
+        const response = await addItem<IProduct>('inventory/product', newData);
         console.log(t('inventory.Product added successfully:'), response.data);
       } catch (error) {
         console.error(t('inventory.Error adding product:'), error);
@@ -225,205 +247,263 @@ const AddProductForm = () => {
     setValue('isOnSale', event.target.checked);
   };
 
+  const handleContinue = async () => {
+    const isValid = await trigger();
+    if (isValid) {
+      setShowCustomFieldModal(true);
+    }
+  };
+
+  const handleCustomFieldDecision = (addFields: boolean) => {
+    setShowCustomFieldModal(false);
+    setCurrentStep(addFields ? STEPS.CUSTOM_FIELDS : STEPS.SUBMIT_FORM);
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate autoComplete='on'>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id='name-input'
-            label='Name'
-            variant='outlined'
-            error={!!errors.name}
-            helperText={errors.name?.message}
-            {...register('name')}
-            value={watch('name') || ''}
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id='description-input'
-            label='Description'
-            variant='outlined'
-            error={!!errors.description}
-            helperText={errors.description?.message}
-            {...register('description')}
-            value={watch('description') || ''}
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id='packageCost-input'
-            label='Package Cost'
-            variant='outlined'
-            type='number'
-            error={!!errors.packageCost}
-            helperText={errors.packageCost?.message}
-            {...register('packageCost')}
-            value={watch('packageCost') || ''}
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id='totalPrice-input'
-            label='Total Price'
-            variant='outlined'
-            type='number'
-            error={!!errors.totalPrice}
-            helperText={errors.totalPrice?.message}
-            {...register('totalPrice')}
-            value={watch('totalPrice') || ''}
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id='stockQuantity-input'
-            label='Stock Quantity'
-            variant='outlined'
-            type='number'
-            error={!!errors.stockQuantity}
-            helperText={errors.stockQuantity?.message}
-            {...register('stockQuantity')}
-            value={watch('stockQuantity') || ''}
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id='componentStatus-input'
-            label='Component Status'
-            variant='outlined'
-            error={!!errors.componentStatus}
-            helperText={errors.componentStatus?.message}
-            {...register('componentStatus')}
-            value={watch('componentStatus') || ''}
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                {...register('isActive')}
-                defaultChecked={product?.isActive || false}
-              />
-            }
-            label={t('inventory.Is Active')}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                {...register('isOnSale')}
-                defaultChecked={product?.isOnSale || false}
-                onChange={handleIsOnSaleChange}
-              />
-            }
-            label='Is On Sale'
-          />
-        </Grid>
-
-        {watch('isOnSale') && (
+      {currentStep === STEPS.PRODUCT_DETAILS && (
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
-              id='salePercentage-input'
-              label='Sale Percentage'
+              id='name-input'
+              label={t('inventory.Name')}
               variant='outlined'
-              type='number'
-              error={!!errors.salePercentage}
-              helperText={errors.salePercentage?.message}
-              {...register('salePercentage')}
-              defaultValue={product?.salePercentage || ''}
+              error={!!errors.name}
+              helperText={errors.name?.message}
+              {...register('name')}
+              value={watch('name') || ''}
               fullWidth
             />
           </Grid>
-        )}
 
-        <Grid item xs={12} sm={12}>
-          <FormControl fullWidth>
-            <InputLabel id='productComponents-label'>
-              Product Components
-            </InputLabel>
-            <Select
-              labelId='productComponents-label'
-              id='productComponents-select'
-              multiple
-              value={watch('productComponents') || []}
-              onChange={handleComponentChange}
-              input={
-                <OutlinedInput
-                  id='select-multiple-chip'
-                  label='Product Components'
+          <Grid item xs={12} sm={6}>
+            <TextField
+              id='description-input'
+              label={t('inventory.Description')}
+              variant='outlined'
+              error={!!errors.description}
+              helperText={errors.description?.message}
+              {...register('description')}
+              value={watch('description') || ''}
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField
+              id='packageCost-input'
+              label={t('inventory.Package Cost')}
+              variant='outlined'
+              type='number'
+              error={!!errors.packageCost}
+              helperText={errors.packageCost?.message}
+              {...register('packageCost')}
+              value={watch('packageCost') || ''}
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField
+              id='totalPrice-input'
+              label={t('inventory.Total Price')}
+              variant='outlined'
+              type='number'
+              error={!!errors.totalPrice}
+              helperText={errors.totalPrice?.message}
+              {...register('totalPrice')}
+              value={watch('totalPrice') || ''}
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField
+              id='stockQuantity-input'
+              label={t('inventory.Stock Quantity')}
+              variant='outlined'
+              type='number'
+              error={!!errors.stockQuantity}
+              helperText={errors.stockQuantity?.message}
+              {...register('stockQuantity')}
+              value={watch('stockQuantity') || ''}
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField
+              id='componentStatus-input'
+              label={t('inventory.Component Status')}
+              variant='outlined'
+              error={!!errors.componentStatus}
+              helperText={errors.componentStatus?.message}
+              {...register('componentStatus')}
+              value={watch('componentStatus') || ''}
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  {...register('isActive')}
+                  defaultChecked={product?.isActive || false}
                 />
               }
-              renderValue={(selected) => (
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                  {selected.map((value) => (
-                    <Chip key={value} label={value} />
-                  ))}
-                </Box>
-              )}
-            >
-              {components.map((component) => (
-                <MenuItem key={component.id} value={component.name}>
-                  {component.name}
-                </MenuItem>
-              ))}
-            </Select>
-            {errors.productComponents && (
-              <p style={{ color: 'red' }}>{errors.productComponents.message}</p>
-            )}
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={12}>
-          {imagePreviews.length > 0 && (
-            <Box sx={{ display: 'flex', gap: 1, marginTop: 2 }}>
-              {imagePreviews.map((preview, index) => (
-                <img
-                  key={index}
-                  src={preview}
-                  alt={`Image ${index + 1}`}
-                  style={{ maxWidth: 200, maxHeight: 200 }}
-                />
-              ))}
-            </Box>
-          )}
-        </Grid>
-
-        <Grid item xs={12} sm={12}>
-          <Button component='label' fullWidth>
-            Upload Images
-            <input
-              type='file'
-              hidden
-              multiple
-              accept='image/*'
-              onChange={handleImageChange}
+              label={t('inventory.Is Active')}
             />
-          </Button>
-          {errors.images && (
-            <p style={{ color: 'red' }}>{errors.images.message}</p>
-          )}
-        </Grid>
+          </Grid>
 
-        <Grid item xs={12} sm={12}>
-          <Button type='submit' fullWidth>
-            {product ? 'Update Product' : 'Add Product'}
-          </Button>
+          <Grid item xs={12} sm={6}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  {...register('isOnSale')}
+                  defaultChecked={product?.isOnSale || false}
+                  onChange={handleIsOnSaleChange}
+                />
+              }
+              label={t('inventory.Is On Sale')}
+            />
+          </Grid>
+
+          {watch('isOnSale') && (
+            <Grid item xs={12} sm={6}>
+              <TextField
+                id='salePercentage-input'
+                label={t('inventory.Sale Percentage')}
+                variant='outlined'
+                type='number'
+                error={!!errors.salePercentage}
+                helperText={errors.salePercentage?.message}
+                {...register('salePercentage')}
+                defaultValue={product?.salePercentage || ''}
+                fullWidth
+              />
+            </Grid>
+          )}
+
+          <Grid item xs={12} sm={12}>
+            <FormControl fullWidth>
+              <InputLabel id='productComponents-label'>
+                {t('inventory.Product Components')}
+              </InputLabel>
+              <Select
+                labelId='productComponents-label'
+                id='productComponents-select'
+                multiple
+                value={watch('productComponents') || []}
+                onChange={handleComponentChange}
+                input={
+                  <OutlinedInput
+                    id='select-multiple-chip'
+                    label='Product Components'
+                  />
+                }
+                renderValue={(selected) => (
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} />
+                    ))}
+                  </Box>
+                )}
+              >
+                {components.map((component) => (
+                  <MenuItem key={component.id} value={component.name}>
+                    {component.name}
+                  </MenuItem>
+                ))}
+              </Select>
+              {errors.productComponents && (
+                <p style={{ color: 'red' }}>
+                  {errors.productComponents.message}
+                </p>
+              )}
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12} sm={12}>
+            {imagePreviews.length > 0 && (
+              <Box sx={{ display: 'flex', gap: 1, marginTop: 2 }}>
+                {imagePreviews.map((preview, index) => (
+                  <img
+                    key={index}
+                    src={preview}
+                    alt={`Image ${index + 1}`}
+                    style={{ maxWidth: 200, maxHeight: 200 }}
+                  />
+                ))}
+              </Box>
+            )}
+          </Grid>
+
+          <Grid item xs={12} sm={12}>
+            <Button component='label' fullWidth>
+              {t('inventory.Upload Images')}
+              <input
+                type='file'
+                hidden
+                multiple
+                accept='image/*'
+                onChange={handleImageChange}
+              />
+            </Button>
+            {errors.images && (
+              <p style={{ color: 'red', fontFamily: 'arial' }}>
+                {errors.images.message}
+              </p>
+            )}
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              variant='contained'
+              color='secondary'
+              fullWidth
+              onClick={handleContinue}
+            >
+              {t('inventory.Continue')}
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
+
+      {currentStep === STEPS.CUSTOM_FIELDS && (
+        <CustomFields
+          customFields={customFields}
+          setCustomFields={setCustomFields}
+          variants={variants}
+          setVariants={setVariants}
+        />
+      )}
+
+      {(currentStep === STEPS.CUSTOM_FIELDS ||
+        currentStep === STEPS.SUBMIT_FORM) && (
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={12}>
+            <Button type='submit' fullWidth>
+              {product
+                ? t('inventory.Update Product')
+                : t('inventory.Add Product')}
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <Button
+              color='secondary'
+              onClick={() => setCurrentStep(STEPS.PRODUCT_DETAILS)}
+            >
+              {t('inventory.back to product details')}
+            </Button>
+          </Grid>
+        </Grid>
+      )}
+
+      <CustomFieldModal
+        open={showCustomFieldModal}
+        onClose={() => setShowCustomFieldModal(false)}
+        onDecision={handleCustomFieldDecision}
+      />
     </form>
   );
 };

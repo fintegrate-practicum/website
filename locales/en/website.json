@@ -54,5 +54,7 @@
   "Last Login": "Last Login",
   "Registered At": "Registered At",
   "Email": "Email",
-  "Username": "Username"
+  "Username": "Username",
+  "Export to Excel": "Export to Excel"
+
 }

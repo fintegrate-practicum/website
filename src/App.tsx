@@ -12,8 +12,9 @@ import ErrorToast from './components/generic/errorMassage';
 import Inventory from './modules/inventory/Inventory';
 import Login from './components/Login/login';
 import Header from './components/Header/Header';
-import Orders from './modules/orders/App';
+import AddEmployeeForm from './modules/workers/components/AddEmployeeForm';
 import AllOrders from './modules/orders/allOrders';
+import Orders from './modules/orders/App';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher';
 import { getTextDirection } from './utils/utils';
@@ -55,7 +56,6 @@ const App = () => {
         <Header />
         <LanguageSwitcher />
         <Client />
-        <ErrorToast />
         <Routes>
           <Route
             path='/ClientList'
@@ -65,6 +65,7 @@ const App = () => {
               </Suspense>
             }
           />
+          <Route path="/AddEmployee" element={<AddEmployeeForm />} />
           <Route path='/inventory/*' element={<Inventory />} />
           <Route path='/allOrders/:businessCode?' element={<AllOrders />} />
           <Route

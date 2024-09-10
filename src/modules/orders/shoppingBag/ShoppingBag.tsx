@@ -140,7 +140,6 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
       price: (item.price * item.amount).toFixed(2),
     })),
   };
-
   return (
     <div>
       <Typography variant='h5'> {t('order.shoppingBag')} </Typography>
@@ -168,6 +167,7 @@ const ShoppingBag: React.FC<{ initialBag?: BagItem[] }> = ({ initialBag }) => {
           </Button>
         </>
       )}
+
       <Toast
         message={toastMessage}
         severity={toastSeverity}
