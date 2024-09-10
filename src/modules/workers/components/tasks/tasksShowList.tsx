@@ -17,6 +17,19 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
   const currentUser = useAppSelector(
     (state) => state.currentUserSlice.employeeDetails,
   );
+  const dateFormate = (date: Date) => {
+    const formattedDate = date.toLocaleDateString('he-IL', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+    const formattedTime = date.toLocaleTimeString('he-IL', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    const newDate = `${formattedDate} ${formattedTime}`;
+    return newDate;
+  };
   const { t } = useTranslation();
   useEffect(() => {
     if (
@@ -41,7 +54,7 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
         return {
           id: index,
           taskName: task.taskName,
-          targetDate: targetDate.toISOString(),
+          targetDate: dateFormate(targetDate),
           urgency: task.urgency,
         };
       }),
