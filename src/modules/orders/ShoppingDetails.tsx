@@ -42,6 +42,7 @@ const ShoppingDetails: React.FC<Props> = ({ amount }) => {
     qty: c.Quantity,
   }));
 
+
   const getAllCart = async () => {
     try {
       const res = await getAllItems<ICart[]>(
