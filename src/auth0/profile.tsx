@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { useAuth0 } from "@auth0/auth0-react";
-import Button from '../common/components/Button/Button'
+import { useAuth0 } from '@auth0/auth0-react';
+import Button from '../common/components/Button/Button';
 import { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import { useAppDispatch, useJwtFromCookie } from '../Redux/hooks';
 import { fetchUserById } from '../Redux/currentUserSlice';
 import SidebarUserDetails from './SidebarUserDetails';
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { getBasket } from '../modules/orders/features/basket/basketSlice';
 import { getAllItems } from '../modules/orders/Api-Requests/genericRequests';
@@ -15,18 +16,18 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 const auth0_audience = import.meta.env.VITE_AUTH0_AUDIENCE as string;
 const auth0_domain = import.meta.env.VITE_AUTH0_DOMAIN as string;
+const baseUrl = import.meta.env.VITE_INFRA_SERVICE_URL;
 
 const Profile: React.FC = () => {
-  const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+  const { t } = useTranslation();
+  const { user, isAuthenticated, isLoading, getAccessTokenSilently } =
+    useAuth0();
   const [userMetadata, setUserMetadata] = useState<any>(null);
-  const dispatch = useAppDispatch()
-  
-  
+  const dispatch = useAppDispatch();
   const { linkUID } = useParams<{ linkUID: string }>();
   const [companyNumber, setCompanyNumber] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [errorOccurred, setErrorOccurred] = useState(false);
-  const baseUrl = import.meta.env.VITE_INFRA_SERVICE_URL;
 
   useEffect(() => {
     async function fetchBusinessData() {
@@ -48,20 +49,18 @@ const Profile: React.FC = () => {
       setLoading(false);
     }
   }, [linkUID]);
-  
-
   function setCookie(name: string, value: string, days: number) {
-
-    let expires = "";
+    let expires = '';
     if (days) {
       const date = new Date();
-      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
       expires = `; expires=${date.toUTCString()}`;
     }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    document.cookie = name + '=' + (value || '') + expires + '; path=/';
   }
+
   function getCookie(cookieName: string) {
-    const nameEQ = cookieName + "=";
+    const nameEQ = cookieName + '=';
     const cookieArray = document.cookie.split(';');
 
     for (const elementFromCookie of cookieArray) {
@@ -74,8 +73,8 @@ const Profile: React.FC = () => {
     return null;
   }
 
+  setCookie('user_id', user?.sub as string, 30);
 
-  setCookie("user_id", user?.sub as string, 30);
   useEffect(() => {
 
     const getUserMetadata = async () => {
@@ -83,11 +82,10 @@ const Profile: React.FC = () => {
       try {
         const accessToken = await getAccessTokenSilently({
           authorizationParams: {
-            userId: getCookie("user_id"),
+            userId: getCookie('user_id'),
             audience: auth0_audience,
-            scope: "read:current_user",
+            scope: 'read:current_user',
           },
-
         });
         const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
         const metadataResponse = await fetch(userDetailsByIdUrl, {
@@ -117,15 +115,15 @@ const Profile: React.FC = () => {
       getUserMetadata();
       getSavedCartsForUser();
     }
-  }, [getAccessTokenSilently, user?.sub, dispatch]);
+  }, [getAccessTokenSilently, user?.sub,  dispatch]);
 
   if (isLoading) {
-    return <div>Loading ...</div>;
+    return <div>{t('auth0.Loading ...')}</div>;
   }
 
   const profileAvatar = () => {
     let emailUser = '';
-    if (userMetadata) {
+    if  (userMetadata)  {
       emailUser = userMetadata.email;
     }
     return {
@@ -133,9 +131,11 @@ const Profile: React.FC = () => {
         bgcolor: 'red',
         position: 'relative',
         width: 37,
-        height: 37
+        height: 37,
       },
-      children: emailUser ? `${emailUser.split('')[0][0]}${emailUser.split('')[1][0]}` : ''
+      children: emailUser
+        ? `${emailUser.split('')[0][0]}${emailUser.split('')[1][0]}`
+        : '',
     };
   };
 
@@ -153,7 +153,7 @@ const Profile: React.FC = () => {
     <>
       {isAuthenticated && (
         <Box
-          position="absolute"
+          position='absolute'
           top={18}
           right={18}
           onClick={handleClick}
@@ -169,9 +169,12 @@ const Profile: React.FC = () => {
         anchorEl={anchorEl}
         handleClose={handleClose}
       />
-        <Button href="/CreateBusiness/BaseDetailsManager" isLink={true}>הרשמה של עסק</Button>
+      <Button href='/CreateBusiness/BaseDetailsManager' isLink={true}>
+        {t('auth0.Register a business')}
+      </Button>
     </>
   );
 };
 
 export default Profile;
+
