@@ -12,7 +12,6 @@ import DeleteComponent from '../DeleteComponent';
 import TableComponent from '../../../../common/components/Table/TableComponent';
 import Button from '../../../../common/components/Button/Button';
 import { DataObject } from '../../../../common/components/Table/interfaces';
-
 const AllProducts = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,7 +35,9 @@ const AllProducts = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await getAllItems<IProduct[]>('inventory/product');
+      const response = await getAllItems<IProduct[]>(
+        'inventory/product/businessId/here will be the business id',
+      );
       dispatch(getProducts(response.data));
     } catch (error) {
       console.error(error);
@@ -45,7 +46,9 @@ const AllProducts = () => {
 
   const fetchComponents = async () => {
     try {
-      const response = await getAllItems<IComponent[]>('inventory/component');
+      const response = await getAllItems<IComponent[]>(
+        'inventory/component/businessId/here will be the business id',
+      );
       dispatch(getAllComponents(response.data));
     } catch (error) {
       console.error(error);
@@ -98,7 +101,6 @@ const AllProducts = () => {
     ],
     rows: allRows,
   };
-
   return (
     <div style={{ height: 400, width: '100%' }}>
       <div style={{ marginBottom: '16px' }}>

@@ -52,4 +52,11 @@
   "messages": "הודעות",
   "tasks": "משימות",
   "details": "פרטים"
+  "dateOfBirth": "תאריך לידה",
+  "Mobile": "נייד",
+  "Last Login": "כניסה אחרונה",
+  "Registered At": "רשום",
+  "Email": "דואר אלקטרוני",
+  "Username": "שם משתמש",
+  "Export to Excel": "ייצוא לאקסל"
 }

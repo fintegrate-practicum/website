@@ -45,7 +45,6 @@ const WorkersShowList = () => {
     ],
     rows,
   };
-
   return (
     <>
       <TableComponent

@@ -1,5 +1,5 @@
 import { describe, test, expect, vi } from 'vitest';
-import { render, screen, fireEvent, within, act } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -29,7 +29,7 @@ describe('<MySetting>', () => {
         ComponentType.FloatingActionButton,
         ComponentType.RadioGroup,
         ComponentType.Select,
-      ].includes(type)
+      ].includes(type),
   );
 
   test.each(componentsToTestWithoutChildren)(
@@ -44,10 +44,10 @@ describe('<MySetting>', () => {
             type: type,
             props: {},
           }}
-        />
+        />,
       );
       expect(container.firstChild).not.toBeNull();
-    }
+    },
   );
 
   test('renders component with props', () => {
@@ -61,13 +61,12 @@ describe('<MySetting>', () => {
           props: { 'data-testid': 'test-button', disabled: true },
           children: 'clickme',
         }}
-      />
+      />,
     );
     const button = screen.getByTestId('test-button');
     expect(button).not.toBeNull();
     expect(button).toHaveProperty('disabled', true);
   });
-
 
   test('renders ButtonGroup component with children', async () => {
     const { container } = renderWithRedux(
@@ -83,7 +82,7 @@ describe('<MySetting>', () => {
             { key: '2', value: '2' },
           ],
         }}
-      />
+      />,
     );
     const childButtons = container.querySelectorAll('button');
     expect(childButtons.length).toBe(2);
@@ -103,7 +102,7 @@ describe('<MySetting>', () => {
           props: { color: 'primary' },
           children: 'FAB',
         }}
-      />
+      />,
     );
 
     const fabButton = screen.getByText('FAB');
@@ -122,16 +121,18 @@ describe('<MySetting>', () => {
           props: { name: 'radio-group' },
           children: [
             { value: 'option1', label: 'Option 1' },
-            { value: 'option2', label: 'Option 2' }
+            { value: 'option2', label: 'Option 2' },
           ],
         }}
-      />
+      />,
     );
 
     const radioGroup = screen.getByRole('radiogroup');
     expect(radioGroup).toBeTruthy();
 
-    const labels = radioGroup.querySelectorAll('label.MuiFormControlLabel-root');
+    const labels = radioGroup.querySelectorAll(
+      'label.MuiFormControlLabel-root',
+    );
     expect(labels.length).toBe(2);
 
     const firstLabel = labels[0];
@@ -157,7 +158,7 @@ describe('<MySetting>', () => {
           type: 'InvalidType' as ComponentType,
           props: {},
         }}
-      />
+      />,
     );
     expect(container.firstChild).toBeNull();
   });
@@ -173,7 +174,7 @@ describe('<MySetting>', () => {
           props: {},
           children: 'Click me',
         }}
-      />
+      />,
     );
     const childElement = screen.getByText('Click me');
     expect(childElement).not.toBeNull();
@@ -194,7 +195,7 @@ describe('<MySetting>', () => {
             children: 'clickme',
           }}
         />
-      </Provider>
+      </Provider>,
     );
 
     const button = screen.getByTestId('test-button');
@@ -212,7 +213,7 @@ describe('<MySetting>', () => {
             children: 'clickme',
           }}
         />
-      </Provider>
+      </Provider>,
     );
 
     expect(button).toHaveProperty('disabled', false);
@@ -230,7 +231,7 @@ describe('<MySetting>', () => {
           props: { 'data-testid': 'test-button', onClick: handleClick },
           children: 'Click me',
         }}
-      />
+      />,
     );
 
     const button = screen.getByTestId('test-button');

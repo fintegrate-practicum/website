@@ -33,21 +33,29 @@ export interface ServiceSettings {
 
 interface AddSubCategoryProps extends CategoryProps {
   selectedServiceName: string;
-  categoryName:string;
+  categoryName: string;
 }
 
-export default function AddSubCategory({ CategoryItem, selectedServiceName, categoryName }: AddSubCategoryProps) {
+export default function AddSubCategory({
+  CategoryItem,
+  selectedServiceName,
+  categoryName,
+}: AddSubCategoryProps) {
   const [expanded, setExpanded] = React.useState<string | false>(false);
-  const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-    setExpanded(isExpanded ? panel : false);
-  };
+  const handleChange =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
 
   return (
-    <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
+    <Accordion
+      expanded={expanded === 'panel4'}
+      onChange={handleChange('panel4')}
+    >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel4bh-content"
-        id="panel4bh-header"
+        aria-controls='panel4bh-content'
+        id='panel4bh-header'
       >
         <Typography style={{ width: '60vw', flexShrink: 0 }}>
           {CategoryItem.CategoryName}
@@ -56,17 +64,28 @@ export default function AddSubCategory({ CategoryItem, selectedServiceName, cate
       <AccordionDetails>
         <div>
           {CategoryItem.Settings && (
-            <List aria-label="mailbox folders">
+            <List aria-label='mailbox folders'>
               {CategoryItem.Settings.map((s, index) => (
                 <ListItem key={index} sx={style}>
                   <ListItemText primary={s.setting.settingDesc} />
-                  <MySetting setting={{ ...s.setting, serviceName: selectedServiceName, categoryName: categoryName }} />
+                  <MySetting
+                    setting={{
+                      ...s.setting,
+                      serviceName: selectedServiceName,
+                      categoryName: categoryName,
+                    }}
+                  />
                 </ListItem>
               ))}
             </List>
           )}
           {CategoryItem.SubCategory?.map((sc, index) => (
-            <AddSubCategory key={index} {...sc} selectedServiceName={selectedServiceName} categoryName={CategoryItem.CategoryName} />
+            <AddSubCategory
+              key={index}
+              {...sc}
+              selectedServiceName={selectedServiceName}
+              categoryName={CategoryItem.CategoryName}
+            />
           ))}
         </div>
       </AccordionDetails>

@@ -82,7 +82,6 @@ const SmallShoppingBag = () => {
 
     return () => clearTimeout(timeoutId);
   }, []);
-
   return (
     <div>
       {isVisible && (

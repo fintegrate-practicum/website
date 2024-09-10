@@ -9,81 +9,99 @@ import ListItemText from '@mui/material/ListItemText';
 import { useEffect, useState } from 'react';
 import { RootState } from '../../Redux/store';
 import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
-import { fetchServiceNames, fetchServiceSettingsByServiceName } from '../../Redux/serviceSettingsSlice';
+import {
+  fetchServiceNames,
+  fetchServiceSettingsByServiceName,
+} from '../../Redux/serviceSettingsSlice';
 import AddSubCategory, { ServiceSettings } from './Category';
 import theme from '../../Theme';
 
 const drawerWidth = 240;
 
 export default function PermanentDrawerRight() {
-    const dispatch = useAppDispatch();
-    const serviceNames: string[] = useAppSelector((state: RootState) => state.serviceSettingsSlice.serviceNames);
-    const [selectedServiceName, setSelectedServiceName] = useState<string>('general');
-    const [serviceSettings, setServiceSettings] = useState<ServiceSettings | null>(null);
+  const dispatch = useAppDispatch();
+  const serviceNames: string[] = useAppSelector(
+    (state: RootState) => state.serviceSettingsSlice.serviceNames,
+  );
+  const [selectedServiceName, setSelectedServiceName] =
+    useState<string>('general');
+  const [serviceSettings, setServiceSettings] =
+    useState<ServiceSettings | null>(null);
 
-    useEffect(() => {
-        dispatch(fetchServiceNames());
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchServiceNames());
+  }, [dispatch]);
 
-    useEffect(() => {
-        if (selectedServiceName) {
-            const fetchSettings = async () => {
-                try {
-                    const resultAction = await dispatch(fetchServiceSettingsByServiceName(selectedServiceName)).unwrap();
-                    setServiceSettings(resultAction);
-                } catch (error) {
-                    console.error("Failed to fetch service settings:", error);
-                }
-            };
-            fetchSettings();
+  useEffect(() => {
+    if (selectedServiceName) {
+      const fetchSettings = async () => {
+        try {
+          const resultAction = await dispatch(
+            fetchServiceSettingsByServiceName(selectedServiceName),
+          ).unwrap();
+          setServiceSettings(resultAction);
+        } catch (error) {
+          console.error('Failed to fetch service settings:', error);
         }
-    }, [dispatch, selectedServiceName]);
+      };
+      fetchSettings();
+    }
+  }, [dispatch, selectedServiceName]);
 
-    const handleListItemClick = (serviceName: string) => {
-        setSelectedServiceName(serviceName);
-    };
+  const handleListItemClick = (serviceName: string) => {
+    setSelectedServiceName(serviceName);
+  };
 
-    return (
-        <div style={{ display: 'flex' }}>
-            <Drawer
+  return (
+    <div style={{ display: 'flex' }}>
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+            boxShadow: 'none',
+          },
+        }}
+        variant='permanent'
+        anchor='right'
+      >
+        <Toolbar />
+        <Divider />
+        <List>
+          {serviceNames.map((serviceName, index) => (
+            <ListItem key={index} disablePadding>
+              <ListItemButton
+                onClick={() => handleListItemClick(serviceName)}
                 sx={{
-                    width: drawerWidth,
-                    flexShrink: 0,
-                    '& .MuiDrawer-paper': {
-                        width: drawerWidth,
-                        boxSizing: 'border-box',
-                        boxShadow: 'none',
-                    },
+                  backgroundColor:
+                    selectedServiceName === serviceName
+                      ? theme('ltr').palette.secondary.light
+                      : 'inherit',
+                  '&:hover': {
+                    backgroundColor: theme('ltr').palette.secondary.dark,
+                  },
                 }}
-                variant="permanent"
-                anchor="right"
-            >
-                <Toolbar />
-                <Divider />
-                <List>
-                    {serviceNames.map((serviceName, index) => (
-                        <ListItem key={index} disablePadding>
-                            <ListItemButton
-                               onClick={() => handleListItemClick(serviceName)}
-                               sx={{
-                                   backgroundColor: selectedServiceName === serviceName ? theme('ltr').palette.secondary.light : 'inherit',
-                                   '&:hover': {
-                                       backgroundColor: theme('ltr').palette.secondary.dark,
-                                   },
-                               }}
-                            >
-                                <ListItemText primary={serviceName} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List>
-                <Divider />
-            </Drawer>
-            <main style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                {serviceSettings && serviceSettings.settings_json.map((item, index) => (
-                    <AddSubCategory key={index} {...item} selectedServiceName={selectedServiceName}  categoryName={item.CategoryItem.CategoryName} />
-                ))}
-            </main>
-        </div>
-    );
+              >
+                <ListItemText primary={serviceName} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+      </Drawer>
+      <main style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        {serviceSettings &&
+          serviceSettings.settings_json.map((item, index) => (
+            <AddSubCategory
+              key={index}
+              {...item}
+              selectedServiceName={selectedServiceName}
+              categoryName={item.CategoryItem.CategoryName}
+            />
+          ))}
+      </main>
+    </div>
+  );
 }
