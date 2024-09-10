@@ -1,5 +1,5 @@
-import Item from "../../../components/generic/item";
-import { IProduct } from "../../inventory/interfaces/IProduct";
+import Item from '../../../components/generic/item';
+import { IProduct } from '../../inventory/interfaces/IProduct';
 
 export interface ICart extends Item{
     id: string;
@@ -11,4 +11,3 @@ export interface ICart extends Item{
     buissnes_code: string;
     metadata: Record<string, any>; 
 }
-
