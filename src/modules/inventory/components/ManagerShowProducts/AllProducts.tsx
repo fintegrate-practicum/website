@@ -36,7 +36,9 @@ const AllProducts = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await getAllItems<IProduct[]>('inventory/product');
+      const response = await getAllItems<IProduct[]>(
+        'inventory/product/businessId/here will be the business id',
+      );
       dispatch(getProducts(response.data));
     } catch (error) {
       console.error(error);
@@ -45,7 +47,9 @@ const AllProducts = () => {
 
   const fetchComponents = async () => {
     try {
-      const response = await getAllItems<IComponent[]>('inventory/component');
+      const response = await getAllItems<IComponent[]>(
+        'inventory/component/businessId/here will be the business id',
+      );
       dispatch(getAllComponents(response.data));
     } catch (error) {
       console.error(error);
