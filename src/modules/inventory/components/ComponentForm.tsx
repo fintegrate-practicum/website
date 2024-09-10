@@ -20,6 +20,12 @@ import CustomFields from './CustomFields.tsx';
 import { CustomFieldModal } from './CustomFieldModal.tsx';
 import { useTranslation } from 'react-i18next';
 
+const STEPS = {
+  COMPONENT_DETAILS: 1,
+  CUSTOM_FIELDS: 2,
+  SUBMIT_FORM: 3,
+};
+
 const notSaleAloneSchema = yup.object().shape({
   name: yup
     .string()
@@ -90,7 +96,7 @@ export const ComponentForm = () => {
   // const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [customFields, setCustomFields] = useState<ICustomField[]>([]);
   const [variants, setVariants] = useState<IVariant[]>([]);
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(STEPS.COMPONENT_DETAILS);
   const [showCustomFieldModal, setShowCustomFieldModal] = useState(false);
   const schema = useMemo(
     () => (isAloneChecked ? saleAloneSchema : notSaleAloneSchema),
@@ -187,12 +193,12 @@ export const ComponentForm = () => {
 
   const handleCustomFieldDecision = (addFields: boolean) => {
     setShowCustomFieldModal(false);
-    setCurrentStep(addFields ? 2 : 3);
+    setCurrentStep(addFields ? STEPS.CUSTOM_FIELDS : STEPS.SUBMIT_FORM);
   };
 
   return (
     <form onSubmit={handleSubmit(save)} noValidate autoComplete='on'>
-      {currentStep === 1 && (
+      {currentStep === STEPS.COMPONENT_DETAILS && (
         <>
           <Box
             className='itemInput'
@@ -353,7 +359,7 @@ export const ComponentForm = () => {
         </>
       )}
 
-      {currentStep === 2 && (
+      {currentStep === STEPS.CUSTOM_FIELDS && (
         <CustomFields
           customFields={customFields}
           setCustomFields={setCustomFields}
@@ -362,7 +368,8 @@ export const ComponentForm = () => {
         />
       )}
 
-      {(currentStep === 2 || currentStep === 3) && (
+      {(currentStep === STEPS.CUSTOM_FIELDS ||
+        currentStep === STEPS.SUBMIT_FORM) && (
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>
             <Button type='submit' variant='contained' color='primary'>
@@ -370,7 +377,10 @@ export const ComponentForm = () => {
             </Button>
           </Grid>
           <Grid item xs={12} sm={12}>
-            <Button color='secondary' onClick={() => setCurrentStep(1)}>
+            <Button
+              color='secondary'
+              onClick={() => setCurrentStep(STEPS.COMPONENT_DETAILS)}
+            >
               {t('inventory.back to component details')}
             </Button>
           </Grid>
