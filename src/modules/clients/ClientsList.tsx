@@ -9,6 +9,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { useTranslation } from 'react-i18next';
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -33,6 +35,7 @@ function ClientsListByBusinessId() {
   const clientsData = useAppSelector((state) => state.client.data);
   const currentUser = useAppSelector((state) => state.currentUserSlice);
   const businessId = currentUser?.employeeDetails.businessId?.toString();
+  const { t } = useTranslation();
   useEffect(() => {
     //You need to check that the businessID does return
     if (businessId) {
@@ -46,13 +49,13 @@ function ClientsListByBusinessId() {
         <Table sx={{ minWidth: 700 }} aria-label='customized table'>
           <TableHead>
             <TableRow>
-              <StyledTableCell>Username</StyledTableCell>
-              <StyledTableCell>Email</StyledTableCell>
-              <StyledTableCell>Registered At</StyledTableCell>
-              <StyledTableCell>Last Login</StyledTableCell>
-              <StyledTableCell>Mobile</StyledTableCell>
-              <StyledTableCell>Address</StyledTableCell>
-              <StyledTableCell>dateOfBirth</StyledTableCell>
+              <StyledTableCell>{t('website.Username')}</StyledTableCell>
+              <StyledTableCell>{t('website.Email')}</StyledTableCell>
+              <StyledTableCell>{t('website.Registered At')}</StyledTableCell>
+              <StyledTableCell>{t('website.Last Login')}</StyledTableCell>
+              <StyledTableCell>{t('website.Mobile')}</StyledTableCell>
+              <StyledTableCell>{t('website.Address')}</StyledTableCell>
+              <StyledTableCell>{t('website.dateOfBirth')}</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
