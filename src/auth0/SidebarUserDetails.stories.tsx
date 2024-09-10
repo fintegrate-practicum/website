@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import SidebarUserDetails from './SidebarUserDetails'; 
+import SidebarUserDetails from './SidebarUserDetails';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -14,8 +13,8 @@ const meta: Meta<typeof SidebarUserDetails> = {
     (Story) => (
       <MemoryRouter initialEntries={['/']}>
         <Auth0Provider
-          domain="your-auth0-domain" 
-          clientId="your-auth0-clientId" 
+          domain='your-auth0-domain'
+          clientId='your-auth0-clientId'
         >
           <Story />
         </Auth0Provider>
@@ -41,19 +40,23 @@ export const Default: Story = {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-      action('handleClick')(event); 
+      action('handleClick')(event);
       setAnchorEl(event.currentTarget);
     };
 
     const handleClose = () => {
-      action('handleClose')(); 
+      action('handleClose')();
       setAnchorEl(null);
     };
 
     return (
       <div>
         <button onClick={handleClick}>Open Profile</button>
-        <SidebarUserDetails {...args} anchorEl={anchorEl} handleClose={handleClose} />
+        <SidebarUserDetails
+          {...args}
+          anchorEl={anchorEl}
+          handleClose={handleClose}
+        />
       </div>
     );
   },

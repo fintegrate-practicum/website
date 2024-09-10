@@ -35,7 +35,7 @@ describe('SidebarUserDetails component', () => {
     render(
       <Router>
         <SidebarUserDetails {...defaultProps} />
-      </Router>
+      </Router>,
     );
   });
 
@@ -43,7 +43,7 @@ describe('SidebarUserDetails component', () => {
     render(
       <Router>
         <SidebarUserDetails {...defaultProps} />
-      </Router>
+      </Router>,
     );
     const emailElement = screen.getByText(defaultProps.email);
     expect(emailElement).toBeInTheDocument();
@@ -56,7 +56,7 @@ describe('SidebarUserDetails component', () => {
     render(
       <Router>
         <SidebarUserDetails {...defaultProps} />
-      </Router>
+      </Router>,
     );
 
     const profileButton = screen.getByText('Profile');
@@ -70,7 +70,7 @@ describe('SidebarUserDetails component', () => {
     render(
       <Router>
         <SidebarUserDetails {...defaultProps} />
-      </Router>
+      </Router>,
     );
     const logoutButton = screen.getByText('Log out');
     fireEvent.click(logoutButton);

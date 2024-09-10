@@ -67,5 +67,10 @@
   "Total Amount": "סכום לתשלום",
   "checkout": "לתשלום",
   "Are you sure you want to remove the product?": "האם ברצונך להסיר את המוצר?",
-  "Payment button was clicked": "לחצן התשלום נלחץ"
+  "Payment button was clicked": "לחצן התשלום נלחץ",
+  "confirmRemove": "האם ברצונך להסיר את המוצר?",
+  "paymentClicked": "לחצן התשלום נלחץ",
+  "Amount to be paid :": "סכום לתשלום: ",
+  "amount": "כמות",
+  "name": "פריט"
 }

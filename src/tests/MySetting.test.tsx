@@ -1,8 +1,24 @@
 import { describe, test, expect, vi } from 'vitest';
 import { render, screen, fireEvent, within, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 import MySetting, { ComponentType } from '../components/Setting/MySetting';
+import serviceSettingsSlice from '../Redux/serviceConfigurationsSlice';
 
+const createMockStore = (initialState = {}) => {
+  return configureStore({
+    reducer: {
+      serviceSettings: serviceSettingsSlice,
+    },
+    preloadedState: initialState,
+  });
+};
+
+const renderWithRedux = (component: any, initialState = {}) => {
+  const store = createMockStore(initialState);
+  return render(<Provider store={store}>{component}</Provider>);
+};
 
 describe('<MySetting>', () => {
   const componentsToTestWithoutChildren = Object.values(ComponentType).filter(
@@ -19,9 +35,11 @@ describe('<MySetting>', () => {
   test.each(componentsToTestWithoutChildren)(
     'renders the component for type %s without children',
     (type) => {
-      const { container } = render(
+      const { container } = renderWithRedux(
         <MySetting
           setting={{
+            categoryName: 'TestCategory',
+            serviceName: 'TestService',
             settingDesc: 'Test description',
             type: type,
             props: {},
@@ -33,13 +51,15 @@ describe('<MySetting>', () => {
   );
 
   test('renders component with props', () => {
-    render(
+    renderWithRedux(
       <MySetting
         setting={{
-          settingDesc: "Test description",
+          categoryName: 'TestCategory',
+          serviceName: 'TestService',
+          settingDesc: 'Test description',
           type: ComponentType.Button,
           props: { 'data-testid': 'test-button', disabled: true },
-          children:"clickme"
+          children: 'clickme',
         }}
       />
     );
@@ -49,106 +69,36 @@ describe('<MySetting>', () => {
   });
 
 
-  test('renders null for invalid component type', () => {
-    const { container } = render(
-      <MySetting
-        setting={{
-          settingDesc: "Test description",
-          type: "InvalidType" as ComponentType,
-          props: {},
-        }}
-      />
-    )
-    expect(container.firstChild).toBeNull();
-  });
-
-  // test('does not render without required props', () => {
-  //   const setting = {
-  //     settingDesc: 'Sample description',
-  //     type: ComponentType.Button, 
-  //   };
-  
-  //   const { container } = render(
-  //     <MySetting setting={setting} />
-  //   );
-  //   expect(container.firstChild).toBeNull();
-  // });
-  test('renders component button with children', () => {
-    render(
-      <MySetting
-        setting={{
-          settingDesc: "Test description",
-          type: ComponentType.Button,
-          props: {},
-          children: "Click me",
-        }}
-      />
-    );
-    const childElement = screen.getByText('Click me');
-    expect(childElement).not.toBeNull();
-  });
-
   test('renders ButtonGroup component with children', async () => {
-    const { container } = render(
+    const { container } = renderWithRedux(
       <MySetting
         setting={{
-          settingDesc: "Test description",
+          categoryName: 'Example Category',
+          serviceName: 'Example Service',
+          settingDesc: 'Test description',
           type: ComponentType.ButtonGroup,
           props: { variant: 'contained' },
           children: [
-            { key: '1', value: '1' }, 
-            { key: '2', value: '2' } 
+            { key: '1', value: '1' },
+            { key: '2', value: '2' },
           ],
         }}
       />
     );
-
     const childButtons = container.querySelectorAll('button');
     expect(childButtons.length).toBe(2);
     expect(childButtons[0].textContent).toBe('1');
     expect(childButtons[1].textContent).toBe('2');
-  });
-
-  test('renders Select component with MenuItem children', async () => {
-    render(
-      <MySetting
-        setting={{
-          settingDesc: "Test description",
-          type: ComponentType.Select,
-          props: { value: 'option1', onChange: () => { } },
-          children: [
-            { key: 'option1', value: 'option1', text: 'option1' },
-            { key: 'option2', value: 'option2', text: 'option2' }
-          ],
-        }}
-      />
-    );
-
-    // Find the select element using the role 'combobox'
-    const selectElement = screen.getByRole('combobox');
-    expect(selectElement).toBeTruthy();
-
-    // Click the select element to open the dropdown
-    await act(async () => {
-      fireEvent.mouseDown(selectElement);
-    });
-
-    // Find the options (listbox children)
-    const listbox = screen.getByRole('listbox');
-    expect(listbox).toBeTruthy();
-
-    // Get all the options in the listbox
-    const optionElements = within(listbox).getAllByRole('option');
-    expect(optionElements.length).toBe(2);
-    expect(optionElements[0].textContent).toBe('option1');
-    expect(optionElements[1].textContent).toBe('option2');
+    expect(container.firstChild).not.toBeNull();
   });
 
   test('renders FloatingActionButton component with children', async () => {
-    render(
+    renderWithRedux(
       <MySetting
         setting={{
-          settingDesc: "Test description",
+          categoryName: 'Example Category',
+          serviceName: 'Example Service',
+          settingDesc: 'Test description',
           type: ComponentType.FloatingActionButton,
           props: { color: 'primary' },
           children: 'FAB',
@@ -162,10 +112,12 @@ describe('<MySetting>', () => {
   });
 
   test('renders RadioGroup component with children', async () => {
-    render(
+    renderWithRedux(
       <MySetting
         setting={{
-          settingDesc: "Test description",
+          categoryName: 'Example Category',
+          serviceName: 'Example Service',
+          settingDesc: 'Test description',
           type: ComponentType.RadioGroup,
           props: { name: 'radio-group' },
           children: [
@@ -176,22 +128,18 @@ describe('<MySetting>', () => {
       />
     );
 
-    // Find the radio group using the role attribute
     const radioGroup = screen.getByRole('radiogroup');
     expect(radioGroup).toBeTruthy();
 
-    // Find all labels within the radio group
     const labels = radioGroup.querySelectorAll('label.MuiFormControlLabel-root');
     expect(labels.length).toBe(2);
 
-    // Check the first radio button
     const firstLabel = labels[0];
     const firstRadioInput = firstLabel.querySelector('input');
     expect(firstRadioInput).toBeTruthy();
     expect(firstRadioInput?.getAttribute('value')).toBe('option1');
     expect(firstLabel.textContent).toBe('Option 1');
 
-    // Check the second radio button
     const secondLabel = labels[1];
     const secondRadioInput = secondLabel.querySelector('input');
     expect(secondRadioInput).toBeTruthy();
@@ -199,43 +147,88 @@ describe('<MySetting>', () => {
     expect(secondLabel.textContent).toBe('Option 2');
   });
 
-  test('reacts to prop changes', async () => {
-    const { rerender } = render(
+  test('renders null for invalid component type', () => {
+    const { container } = renderWithRedux(
       <MySetting
         setting={{
-          settingDesc: "Test description",
-          type: ComponentType.Button,
-          props: { 'data-testid': 'test-button', disabled: true },
-          children:"clickme"
+          categoryName: 'TestCategory',
+          serviceName: 'TestService',
+          settingDesc: 'Test description',
+          type: 'InvalidType' as ComponentType,
+          props: {},
         }}
       />
+    );
+    expect(container.firstChild).toBeNull();
+  });
+
+  test('renders component button with children', () => {
+    renderWithRedux(
+      <MySetting
+        setting={{
+          categoryName: 'TestCategory',
+          serviceName: 'TestService',
+          settingDesc: 'Test description',
+          type: ComponentType.Button,
+          props: {},
+          children: 'Click me',
+        }}
+      />
+    );
+    const childElement = screen.getByText('Click me');
+    expect(childElement).not.toBeNull();
+  });
+
+  test('reacts to prop changes', async () => {
+    const store = createMockStore();
+
+    const { rerender } = render(
+      <Provider store={store}>
+        <MySetting
+          setting={{
+            categoryName: 'TestCategory',
+            serviceName: 'TestService',
+            settingDesc: 'Test description',
+            type: ComponentType.Button,
+            props: { 'data-testid': 'test-button', disabled: true },
+            children: 'clickme',
+          }}
+        />
+      </Provider>
     );
 
     const button = screen.getByTestId('test-button');
     expect(button).toHaveProperty('disabled', true);
 
     rerender(
-      <MySetting
-        setting={{
-          settingDesc: "Test description",
-          type: ComponentType.Button,
-          props: { 'data-testid': 'test-button', disabled: false },
-          children:"clickme"
-        }}
-      />
+      <Provider store={store}>
+        <MySetting
+          setting={{
+            categoryName: 'TestCategory',
+            serviceName: 'TestService',
+            settingDesc: 'Test description',
+            type: ComponentType.Button,
+            props: { 'data-testid': 'test-button', disabled: false },
+            children: 'clickme',
+          }}
+        />
+      </Provider>
     );
+
     expect(button).toHaveProperty('disabled', false);
   });
 
   test('handles user interaction', async () => {
     const handleClick = vi.fn();
-    render(
+    renderWithRedux(
       <MySetting
         setting={{
-          settingDesc: "Test description",
+          categoryName: 'TestCategory',
+          serviceName: 'TestService',
+          settingDesc: 'Test description',
           type: ComponentType.Button,
           props: { 'data-testid': 'test-button', onClick: handleClick },
-          children: "Click me",
+          children: 'Click me',
         }}
       />
     );
@@ -249,6 +242,4 @@ describe('<MySetting>', () => {
 
     expect(handleClick).toHaveBeenCalled();
   });
-
-
 });

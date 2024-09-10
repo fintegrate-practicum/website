@@ -1,4 +1,3 @@
-
 import { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import SideMenu from './SideMenu';
@@ -28,8 +27,20 @@ type Story = StoryObj<typeof SideMenu>;
 export const Default: Story = {
   args: {
     items: [
-      { name: 'home', nameToView: 'Home', icon: Home, route: '/home', component: 'HomeComponent' },
-      { name: 'profile', nameToView: 'Profile', icon: Person, route: '/profile', component: 'ProfileComponent' },
+      {
+        name: 'home',
+        nameToView: 'Home',
+        icon: Home,
+        route: '/home',
+        component: 'HomeComponent',
+      },
+      {
+        name: 'profile',
+        nameToView: 'Profile',
+        icon: Person,
+        route: '/profile',
+        component: 'ProfileComponent',
+      },
     ],
     setCurrentMenu: action('setCurrentMenu'),
     currentUser: {
@@ -41,4 +52,3 @@ export const Default: Story = {
     },
   },
 };
-

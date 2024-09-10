@@ -5,9 +5,7 @@ interface MenuItem {
   nameToView: string;
   icon: iconsMaterial.SvgIconComponent;
   route: string;
-  component: string; 
+  component: string;
 }
 
 export default MenuItem;
-
-

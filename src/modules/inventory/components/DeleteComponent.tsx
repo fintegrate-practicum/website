@@ -10,90 +10,83 @@ import { useDispatch } from 'react-redux';
 import { deleteComponent as deleteComponentFromState } from '../features/component/componentSlice';
 import { deleteItem } from '../Api-Requests/genericRequests';
 import { IComponent } from '../interfaces/IComponent';
-import { IconButton, Snackbar, Alert } from '@mui/material';
+import { IconButton } from '@mui/material';
+import Toast from '../../../common/components/Toast/Toast';
 
 const DeleteComponent = ({ item }: { item: IComponent }) => {
-    const [open, setOpen] = React.useState(false);
-    //this is temporarily here until the toast from story book is ready
-    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-    const [snackbarMessage, setSnackbarMessage] = React.useState("");
-    const [snackbarSeverity, setSnackbarSeverity] = React.useState<"success" | "error">("success");
-    //end temporary toast
-    const dispatch = useDispatch();
+  const [open, setOpen] = React.useState(false);
+  const [toast, setToast] = React.useState({
+    open: false,
+    message: '',
+    severity: 'success' as 'success' | 'error',
+  });
+  const dispatch = useDispatch();
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    const deleteComponent = async () => {
-        try {
-            await deleteItem("api/inventory/component", item.id);
-            //this is temporarily here until the toast from story book is ready
-            setSnackbarMessage("Component deleted successfully");
-            setSnackbarSeverity("success");
-            setSnackbarOpen(true);
-            //end temporary toast
-            dispatch(deleteComponentFromState(item.id));
-        } catch (err) {
-            console.log(err);
-            //this is temporarily here until the toast from story book is ready
-            setSnackbarMessage("Failed to delete component");
-            setSnackbarSeverity("error");
-            setSnackbarOpen(true);
-            //end temporary toast
-        }
-        setOpen(false);
-    };
+  const deleteComponent = async () => {
+    try {
+      await deleteItem('api/inventory/component', item.id);
+      setToast({
+        open: true,
+        message: 'Component deleted successfully',
+        severity: 'success',
+      });
+      dispatch(deleteComponentFromState(item.id));
+    } catch (err) {
+      console.log(err);
+      setToast({
+        open: true,
+        message: 'Failed to delete component',
+        severity: 'error',
+      });
+    }
+    setOpen(false);
+  };
 
-    return (
-        <>
-            <IconButton onClick={handleClickOpen} color='primary'>
-                <DeleteIcon />
-            </IconButton>
+  return (
+    <>
+      <IconButton onClick={handleClickOpen} color='primary'>
+        <DeleteIcon />
+      </IconButton>
 
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    Are you sure you want to delete this component?
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Component to delete: {item.name}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={deleteComponent} autoFocus>
-                        Delete
-                    </Button>
-                </DialogActions>
-            </Dialog>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogTitle id='alert-dialog-title'>
+          Are you sure you want to delete this component?
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id='alert-dialog-description'>
+            Component to delete: {item.name}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={deleteComponent} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
 
-            <Snackbar
-                open={snackbarOpen}
-                autoHideDuration={6000}
-                onClose={() => setSnackbarOpen(false)}
-                message={snackbarMessage}
-                action={
-                    <Button onClick={() => setSnackbarOpen(false)}>
-                        Close
-                    </Button>
-                }
-            >
-                <Alert onClose={() => setSnackbarOpen(false)} severity={snackbarSeverity}>
-                    {snackbarMessage}
-                </Alert>
-            </Snackbar>
-        </>
-    );
+      <Toast
+        open={toast.open}
+        message={toast.message}
+        severity={toast.severity}
+        onClose={() => setToast((prevToast) => ({ ...prevToast, open: false }))}
+        duration={6000}
+      />
+    </>
+  );
 };
 
 export default DeleteComponent;
