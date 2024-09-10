@@ -10,7 +10,8 @@ import employeeSlice from '../modules/workers/features/employeeSlice';
 import taskSlice from '../modules/workers/features/taskSlice';
 import messageSlice from '../modules/workers/features/messageSlice';
 import orderSlice from '../modules/orders/features/order/orderSlice';
-import basketSlice from "../modules/orders/features/basket/basketSlice";
+import clientSlice from '../modules/inventory/features/Clients/clientSlice';
+import basketSlice from '../modules/orders/features/basket/basketSlice';
 import serviceConfigurationsSlice from './serviceConfigurationsSlice';
 
 const Store = configureStore({
@@ -28,6 +29,7 @@ const Store = configureStore({
     provider: providerSlice,
     order: orderSlice,
     cart: basketSlice,
+    client: clientSlice
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
