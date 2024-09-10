@@ -10,7 +10,8 @@ import employeeSlice from '../modules/workers/features/employeeSlice';
 import taskSlice from '../modules/workers/features/taskSlice';
 import messageSlice from '../modules/workers/features/messageSlice';
 import orderSlice from '../modules/orders/features/order/orderSlice';
-import basketSlice from "../modules/orders/features/basket/basketSlice";
+import basketSlice from '../modules/orders/features/basket/basketSlice';
+import clientSlice from '../modules/inventory/features/Clients/clientSlice';
 
 const Store = configureStore({
   reducer: {
@@ -25,7 +26,8 @@ const Store = configureStore({
     component: componentSlice,
     provider: providerSlice,
     order: orderSlice,
-    cart: basketSlice
+    cart: basketSlice,
+    client: clientSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

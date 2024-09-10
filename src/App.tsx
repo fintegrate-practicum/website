@@ -29,7 +29,9 @@ const LazyMoreDetailsManager = React.lazy(
   () => import('./components/createBusiness/moreDetailsManager'),
 );
 const LazyClient = React.lazy(() => import('./components/client/Client'));
-
+const LazyClientsList = React.lazy(
+  () => import('./modules/clients/ClientsList'),
+);
 const App = () => {
   const { t, i18n } = useTranslation();
   const direction = getTextDirection(i18n.language);
@@ -55,6 +57,15 @@ const App = () => {
         <Client />
         <ErrorToast />
         <Routes>
+          <Route
+            path='/ClientList'
+            element={
+              <Suspense fallback={t('common.Loading...')}>
+                <LazyClientsList />
+              </Suspense>
+            }
+          />
+          <Route path='HomePage' element={<MainRouter />} />
           <Route path='/inventory/*' element={<Inventory />} />
           <Route path='/allOrders/:businessCode?' element={<AllOrders />} />
           <Route
