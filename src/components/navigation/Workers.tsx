@@ -26,12 +26,7 @@ const WorkersTopNav = () => {
 
   useEffect(() => {
     setValue(location.pathname.slice(8));
-    console.log(currentUser);
-    console.log(currentUser.userDetails.auth0_user_id);
     if (currentUser && currentUser.userDetails.auth0_user_id) {
-      console.log('currentUser');
-
-      console.log(currentUser);
       dispatch(fetchMessages(currentUser.userDetails.auth0_user_id));
       dispatch(
         fetchTasks({
@@ -39,14 +34,11 @@ const WorkersTopNav = () => {
           employeeId: currentUser.employeeDetails.id_user,
         }),
       );
-      console.log(tasks);
     }
   }, [currentUser, dispatch]);
 
   useEffect(() => {
-    if (tasks.length > 0) {
       setFilteredTasks(tasks);
-    }
   }, [tasks]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
