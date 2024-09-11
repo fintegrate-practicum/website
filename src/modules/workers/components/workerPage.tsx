@@ -69,7 +69,7 @@ const WorkerPage: React.FC<WorkerPageProps> = (props) => {
       >
         <Grid style={{ textAlign: 'left', margin: 'none' }}>
           <Typography>
-            {t('workers.Name')}:{props.user.userName}
+            {t('workers.name')}:{props.user.userName}
           </Typography>
         </Grid>
 
@@ -90,7 +90,7 @@ const WorkerPage: React.FC<WorkerPageProps> = (props) => {
               }}
             >
               <ListItemText
-                primary='Personal Information:'
+                primary={t('workers.Personal Information')}
                 secondary={
                   <Typography component='span' variant='body2' color='black'>
                     {' '}
@@ -98,7 +98,7 @@ const WorkerPage: React.FC<WorkerPageProps> = (props) => {
                     <br />
                     {t('workers.mobile')}:{props.user.mobile}
                     <br />
-                    {t('workers.status')}:{props.user.status}
+                    {t('workers.Status')}:{props.user.status}
                   </Typography>
                 }
               />
@@ -107,7 +107,7 @@ const WorkerPage: React.FC<WorkerPageProps> = (props) => {
         </List>
         <Button onClick={handleClickOpen}>{t('workers.edit')}</Button>
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>{t('workers.editDetails')}</DialogTitle>
+          <DialogTitle>{t('workers.Edit Details')}</DialogTitle>
           <DialogContent>
             <DialogContentText>
               {t('workers.editYourDetails')}

@@ -58,7 +58,7 @@ const UpdateEmployeeDetails: React.FC = () => {
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              label={t('workers.Name')}
+              label={t('workers.name')}
               name='nameEmployee'
               value={formData.nameEmployee}
               onChange={handleChange}
