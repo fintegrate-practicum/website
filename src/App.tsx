@@ -43,8 +43,6 @@ const App = () => {
   const location = useLocation();
 
   useEffect(() => {
-    console.log('APP CURRENT USER');
-    console.log(currentUser);
     if (currentUser) {
       const type = currentUser.employeeDetails.role.type;
       setTypeUser(type);
