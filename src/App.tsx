@@ -53,7 +53,7 @@ const App = () => {
       <Provider store={Store}>
         <Header />
         <LanguageSwitcher />
-        <Header />
+
         <Client />
         <Routes>
           <Route
