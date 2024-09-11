@@ -76,9 +76,11 @@ const BaseGraph = (
     axisY: {
       includeZero: includeZero,
       title: title,
+      interval: 2,
     },
     axisX: {
-      interval: 1, 
+      interval: 1,
+      includeZero: includeZero,
     },
     data: [
       {
@@ -91,10 +93,9 @@ const BaseGraph = (
       },
     ],
   };
-  
+
   return (
     <div>
-      <h1>Graph</h1>
       <CanvasJSChart options={options} />
     </div>
   );
