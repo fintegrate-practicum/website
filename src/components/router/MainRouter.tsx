@@ -42,13 +42,22 @@ const MainRouter = () => {
   ];
 
   if (userType === 'manager' || userType === 'admin') {
-    menuItems.push({
-      name: 'manager',
-      nameToView: 'Manager',
-      icon: AdminPanelSettings,
-      route: '../Manager',
-      component: '../router/ManagerRouter',
-    });
+    menuItems.push(
+      {
+        name: 'manager',
+        nameToView: 'Manager',
+        icon: AdminPanelSettings,
+        route: '../Manager',
+        component: '../router/ManagerRouter',
+      },
+      {
+        name: 'ClientList',
+        nameToView: 'ClientList',
+        icon: AdminPanelSettings,
+        route: '../ClientList',
+        component: '../../modules/clients/ClientsList',
+      },
+    );
   }
 
   const [currentMenu, setCurrentMenu] = useState<menuItem>(menuItems[0]);

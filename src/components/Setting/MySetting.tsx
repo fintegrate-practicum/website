@@ -12,6 +12,8 @@ import TextField from '../../common/component/TextField/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
+import { saveServiceSettings } from '../../Redux/serviceConfigurationsSlice';
+import { useAppDispatch } from '../../Redux/hooks';
 
 export enum ComponentType {
   Button = 'Button',
@@ -26,6 +28,11 @@ export enum ComponentType {
   TextField = 'TextField',
   MenuItem = 'MenuItem',
   Input = 'Input',
+}
+
+interface Setting {
+  key: string;
+  value: any;
 }
 
 export interface ButtonChildren {
@@ -57,6 +64,8 @@ interface CustomChild {
 
 export interface MySettingProps {
   setting: {
+    categoryName: string;
+    serviceName: string;
     settingDesc: string;
     type: ComponentType;
     props?: Record<string, any>;
@@ -91,6 +100,17 @@ const componentMap: {
 
 const MySetting: FC<MySettingProps> = (props) => {
   const { setting } = props;
+  const dispatch = useAppDispatch();
+
+  const handleChange = (key: string, value: any) => {
+    const updatedSetting: Setting = { key, value };
+    dispatch(
+      saveServiceSettings({
+        serviceName: setting.serviceName,
+        settings: [updatedSetting],
+      }),
+    );
+  };
 
   if (!setting) {
     return null;
@@ -148,7 +168,18 @@ const MySetting: FC<MySettingProps> = (props) => {
     children = setting.children;
   }
 
-  return createElement(Component, setting.props ?? {}, children);
+  return createElement(
+    Component,
+    {
+      ...setting.props,
+      onChange: (event: any) =>
+        handleChange(
+          `${setting.categoryName} -> ${setting.settingDesc}`,
+          event.target.value,
+        ),
+    },
+    children,
+  );
 };
 
 export default MySetting;

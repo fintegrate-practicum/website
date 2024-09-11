@@ -12,11 +12,13 @@ import ErrorToast from './components/generic/errorMassage';
 import Inventory from './modules/inventory/Inventory';
 import Login from './components/Login/login';
 import Header from './components/Header/Header';
-import Orders from './modules/orders/App';
+import AddEmployeeForm from './modules/workers/components/AddEmployeeForm';
 import AllOrders from './modules/orders/allOrders';
+import Orders from './modules/orders/App';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher';
 import { getTextDirection } from './utils/utils';
+import WorkersTopNav from './components/navigation/Workers';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(
@@ -29,7 +31,9 @@ const LazyMoreDetailsManager = React.lazy(
   () => import('./components/createBusiness/moreDetailsManager'),
 );
 const LazyClient = React.lazy(() => import('./components/client/Client'));
-
+const LazyClientsList = React.lazy(
+  () => import('./modules/clients/ClientsList'),
+);
 const App = () => {
   const { t, i18n } = useTranslation();
   const direction = getTextDirection(i18n.language);
@@ -53,9 +57,18 @@ const App = () => {
         <Header />
         <LanguageSwitcher />
         <Client />
-        <ErrorToast />
         <Routes>
+          <Route
+            path='/ClientList'
+            element={
+              <Suspense fallback={t('common.Loading...')}>
+                <LazyClientsList />
+              </Suspense>
+            }
+          />
+          <Route path="/AddEmployee" element={<AddEmployeeForm />} />
           <Route path='/inventory/*' element={<Inventory />} />
+          <Route path='/employeeView' element={<WorkersTopNav />} />
           <Route path='/allOrders/:businessCode?' element={<AllOrders />} />
           <Route
             path='/editProfile'

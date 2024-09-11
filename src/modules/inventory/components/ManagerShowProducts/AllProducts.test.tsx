@@ -27,6 +27,8 @@ const mockProducts: IProduct[] = [
     stockQuantity: 40,
     businessId: '44',
     componentStatus: '',
+    customFields: [],
+    variants: [],
   },
   {
     id: '2',
@@ -43,6 +45,8 @@ const mockProducts: IProduct[] = [
     stockQuantity: 20,
     businessId: '33',
     componentStatus: '',
+    customFields: [],
+    variants: [],
   },
 ];
 

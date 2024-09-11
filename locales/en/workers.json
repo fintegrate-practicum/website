@@ -41,7 +41,7 @@
   "details": "Details",
   "Role Type": "Role Type",
   "Role Description": "Role Description",
-  "Personal Information": "Personal Information",
+  "Personal Information": "Personal Information:",
   "Date of Birth": "Date of Birth",
   "mobile": "Mobile",
   "Edit Details": "Edit Details",
@@ -67,5 +67,10 @@
   "worker": "worker",
   "Role Description": "Role Description",
   "email": "email",
-  "Add Employee Button": "Add Employee"
+  "Add Employee Button": "Add Employee",
+  "No messages available.": "No messages available.",
+  "dateOfBirth": "date of birth:",
+  "edit": "edit",
+  "editYourDetails": "edit Your Details:",
+  "Edit Employee Profile": "Edit Employee Profile"
 }

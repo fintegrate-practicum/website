@@ -48,5 +48,15 @@
   "transparency": "שקיפות",
   "brightness": "בהירות",
   "The page you are looking for is not found route-enter": "הדף שאת/ה מחפש/ת אינו נמצא route-הכנס/י ב",
-  "Nothing to display, please enter data.": "אין מה להציג, נא הכנס נתונים."
+  "Nothing to display, please enter data.": "אין מה להציג, נא הכנס נתונים.",
+  "messages": "הודעות",
+  "tasks": "משימות",
+  "details": "פרטים",
+  "dateOfBirth": "תאריך לידה",
+  "Mobile": "נייד",
+  "Last Login": "כניסה אחרונה",
+  "Registered At": "רשום",
+  "Email": "דואר אלקטרוני",
+  "Username": "שם משתמש",
+  "Export to Excel": "ייצוא לאקסל"
 }

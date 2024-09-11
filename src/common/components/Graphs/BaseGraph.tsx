@@ -95,7 +95,10 @@ const BaseGraph = (
   };
 
   return (
-    <div>
+    <div
+      style={{ height: '300px', width: '100%' }}
+      data-testid='canvasjs-chart'
+    >
       <CanvasJSChart options={options} />
     </div>
   );

@@ -51,7 +51,9 @@
     "react-toastify": "^10.0.5",
     "vite-plugin-eslint": "^1.8.1",
     "vitest": "^1.6.0",
+    "vitest-canvas-mock": "^0.3.3",
     "web-vitals": "^4.2.2",
+    "xlsx": "^0.18.5",
     "yup": "^1.4.0"
   },
   "devDependencies": {

@@ -14,15 +14,11 @@ import { useTranslation } from 'react-i18next';
 
 const WorkersTopNav = () => {
   const { t } = useTranslation();
+
   const location = useLocation();
   const tasks = useAppSelector((state) => state.taskSlice.tasks);
   const messages = useAppSelector((state) => state.messageSlice.messages);
-  const currentUser = useAppSelector(
-    (state) => state.currentUserSlice.userDetails,
-  );
-  const currentEmployee = useAppSelector(
-    (state) => state.currentUserSlice.employeeDetails,
-  );
+  const currentUser = useAppSelector((state) => state.currentUserSlice);
 
   const dispatch = useAppDispatch();
   const [filteredTasks, setFilteredTasks] = useState<Task[]>(tasks);
@@ -30,17 +26,20 @@ const WorkersTopNav = () => {
 
   useEffect(() => {
     setValue(location.pathname.slice(8));
-
-    if (currentUser && currentUser.auth0_user_id) {
-      dispatch(fetchMessages(currentUser.auth0_user_id));
+    if (currentUser && currentUser.userDetails.auth0_user_id) {
+      dispatch(fetchMessages(currentUser.userDetails.auth0_user_id));
       dispatch(
         fetchTasks({
-          employeeId: currentEmployee.id_user,
-          businessId: currentEmployee.businessId,
+          businessId: currentUser.employeeDetails.businessId,
+          employeeId: currentUser.employeeDetails.id_user,
         }),
       );
     }
   }, [currentUser, dispatch]);
+
+  useEffect(() => {
+      setFilteredTasks(tasks);
+  }, [tasks]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -50,17 +49,16 @@ const WorkersTopNav = () => {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label='workers tabs'>
-            <Tab label={t('website.details')} value='details' href='details' />
-            <Tab label={t('website.tasks')} value='tasks' href='tasks' />
-            <Tab
-              label={t('website.messages')}
-              value='messages'
-              href='messages'
-            />
+            <Tab label={t('website.details')} value='details' />
+            <Tab label={t('website.tasks')} value='tasks' />
+            <Tab label={t('website.messages')} value='messages' />
           </TabList>
         </Box>
         <TabPanel value='details'>
-          <WorkerPage user={currentUser} employee={currentEmployee} />
+          <WorkerPage
+            user={currentUser.userDetails}
+            employee={currentUser.employeeDetails}
+          />
         </TabPanel>
         <TabPanel value='tasks'>
           <TasksShowList

@@ -4,6 +4,7 @@ import { useAppSelector } from '../../../../Redux/hooks';
 import TableComponent from '../../../../common/components/Table/TableComponent';
 import { DataObject } from '../../../../common/components/Table/interfaces';
 import { useTranslation } from 'react-i18next';
+import AddTaskBtn from './createTaskBtn';
 
 interface ShowTaskListProps {
   filteredTasks: Task[];
@@ -16,6 +17,19 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
   const currentUser = useAppSelector(
     (state) => state.currentUserSlice.employeeDetails,
   );
+  const dateFormate = (date: Date) => {
+    const formattedDate = date.toLocaleDateString('he-IL', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+    const formattedTime = date.toLocaleTimeString('he-IL', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    const newDate = `${formattedDate} ${formattedTime}`;
+    return newDate;
+  };
   const { t } = useTranslation();
   useEffect(() => {
     if (
@@ -29,17 +43,23 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
       setFilteredTasks(updatedFilteredTasks);
     }
   }, [currentUser, filteredTasks, setFilteredTasks]);
-
   const rows = useMemo(
     () =>
-      filteredTasks.map((task) => ({
-        taskName: task.taskName,
-        targetDate: task.targetDate.toISOString(),
-        urgency: task.urgency,
-      })),
+      filteredTasks.map((task, index) => {
+        const targetDate =
+          task.targetDate instanceof Date
+            ? task.targetDate
+            : new Date(task.targetDate);
+
+        return {
+          id: index,
+          taskName: task.taskName,
+          targetDate: dateFormate(targetDate),
+          urgency: task.urgency,
+        };
+      }),
     [filteredTasks],
   );
-
   const dataObject: DataObject = {
     headers: [
       { key: 'taskName', label: t('common.Task Name'), type: 'text' },
@@ -49,13 +69,16 @@ const TasksShowList: React.FC<ShowTaskListProps> = ({
     rows,
   };
   return (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <TableComponent
-        dataObject={dataObject}
-        tableSize='large'
-        showDeleteButton={false}
-      />
-    </div>
+    <>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <TableComponent
+          dataObject={dataObject}
+          tableSize='large'
+          showDeleteButton={false}
+        />
+      </div>
+      <AddTaskBtn />
+    </>
   );
 };
 export default TasksShowList;

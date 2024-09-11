@@ -31,12 +31,22 @@ export interface ServiceSettings {
   settings_json: CategoryProps[];
 }
 
-export default function AddSubCategory(SubCategoryProp: CategoryProps) {
+interface AddSubCategoryProps extends CategoryProps {
+  selectedServiceName: string;
+  categoryName: string;
+}
+
+export default function AddSubCategory({
+  CategoryItem,
+  selectedServiceName,
+  categoryName,
+}: AddSubCategoryProps) {
   const [expanded, setExpanded] = React.useState<string | false>(false);
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
+
   return (
     <Accordion
       expanded={expanded === 'panel4'}
@@ -48,23 +58,34 @@ export default function AddSubCategory(SubCategoryProp: CategoryProps) {
         id='panel4bh-header'
       >
         <Typography style={{ width: '60vw', flexShrink: 0 }}>
-          {SubCategoryProp?.CategoryItem.CategoryName}
+          {CategoryItem.CategoryName}
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
         <div>
-          {SubCategoryProp.CategoryItem.Settings && (
+          {CategoryItem.Settings && (
             <List aria-label='mailbox folders'>
-              {SubCategoryProp.CategoryItem.Settings.map((s, index) => (
+              {CategoryItem.Settings.map((s, index) => (
                 <ListItem key={index} sx={style}>
                   <ListItemText primary={s.setting.settingDesc} />
-                  <MySetting setting={s.setting} />
+                  <MySetting
+                    setting={{
+                      ...s.setting,
+                      serviceName: selectedServiceName,
+                      categoryName: categoryName,
+                    }}
+                  />
                 </ListItem>
               ))}
             </List>
           )}
-          {SubCategoryProp?.CategoryItem.SubCategory?.map((sc, index) => (
-            <AddSubCategory key={index} {...sc} />
+          {CategoryItem.SubCategory?.map((sc, index) => (
+            <AddSubCategory
+              key={index}
+              {...sc}
+              selectedServiceName={selectedServiceName}
+              categoryName={CategoryItem.CategoryName}
+            />
           ))}
         </div>
       </AccordionDetails>
