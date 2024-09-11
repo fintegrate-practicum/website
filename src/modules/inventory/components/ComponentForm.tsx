@@ -128,7 +128,7 @@ export const ComponentForm = () => {
     const fetchComponent = async () => {
       if (componentId) {
         try {
-
+            const fetchedComponent = await getItemById<any>(
             `inventory/component`,
             componentId,
           );
