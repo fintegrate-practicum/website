@@ -1,8 +1,12 @@
-import AuthMenu from "../../auth0/AuthMenu"
-import "./login.css"
+import AuthMenu from "../../auth0/AuthMenu";
+import Graphs from "../graphsManagement/graphs";
+import "./login.css";
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Login = () => {
-    return (<>
+    const { isAuthenticated } = useAuth0();
+
+    return (
         <div className="App">
             <header>
                 <div className="logo">
@@ -10,7 +14,9 @@ const Login = () => {
                 </div>
                 <AuthMenu />
             </header>
+            {isAuthenticated ? <><Graphs /></> : null}
         </div>
-    </>)
-}
-export default Login
+    );
+};
+
+export default Login;
