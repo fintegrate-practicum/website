@@ -52,7 +52,7 @@ export const fetchUserById = createAsyncThunk(
         `/user/${payload.identities[0].user_id}`,
       );
       const data = response.data;
-      if (data.data == null) {
+      if (data == '') {
         await dispatch(updateCurrentUserByJwt(payload));
       }
       const mappedData: CurrentUser = {

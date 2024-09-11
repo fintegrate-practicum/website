@@ -14,6 +14,7 @@ import Header from './components/Header/Header';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher';
 import { getTextDirection } from './utils/utils';
+import WorkersTopNav from './components/navigation/Workers';
 
 const LazyEditProfile = React.lazy(() => import('./auth0/editProfile'));
 const LazyBaseDetailsManager = React.lazy(
@@ -26,7 +27,9 @@ const LazyMoreDetailsManager = React.lazy(
   () => import('./components/createBusiness/moreDetailsManager'),
 );
 const LazyClient = React.lazy(() => import('./components/client/Client'));
-
+const LazyClientsList = React.lazy(
+  () => import('./modules/clients/ClientsList'),
+);
 const App = () => {
   const { t, i18n } = useTranslation();
   const direction = getTextDirection(i18n.language);
@@ -52,7 +55,6 @@ const App = () => {
         <LanguageSwitcher />
         <Header />
         <Client />
-        <ErrorToast />
         <Routes>
           <Route
             path='/editProfile'

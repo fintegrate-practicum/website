@@ -12,8 +12,21 @@ import {
   updateItem,
 } from '../Api-Requests/genericRequests';
 import './ComponentForm.css';
-import { Checkbox, FormControlLabel } from '@mui/material';
+
+import { Checkbox, FormControlLabel, Grid } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import { ICustomField } from '../interfaces/ICustomField.ts';
+import { IVariant } from '../interfaces/IVariant.ts';
+import CustomFields from './CustomFields.tsx';
+import { CustomFieldModal } from './CustomFieldModal.tsx';
+import { useTranslation } from 'react-i18next';
+
+const STEPS = {
+  COMPONENT_DETAILS: 1,
+  CUSTOM_FIELDS: 2,
+  SUBMIT_FORM: 3,
+};
+
 
 const notSaleAloneSchema = yup.object().shape({
   name: yup
@@ -35,8 +48,7 @@ const notSaleAloneSchema = yup.object().shape({
     .positive('Stock must be a positive number'),
   isActive: yup.boolean().required(),
   isSoldSeparately: yup.boolean().required(),
-  componentColor: yup.string().optional(),
-  componentSize: yup.string().optional(),
+
 }) as unknown as yup.ObjectSchema<IComponent>;
 
 const saleAloneSchema = yup.object().shape({
@@ -75,16 +87,24 @@ const saleAloneSchema = yup.object().shape({
     .number()
     .required('Sale percentage is a required field')
     .min(0, 'Percentage must be positive'),
-  componentColor: yup.string().nullable().notRequired(),
-  componentSize: yup.string().nullable().notRequired(),
+
 }) as unknown as yup.ObjectSchema<IComponent>;
 
 export const ComponentForm = () => {
+  const { t } = useTranslation();
+
   const { componentId } = useParams<{ componentId: string }>();
   const [component, setComponent] = useState<IComponent | any>(null);
   const [isAloneChecked, setIsAloneChecked] = useState(
     component?.isSoldSeparately || false,
   );
+
+  // const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [customFields, setCustomFields] = useState<ICustomField[]>([]);
+  const [variants, setVariants] = useState<IVariant[]>([]);
+  const [currentStep, setCurrentStep] = useState(STEPS.COMPONENT_DETAILS);
+  const [showCustomFieldModal, setShowCustomFieldModal] = useState(false);
+
   const schema = useMemo(
     () => (isAloneChecked ? saleAloneSchema : notSaleAloneSchema),
     [isAloneChecked],
@@ -97,22 +117,33 @@ export const ComponentForm = () => {
     setValue,
     watch,
     formState: { errors },
+    trigger,
   } = useForm<IComponent>({
     resolver: yupResolver(schema) as unknown as Resolver<IComponent>,
     defaultValues: component || {},
   });
 
+
   useEffect(() => {
     const fetchComponent = async () => {
       if (componentId) {
         try {
-          const fetchedComponent = await getItemById<any>(
-            `api/inventory/component`,
+
+            `inventory/component`,
             componentId,
           );
-          const { _id, __v, ...dataToUpdate } = fetchedComponent.data;
+          const { _id, __v, id, ...dataToUpdate } = fetchedComponent.data;
           setComponent(dataToUpdate);
           reset(dataToUpdate);
+          const cleanedCustomFields = dataToUpdate.customFields.map(
+            ({ _id, ...rest }: any) => rest,
+          );
+          setCustomFields(cleanedCustomFields);
+          const cleanedVariants = dataToUpdate.variants.map(
+            ({ _id, ...rest }: any) => rest,
+          );
+          setVariants(cleanedVariants);
+
         } catch (error) {
           console.error('Error fetching component:', error);
         }
@@ -126,18 +157,21 @@ export const ComponentForm = () => {
       data.addingComponentDate = new Date();
       data.businessId = 'here will be the business id';
       data.adminId = 'here will be the admin id';
+
+      data.customFields = customFields;
+      data.variants = variants;
       if (component && componentId) {
         const response = await updateItem<IComponent>(
-          `api/inventory/component`,
+          `inventory/component`,
+
           componentId,
           data,
         );
         console.log('Component updated successfully:', response.data);
       } else {
-        const response = await addItem<IComponent>(
-          'api/inventory/component',
-          data,
-        );
+
+        const response = await addItem<IComponent>('inventory/component', data);
+
         console.log('Component added successfully:', response.data);
       }
     } catch (error) {
@@ -164,126 +198,35 @@ export const ComponentForm = () => {
     }
   };
 
+
+  const handleContinue = async () => {
+    const isValid = await trigger();
+    if (isValid) {
+      setShowCustomFieldModal(true);
+    }
+  };
+
+  const handleCustomFieldDecision = (addFields: boolean) => {
+    setShowCustomFieldModal(false);
+    setCurrentStep(addFields ? STEPS.CUSTOM_FIELDS : STEPS.SUBMIT_FORM);
+  };
+
   return (
     <form onSubmit={handleSubmit(save)} noValidate autoComplete='on'>
-      <Box
-        className='itemInput'
-        sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
-      >
-        <TextField
-          error={!!errors.name}
-          id='outlined-basic'
-          label='Component Name'
-          variant='outlined'
-          helperText={errors.name?.message}
-          {...register('name')}
-          value={watch('name') || ''}
-        />
-      </Box>
-
-      <Box
-        className='itemInput'
-        sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
-      >
-        <TextField
-          type='number'
-          error={!!errors.componentBuyPrice}
-          id='outlined-basic'
-          label='Purchase Price'
-          variant='outlined'
-          helperText={errors.componentBuyPrice?.message}
-          {...register('componentBuyPrice')}
-          value={watch('componentBuyPrice') || ''}
-        />
-      </Box>
-
-      <Box
-        className='itemInput'
-        sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
-      >
-        <TextField
-          type='number'
-          error={!!errors.minQuantity}
-          id='outlined-basic'
-          label='Minimum Quantity'
-          variant='outlined'
-          helperText={errors.minQuantity?.message}
-          {...register('minQuantity')}
-          value={watch('minQuantity') || ''}
-        />
-      </Box>
-
-      <Box
-        className='itemInput'
-        sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
-      >
-        <TextField
-          type='number'
-          error={!!errors.stockQuantity}
-          id='outlined-basic'
-          label='Stock'
-          variant='outlined'
-          helperText={errors.stockQuantity?.message}
-          {...register('stockQuantity')}
-          value={watch('stockQuantity') || ''}
-        />
-      </Box>
-
-      <Box
-        className='itemInput'
-        sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
-      >
-        <TextField
-          error={!!errors.componentColor}
-          id='outlined-basic'
-          label='Color'
-          variant='outlined'
-          helperText={errors.componentColor?.message}
-          {...register('componentColor')}
-          value={watch('componentColor') || ''}
-        />
-      </Box>
-
-      <Box
-        className='itemInput'
-        sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
-      >
-        <TextField
-          error={!!errors.componentSize}
-          id='outlined-basic'
-          label='Size'
-          variant='outlined'
-          helperText={errors.componentSize?.message}
-          {...register('componentSize')}
-          value={watch('componentSize') || ''}
-        />
-      </Box>
-
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={isAloneChecked}
-            {...register('isSoldSeparately')}
-            onChange={handleIsAloneChange}
-          />
-        }
-        label='Can be sold separately'
-      />
-
-      {isAloneChecked && (
+      {currentStep === STEPS.COMPONENT_DETAILS && (
         <>
           <Box
             className='itemInput'
             sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
           >
             <TextField
-              error={!!errors.description}
+              error={!!errors.name}
               id='outlined-basic'
-              label='Description'
+              label='Component Name'
               variant='outlined'
-              helperText={errors.description?.message}
-              {...register('description')}
-              value={watch('description') || ''}
+              helperText={errors.name?.message}
+              {...register('name')}
+              value={watch('name') || ''}
             />
           </Box>
 
@@ -293,13 +236,13 @@ export const ComponentForm = () => {
           >
             <TextField
               type='number'
-              error={!!errors.totalPrice}
+              error={!!errors.componentBuyPrice}
               id='outlined-basic'
-              label='total price'
+              label='Purchase Price'
               variant='outlined'
-              helperText={errors.totalPrice?.message}
-              {...register('totalPrice')}
-              value={watch('totalPrice') || ''}
+              helperText={errors.componentBuyPrice?.message}
+              {...register('componentBuyPrice')}
+              value={watch('componentBuyPrice') || ''}
             />
           </Box>
 
@@ -307,45 +250,164 @@ export const ComponentForm = () => {
             className='itemInput'
             sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
           >
-            <input type='file' multiple onChange={handleImageChange} />
-            {errors.images && <p>{errors.images.message}</p>}
+            <TextField
+              type='number'
+              error={!!errors.minQuantity}
+              id='outlined-basic'
+              label='Minimum Quantity'
+              variant='outlined'
+              helperText={errors.minQuantity?.message}
+              {...register('minQuantity')}
+              value={watch('minQuantity') || ''}
+            />
           </Box>
-        </>
-      )}
 
-      <FormControlLabel
-        control={<Checkbox {...register('isActive')} />}
-        label='Is Active'
-      />
+          <Box
+            className='itemInput'
+            sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
+          >
+            <TextField
+              type='number'
+              error={!!errors.stockQuantity}
+              id='outlined-basic'
+              label='Stock'
+              variant='outlined'
+              helperText={errors.stockQuantity?.message}
+              {...register('stockQuantity')}
+              value={watch('stockQuantity') || ''}
+            />
+          </Box>
 
-      {isAloneChecked && (
-        <>
           <FormControlLabel
-            control={<Checkbox {...register('isOnSale')} />}
-            label='Is In Sale'
+            control={
+              <Checkbox
+                checked={isAloneChecked}
+                {...register('isSoldSeparately')}
+                onChange={handleIsAloneChange}
+              />
+            }
+            label='Can be sold separately'
           />
 
-          <Box
-            className='itemInput'
-            sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
-          >
-            <TextField
-              type='number'
-              error={!!errors.salePercentage}
-              id='outlined-basic'
-              label='Sale Percentage'
-              variant='outlined'
-              helperText={errors.salePercentage?.message}
-              {...register('salePercentage')}
-              value={watch('salePercentage') || ''}
-            />
-          </Box>
+          {isAloneChecked && (
+            <>
+              <Box
+                className='itemInput'
+                sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
+              >
+                <TextField
+                  error={!!errors.description}
+                  id='outlined-basic'
+                  label='Description'
+                  variant='outlined'
+                  helperText={errors.description?.message}
+                  {...register('description')}
+                  value={watch('description') || ''}
+                />
+              </Box>
+
+              <Box
+                className='itemInput'
+                sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
+              >
+                <TextField
+                  type='number'
+                  error={!!errors.totalPrice}
+                  id='outlined-basic'
+                  label='total price'
+                  variant='outlined'
+                  helperText={errors.totalPrice?.message}
+                  {...register('totalPrice')}
+                  value={watch('totalPrice') || ''}
+                />
+              </Box>
+
+              <Box
+                className='itemInput'
+                sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
+              >
+                <input type='file' multiple onChange={handleImageChange} />
+                {errors.images && <p>{errors.images.message}</p>}
+              </Box>
+            </>
+          )}
+
+          <FormControlLabel
+            control={<Checkbox {...register('isActive')} />}
+            label='Is Active'
+          />
+
+          {isAloneChecked && (
+            <>
+              <FormControlLabel
+                control={<Checkbox {...register('isOnSale')} />}
+                label='Is In Sale'
+              />
+
+              <Box
+                className='itemInput'
+                sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
+              >
+                <TextField
+                  type='number'
+                  error={!!errors.salePercentage}
+                  id='outlined-basic'
+                  label='Sale Percentage'
+                  variant='outlined'
+                  helperText={errors.salePercentage?.message}
+                  {...register('salePercentage')}
+                  value={watch('salePercentage') || ''}
+                />
+              </Box>
+            </>
+          )}
+          <Grid item xs={12}>
+            <Button
+              variant='contained'
+              color='secondary'
+              fullWidth
+              onClick={handleContinue}
+            >
+              Continue
+            </Button>
+          </Grid>
         </>
       )}
 
-      <Button type='submit' variant='contained' color='primary'>
-        Submit
-      </Button>
+      {currentStep === STEPS.CUSTOM_FIELDS && (
+        <CustomFields
+          customFields={customFields}
+          setCustomFields={setCustomFields}
+          variants={variants}
+          setVariants={setVariants}
+        />
+      )}
+
+      {(currentStep === STEPS.CUSTOM_FIELDS ||
+        currentStep === STEPS.SUBMIT_FORM) && (
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={12}>
+            <Button type='submit' variant='contained' color='primary'>
+              {t('inventory.Submit')}
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <Button
+              color='secondary'
+              onClick={() => setCurrentStep(STEPS.COMPONENT_DETAILS)}
+            >
+              {t('inventory.back to component details')}
+            </Button>
+          </Grid>
+        </Grid>
+      )}
+
+      <CustomFieldModal
+        open={showCustomFieldModal}
+        onClose={() => setShowCustomFieldModal(false)}
+        onDecision={handleCustomFieldDecision}
+      />
+
     </form>
   );
 };

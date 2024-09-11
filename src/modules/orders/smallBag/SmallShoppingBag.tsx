@@ -1,61 +1,78 @@
 import React, { useState, useEffect } from 'react';
-import './smallShoppingBag.css';
-import Typography from '../../../common/components/Typography/Typography';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from '@mui/material';
-import './smallShoppingBag.css';
+import TableComponent from '../../../common/components/Table/TableComponent';
+import { DataObject } from '../../../common/components/Table/interfaces';
 import { useTranslation } from 'react-i18next';
-
-const bag = [
-  {
-    id: 1,
-    image: '/dress.jpg',
-    name: 'casual dress',
-    model: 'blue flowers',
-    description: 'bla bla...',
-    price: 125.9,
-    size: 4,
-    amount: 1,
-  },
-  {
-    id: 2,
-    image: '/dress.jpg',
-    name: 'casual dress',
-    model: 'blue flowers',
-    description: 'bla bla...',
-    price: 125.9,
-    size: 6,
-    amount: 1,
-  },
-  {
-    id: 3,
-    image: '/dress.jpg',
-    name: 'snickers',
-    model: 'red',
-    description: 'bla bla...',
-    price: 89.9,
-    size: 28,
-    amount: 1,
-  },
-  {
-    id: 4,
-    image: '/dress.jpg',
-    name: 'snickers',
-    model: 'red',
-    description: 'bla bla...',
-    price: 89.9,
-    size: 28,
-    amount: 1,
-  },
-];
 
 const SmallShoppingBag = () => {
   const { t } = useTranslation();
+  const bagData: DataObject = {
+    headers: [
+      { key: 'id', label: 'ID', type: 'text' },
+      {
+        key: 'name',
+        label: t('order.name'),
+        type: 'text',
+        renderCell: (params) => (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <img
+              src={params.row.profilePic}
+              alt='thumbnail'
+              style={{ width: '50px', height: '50px', marginRight: '8px' }}
+            />
+            <span>{params.value}</span>
+          </div>
+        ),
+      },
+      { key: 'model', label: t('order.Model'), type: 'text' },
+      { key: 'amount', label: t('order.amount'), type: 'number' },
+      {
+        key: 'price',
+        label: t('order.price'),
+        type: 'number',
+        renderCell: (params) => (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <span>₪</span>
+            {params.value}
+          </div>
+        ),
+      },
+    ],
+    rows: [
+      {
+        id: 1,
+        name: 'casual dress',
+        profilePic: '/dress.jpg',
+        model: 'blue flowers',
+        amount: 1,
+        price: 125.9,
+      },
+      {
+        id: 2,
+        name: 'casual dress',
+        profilePic: '/dress.jpg',
+        model: 'blue flowers',
+        amount: 1,
+        price: 125.9,
+      },
+      {
+        id: 3,
+        name: 'snickers',
+        profilePic: '/dress.jpg',
+        model: 'red',
+        amount: 1,
+        price: 89.9,
+      },
+      {
+        id: 4,
+        name: 'snickers',
+        profilePic: '/dress.jpg',
+        model: 'red',
+        amount: 1,
+        price: 89.9,
+      },
+    ],
+  };
+
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -65,45 +82,15 @@ const SmallShoppingBag = () => {
 
     return () => clearTimeout(timeoutId);
   }, []);
-
   return (
-    <div className='shopping-bag-container'>
+    <div>
       {isVisible && (
         <>
-          <Typography className='shopping-bag-title'>
-            {t('order.Shopping Bag')}
-          </Typography>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>{t('order.Items')}</TableCell>
-                <TableCell>{t('order.Model')}</TableCell>
-                <TableCell>{t('order.Quantity')}</TableCell>
-                <TableCell>{t('order.Price')}</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {bag.map((item) => (
-                <TableRow key={item.id}>
-                  <div className='product-name'>
-                    <TableCell>
-                      <div className='image-text-container'>
-                        <img
-                          src={item.image}
-                          width='50px'
-                          className='product-image'
-                        />
-                        <span className='product-text'>{item.name}</span>
-                      </div>
-                    </TableCell>
-                  </div>
-                  <TableCell>{item.model}</TableCell>
-                  <TableCell>{item.amount}</TableCell>
-                  <TableCell>{item.price} ₪</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <TableComponent
+            dataObject={bagData}
+            tableSize='small'
+            showDeleteButton={false}
+          />
         </>
       )}
     </div>
