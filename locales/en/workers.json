@@ -67,12 +67,10 @@
   "worker": "worker",
   "Role Description": "Role Description",
   "email": "email",
-
   "Add Employee Button": "Add Employee",
   "No messages available.": "No messages available.",
   "dateOfBirth": "date of birth:",
   "edit": "edit",
   "editYourDetails": "edit Your Details:",
   "Edit Employee Profile": "Edit Employee Profile"
-
 }
