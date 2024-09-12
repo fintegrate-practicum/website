@@ -68,7 +68,9 @@ const Profile: React.FC = () => {
         });
         const user_metadata = await metadataResponse.json();
         if (!user_metadata.address) 
-          { navigate(`/editProfile?businessId=${businessID}`); }
+          {
+            navigate(`/editprofile/${businessID}`);
+            }
         else
           if (businessID && user_metadata.businessRoles.some((role: { businessId: string; }) => role.businessId === businessID)) {
             navigate('/business?businessId=${b}');

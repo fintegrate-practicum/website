@@ -20,7 +20,7 @@ import { updateCurrentUser } from '../Redux/currentUserSlice';
 import { statuses } from '../modules/workers/classes/enum/statuses.enum';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const statusArray = Object.keys(statuses).filter((key) => isNaN(Number(key)));
 
@@ -38,9 +38,7 @@ const EditProfile: React.FC = () => {
   const currentUser = useAppSelector((state) => state.currentUserSlice);
   const [isEditing, setIsEditing] = React.useState(false);
   const dispatch = useAppDispatch();
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const businessId = queryParams.get('businessId');
+  const { businessId } = useParams<{ businessId: string }>();
 
   React.useEffect(() => {
     setValue('email', currentUser.userDetails.userEmail || '');
