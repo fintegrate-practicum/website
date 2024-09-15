@@ -54,7 +54,6 @@ const EditProfile: React.FC = () => {
 
   const handleSaveClick = () => {
     setIsEditing(false);
-    console.log('currentUser',{currentUser});
     const updatedCurrentUser = {
         ...currentUser.userDetails,
         userEmail: getValues('email'),

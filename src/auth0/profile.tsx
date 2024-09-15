@@ -73,7 +73,7 @@ const Profile: React.FC = () => {
             }
         else
           if (businessID && user_metadata.businessRoles.some((role: { businessId: string; }) => role.businessId === businessID)) {
-            navigate('/business?businessId=${b}');
+            navigate('/business?businessId=${businessID}');
           }
           else{
             dispatch(
@@ -82,7 +82,7 @@ const Profile: React.FC = () => {
                 businessRoles: [...user_metadata.businessRoles, businessID],
               }),
             );
-            navigate('/business?businessId=${b}');
+            navigate('/business?businessId=${businessID}');
           }
         setUserMetadata(user_metadata);
         await dispatch(fetchUserById(user_metadata));
