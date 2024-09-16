@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BaseGraph from '../../common/components/Graphs/BaseGraph';
 import { fetchStatusDistribution } from './graphsfunc';
 import { useAppSelector } from '../../app/hooks';
+import { useTheme } from '@mui/material/styles';
 
 export interface orderStatus {
   status: string;
@@ -9,21 +10,17 @@ export interface orderStatus {
 }
 
 const StatusDistributionChart: React.FC = () => {
-  console.log('Rendering statusGraph component');
-
   const [dataPoints, setDataPoints] = useState<{ x: string; y: number }[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const currentEmployee = useAppSelector(
+    (state) => state.currentUserSlice.employeeDetails,
+  );
+  const theme = useTheme();
 
   useEffect(() => {
-    const currentEmployee = useAppSelector(
-      (state) => state.currentUserSlice.employeeDetails,
-    );
-    const businessId= currentEmployee.businessId;    
+    const businessId = currentEmployee.businessId;
 
     fetchStatusDistribution(businessId)
       .then((orderStats: { status: string; count: number }[]) => {
-        console.log('Fetched order Fstats:', orderStats);
-
         const formattedDataPoints = orderStats.map((stat) => ({
           x: stat.status,
           y: stat.count,
@@ -31,17 +28,9 @@ const StatusDistributionChart: React.FC = () => {
         setDataPoints(formattedDataPoints);
       })
       .catch((err) => {
-        setError('Failed to fetch order stats');
         console.error('Error in fetchOrderStats:', err);
       });
   }, []);
-
-  if (error) {
-    console.error('Error in component rendering:', error);
-    return <div>Error: {error}</div>;
-  }
-
-  console.log('Data points being passed to BaseGraph:', dataPoints);
 
   return (
     <div>
@@ -52,6 +41,7 @@ const StatusDistributionChart: React.FC = () => {
         text='Orders by status'
         type='pie'
         indexLabel='{x}'
+        indexLabelFontColor={theme.palette.info.main}
         dataPoints={dataPoints}
         startAngle={-90}
       />

@@ -2,28 +2,25 @@ import React, { useState, useEffect } from 'react';
 import BaseGraph from '../../common/components/Graphs/BaseGraph';
 import { fetchLowStockProducts } from './graphsfunc';
 import { useAppSelector } from '../../app/hooks';
+import { useTheme } from '@mui/material/styles';
 
 export interface ProductStock {
   productName: string;
   count: number;
 }
 
-
 const LowStockProductsList: React.FC = () => {
   const [dataPoints, setDataPoints] = useState<
     { indexLabel: string; y: number }[]
   >([]);
-  const [error, setError] = useState<string | null>(null);
-
+  const currentEmployee = useAppSelector(
+    (state) => state.currentUserSlice.employeeDetails,
+  );
+  const theme = useTheme();
   useEffect(() => {
-    const currentEmployee = useAppSelector(
-      (state) => state.currentUserSlice.employeeDetails,
-    );
     const businessId = currentEmployee.businessId;
     fetchLowStockProducts(businessId)
       .then((products: ProductStock[]) => {
-        console.log('Fetched order stats:', products);
-
         const formattedDataPoints = products.map((p) => ({
           indexLabel: p.productName,
           y: p.count,
@@ -31,17 +28,9 @@ const LowStockProductsList: React.FC = () => {
         setDataPoints(formattedDataPoints);
       })
       .catch((err) => {
-        setError('Failed to fetch order stats');
         console.error('Error in fetchOrderStats:', err);
       });
   }, []);
-
-  if (error) {
-    console.error('Error in component rendering:', error);
-    return <div>Error: {error}</div>;
-  }
-
-  console.log('Data points being passed to BaseGraph:', dataPoints);
 
   return (
     <div>
@@ -52,7 +41,7 @@ const LowStockProductsList: React.FC = () => {
         text='The list of products that are close to being finished'
         includeZero={false}
         type='column'
-        indexLabelFontColor='#5A5757'
+        indexLabelFontColor={theme.palette.info.main}
         indexLabelPlacement='outside'
         dataPoints={dataPoints}
         startAngle={-90}

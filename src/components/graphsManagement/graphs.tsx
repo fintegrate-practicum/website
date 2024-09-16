@@ -1,7 +1,7 @@
 import React from 'react';
-import OrderStatsChart from './orderStatsChart ';
+import OrderStatsChart from './orderStatsChart';
 import StatusDistributionChart from './statusDistributionChart';
-import LowStockProductsList from './lowStockProductsList ';
+import LowStockProductsList from './lowStockProductsList';
 import OpenTasksByEmployee from './openTasksByEmployee';
 
 const Graphs: React.FC = () => {

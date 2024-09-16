@@ -1,20 +1,18 @@
-import { ProductStock } from './lowStockProductsList ';
-import { orderStats } from './orderStatsChart ';
+import { ProductStock } from './lowStockProductsList';
+import { orderStats } from './orderStatsChart';
 import { orderStatus } from './statusDistributionChart';
 import { Task } from './openTasksByEmployee';
+import workerInstance from '../../auth0/WorkersInterceptors';
+import axios from 'axios';
 
 export async function fetchOrderStats(
   businessCode: string,
 ): Promise<orderStats[] | any> {
   try {
-    const response = await fetch(
-      `http://localhost:4004/orders//stats/${businessCode}`,
+    const response = await axios.get(
+      `${import.meta.env.VITE_ORDERS_SERVICE_URL}/orders/stats/${businessCode}`,
     );
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    const data: orderStats[] = await response.json();
-    return data;
+    return response.data as orderStats[];
   } catch (error) {
     console.error('Failed to fetch order stats:', error);
     return { error: (error as Error).message };
@@ -25,16 +23,12 @@ export async function fetchStatusDistribution(
   businessCode: string,
 ): Promise<orderStatus[] | any> {
   try {
-    const response = await fetch(
-      `http://localhost:4004/orders//status-distribution/${businessCode}`,
+    const response = await axios.get(
+      `${import.meta.env.VITE_ORDERS_SERVICE_URL}/orders/status-distribution/${businessCode}`,
     );
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    const data: orderStatus[] = await response.json();
-    return data;
+    return response.data as orderStatus[];
   } catch (error) {
-    console.error('Failed to fetch order stats:', error);
+    console.error('Failed to fetch status distribution:', error);
     return { error: (error as Error).message };
   }
 }
@@ -43,14 +37,10 @@ export async function fetchLowStockProducts(
   businessCode: string,
 ): Promise<ProductStock[]> {
   try {
-    const response = await fetch(
-      `http://localhost:4003/api/inventory/product/low-stock/${businessCode}`,
+    const response = await axios.get(
+      `${import.meta.env.VITE_INVENTORY_SERVICE_URL}/api/inventory/product/low-stock/${businessCode}`,
     );
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    const data: ProductStock[] = await response.json();
-    return data;
+    return response.data as ProductStock[];
   } catch (error) {
     console.error('Failed to fetch low stock products:', error);
     throw new Error(
@@ -63,16 +53,12 @@ export async function fetchOpenTasksByEmployee(
   businessCode: string,
 ): Promise<Task[] | any> {
   try {
-    const response = await fetch(
-      `http://localhost:4006/tasks/open-by-employee/${businessCode}`,
+    const response = await workerInstance.get(
+      `/tasks/open-by-employee/${businessCode}`,
     );
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    const data: Task[] = await response.json();
-    return data;
+    return response.data as Task[];
   } catch (error) {
-    console.error('Failed to fetch order stats:', error);
+    console.error('Failed to fetch open tasks by employee:', error);
     return { error: (error as Error).message };
   }
 }
