@@ -1,16 +1,26 @@
-import AuthMenu from "../../auth0/AuthMenu"
-import "./login.css"
+import AuthMenu from '../../auth0/AuthMenu';
+import Graphs from '../graphsManagement/graphs';
+import './login.css';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Login = () => {
-    return (<>
-        <div className="App">
-            <header>
-                <div className="logo">
-                    <img src="logo.png" alt="Fintegrate" />
-                </div>
-                <AuthMenu />
-            </header>
+  const { isAuthenticated } = useAuth0();
+
+  return (
+    <div className='App'>
+      <header>
+        <div className='logo'>
+          <img src='logo.png' alt='Fintegrate' />
         </div>
-    </>)
-}
-export default Login
+        <AuthMenu />
+      </header>
+      {isAuthenticated ? (
+        <>
+          <Graphs />
+        </>
+      ) : null}
+    </div>
+  );
+};
+
+export default Login;

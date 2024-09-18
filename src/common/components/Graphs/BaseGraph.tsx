@@ -73,19 +73,22 @@ const BaseGraph = (
     title: {
       text: text,
     },
-    axisY: prefix ? axisYptionsIncludeprefix : axisYptions,
+    axisY: {
+      includeZero: includeZero,
+      title: title,
+      interval: 2,
+    },
     axisX: {
-      valueFormatString: valueFormatString,
+      interval: 1,
+      includeZero: includeZero,
     },
     data: [
       {
-        indexLabel: indexLabel,
-        startAngle: startAngle,
         type: type,
+        indexLabel: indexLabel,
         indexLabelFontColor: indexLabelFontColor,
         indexLabelPlacement: indexLabelPlacement,
         yValueFormatString: yValueFormatString,
-        xValueFormatString: xValueFormatString,
         dataPoints: dataPoints,
       },
     ],
