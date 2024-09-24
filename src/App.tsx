@@ -71,6 +71,14 @@ const App = () => {
           <Route path='/employeeView' element={<WorkersTopNav />} />
           <Route path='/allOrders/:businessCode?' element={<AllOrders />} />
           <Route
+            path='/editprofile/:businessId'
+            element={
+              <Suspense fallback={t('common.Loading...')}>
+                <LazyEditProfile />
+              </Suspense>
+            }
+          />
+          <Route
             path='/editProfile'
             element={
               <Suspense fallback={t('common.Loading...')}>
