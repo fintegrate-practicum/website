@@ -6,15 +6,11 @@ import theme from './Theme';
 import Client from './components/client/Client';
 import MainRouter from './components/router/MainRouter';
 import React, { Suspense, useEffect, useMemo, useState } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import { useAppSelector } from './Redux/hooks';
 import ErrorToast from './components/generic/errorMassage';
-import Inventory from './modules/inventory/Inventory';
 import Login from './components/Login/login';
 import Header from './components/Header/Header';
-import AddEmployeeForm from './modules/workers/components/AddEmployeeForm';
-import AllOrders from './modules/orders/allOrders';
-import Orders from './modules/orders/App';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher';
 import { getTextDirection } from './utils/utils';
@@ -40,6 +36,7 @@ const App = () => {
 
   const currentUser = useAppSelector((state) => state.currentUserSlice);
   const [typeUser, setTypeUser] = useState<string | null>(null);
+  //currentUser-עובדים עליו עכשיו ויצטרכו לשנות אחרי כן
   const location = useLocation();
 
   useEffect(() => {
@@ -56,25 +53,15 @@ const App = () => {
       <Provider store={Store}>
         <Header />
         <LanguageSwitcher />
+
         <Client />
         <Routes>
-          <Route
-            path='/ClientList'
-            element={
-              <Suspense fallback={t('common.Loading...')}>
-                <LazyClientsList />
-              </Suspense>
-            }
-          />
-          <Route path="/AddEmployee" element={<AddEmployeeForm />} />
-          <Route path='/inventory/*' element={<Inventory />} />
-          <Route path='/employeeView' element={<WorkersTopNav />} />
-          <Route path='/allOrders/:businessCode?' element={<AllOrders />} />
           <Route
             path='/editProfile'
             element={
               <Suspense fallback={t('common.Loading...')}>
-                <LazyEditProfile />
+                {' '}
+                <LazyEditProfile />{' '}
               </Suspense>
             }
           />
@@ -82,7 +69,8 @@ const App = () => {
             path='/CreateBusiness/BaseDetailsManager'
             element={
               <Suspense fallback={t('common.Loading...')}>
-                <LazyBaseDetailsManager />
+                {' '}
+                <LazyBaseDetailsManager />{' '}
               </Suspense>
             }
           />
@@ -90,7 +78,8 @@ const App = () => {
             path='/CreateBusiness/EmailVerification'
             element={
               <Suspense fallback={t('common.Loading...')}>
-                <LazyEmailVerification />
+                {' '}
+                <LazyEmailVerification />{' '}
               </Suspense>
             }
           />
@@ -98,32 +87,44 @@ const App = () => {
             path='/CreateBusiness/MoreDetailsManager'
             element={
               <Suspense fallback={t('common.Loading...')}>
-                <LazyMoreDetailsManager />
+                {' '}
+                <LazyMoreDetailsManager />{' '}
               </Suspense>
             }
           />
+          <Route path='/allorders/:businessCode?' element={<MainRouter />} />
+          <Route path='/allinventory/*' element={<MainRouter />} />
           <Route
             path='/link/:linkUID'
             element={
-              <Suspense fallback={t('common.Loading...')}>
-                <LazyClient />
+              <Suspense fallback='Loading...'>
+                {' '}
+                <LazyClient />{' '}
               </Suspense>
             }
           >
-            <Route path='orders' element={<Orders />} />
+            <Route path='orders' element={<MainRouter />} />
+            <Route path='inventory' element={<MainRouter />} />
+            <Route path='HomePage' element={<MainRouter />} />
+            <Route path='Setting/Category' element={<MainRouter />} />
+            <Route path='Worker/*' element={<MainRouter />} />
           </Route>
         </Routes>
 
         {isRootPath && (
           <>
-            {typeUser !== 'manager' &&
-            typeUser !== 'admin' &&
+            {typeUser !== 'admin' &&
             typeUser !== '' &&
             typeUser !== undefined &&
             typeUser !== null ? (
               <Client />
-            ) : typeUser === 'manager' || typeUser === 'admin' ? (
-              <MainRouter />
+            ) : typeUser === 'admin' ? (
+              <>
+                <MainRouter />
+                <Link to={'/CreateBusiness/BaseDetailsManager'}>
+                  הרשמה של עסק
+                </Link>
+              </>
             ) : (
               <Login />
             )}

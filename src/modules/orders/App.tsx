@@ -6,11 +6,11 @@ import BaseWizard from './Stepper/BaseWizard';
 function Orders() {
   return (
     <>
-    <BaseWizard />
-    {/* זה אמור להיות כתוב מתוך קומפננטת תשלום-לא כאן */}
-    {/* <ConfirmeOrder newOrder={newOrder} /> */}
-    {/* <SmallShoppingBag /> */}
-    <ShoppingBag initialBag={[]}/>
+      <BaseWizard />
+      {/* זה אמור להיות כתוב מתוך קומפננטת תשלום-לא כאן */}
+      {/* <ConfirmeOrder newOrder={newOrder} /> */}
+      {/* <SmallShoppingBag /> */}
+      <ShoppingBag initialBag={[]} />
     </>
   );
 }

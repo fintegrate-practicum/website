@@ -62,7 +62,7 @@ export default function AllOrders() {
             id,
           );
           return product.data;
-        } catch (error) {
+        } catch {
           const component = await getItemById<IComponent>(
             `api/inventory/component`,
             id,

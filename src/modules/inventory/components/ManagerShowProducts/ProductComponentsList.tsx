@@ -13,15 +13,21 @@ const createComponentMap = (components: { id: string; name?: string }[]) => {
   }, {});
 };
 
-const ProductComponentsList: React.FC<ProductComponentsListProps> = ({ componentIds, components }) => {
-  const componentMap = React.useMemo(() => createComponentMap(components), [components]);
+const ProductComponentsList: React.FC<ProductComponentsListProps> = ({
+  componentIds,
+  components,
+}) => {
+  const componentMap = React.useMemo(
+    () => createComponentMap(components),
+    [components],
+  );
 
   if (!componentIds.length) {
     return <span>No Components</span>;
   }
 
   return (
-    <Tooltip title="Components" arrow>
+    <Tooltip title='Components' arrow>
       <span>
         {componentIds.map((componentId, index) => (
           <span key={componentId}>

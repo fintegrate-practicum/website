@@ -46,9 +46,11 @@ const AllProducts = () => {
 
   const fetchComponents = async () => {
     try {
+
       const response = await getAllItems<IComponent[]>(
         'inventory/component/businessId/here will be the business id',
       );
+
       dispatch(getAllComponents(response.data));
     } catch (error) {
       console.error(error);

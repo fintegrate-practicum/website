@@ -67,10 +67,12 @@
   "worker": "עובד",
   "Role Description": "תיאור תפקיד",
   "email": "אימייל",
+
   "Add Employee Button": "הוסף עובד",
   "No messages available.": "אין הודעות זמינות.",
   "dateOfBirth": "תאריך לידה:",
   "edit": "ערוך",
   "editYourDetails": "ערוך את הפרטים שלך:",
   "Edit Employee Profile": "ערוך את פרופיל העובד"
+
 }

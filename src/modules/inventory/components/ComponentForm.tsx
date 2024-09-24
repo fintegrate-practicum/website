@@ -19,13 +19,11 @@ import { IVariant } from '../interfaces/IVariant.ts';
 import CustomFields from './CustomFields.tsx';
 import { CustomFieldModal } from './CustomFieldModal.tsx';
 import { useTranslation } from 'react-i18next';
-
 const STEPS = {
   COMPONENT_DETAILS: 1,
   CUSTOM_FIELDS: 2,
   SUBMIT_FORM: 3,
 };
-
 const notSaleAloneSchema = yup.object().shape({
   name: yup
     .string()
@@ -47,7 +45,6 @@ const notSaleAloneSchema = yup.object().shape({
   isActive: yup.boolean().required(),
   isSoldSeparately: yup.boolean().required(),
 }) as unknown as yup.ObjectSchema<IComponent>;
-
 const saleAloneSchema = yup.object().shape({
   name: yup
     .string()
@@ -85,7 +82,6 @@ const saleAloneSchema = yup.object().shape({
     .required('Sale percentage is a required field')
     .min(0, 'Percentage must be positive'),
 }) as unknown as yup.ObjectSchema<IComponent>;
-
 export const ComponentForm = () => {
   const { t } = useTranslation();
   const { componentId } = useParams<{ componentId: string }>();
@@ -114,12 +110,11 @@ export const ComponentForm = () => {
     resolver: yupResolver(schema) as unknown as Resolver<IComponent>,
     defaultValues: component || {},
   });
-
   useEffect(() => {
     const fetchComponent = async () => {
       if (componentId) {
         try {
-          const fetchedComponent = await getItemById<any>(
+            const fetchedComponent = await getItemById<any>(
             `inventory/component`,
             componentId,
           );
@@ -134,6 +129,7 @@ export const ComponentForm = () => {
             ({ _id, ...rest }: any) => rest,
           );
           setVariants(cleanedVariants);
+
         } catch (error) {
           console.error('Error fetching component:', error);
         }
@@ -141,7 +137,6 @@ export const ComponentForm = () => {
     };
     fetchComponent();
   }, [componentId, reset]);
-
   const save = async (data: IComponent) => {
     try {
       data.addingComponentDate = new Date();
@@ -164,11 +159,9 @@ export const ComponentForm = () => {
       console.error(error);
     }
   };
-
   const handleIsAloneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsAloneChecked(event.target.checked);
   };
-
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     // const files = event.target.files;
     // if (files) {
@@ -183,19 +176,16 @@ export const ComponentForm = () => {
       setValue('images', images);
     }
   };
-
   const handleContinue = async () => {
     const isValid = await trigger();
     if (isValid) {
       setShowCustomFieldModal(true);
     }
   };
-
   const handleCustomFieldDecision = (addFields: boolean) => {
     setShowCustomFieldModal(false);
     setCurrentStep(addFields ? STEPS.CUSTOM_FIELDS : STEPS.SUBMIT_FORM);
   };
-
   return (
     <form onSubmit={handleSubmit(save)} noValidate autoComplete='on'>
       {currentStep === STEPS.COMPONENT_DETAILS && (
@@ -214,7 +204,6 @@ export const ComponentForm = () => {
               value={watch('name') || ''}
             />
           </Box>
-
           <Box
             className='itemInput'
             sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
@@ -230,7 +219,6 @@ export const ComponentForm = () => {
               value={watch('componentBuyPrice') || ''}
             />
           </Box>
-
           <Box
             className='itemInput'
             sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
@@ -246,7 +234,6 @@ export const ComponentForm = () => {
               value={watch('minQuantity') || ''}
             />
           </Box>
-
           <Box
             className='itemInput'
             sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
@@ -262,7 +249,6 @@ export const ComponentForm = () => {
               value={watch('stockQuantity') || ''}
             />
           </Box>
-
           <FormControlLabel
             control={
               <Checkbox
@@ -273,7 +259,6 @@ export const ComponentForm = () => {
             }
             label='Can be sold separately'
           />
-
           {isAloneChecked && (
             <>
               <Box
@@ -290,7 +275,6 @@ export const ComponentForm = () => {
                   value={watch('description') || ''}
                 />
               </Box>
-
               <Box
                 className='itemInput'
                 sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
@@ -306,7 +290,6 @@ export const ComponentForm = () => {
                   value={watch('totalPrice') || ''}
                 />
               </Box>
-
               <Box
                 className='itemInput'
                 sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
@@ -316,19 +299,16 @@ export const ComponentForm = () => {
               </Box>
             </>
           )}
-
           <FormControlLabel
             control={<Checkbox {...register('isActive')} />}
             label='Is Active'
           />
-
           {isAloneChecked && (
             <>
               <FormControlLabel
                 control={<Checkbox {...register('isOnSale')} />}
                 label='Is In Sale'
               />
-
               <Box
                 className='itemInput'
                 sx={{ '& > :not(style)': { m: 1, width: '18ch' } }}
@@ -358,7 +338,6 @@ export const ComponentForm = () => {
           </Grid>
         </>
       )}
-
       {currentStep === STEPS.CUSTOM_FIELDS && (
         <CustomFields
           customFields={customFields}
@@ -367,7 +346,6 @@ export const ComponentForm = () => {
           setVariants={setVariants}
         />
       )}
-
       {(currentStep === STEPS.CUSTOM_FIELDS ||
         currentStep === STEPS.SUBMIT_FORM) && (
         <Grid container spacing={2}>
@@ -386,7 +364,6 @@ export const ComponentForm = () => {
           </Grid>
         </Grid>
       )}
-
       <CustomFieldModal
         open={showCustomFieldModal}
         onClose={() => setShowCustomFieldModal(false)}

@@ -15,11 +15,13 @@ import Toast from '../../../common/components/Toast/Toast';
 
 const DeleteComponent = ({ item }: { item: IComponent }) => {
   const [open, setOpen] = React.useState(false);
+
   const [toast, setToast] = React.useState({
     open: false,
     message: '',
     severity: 'success' as 'success' | 'error',
   });
+
   const dispatch = useDispatch();
 
   const handleClickOpen = () => {
@@ -33,6 +35,7 @@ const DeleteComponent = ({ item }: { item: IComponent }) => {
   const deleteComponent = async () => {
     try {
       await deleteItem('api/inventory/component', item.id);
+
       setToast({
         open: true,
         message: 'Component deleted successfully',
@@ -46,6 +49,7 @@ const DeleteComponent = ({ item }: { item: IComponent }) => {
         message: 'Failed to delete component',
         severity: 'error',
       });
+
     }
     setOpen(false);
   };
@@ -78,6 +82,7 @@ const DeleteComponent = ({ item }: { item: IComponent }) => {
         </DialogActions>
       </Dialog>
 
+
       <Toast
         open={toast.open}
         message={toast.message}
@@ -85,6 +90,7 @@ const DeleteComponent = ({ item }: { item: IComponent }) => {
         onClose={() => setToast((prevToast) => ({ ...prevToast, open: false }))}
         duration={6000}
       />
+
     </>
   );
 };

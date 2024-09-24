@@ -4,7 +4,10 @@ import {
   Home,
   Settings,
   Person,
-  AdminPanelSettings,
+  List,
+  PlaylistAdd,
+  AddShoppingCart,
+  Widgets,
 } from '@mui/icons-material';
 import SideMenu from '../menu/SideMenu';
 import LazyRouter from '../router/lazyRouter';
@@ -39,28 +42,52 @@ const MainRouter = () => {
       route: '../Worker/details',
       component: '../navigation/Workers',
     },
+    {
+      name: 'orders',
+      nameToView: 'Orders',
+      icon: PlaylistAdd,
+      route: '../orders',
+      component: '../../modules/orders/ShoppingDetails',
+    },
+    {
+      name: 'inventory',
+      nameToView: 'Inventory',
+      icon: AddShoppingCart,
+      route: '../inventory',
+      component:
+        '../../modules/inventory/components/ClientShowProducts/AllProducts',
+    },
   ];
-
-  if (userType === 'manager' || userType === 'admin') {
+  //currentUser-עובדים עליו עכשיו ויצטרכו לשנות אחרי כן
+  if (userType === 'admin') {
     menuItems.push(
       {
-        name: 'manager',
-        nameToView: 'Manager',
-        icon: AdminPanelSettings,
-        route: '../Manager',
-        component: '../router/ManagerRouter',
+        name: 'allorders',
+        nameToView: 'ALLOrders',
+        icon: Widgets,
+        route: '../orders',
+        component: '../../modules/orders/ALLOrders',
       },
       {
-        name: 'ClientList',
-        nameToView: 'ClientList',
-        icon: AdminPanelSettings,
-        route: '../ClientList',
-        component: '../../modules/clients/ClientsList',
+        name: 'allinventory',
+        nameToView: 'ALLInventory',
+        icon: List,
+        route: '../inventory',
+        component:
+          '../../modules/inventory/components/ManagerShowProducts/AllProducts',
       },
     );
   }
 
   const [currentMenu, setCurrentMenu] = useState<menuItem>(menuItems[0]);
+  useEffect(() => {
+    const currentPage = location.pathname;
+    const foundMenu = menuItems.find((item) => item.name === currentPage);
+
+    if (foundMenu) {
+      setCurrentMenu(foundMenu);
+    }
+  }, [location.pathname, menuItems]);
 
   useEffect(() => {
     if (location.pathname == '/Setting/Category') {
